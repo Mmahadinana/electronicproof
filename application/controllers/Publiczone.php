@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Publiczone extends CI_Controller {
+	
+	//$this->load->library('session');
+}
 
 	/**
 	 * Index Page for this controller.
@@ -18,11 +21,4 @@ class Publiczone extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
-		$data['pageToLoad']='home/home';
-		$data['pageActive']='home';
-		$this->load->view('ini',$data);
-		
-	}
-}
+	
