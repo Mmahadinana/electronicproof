@@ -24,5 +24,11 @@ class Publiczone extends CI_Controller {
 		$data['pageActive']='home';
 		$this->load->view('ini',$data);
 		
+	}public function about()
+	{
+		$data['pageToLoad']='about/about';
+		$data['pageActive']='about';
+		$this->load->view('ini',$data);
+		
 	}
 }
