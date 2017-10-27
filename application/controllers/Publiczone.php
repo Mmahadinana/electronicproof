@@ -20,6 +20,9 @@ class Publiczone extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data['pageToLoad']='home/home';
+		$data['pageActive']='home';
+		$this->load->view('ini',$data);
+		
 	}
 }
