@@ -60,3 +60,18 @@ body {
 		border: 1px solid #D0D0D0;
 		box-shadow: 0 0 8px #D0D0D0;
 	}
+.red{
+    color:red;
+    }
+.form-area
+{
+    background-color: #2d3f50;
+	padding: 10px 40px 60px;
+	margin: 10px 0px 60px;
+	border: 1px solid GREY;
+	color: white;
+	}
+	#submit
+	{
+		margin-right:160px;
+	}

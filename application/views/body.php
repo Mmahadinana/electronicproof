@@ -6,17 +6,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="starter-template">
       <?php
  $this->load->view('template/header');
- //$this->load->view($pageToLoad);
+ $this->load->view($pageToLoad);
 
  $this->load->view('template/footer');
 ?>
 </div>
 
-    <div class="container">
-
-      
-
-    </div><!-- /.container -->
+    
 
 
     
