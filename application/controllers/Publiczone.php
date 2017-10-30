@@ -57,6 +57,13 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
+	public function register()
+	{
+		$data['pageToLoad']='Register/register';
+		$data['pageActive']='register';
+		$this->load->view('ini',$data);
+		
+	}
 
 }
 

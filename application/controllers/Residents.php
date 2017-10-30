@@ -18,8 +18,10 @@ class Residents extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
+	public function Eresidence()
 	{
-		$this->load->view('welcome_message');
+		$data['pageToLoad']='eresidence/eresidence';
+		$data['pageActive']='eresidence';
+		$this->load->view('ini',$data);
 	}
 }
