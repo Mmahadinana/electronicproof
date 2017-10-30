@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url() ?>"><img src="<?php echo base_url('assets/pic/logo3.png') ?>"  class="logo" alt="Logo" ></a>
+          <a class="navbar-brand" href="<?php echo base_url() ?>"><img src="<?php echo base_url('assets/pic/logo3.png') ?>"  class="logo" alt="E-Residence" ></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
              <li <?php echo setMenuActiveItem ($pageActive == "about")?>><a href="<?php echo base_url('publiczone/about') ?>">About</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "contact")?>><a href="<?php echo base_url('publiczone/Contact') ?>">Contact</a></li>
            
-            <li <?php echo setMenuActiveItem ($pageActive == "E-Residence")?>><a href="<?php echo base_url('publiczone/E-Residence') ?>">E-Residence</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "E-Residence")?>><a href="<?php echo base_url('publiczone/eResidence') ?>">E-Residence</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('publiczone/login') ?>">Login</a></li>
 
            
