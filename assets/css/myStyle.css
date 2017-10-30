@@ -74,11 +74,13 @@
     }
 .form-area
 {
-    background-color: #2d3f50;
-	padding: 10px 40px 60px;
-	margin: 100px 0px 60px;
+  background-color: #2d3f50;
+	padding: 20px 60px;
+	margin: 5% 20%;
 	border: 1px solid GREY;
 	color: white;
+  width: 50%;
+  height: 520px;
 	}
 	#submit
 	{

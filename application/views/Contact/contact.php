@@ -3,7 +3,7 @@
   ?>
   <div class="contact-section">
    <div class="container">
-    <div class="col-md-5">
+    <!--div class="col-md-5"-->
         <div class="form-area">  
             <form role="form">
                 <br style="clear:both">
@@ -23,9 +23,10 @@
                 <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>                    
             </div>
             
-            <button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Send</button>
+            <button type="button" id="submit" name="submit" class="btn btn-primary btn-lg">Send</button>
+            <button type="button" id="clear" name="clear" class="btn btn-warning btn-lg">Clear</button>
         </form>
-    </div>
+    <!--/div-->
 </div>
 </div>
 </div>
