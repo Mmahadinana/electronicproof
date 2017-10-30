@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </ul>
             </li>
 
-            <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('publiczone/login') ?>">Login</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/login_') ?>">Login</a></li>
 
 
           </ul>

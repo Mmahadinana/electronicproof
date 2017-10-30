@@ -2,13 +2,37 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-</div>
 
-    <div class="container">
 
-      <div class="starter-template">
-        <h1>HOME</h1>
-        <p class="lead">E-residence is an application that enable the user to </p>
-      </div>
+<div class="starter-template">
+	<div class="about">
 
-    </div><!-- /.container -->
+		<h1>About Us</h1>
+		<p class="lead">E-residence is an application that enable the user to request the proof of residence online.</p>
+		<p>The main purpose for the application is to avoid long processes a person experiences when they have to get the proof of residence, the traveling expences and all necessary fees that are payed along the process</p>
+		<p>The application was developed by Rosy, Refiloe, Larochelle and Palesa. They all originate from South Africa in the Free State Province. <br>South Africa is a country that is in Africa and it consists of nine(9) Pronvices which are build of district manipalities, and they have local municipalities and they formed by different cities, towns and suburbs</p>
+
+
+		<!--The maps of the country, provinces and etc..-->
+		<div class="samap">
+			<img src="<?php echo base_url('assets/images/provincial_map.gif') ?>" alt="South Africa">
+		</div>
+	</div>
+	<!-- images of the application developers-->
+	<div class="row abt-img">
+		<div class="col-lg-2 col-xs-12">
+			<img src="http://via.placeholder.com/200x200" alt="">
+		</div>
+		<div class="col-lg-2 col-xs-12">
+			<img src="http://via.placeholder.com/200x200" alt="">
+		</div>
+		<div class="col-lg-2 col-xs-12">
+			<img src="http://via.placeholder.com/200x200" alt="">
+		</div>
+		<div class="col-lg-2 col-xs-12">
+			<img src="http://via.placeholder.com/200x200" alt="">
+		</div>
+
+	</div>
+
+</div><!-- /.container -->

@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php 
   $Css_Files=['bootstrap.min.css',
   'ie10-viewport-bug-workaround.css',
+  'master.css',
   'mystyle.css'];
 
   foreach ($Css_Files as $css_file) {?>
