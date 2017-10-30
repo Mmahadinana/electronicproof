@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <footer>
   <div class="navbar footer"> &copy; E_Residence 2017</div>
+  <div class="pull-right">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+  </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->

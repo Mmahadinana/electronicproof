@@ -21,16 +21,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- images of the application developers-->
 	<div class="row abt-img">
 		<div class="col-lg-2 col-xs-12">
-			<img src="http://via.placeholder.com/200x200" alt="">
+			<img class="rosyimg" src="<?php echo base_url('assets/images/developers/rosy.jpg') ?>" alt="Rosy Mmahadinana Marumo">
 		</div>
 		<div class="col-lg-2 col-xs-12">
-			<img src="http://via.placeholder.com/200x200" alt="">
+			<img src="<?php echo base_url('assets/images/developers/refiloe.jpg') ?>" alt="Sibyl Refiloe Dichaba">
 		</div>
 		<div class="col-lg-2 col-xs-12">
-			<img src="http://via.placeholder.com/200x200" alt="">
+			<img src="<?php echo base_url('assets/images/developers/tess.jpg') ?>" alt="Larochelle Tess Martens">
 		</div>
 		<div class="col-lg-2 col-xs-12">
-			<img src="http://via.placeholder.com/200x200" alt="">
+			<img src="<?php echo base_url('assets/images/developers/palesa.jpg') ?>" alt="Rebecca Motseare">
 		</div>
 
 	</div>
