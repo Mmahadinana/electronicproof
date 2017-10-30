@@ -3,7 +3,7 @@
 
 
 ::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+	
 
 	body {
 		 background-color:#e6e6e6;
@@ -18,7 +18,7 @@
 }
 
 	a {
-		color: #003399;
+		color: white;
 		background-color: transparent;
 		font-weight: normal;
 	}
@@ -67,6 +67,7 @@
 		margin: 10px;
 		border: 1px solid #D0D0D0;
 		box-shadow: 1px 9px 8px #D0D0D0;
+		background-color: 2D4051;
 	}
 .red{
     color:red;
@@ -105,18 +106,18 @@
 
 {
 	background-color: #aaa!important;
-	color:#2d3f50!important;
+	color:white;
 }
 .navbar-nav .btn-bkg{
 margin-top: 8px;
- color: #aaa!important;
+ color: white;
 	background-color:#2d3f50!important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
 {
 	background-color:#2d3f50 !important ;
-	color: #aaa!important;
+	color: white;
 }
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand,
@@ -261,4 +262,13 @@ margin-top: 8px;
 	background-color:white;
 	 font-family: "Times New Roman", Georgia, Serif;
 	 font-size: 13px;
+}
+.col-xs-6
+{
+	 background-color: #2d3f50;
+	 color: white;
+}
+.btn-success
+{
+	margin-top: 30px;
 }
