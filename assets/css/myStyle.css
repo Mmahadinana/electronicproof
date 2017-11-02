@@ -79,12 +79,13 @@
 	margin: 5% 20%;
 	border: 1px solid GREY;
 	color: white;
-  width: 50%;
+  width: 40%;
   height: 520px;
 	}
 	#submit
 	{
 		margin-right:160px;
+    
 	}
 .navbar{
 	  background-color: #2d3f50;
@@ -96,8 +97,14 @@
 	  box-shadow: 1px 5px 5px black;
 }
 .navbar-nav li{
-	border-left: 1px solid #aaa;	
-	width: 200px;
+	border-right: 1px solid #aaa;	
+	width: 150px;
+}
+.navbar-nav li:last-child{
+  border: none;
+}
+.navbar-nav li:first-child{
+  border-left:1px solid #aaa;  
 }
 .navbar-nav :visited{
 	background-color: #aaa!important;
@@ -111,8 +118,8 @@
 	color:white;
 }
 .navbar-nav .btn-bkg{
-margin-top: 8px;
- color: white;
+
+ color: #aaa;
 	background-color:#2d3f50!important;
 }
 .dropdown-menu ,
@@ -265,7 +272,8 @@ margin-top: 8px;
 	 font-family: "Times New Roman", Georgia, Serif;
 	 font-size: 13px;
 }
-.col-xs-6
+.col-xs-6,
+.whtColor
 {
 	 background-color: #2d3f50;
 	 color: white;

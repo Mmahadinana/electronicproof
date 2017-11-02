@@ -2,10 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <footer>
-  <div class="navbar footer"> &copy; E_Residence 2017</div>
-  <div class="pull-right">
-    <i class="fa fa-cog" aria-hidden="true"></i>
-  </div>
+  <div class="navbar footer"> &copy; E_Residence 2017
+    <div class="pull-right footPadRight">
+    <a href="<?php echo base_url('publiczone/resetpassword') ?>"><i class="fa fa-cog"></i></a>
+    
+    <a href="<?php echo base_url('publiczone/help') ?>"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+  </div></div>
+  
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->

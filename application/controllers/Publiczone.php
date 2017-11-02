@@ -50,10 +50,10 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
-	public function login()
+	public function help()
 	{
-		$data['pageToLoad']='login/loginForm';
-		$data['pageActive']='loginForm';
+		$data['pageToLoad']='help/help';
+		$data['pageActive']='help';
 		$this->load->view('ini',$data);
 		
 	}

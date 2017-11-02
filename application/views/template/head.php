@@ -14,7 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <?php 
-  $Css_Files=['bootstrap.min.css',
+  $Css_Files=[
+    'bootstrap.min.css',
+    'font-awesome.css',
   'ie10-viewport-bug-workaround.css',
   'master.css',
   'mystyle.css'];
