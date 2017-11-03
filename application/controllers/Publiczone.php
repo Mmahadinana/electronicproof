@@ -120,13 +120,10 @@ public function __construct()
 	{
 		$data['pageToLoad']='Register/register';
 		$data['pageActive']='register';
-		
 
-		
-		//data from db
-		
+	
+				
 
-		
 		//from helper and library
 		$this->load->helper('form');
 		$this->load->library('form_validation');

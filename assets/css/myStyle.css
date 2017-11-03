@@ -128,8 +128,8 @@ background: #428bca;
  box-shadow: 1px 5px 5px black;
 }
 .navbar-nav li{
-	border-left: 1px solid #aaa;	
-	width: 200px;
+	border: none;	
+	
 }
 .navbar-nav :visited{
 	background-color: #aaa!important;
@@ -422,7 +422,4 @@ p{
 {
   margin-right: 100px;
 }
-.deco
-{
-  
-}
+
