@@ -6,7 +6,8 @@
 
 
 body {
- background-color:#e6e6e6;
+ background: #225faa;
+  background: linear-gradient(135deg, #BEF4F7 0%, #f7c1be 100%);
 
  /*margin: 40px;*/
  font: 13px/20px normal Helvetica, Arial, sans-serif;
@@ -68,9 +69,7 @@ h3 {
 		border-top: 1px solid #D0D0D0;
 		line-height: 32px;
 		*/
-	}
-
-	
+	}	
 .carousel {
     margin-bottom: 0;
     padding: 0 40px 30px 40px;
@@ -108,7 +107,6 @@ background: #428bca;
 .form-area
 {
   background-color: #2d3f50;
-<<<<<<< HEAD
   padding: 20px 60px;
   margin: 5% 20%;
   border: 1px solid GREY;
@@ -120,20 +118,6 @@ background: #428bca;
 {
   margin-right:160px;
 }
-=======
-	padding: 20px 60px;
-	margin: 5% 20%;
-	border: 1px solid GREY;
-	color: white;
-  width: 40%;
-  height: auto;
-	}
-	#submit
-	{
-		margin-right:160px;
-    
-	}
->>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb
 .navbar{
  background-color: #2d3f50;
  font-family: Helvetica;
@@ -144,15 +128,8 @@ background: #428bca;
  box-shadow: 1px 5px 5px black;
 }
 .navbar-nav li{
-	border-right: 1px solid #aaa;	
-
- 
-}
-.navbar-nav li:last-child{
-  border: none;
-}
-.navbar-nav li:first-child{
-  border-left:1px solid #aaa;  
+	border-left: 1px solid #aaa;	
+	width: 200px;
 }
 .navbar-nav :visited{
 	background-color: #aaa!important;
@@ -166,18 +143,9 @@ background: #428bca;
 	color:white;
 }
 .navbar-nav .btn-bkg{
-<<<<<<< HEAD
   margin-top: 8px;
   color: white;
   background-color:#2d3f50!important;
-=======
-
- color: #aaa;
-	background-color:#2d3f50!important;
->>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb
-}
-.dropdownmenu{
-  color: white !important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
@@ -333,8 +301,7 @@ background: #428bca;
   font-family: "Times New Roman", Georgia, Serif;
   font-size: 13px;
 }
-.col-xs-6,
-.whtColor
+.col-xs-6
 {
   background-color: #2d3f50;
   color: white;
@@ -436,9 +403,26 @@ background: #428bca;
 {
   margin-left: 30px;
 }
-.contact
+.contact-section
 {
-    background-color: #2d3f50;
-    color: white;
+ 
+  color: black;
+  padding-right: -50px;
 
+}
+.form-group
+{
+  margin-left: 50px;
+  padding-right: 160px;
+}
+p{
+  margin-right:200px;
+}
+.btn-default
+{
+  margin-right: 100px;
+}
+.deco
+{
+  
 }

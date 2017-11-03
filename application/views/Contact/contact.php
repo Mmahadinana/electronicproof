@@ -4,9 +4,9 @@
    <div class="contact-section">
             <div class="contact">
 
-      
+              
               <p>Contact Us</p>
-              <p>Feel free to ask questions/comments by filling the contact form.</p>
+             
               <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                    <?php 
