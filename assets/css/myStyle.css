@@ -97,16 +97,16 @@
 	  box-shadow: 1px 5px 5px black;
 }
 .navbar-nav li{
-	border-right: 1px solid #aaa;	
+	border:none;	
 
  
 }
-.navbar-nav li:last-child{
+/*.navbar-nav li:last-child{
   border: none;
 }
 .navbar-nav li:first-child{
   border-left:1px solid #aaa;  
-}
+}*/
 .navbar-nav :visited{
 	background-color: #aaa!important;
 	
@@ -118,13 +118,18 @@
 	background-color: #aaa!important;
 	color:white;
 }
-.navbar-nav .btn-bkg{
+.navbar-nav .btn-bkg {
+
+ color: #aaa;
+  background-color:#2d3f50!important;
+}
+.navbar-nav .btn-bkg li a{
 
  color: #aaa;
 	background-color:#2d3f50!important;
 }
-.dropdownmenu{
-  color: white !important;
+.dropdown-menu > li > a{
+  color: #aaa !important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
