@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <footer>
+
   <div class="navbar footer"> &copy; E_Residence 2017
     <div class="pull-right footPadRight">
     <a href="<?php echo base_url('login/resetpassword') ?>"><i class="fa fa-cog"></i></a>

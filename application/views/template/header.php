@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Residents")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Residents</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Profile")?>><a href="<?php echo base_url('residents/eresidence') ?>">Profile</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "Profile")?>><a href="<?php echo base_url('residents/eresidence') ?>">Profile</a></li>
           </ul>
         </li>
       </ul>

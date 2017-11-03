@@ -1,35 +1,56 @@
   <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
   ?>
-  <div class="contact-section">
-   <div class="container">
-    <!--div class="col-md-5"-->
-        <div class="form-area">  
-            <form role="form">
-                <br style="clear:both">
-                <h3 style="margin-bottom: 25px; text-align: center;">Contact Us</h3>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-              </div>
-              <div class="form-group">
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
-              </div>
-              <div class="form-group">
-                  <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Phone Number" required>
-              </div>
-              
-              <div class="form-group">
-                <textarea class="form-control" type="textarea" id="message" placeholder="Message" maxlength="140" rows="7"></textarea>
-                <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>                    
-            </div>
+   <div class="contact-section">
+            <div class="contact">
+
+      
+              <p>Contact Us</p>
+              <p>Feel free to ask questions/comments by filling the contact form.</p>
+              <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                   <?php 
+      $options = array("class"=> "form-group","method"=>"POST");
+      echo form_open("publiczone/contact",$options);
+
+       if(isset($statusInsert)){
+        echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
+       }
+
+      ?>
             
-            <button type="button" id="submit" name="submit" class="btn btn-primary btn-lg">Send</button>
-            <button type="button" id="clear" name="clear" class="btn btn-warning btn-lg">Clear</button>
-        </form>
-    <!--/div-->
-</div>
-</div>
-</div>
+                    <div class="form-group">
+                      <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name"  name="name" placeholder="Palesa Motseare">
+                    </div>
+                    <div class="form-group">
+                      <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
+                      <label for="phone">Phone Number</label>
+                      <input type="text" class="form-control" id="phone"  name="phone" placeholder="0735517010">
+                    </div>
+                    <div class="form-group">
+                      <?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email"  name="email" placeholder="palesa.motseare@example.com">
+                    </div>
+                    <div class="form-group ">
+                      <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
+                      <label for="message">Your Message</label>
+                     <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description"></textarea> 
+                     <span id="chars">500</span>
+                    </div>
+                    <button type="submit" class="btn btn-default">Send Message</button>
+          
+                   </form>
+                </div>
+              </div>
+            </div>
+          
+        </div>
+      </section>
+     
+     
 <script type="text/javascript">
 	$(document).ready(function(){ 
         $('#characterLeft').text('500 characters left');
