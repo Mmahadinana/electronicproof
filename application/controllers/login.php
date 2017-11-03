@@ -30,4 +30,43 @@ class Login extends CI_Controller {
 
 		
 	}
+	public function changepass()
+	{
+		$data['pageToLoad']='login/changepass';
+		$data['pageActive']='changepass';
+		$this->load->helper('form');
+		// this is for validation 
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+
+		
+	}
+	public function reset()
+	{
+		$data['pageToLoad']='login/reset';
+		$data['pageActive']='reset';
+		$this->load->helper('form');
+		// this is for validation 
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);		
+	}
+	public function resetmessage()
+	{
+		$data['pageToLoad']='login/resetmessage';
+		$data['pageActive']='resetmessage';
+		$this->load->helper('form');
+		// this is for validation 
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);		
+	}
+	public function resetpassword()
+	{
+		$data['pageToLoad']='login/resetpassword';
+		$data['pageActive']='resetpassword';
+		$this->load->helper('form');
+		// this is for validation 
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);		
+	}
 }

@@ -108,6 +108,7 @@ background: #428bca;
 .form-area
 {
   background-color: #2d3f50;
+<<<<<<< HEAD
   padding: 20px 60px;
   margin: 5% 20%;
   border: 1px solid GREY;
@@ -119,6 +120,20 @@ background: #428bca;
 {
   margin-right:160px;
 }
+=======
+	padding: 20px 60px;
+	margin: 5% 20%;
+	border: 1px solid GREY;
+	color: white;
+  width: 40%;
+  height: auto;
+	}
+	#submit
+	{
+		margin-right:160px;
+    
+	}
+>>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb
 .navbar{
  background-color: #2d3f50;
  font-family: Helvetica;
@@ -129,8 +144,15 @@ background: #428bca;
  box-shadow: 1px 5px 5px black;
 }
 .navbar-nav li{
-	border-left: 1px solid #aaa;	
-	width: 200px;
+	border-right: 1px solid #aaa;	
+
+ 
+}
+.navbar-nav li:last-child{
+  border: none;
+}
+.navbar-nav li:first-child{
+  border-left:1px solid #aaa;  
 }
 .navbar-nav :visited{
 	background-color: #aaa!important;
@@ -144,9 +166,18 @@ background: #428bca;
 	color:white;
 }
 .navbar-nav .btn-bkg{
+<<<<<<< HEAD
   margin-top: 8px;
   color: white;
   background-color:#2d3f50!important;
+=======
+
+ color: #aaa;
+	background-color:#2d3f50!important;
+>>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb
+}
+.dropdownmenu{
+  color: white !important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
@@ -302,7 +333,8 @@ background: #428bca;
   font-family: "Times New Roman", Georgia, Serif;
   font-size: 13px;
 }
-.col-xs-6
+.col-xs-6,
+.whtColor
 {
   background-color: #2d3f50;
   color: white;

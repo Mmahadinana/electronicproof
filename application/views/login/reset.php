@@ -1,18 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+//$this->load->view('html.php');
 ?>
-
-<<<<<<< HEAD
-        
-=======
-
 
   <div class="starter-template">
       <?php
- $this->load->view('eresidence/requestform');
+ $this->load->view('login/resetForm');
  //$this->load->view($pageToLoad);
 
  
 ?>
 </div>
->>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb
+
+    
+
+
+    
+ 

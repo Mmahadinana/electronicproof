@@ -1,10 +1,7 @@
-<?php
+ <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<<<<<<< HEAD
-        
-=======
 
 
   <div class="starter-template">
@@ -15,4 +12,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 ?>
 </div>
->>>>>>> b3fcaf511c60c48e6c71991adc2ca309fd9b4efb

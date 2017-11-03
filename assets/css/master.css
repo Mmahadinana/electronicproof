@@ -1,17 +1,34 @@
 .container .samap {
 text-align: center;
+background-color: #2d3f50;
+}
+
+.samap {
+	padding-top: 1em;
+background-color: #2d3f50;
+height: 35em;
+}
+.samap img{
+	width: 60%;
 }
 .about{
 	font-size: 1.2em;
 	width: 60%;
 	margin-left: 20%;
+
+}
+.abt-img:hover{
+	font-weight: bolder;
+	color: #404040;
+	font-size: 16px;
 }
 .abt-img img:hover{
-width: 250px;
-    height: 250px;
+width: 220px;
+    height: 220px;
 	border-radius: 22px;
 	z-index: -5;
 	opacity: 10;
+
 }
 .rosyimg {
 
@@ -30,13 +47,15 @@ width: 250px;
  opacity: 0.5;
 }
 .abt-img{
-	margin-left: 20%;
+	margin-left: 25%;
 	margin-top: 2em;
 	padding: 0px;
+
 }
 .card-container.card {
     max-width: 450px;
     padding: 40px 40px;
+    color: #000
 }
 
 .btn {
@@ -130,7 +149,8 @@ width: 250px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
 }
 
-.btn.btn-signin {
+.btn.btn-signin,
+.passlabels {
     /*background-color: #4d90fe; */
     background-color: rgb(104, 145, 162);
     /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
@@ -146,6 +166,7 @@ width: 250px;
     -moz-transition: all 0.218s;
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
+
 }
 
 .btn.btn-signin:hover,
@@ -164,3 +185,75 @@ width: 250px;
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }
+
+.footPadRight a
+{
+	color: white;
+	margin: 0.5em; 
+}
+.footPadRight{
+	
+	margin-right: 2em;
+}
+.footPadRight a :hover{
+font-size: large;
+}
+.white-text{
+	color: #fff;
+
+}
+.black-text a{
+	color: black;
+	
+
+}
+.black-text {
+
+	text-align: left;
+
+}
+.passbtn{
+	width: 40%;
+}
+.resetTopPad{
+	padding-top: 5em;
+	padding-left: 5em;
+}
+.upload{
+    margin: 3px
+}
+.fileToUpload{
+    margin: 0px;
+    padding: 0px;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.table{
+   border: 1px solid #2d3f50 !important;
+}
+ul{
+   list-style-type: none;  
+
+}
+ol.orderedList  ul  {
+   
+ 
+ color: #000;
+}
+.orderedList a:hover {  
+ 
+ background-color: gray;
+ color: blue;
+}
+.section {
+    display: none;
+}
+.section:target {
+    display: block;    
+
+}
+
