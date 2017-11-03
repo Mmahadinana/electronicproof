@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </ul>
       <ul class="nav navbar-nav" >
       <li <?php echo setMenuActiveItem ($pageActive == "Register")?>><a href="<?php echo base_url('publiczone/register') ?>">Register</a></li>
-       <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/changepass') ?>">Login</a></li>
+       <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/login_') ?>">Login</a></li>
      </ul>
    </div><!--/.nav-collapse -->
  </div>
