@@ -219,3 +219,41 @@ font-size: large;
 	padding-top: 5em;
 	padding-left: 5em;
 }
+.upload{
+    margin: 3px
+}
+.fileToUpload{
+    margin: 0px;
+    padding: 0px;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.table{
+   border: 1px solid #2d3f50 !important;
+}
+ul{
+   list-style-type: none;  
+
+}
+ol.orderedList  ul  {
+   
+ 
+ color: #000;
+}
+.orderedList a:hover {  
+ 
+ background-color: gray;
+ color: blue;
+}
+.section {
+    display: none;
+}
+.section:target {
+    display: block;    
+
+}
+

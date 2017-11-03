@@ -80,7 +80,7 @@
 	border: 1px solid GREY;
 	color: white;
   width: 40%;
-  height: 520px;
+  height: auto;
 	}
 	#submit
 	{
@@ -98,7 +98,8 @@
 }
 .navbar-nav li{
 	border-right: 1px solid #aaa;	
-	width: 150px;
+
+ 
 }
 .navbar-nav li:last-child{
   border: none;
@@ -121,6 +122,9 @@
 
  color: #aaa;
 	background-color:#2d3f50!important;
+}
+.dropdownmenu{
+  color: white !important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
