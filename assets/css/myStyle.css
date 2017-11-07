@@ -87,6 +87,13 @@ h3 {
     right: -12px;
   }
 
+
+.navbar-nav .btn-bkg{
+  /*margin-top: 8px;*/
+  color: white;
+  background-color:#2d3f50!important;
+}
+
   /* The indicators */
   .carousel-indicators {
     right: 50%;
@@ -145,12 +152,15 @@ h3 {
    color:white;
  }
  .navbar-nav .btn-bkg{
+
   /*margin-top: 8px;*/
   color: white;
   background-color:#2d3f50!important;
 }
+
 .dropdown-menu >li > a {
   color: #aaa!important;
+
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
