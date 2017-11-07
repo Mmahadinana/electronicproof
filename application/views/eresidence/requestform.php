@@ -7,10 +7,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1 class="whtColor"> Request Form </h1>
 
   <?php
-
+ var_dump($user_id) ;
   $action="residents/request/";
 
   echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
+  <input type="hidden" id="user_id" name="user_id" value="100">
   <div class="row">
         <div class="col-md-10">
           <table class="table text-left">
@@ -22,18 +23,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </tr>
                 <tr>
                 <td>Resident Full Names</td>
-                <td>Mmahadinana Rosy Marumo</td>
+                <td>
+                  <?php    
+                 
+                  foreach ($user_id as $key ) {
+                    echo $key->name;
+             ?>
+               
+             </td>
             </tr>
                 <tr>
                 <td rowspan="7">Address</td>               
-                <td >69 Nahoon</td>               
+                <td ><?php  echo $key->address?></td>      
               </tr>
-              <?php 
-              for ($i=0; $i < 6; $i++) { 
-                 echo "<tr>
-                <td>Details</td>
+               
+              
+                 <tr>
+                <td><?php  echo $key->suburb?></td>
                 
-              </tr>";
+              </tr> 
+              <tr>
+                <td><?php  echo $key->town?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->zip_code?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->manucipality?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->district?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->province?></td>            
+              </tr><?php
               }
               ?>
               
