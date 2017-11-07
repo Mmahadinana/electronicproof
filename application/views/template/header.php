@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li>              
           <a class="btn dropdown-toggle btn-bkg" type="button" data-toggle="dropdown">E-Residence  &nbsp;&nbsp;<span class="caret"></span></a>
           <ul class="dropdown-menu dropdownmenu">
-            <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/eresidence') ?>">Request</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/request') ?>">Request</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Residents")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Residents</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Profile")?>><a href="<?php echo base_url('residents/eresidence') ?>">Profile</a></li>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </ul>
       <ul class="nav navbar-nav" >
       <li <?php echo setMenuActiveItem ($pageActive == "Register")?>><a href="<?php echo base_url('publiczone/register') ?>">Register</a></li>
-       <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/changepass') ?>">Login</a></li>
+       <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/login_') ?>">Login</a></li>
      </ul>
    </div><!--/.nav-collapse -->
  </div>

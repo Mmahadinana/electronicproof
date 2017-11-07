@@ -2,7 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Residents extends CI_Controller {
-
+	public function __construct(){
+		parent::__construct();
+	$this->load->model("request_model");
+}
 	/**
 	 * Index Page for this controller.
 	 *
@@ -31,6 +34,11 @@ class Residents extends CI_Controller {
 	}
 	public function request()
 	{
+		$search=array();
+		$search['user_id']= $this->input->get('user_id') ?? '0';
+
+		$data['user_id']= $this->request_model->getAddress($search);
+		//$data['db'] =$this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/request';
 		$data['pageActive']='request';
 		$this->load->helper('form');

@@ -46,6 +46,9 @@ width: 220px;
  border-radius: 43px;
  opacity: 0.5;
 }
+#remember{
+    margin-bottom: 2em;
+}
 .abt-img{
 	margin-left: 25%;
 	margin-top: 2em;
@@ -167,6 +170,7 @@ width: 220px;
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
 
+
 }
 
 .btn.btn-signin:hover,
@@ -240,13 +244,13 @@ ul{
 
 }
 ol.orderedList  ul  {
-   
+
  
  color: #000;
 }
 .orderedList a:hover {  
  
- background-color: gray;
+ background-color: #aaa;
  color: blue;
 }
 .section {
