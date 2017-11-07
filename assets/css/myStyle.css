@@ -143,9 +143,17 @@ background: #428bca;
 	color:white;
 }
 .navbar-nav .btn-bkg{
-  margin-top: 8px;
+  /*margin-top: 8px;*/
   color: white;
   background-color:#2d3f50!important;
+}
+.navbar-nav .btn-bkg {
+  /*margin-top: 8px;*/
+  color: white;
+  background-color:#2d3f50!important;
+}
+.dropdown-menu > li > a{
+ color: white;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover

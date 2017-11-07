@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1 class="whtColor"> Request Form </h1>
 
   <?php
- var_dump($user_id) ;
+ //var_dump($user_id) ;
   $action="residents/request/";
 
   echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
