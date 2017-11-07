@@ -7,8 +7,11 @@ class Publiczone extends CI_Controller {
 public function __construct()
 	{
 		parent::__construct();
-    $this->load->model("messages_model");
-    $this->load->model('province_model');
+		$this->load->model("messages_model");
+		$this->load->model('province_model');
+		$this->load->model('manucipality_model');
+	
+
 }
 	/**
 	 * Index Page for this controller.
@@ -106,10 +109,10 @@ public function __construct()
 		$this->load->view('ini',$data);
 		
 	}
-	public function help()
+	public function login()
 	{
-		$data['pageToLoad']='help/help';
-		$data['pageActive']='help';
+		$data['pageToLoad']='login/loginForm';
+		$data['pageActive']='loginForm';
 		$this->load->view('ini',$data);
 		
 	}
@@ -117,8 +120,10 @@ public function __construct()
 	{
 		$data['pageToLoad']='Register/register';
 		$data['pageActive']='register';
+
+	
 				
-		//data from db		
+
 		//from helper and library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -164,6 +169,7 @@ public function __construct()
 	
 		
 	}
+	
 
 }
 
