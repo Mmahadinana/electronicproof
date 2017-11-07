@@ -13,7 +13,7 @@ class Province_model extends CI_MODEL{
 		       return $this->db->get()->result();
 }
 
-		public function callback_checkModel($province_id){
+		public function callback_checkProvince($province_id){
 		$this->db->select("province.id")
 		->from("province")
 		->where("id",$province_id);
