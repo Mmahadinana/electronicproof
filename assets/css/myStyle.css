@@ -4,6 +4,7 @@
 
 body {
  background: #225faa;
+ padding-top:20px;
  background: linear-gradient(135deg, #BEF4F7 0%, #f7c1be 100%);
 
  /*margin: 40px;*/
@@ -15,6 +16,7 @@ body {
 .starter-template {
   padding: 40px 15px;
   text-align: center;
+
 
 }
 
@@ -104,6 +106,7 @@ h3 {
   }
   .form-area
   {
+    
     background-color: #2d3f50;
     padding: 20px 60px;
     margin: 5% 20%;
@@ -385,8 +388,9 @@ h3 {
   margin-left: 700px;
   padding-left: 40px;
   padding-top: 40px;
+
 }
-}
+
 
 .right
 {
@@ -424,7 +428,7 @@ h3 {
 {
   margin-left: 30px;
 }
-.contact-section
+.contact
 {
 
   color: black;
@@ -433,6 +437,7 @@ h3 {
 }
 .form-group
 {
+
   margin-left: 50px;
   padding-right: 160px;
 }
@@ -442,3 +447,20 @@ h3 {
   margin-right: 100px;
 }
 
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+h1
+{
+  margin-right: 160px;
+}
