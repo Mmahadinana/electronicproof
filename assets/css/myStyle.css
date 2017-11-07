@@ -1,13 +1,10 @@
 
-
-
-
 ::selection { background-color: #E13300; color: white; }
 
 
 body {
  background: #225faa;
-  background: linear-gradient(135deg, #BEF4F7 0%, #f7c1be 100%);
+ background: linear-gradient(135deg, #BEF4F7 0%, #f7c1be 100%);
 
  /*margin: 40px;*/
  font: 13px/20px normal Helvetica, Arial, sans-serif;
@@ -36,7 +33,7 @@ h3 {
   margin: 0 0 14px 0;
   padding: 14px 15px 10px 15px;
   margin-top: -90px;
-  margin-left: 20px;
+  margin-left: -200px;
 }
 
 	/*code {
@@ -70,82 +67,87 @@ h3 {
 		line-height: 32px;
 		*/
 	}	
-.carousel {
+  .carousel {
     margin-bottom: 0;
     padding: 0 40px 30px 40px;
-}
-/* The controlsy */
-.carousel-control {
-  left: -12px;
+  }
+  /* The controlsy */
+  .carousel-control {
+    left: -12px;
     height: 40px;
-  width: 40px;
+    width: 40px;
     background: none repeat scroll 0 0 #222222;
     border: 4px solid #FFFFFF;
     border-radius: 23px 23px 23px 23px;
     margin-top: 90px;
-}
-.carousel-control.right {
-  right: -12px;
-}
-/* The indicators */
-.carousel-indicators {
-  right: 50%;
-  top: auto;
-  bottom: -10px;
-  margin-right: -19px;
-}
-/* The colour of the indicators */
-.carousel-indicators li {
-  background: #cecece;
-}
-.carousel-indicators .active {
-background: #428bca;
-}
-.red{
-  color:red;
-}
-.form-area
-{
-  background-color: #2d3f50;
-  padding: 20px 60px;
-  margin: 5% 20%;
-  border: 1px solid GREY;
-  color: white;
-  width: 50%;
-  height: 530px;
-}
-#submit
-{
-  margin-right:160px;
-}
-.navbar{
- background-color: #2d3f50;
- font-family: Helvetica;
- font-size: 14px;
- color: #fff;
- text-align: center;
- opacity: 89%;
- box-shadow: 1px 5px 5px black;
-}
-.navbar-nav li{
-	border: none;	
-	
-}
-.navbar-nav :visited{
-	background-color: #aaa!important;
-	
-}
-.navbar-nav a :hover,
-.navbar-nav a :active
+  }
+  .carousel-control.right {
+    right: -12px;
+  }
 
-{
-	background-color: #aaa!important;
-	color:white;
-}
-.navbar-nav .btn-bkg{
-  margin-top: 8px;
+  /* The indicators */
+  .carousel-indicators {
+    right: 50%;
+    top: auto;
+    bottom: -10px;
+    margin-right: -19px;
+  }
+  /* The colour of the indicators */
+  .carousel-indicators li {
+    background: #cecece;
+  }
+  .carousel-indicators .active {
+    background: #428bca;
+  }
+  .red{
+    color:red;
+  }
+  .form-area
+  {
+    background-color: #2d3f50;
+    padding: 20px 60px;
+    margin: 5% 20%;
+    border: 1px solid GREY;
+    color: white;
+    width: 50%;
+    /*height: 530px;*/
+    height: auto;
+  }
+  #submit
+  {
+    margin-right:160px;
+  }
+  .navbar{
+   background-color: #2d3f50;
+   font-family: Helvetica;
+   font-size: 14px;
+   color: #fff;
+   text-align: center;
+   opacity: 89%;
+   box-shadow: 1px 5px 5px black;
+ }
+ .navbar-nav li{
+   border: none;	
+
+ }
+ .navbar-nav :visited{
+   background-color: #aaa!important;
+
+ }
+ .navbar-nav a :hover,
+ .navbar-nav a :active
+
+ {
+   background-color: #aaa!important;
+   color:white;
+ }
+ .navbar-nav .btn-bkg{
+  /*margin-top: 8px;*/
   color: white;
   background-color:#2d3f50!important;
+}
+.dropdown-menu >li > a {
+  color: #aaa!important;
 }
 .dropdown-menu ,
 .dropdown-menu li a :hover
@@ -247,6 +249,7 @@ background: #428bca;
 .stepwizard-step p {
   margin-top: 10px;
   padding-top: 15px;
+  margin-right: 60px;
 
 }
 .stepwizard-row {
@@ -294,6 +297,7 @@ background: #428bca;
 }
 #gender{
 	margin-top: 30px;
+  padding-right: 112px;
 }
 .para
 {
@@ -306,6 +310,12 @@ background: #428bca;
   background-color: #2d3f50;
   color: white;
   padding: 30px;
+}
+.right
+{
+  padding-left: 160px;
+  margin-bottom: 200px;
+  bottom: 200px;
 }
 .btn-success
 {
@@ -377,12 +387,7 @@ background: #428bca;
   padding-top: 40px;
 }
 }
-.col-xs-8
-{
- background-color: #2d3f50;
- color: white;
- padding: 50px;
-}
+
 .right
 {
   padding-left: 200px;
@@ -399,13 +404,29 @@ background: #428bca;
 
 
 }
+.rightCarosel
+{
+  margin-left: 98%;
+  float: left;
+  position: absolute;
+ /* top: -25px;*/
+  text-align: left;
+
+  
+}
+.leftCarosel
+{
+  padding-right: 0px;
+
+
+}
 .btn
 {
   margin-left: 30px;
 }
 .contact-section
 {
- 
+
   color: black;
   padding-right: -50px;
 
@@ -415,9 +436,7 @@ background: #428bca;
   margin-left: 50px;
   padding-right: 160px;
 }
-p{
-  margin-right:200px;
-}
+
 .btn-default
 {
   margin-right: 100px;
