@@ -31,7 +31,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </ul>
       <ul class="nav navbar-nav" >
       <li <?php echo setMenuActiveItem ($pageActive == "Register")?>><a href="<?php echo base_url('publiczone/register') ?>">Register</a></li>
-       <li <?php echo setMenuActiveItem ($pageActive == "login")?>><a href="<?php echo base_url('login/login_') ?>">Login</a></li>
+       <li <?php echo setMenuActiveItem ($pageActive == "login")?>> <div class="dropdown-grids">
+                        <div id="loginContainer">
+                            <a id="loginButton"><span>Login</span></a>
+                            <div id="loginBox">                
+                                <form id="loginForm">
+                                    <div class="login-grids">
+                                        <div class="login-grid-left">
+                                            <fieldset id="body">
+                                                <fieldset>
+                                                    <label for="email">Email Address</label>
+                                                    <input type="text" name="email" id="email">
+                                                </fieldset>
+                                                <fieldset>
+                                                    <label for="password">Password</label>
+                                                    <input type="password" name="password" id="password">
+                                                </fieldset>
+                                                <input type="submit" id="login" value="Sign in">
+                                                <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+                                            </fieldset>
+                                            <span><a href="<?php echo base_url('login/reset/') ?>">Forgot your password?</a></span>
+                                            <div class="or-grid">
+                                                <p>OR</p>
+                                            </div>
+                                            <div class="social-sits">
+                                                
+                                                <div class="button-bottom">
+                                                    <p> <a href="<?php echo base_url('publiczone/register') ?>">New account? Signup</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div></li>
+       <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
      </ul>
    </div><!--/.nav-collapse -->
  </div>

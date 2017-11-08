@@ -53,7 +53,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function makeRequest($data){
+/*public function makeRequest($data){
 
  $requests=array( 	
  	"phone"=>$data["phone"];
@@ -63,6 +63,6 @@ public function makeRequest($data){
  );
  $this->requestquery($requests);
  
-}
+}*/
 }
 ?>

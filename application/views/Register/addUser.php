@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>
+?><div class="container">
 <div class="contact-section">
 
 	<div class="container">
@@ -121,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</form>
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">

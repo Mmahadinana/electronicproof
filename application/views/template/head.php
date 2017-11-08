@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'font-awesome.css',
   'ie10-viewport-bug-workaround.css',
   'master.css',
+  'substyle.css',
   'mystyle.css'];
 
   foreach ($Css_Files as $css_file) {?>
@@ -26,5 +27,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   }
   ?>
   <script src="js/ie-emulation-modes-warning.js"></script>
+  <!--script src="js/myjs.js"></script-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>

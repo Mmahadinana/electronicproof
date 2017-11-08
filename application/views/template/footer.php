@@ -31,6 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 'myjs.js'];
 
   foreach ($Js_Files as $js_file) {?>
+  <!--script src="js/myjs.js"></script-->
     <link src="<?php echo base_url('assets/js/'.$js_file);?>" rel="stylesheet"><?php
   }
   ?>
