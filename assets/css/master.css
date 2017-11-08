@@ -4,9 +4,12 @@
     background-color: #2d3f50;
 }
 .samap {
+
 	padding-top:1em;
     background-color: #2d3f50;
     height: auto;
+    box-shadow: 5px 5px 5px 5px;
+
 }
 .samap img{
 	width: 60%;

@@ -211,6 +211,133 @@
   margin-left: 98%;
   float: left;
   position: absolute;
- /* top: -25px;
-  text-align: left;*/
+ /* top: -25px;*/
+  text-align: left;
+}
+
+/*#radio101
+{
+  margin-left: 16px;
+
+}
+#gender{
+  margin-top: 30px;
+  padding-right: 112px;
+}
+.para
+{
+  background-color:white;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 13px;
+}
+
+
+.popover.primary {
+  border-color:#337ab7;
+}
+.popover.primary>.arrow {
+  border-top-color:#337ab7;
+}
+.popover.primary>.popover-title {
+  color:#fff;
+  background-color:#337ab7;
+  border-color:#337ab7;
+}
+.popover.success {
+  border-color:#d6e9c6;
+}
+.popover.success>.arrow {
+  border-top-color:#d6e9c6;
+}
+.popover.success>.popover-title {
+  color:#3c763d;
+  background-color:#dff0d8;
+  border-color:#d6e9c6;
+}
+.popover.info {
+  border-color:#bce8f1;
+}
+.popover.info>.arrow {
+  border-top-color:#bce8f1;
+}
+.popover.info>.popover-title {
+  color:#31708f;
+  background-color:#d9edf7;
+  border-color:#bce8f1;
+}
+.popover.warning {
+  border-color:#faebcc;
+}
+.popover.warning>.arrow {
+  border-top-color:#faebcc;
+}
+.popover.warning>.popover-title {
+  color:#8a6d3b;
+  background-color:#fcf8e3;
+  border-color:#faebcc;
+}
+.popover.danger {
+  border-color:#ebccd1;
+}
+.popover.danger>.arrow {
+  border-top-color:#ebccd1;
+}
+.popover.danger>.popover-title {
+  color:#a94442;
+  background-color:#f2dede;
+  border-color:#ebccd1;
+}
+.letter {
+  background-color:#2d3f50;
+  width: 500px;
+  color: white;
+  padding: 150px;
+  margin: 25px;
+  margin-left: 700px;
+  padding-left: 40px;
+  padding-top: 40px;
+
+}
+
+.rightCarosel
+{
+  margin-left: 98%;
+  float: left;
+  position: absolute;*/
+ /* top: -25px;*/
+  /*text-align: left;
+
+  
+}
+.leftCarosel
+{
+  padding-right: 0px;
+
+
+}*/
+
+.contact
+{
+
+  color: black;
+  padding-right: -50px;
+
+}
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+h1
+{
+  margin-right: 160px;
 }

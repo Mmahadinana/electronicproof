@@ -7,9 +7,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--div class="starter-template"-->
 <div class="container">
 
+
 	<h1>About Us</h1>
 	<p class="lead">E-residence is an application that enable the user to request the proof of residence online.</p>
 	<p class="text-left">The main purpose for the application is to avoid long processes a person experiences when they have to get the proof of residence, the traveling expences and all necessary fees that are payed along the process
+
 		The application was developed by Rosy, Refiloe, Larochelle and Palesa. They all originate from South Africa in the Free State Province. <br>South Africa is a country that is in Africa and it consists of nine(9) Provinces which are build of district manipalities, and they have local municipalities and they formed by different cities, towns and suburbs</p>
 
 		<!--The maps of the country, provinces and etc..-->

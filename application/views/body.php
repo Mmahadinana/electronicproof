@@ -8,11 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <?php
  $this->load->view('template/header');
  //echo password_hash("rosy", PASSWORD_BCRYPT);
- ?><div class="">
- 	<?php $this->load->view($pageToLoad);?>
- </div>
- 
 
+ 	 $this->load->view($pageToLoad);
+
+ 
+ ?>
  
 
 </div>

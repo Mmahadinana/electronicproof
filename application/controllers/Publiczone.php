@@ -110,6 +110,13 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
+	public function listOfResidents()
+	{
+		$data['pageToLoad']='E-Residence/listOfRes';
+		$data['pageActive']='listOfRes';
+		$this->load->view('ini',$data);
+		
+	}
 	public function login()
 	{
 		$data['pageToLoad']='login/loginForm';
