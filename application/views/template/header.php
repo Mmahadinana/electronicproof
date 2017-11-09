@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a id="loginButton"><span>Login</span></a>
                             <div id="loginBox">                
                                 <form id="loginForm">
-                                    <div class="login-grids">
+                                    <div class="login-grids" >
                                         <div class="login-grid-left">
                                             <fieldset id="body">
                                                 <fieldset>
