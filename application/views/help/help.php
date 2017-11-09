@@ -4,15 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="starter-template">
-	<h1>Help</h1>
+<div class="container">
+	<h1 class="text-left">Help</h1>
 	<div class="row">
 		<div class="col-lg-4 pull-left">
 
 			<div class="panel-group text-left" id="accordion">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">LOGIN</a></h3>
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">LOGIN</a></h4>
 						</div>
 
 						<div id="collapse1" class="panel-collapse collapse in">
@@ -240,6 +241,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							</div>
 						</div>
+					</div>
 
 
 
+<script >
+	
+	$(' a').click(function(e)
+{
+    // Special stuff to do when this link is clicked...
+
+    // Cancel the default action
+   // e.preventDefault();
+   //event.stopPropagation();
+
+});
+</script>
