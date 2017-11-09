@@ -54,7 +54,25 @@
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
-}/*
+
+}
+.leftdiv
+{
+  padding-right: 600px;
+
+
+}
+.rightdiv
+{
+  padding-left: 200px;
+  float: left;
+  position: absolute;
+  top: -25px;
+  text-align: left;
+
+  
+}
+/*
 #radio101
 {
     margin-left: 16px;
