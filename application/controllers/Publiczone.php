@@ -12,7 +12,6 @@ class Publiczone extends CI_Controller {
 		$this->load->model('manucipality_model');
 		$this->load->model('user_model');
 
-
 	}
 	/**
 	 * Index Page for this controller.
