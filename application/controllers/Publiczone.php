@@ -16,7 +16,7 @@ class Publiczone extends CI_Controller {
 	}
 	/**
 	 * Index Page for this controller.
-	 *
+	 * this is for to apply a commit to check
 	 * Maps to the following URL
 	 * 		http://example.com/index.php/welcome
 	 *	- or -
