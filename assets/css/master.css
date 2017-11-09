@@ -47,8 +47,9 @@
  height: 200px;
  border-radius: 43px;
  opacity: 0.5;
- display: block;
-position: relative;
+ z-index: -5;
+/* display: block;
+position: relative;*/
 }
 .rosyimg {
     transform:rotate(90deg);
@@ -91,7 +92,11 @@ position: relative;
 .navbar-nav .open .dropdown-menu > li > a:hover,
 .navbar-nav .open .dropdown-menu > li > a:focus {
     background-image: none;
+
 }
+    .btnprght{
+         margin-left: 1em;
+    }
 }
 
 /** end of about page style**/
@@ -100,9 +105,9 @@ position: relative;
 }
 
 .card-container.card {
-    max-width: 550px;
+    max-width: 600px;
     margin-top: 50px;
-    padding: 40px 20px;
+    padding: 30px 0px 60px 50px;
     color: #000
 }
 /*.btn {

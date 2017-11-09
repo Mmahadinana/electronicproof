@@ -13,7 +13,7 @@ body {
  font: 13px/20px normal Helvetica, Arial, sans-serif;
  color: #4F5155;
  margin:0px;
- padding:0px;
+ padding:20px 0px;
 height: 100%;
 
 }
@@ -21,7 +21,7 @@ height: 100%;
 .starter-template {
   padding: 60px 15px;
   text-align: center;
-
+min-height: 780px;
 }
 /***************************** default style for links************************/
 a {
@@ -29,6 +29,7 @@ a {
   background-color: transparent;
   font-weight: normal;
 }
+
 /***************************************** default style for h3***************/
 h3 {
   color: #444;
@@ -54,6 +55,7 @@ h3 {
    }*/
 
 /** *******************style for navigation menu**********************************/  
+
 .nav>li>a {
 padding: 10px 10px;
 }
@@ -65,6 +67,8 @@ padding: 10px 10px;
    text-align: center;
    opacity: 89%;
    box-shadow: 1px 5px 5px black;
+   padding: 0px;
+   margin: 0px;
 
  }
  .navbar-nav li{
@@ -72,7 +76,7 @@ padding: 10px 10px;
 
  }
  .navbar-nav :visited{
-   background-color: #aaa!important;
+   background-color: #2d3f50!important;
 
  }
  .navbar-nav a :hover,
@@ -80,7 +84,7 @@ padding: 10px 10px;
 
  {
    background-color: #aaa!important;
-   color:#2d3f50;
+   color:#2d3f50 !important;
  }
  .navbar-nav .btn-bkg{
 
@@ -105,8 +109,9 @@ footer{
  width: 100%;
   position: relative;
   padding: 0px;
+    margin: 0px;
 }
-  footer .footer { margin-bottom: 0px  }
+  /*footer .footer { margin-bottom: 0px  }*/
   .footer {   
     /*padding: 30px 0px 0px 0px;
     
@@ -166,22 +171,26 @@ position: absolute;
 
 /*********************container for some content of the pages*************************/  
 .form-area
+
   {
     
     background-color: #2d3f50;
-    padding: 20px 20px;
-    margin: 5% 5%;
+    padding: 0px 20px;
+    margin: 10% 20%;
     border: 1px solid GREY;
-    border-radius: 15px;
+    border-radius: 1px;
     color: white; 
     height: auto;
     width: 50%;
-    opacity: 0.7;
+
     box-shadow: 0px 8px 8px #000;
     /*height: auto;*/
   }
   .form-area h1{
-    padding-top:3em;
+    /*padding-top:3em;*/
+  }
+  .form-area .tablereq{
+    padding-top: 15px
   }
 
   #submit
