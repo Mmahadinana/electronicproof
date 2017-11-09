@@ -3,18 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
-<div class="container form-area">
-  <h1 class="whtColor"> Request Form </h1>
+<div class="container ">
 
+  <h1 > Request Form </h1>
+<div class="container form-area">
   <?php
  //var_dump($user_id) ;
   $action="residents/request/";
 
   echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
   <input type="hidden" id="user_id" name="user_id" value="100">
-  <div class="row">
+  <div class="row tablereq">
         <div class="col-md-10">
-          <table class="table text-left">
+          <table class="table text-left ">
             
             <tbody>
               <tr>
