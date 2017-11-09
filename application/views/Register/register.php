@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<<<<<<< HEAD
 
 <div class="container">
 	
@@ -12,6 +13,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="stepwizard-step">
 							<a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
 							<p>Step 1</p>
+=======
+<div class="contact-section">
+
+	<div class="container">
+
+		<div class="stepwizard col-md-offset-3">
+			<div class="stepwizard-row setup-panel">
+				<div class="stepwizard-step">
+					<a href="#step-1" type="button" class="btn btn-primary btn-circle"><i class="fa fa-lock" aria-hidden="true"></i></a>
+					<p>Step 1</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
+					<p>Step 2</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					<p>Step 3</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
+					<p>Step 4</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+					<p>Step 5</p>
+				</div>
+			</div>
+		</div>
+		
+
+		
+		
+		<form role="form" action="" method="post">
+			<div class="row setup-content" id="step-1">
+				<div class="col-xs-6 col-md-offset-3">
+					<div class="col-md-12">
+						<h3>Setup Account</h3>
+						<div class="form-group">
+							<?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
+							<label>email</label>
+							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+								
+								<input type="text" class="form-control" name="email" id="email" placeholder="Requested email" required >
+							</div>
+>>>>>>> 4eb0575e4e7e2e433f7f86ee19937f8c29fbba7e
 						</div>
 						<div class="stepwizard-step">
 							<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
@@ -21,9 +68,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
 							<p>Step 3</p>
 						</div>
+<<<<<<< HEAD
 						<div class="stepwizard-step">
 							<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
 							<p>Step 4</p>
+=======
+						<div class="form-group">
+							<?php echo form_error('identityNumber') ? alertMsg(false,'',form_error('identityNumber')):'';?>
+							<label class="control-label">Identity Number</label>
+							<input maxlength="13" type="text" required="required" name="identityNumber" class="form-control" placeholder="Identity Number"  />
+>>>>>>> 4eb0575e4e7e2e433f7f86ee19937f8c29fbba7e
 						</div>
 						<div class="stepwizard-step">
 							<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
@@ -33,6 +87,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>	
 
 
+<<<<<<< HEAD
+=======
+						<div class="form-group">
+							<?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
+							<input name="group100" name="gender" type="radio" id="radio101" checked>
+							<label for="radio101">Female</label>
+						</div>
+						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+					</div>
+				</div>
+			</div>
+			<div class="row setup-content" id="step-3">
+				<div class="col-xs-6 col-md-offset-3">
+					<div class="col-md-12">
+						<h3>Residential Information</h3>
+						<div class="form-group">
+							<?php echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
+							<label class="control-label">Street Address</label>
+							<input maxlength="100" type="text"  required="required" name="address" class="form-control" placeholder="Street Address" />
+						</div>
+						<div class="form-group">
+							<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
+							<label class="control-label">suburb</label>
+							<input maxlength="13" type="text" required="required" name="suburb" class="form-control" placeholder="suburb"  />
+						</div>
+						<div class="form-group">
+							<?php echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+							<label class="control-label">City/Town</label>
+							<input  type="text" required="required" name="town" class="form-control" placeholder="City/Town"  />
+						</div>
+						<div class="form-group">
+							<?php echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+							<label class="control-label">Zip Code</label>
+							<input maxlength="10" type="text" name="zip_code" required="required" class="form-control" placeholder="Zip Code"  />
+						</div>
+>>>>>>> 4eb0575e4e7e2e433f7f86ee19937f8c29fbba7e
 
 				<form role="form" action="" method="post">
 					<div class="row setup-content" id="step-1">
@@ -394,7 +484,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      }
  });
 
+<<<<<<< HEAD
 
+=======
+});
+>>>>>>> 4eb0575e4e7e2e433f7f86ee19937f8c29fbba7e
 </script>
 <script src="jquery.min.js"></script>
 <script type="text/javascript">

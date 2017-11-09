@@ -8,11 +8,11 @@ class Manucipality_model extends CI_MODEL{
 		$this->load->database();
 	}
 	public function getManucipality()
-{
-	$this->db->select("manucipality.id,manucipality.name,district_id")
-		         ->from("manucipality");
-		       return $this->db->get()->result();
-}
+	{
+		$this->db->select("manucipality.id,manucipality.name,district_id")
+		->from("manucipality");
+		return $this->db->get()->result();
+	}
 	public function callback_checkManufacturers($manucipality_id){
 		$this->db->select("manucipality.id")
 		->from("manucipality")

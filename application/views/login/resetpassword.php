@@ -5,13 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container form-area">
 		<h1 class="whtColor"> Reset Password </h1>
 		<!--div class="card card-container"-->
-			<?php
+		<?php
 
-			$action="login/login_/";
+		$action="login/login_/";
 
-			echo form_open($action,array('class'=>'form-horizontal'));?>
+		echo form_open($action,array('class'=>'form-horizontal'));?>
 
-			<div class="resetTopPad text-center">
+		<div class="resetTopPad text-center">
 			<div class="form-group ">
 				<label for="newpassword" class="control-label label-primary passlabels col-sm-4"><span class="footPadRight"> Enter New Password</span></label>				
 				<div class="col-md-7">
@@ -33,11 +33,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<button class="btn btn-lg btn-primary passbtn" type="submit">Sign in</button>
 			</div>
 		</div>
-			
-		</form><!-- /form -->
-		<div class="container">
-			
-		</div>
+		
+	</form><!-- /form -->
+	<div class="container">
+		
+	</div>
 	<!--/div>< /card-container -->
 </div><!-- /container --><!-- /.container -->
 </div>

@@ -7,13 +7,13 @@ class Province_model extends CI_MODEL{
 		$this->load->database();
 	}
 	public function getProvince()
-{
-	$this->db->select("province.id,province.name")
-		         ->from("province");
-		       return $this->db->get()->result();
-}
+	{
+		$this->db->select("province.id,province.name")
+		->from("province");
+		return $this->db->get()->result();
+	}
 
-		public function callback_checkProvince($province_id){
+	public function callback_checkProvince($province_id){
 		$this->db->select("province.id")
 		->from("province")
 		->where("id",$province_id);
