@@ -32,7 +32,7 @@ a {
 
 /***************************************** default style for h3***************/
 h3 {
-  color: #444;
+  color: white;
   background-color: transparent;
    /*border-bottom: 1px solid #D0D0D0;
  font-size: 19px;*/
@@ -40,7 +40,7 @@ h3 {
   margin: 0 0 14px 0;
   padding: 14px 15px 10px 15px;
   margin-top: -90px;
-  margin-left: -200px;
+  margin-left: -50px;
 }
 
   /*code {
@@ -182,6 +182,7 @@ position: absolute;
     color: white; 
     height: auto;
     width: 50%;
+    padding-bottom:110px;
 
     box-shadow: 0px 8px 8px #000;
     /*height: auto;*/
@@ -283,4 +284,4 @@ position: absolute;
     
   }
 }
-
+bt

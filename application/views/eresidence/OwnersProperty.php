@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<h1 class="whtColor"> List Of Owners Property </h1>
 <div class="container form-area">
 
- 
+ <h2 class="whtColor"> List Of Owners Property </h2>
+
 
   <?php
 
@@ -61,10 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </tr>
 
 
-
-
-
-
           <tr>
             <td rowspan="9">2.Residential Address </td>               
 
@@ -101,24 +97,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <tr>
             <td>Free State</td>            
           </tr>
-
-
-
-
-
-
         </tbody>
       </table>
 
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
 </div>

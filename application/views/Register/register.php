@@ -3,34 +3,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
-<div class="container">
+<div class="container form-area">
 	
-		<div class="contact">
+		
 
 				<div class="stepwizard col-md-offset-3">
-					<div class="stepwizard-row setup-panel">
-						<div class="stepwizard-step">
-							<a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-							<p>Step 1</p>
-						</div>
-						<div class="stepwizard-step">
-							<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
-							<p>Step 2</p>
-						</div>
-						<div class="stepwizard-step">
-							<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
-							<p>Step 3</p>
-						</div>
-						<div class="stepwizard-step">
-							<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
-							<p>Step 4</p>
-						</div>
-						<div class="stepwizard-step">
-							<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
-							<p>Step 5</p>
-						</div>
-					</div>
-				</div>	
+			<div class="stepwizard-row setup-panel">
+				<div class="stepwizard-step">
+					<a href="#step-1" type="button" class="btn btn-primary btn-circle"><i class="fa fa-lock" aria-hidden="true"></i></a>
+					<p>Step 1</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
+					<p>Step 2</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					<p>Step 3</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
+					<p>Step 4</p>
+				</div>
+				<div class="stepwizard-step">
+					<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+					<p>Step 5</p>
+				</div>
+			</div>
+		</div>
 
 
 
@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row setup-content" id="step-3">
 						<div class="col-xs-6 col-md-offset-3">
 							<div class="col-md-12">
-								<h3>Residential Information</h3>
+								<h3 >Residential Information</h3>
 								<div class="form-group">
 									<?php echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
 									<label class="control-label">Street Address</label>
@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				?>
 				<div class="row setup-content" id="step-4">
-					<div class="col-xs-6 col-md-offset-4">
+					<div class="col-xs-6 col-md-offset-3">
 						<div class="col-md-12">
 							<h3>Confirm The Information Provided </h3>
 
@@ -278,7 +278,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</form>
-		</div>
+	
 	</div>
 
 
