@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h1>Owners Information</h1>
 
 	</div>
-	
+
 
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
 				<p>Step 4</p>
 			</div>
-			
+
 		</div>
 	</div>
-	
+
 
 	<?php
-	
+
 	$action="residents/details/";
 
 	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input name="group100" type="radio" id="radio101" checked>
 					<label for="radio101">Female</label>
 				</div>
-				<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+				<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
 			</div>
 		</div>
 	</div>
@@ -111,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input maxlength="10" type="text" required="required" class="form-control" placeholder="Province"  />
 				</div>
 
-				<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+				<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
 			</div>
 		</div>
 	</div>
@@ -150,14 +150,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
 				</div>
 			</div>
-			<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+			<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
 		</div>
 	</div>
 	<div class="row setup-content" id="step-4">
 		<div class="col-xs-6 col-md-offset-4">
 			<div class="col-md-12">
 				<h3> Step 4</h3>
-				<button class="btn btn-success btn-lg pull-right" type="submit">Submit</button>
+				<button class="btn btn-success btn-m pull-right" type="submit">Submit</button>
 			</div>
 		</div>
 	</div>

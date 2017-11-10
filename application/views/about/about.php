@@ -18,38 +18,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="samap ">
 			<img class="img-responsive" src="<?php echo base_url('assets/images/provincial_map.gif') ?>" alt="South Africa">
 		</div>
-	
+		
 	<!-- images of the application developers>
 	<div class="container"-->
-	<div class="row ">
-		<div class=" abt-img">
-			
-			<div class="col-lg-3 col-md-4 col-sm-6 ">
-			<div class="img-responsive ">
-				<img src="<?php echo base_url('assets/images/developers/refiloe.jpg') ?>" alt="Sibyl Refiloe Dichaba">
-				<p>Sibyl Refiloe Dichaba</p>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-4 col-sm-6 ">			
-				<div class="img-responsive">
-					<img class="rosyimg " src="<?php echo base_url('assets/images/developers/rosy.jpg') ?>" alt="Rosy Mmahadinana Marumo" >
-					<p>Rosy Mmahadinana Marumo</p>
+		<div class="row ">
+			<div class=" abt-img">
+				
+				<div class="col-lg-3 col-md-4 col-sm-6 ">
+					<div class="img-responsive ">
+						<img src="<?php echo base_url('assets/images/developers/refiloe.jpg') ?>" alt="Sibyl Refiloe Dichaba">
+						<p>Sibyl Refiloe Dichaba</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 ">			
+					<div class="img-responsive">
+						<img class="rosyimg " src="<?php echo base_url('assets/images/developers/rosy.jpg') ?>" alt="Rosy Mmahadinana Marumo" >
+						<p>Rosy Mmahadinana Marumo</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 ">
+					<div class="img-responsive ">
+						<img src="<?php echo base_url('assets/images/developers/tess.jpg') ?>" alt="Larochelle Tess Martens">
+						<p>Larochelle Tess Martens</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 ">
+					<div class="img-responsive">
+						<img src="<?php echo base_url('assets/images/developers/palesa.jpg') ?>" alt="Rebecca Motseare">
+						<p>Rebecca Motseare</p>
+					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 ">
-			<div class="img-responsive ">
-				<img src="<?php echo base_url('assets/images/developers/tess.jpg') ?>" alt="Larochelle Tess Martens">
-				<p>Larochelle Tess Martens</p>
-			</div>
-		</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 ">
-			<div class="img-responsive">
-				<img src="<?php echo base_url('assets/images/developers/palesa.jpg') ?>" alt="Rebecca Motseare">
-				<p>Rebecca Motseare</p>
-			</div>
-		</div>
 		</div>
 	</div>
 </div>
-</div>
-	<!-- /div></.container -->
+<!-- /div></.container -->

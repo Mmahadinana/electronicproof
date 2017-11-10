@@ -7,7 +7,14 @@ class Residents extends CI_Controller {
 	$this->load->model("request_model");
 	$this->load->model("listOfRes_model");
 	$this->load->model("ownersProperty_model");
-		$this->load->model("ownersDetails_model");
+	$this->load->model("ownersDetails_model");
+	$this->load->model("register_model");
+	$this->load->model("manucipality_model");
+	$this->load->model("district_model");
+     $this->load->model("province_model");
+
+
+
 }
 	/**
 	 * Index Page for this controller.
@@ -101,6 +108,144 @@ class Residents extends CI_Controller {
 		}
 		
 	}
+
+	function registerUser() {
+
+		$data['pageToLoad'] = 'eresidence/register';
+		$data['pageActive']='register';
+		$data['pageTitle'] = 'Add User';
+		//data from db
+		$data['manucipality']=$this->manucipality_model->getManucipality();
+		$data['district']=$this->district_model->getDistrict();
+		$data['province']=$this->province_model->getProvince();
+
+//Including validation library
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+
+		$config_validation = array(
+		array(
+			'field'=>'email',
+			 'label'=>'email',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert %s for the user')
+			),
+		array(
+			'field'=>'name',
+			 'label'=>'name',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert %s for the user')
+			),
+
+
+		array(
+				'field' =>'identityNumber',
+				'label' =>'identityNumber',
+				'rules' =>array(
+							'required',
+							'regex_match[/^(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))/]',
+							array('checkLicence_plate',array($this->Vehicle_model,
+								'callback_checklicence_plate'))
+							
+				),
+				array(
+				'field' =>'dateOfBirth',
+				'label' =>'dateOfBirth',
+				'rules' =>array(
+							'required',
+							'regex_match[/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/]',
+							array('checkLicence_plate',array($this->Vehicle_model,
+								'callback_checklicence_plate'))
+							
+				),
+				array(
+				'field' =>'phone',
+				'label' =>'phone',
+				'rules' =>array(
+							'required',
+							'regex_match[/^[0-9]{10}$/]',
+							array('checkLicence_plate',array($this->Vehicle_model,
+								'callback_checklicence_plate'))
+							
+				),
+			array(
+			'field'=>'gender',
+			 'label'=>'gender',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert %s for the user')
+			),
+			array(
+			'field'=>'address',
+			 'label'=>'address',
+			 'rules'=>array('required','min_length[10]|max_length[50]',
+			 'errors'=>array('required'=>'you should insert %s for the user'))
+			),
+			array(
+			'field'=>'suburb',
+			 'label'=>'suburb',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle')
+			),
+			
+			 array(
+			'field'=>'town',
+			 'label'=>'town',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
+			 	array('checkColor',array($this->register_model,'callback_checkColor'))
+			 )
+			),
+			  array(
+			'field'=>'district',
+			 'label'=>'district',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
+			 	array('checkColor',array($this->register_model,'callback_checkColor'))
+			 )
+			),
+			   array(
+			'field'=>'province',
+			 'label'=>'province',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
+			 	array('checkColor',array($this->register_model,'callback_checkColor'))
+			 )
+			),
+			 array(
+			'field'=>'zip_code',
+			 'label'=>'zip_code',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle')
+			),
+			 array(
+			'field'=>'manucipality',
+			 'label'=>'manucipality',
+			 'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert one %s for the vehicle', 
+			 	array('checkManufacturers',array($this->register_model,'callback_checkManufacturers'))
+			)
+			)
+	);
+
+
+
+			
+			$this->form_validation->set_rules($config_validation);
+		if($this->form_validation->run()===FALSE){
+			$this->load->view('ini',$data);
+
+		}else
+		{
+			$statusInsert=$this->register_model->createUser($this->input->post());
+          redirect("Residents/register?statusInsert=$statusInsert");
+		}
+	}
+
+	
+
 	public function listOfResidents()
 	{
 		$data['pageToLoad']='eresidence/listOfResidents';
@@ -309,3 +454,4 @@ if ($this->form_validation->run()===FALSE) {
 
 }
 }
+?>

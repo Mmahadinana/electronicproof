@@ -80,9 +80,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input maxlength="13" type="text" required="required" name="identityNumber" class="form-control" placeholder="Identity Number"  />
 					</div>
 					<div class="form-group">
-						<?php echo form_error('DOB') ? alertMsg(false,'',form_error('DOB')):'';?>
+						<?php echo form_error('dateOfBirth') ? alertMsg(false,'',form_error('dateOfBirth')):'';?>
 						<label class="control-label">Date of Birth</label>
-						<input  type="text" required="required" class="form-control" name="DOB" placeholder="Date of Birth"  />
+						<input  type="text" required="required" class="form-control" name="dateOfBirth" placeholder="Date of Birth"  />
 					</div>
 					<div class="form-group">
 						<?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
@@ -111,9 +111,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<h3 >Residential Information</h3>
 					<div class="form-group">
-						<?php echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
+						<?php echo form_error('streetAddress') ? alertMsg(false,'',form_error('streetAddress')):'';?>
 						<label class="control-label">Street Address</label>
-						<input maxlength="100" type="text"  required="required" name="address" class="form-control" placeholder="Street Address" />
+						<input maxlength="100" type="text"  required="required" name="streetAddress" class="form-control" placeholder="Street Address" />
 					</div>
 					<div class="form-group">
 						<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
@@ -131,61 +131,96 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input maxlength="10" type="text" name="zip_code" required="required" class="form-control" placeholder="Zip Code"  />
 					</div>
 
+					<?php 
+	
+//var_dump($db);
+//var_dump([$editors]);
 
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="form-group">
-								<label class="control-label">Municipality</label>
-								<select class="selectpicker form-control">
-									<option>Municipality</option>
-									<option>Ketchup</option>
-									<option>Relish</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="form-group">
-								<label class="control-label">District</label>
+	$action= isset($user_id)?"publiczone/editVehicle/$user_id" : "Residents/registerUser";
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?>
+	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='user_id' type='hidden' name='user_id'>
+					<?php  echo form_error('manucipalities') ? alertMsg(false,'',form_error('manucipalities')):'';?>
+		<div class="form-group">
 
-								<select class="selectpicker form-control">
-									<option>District</option>
-									<option>Ketchup</option>
-									<option>Relish</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="form-group">
-								<label class="control-label">Province</label>
+			<label for="manucipalities">Manucipalities</label>
+			<select class="form-control" value="manucipalities" name="manucipalities" id="manucipalities">
+			<option  selected="true" disabled="disabled">Please select</option>
 
-								<select class="selectpicker form-control">
+				<?php 
+				
+				foreach ($manucipalities as $manucipality){?>
+				<option <?php 
+				if(isset($user_id)  && $manucipalityEdit){
+					 
+					echo ($manucipalityEdit == $manucipality->name)? 'selected':'';
 
-									<option>Province</option>
-									<option>Ketchup</option>
-									<option>Relish</option>
-								</select>
-							</div>
-						</div>
-					</div>
 
+				}else{
+					if(set_value('manucipality')){
+						echo (set_value('manucipality') == $manucipality->id)? 'selected':'';
+					}
+
+				}
+				?>
+
+				value="<?php echo $manucipality->id ?>"><?php echo $manucipality->name ?></option>
+				<?php } ?>
+			</select>
+		</div>
+
+					<div class="form-group">
+
+			<label for="manucipalities">Districts</label>
+			<select class="form-control" value="districts" name="districts" id="districts">
+			<option  selected="true" disabled="disabled">Please select</option>
+
+				<?php 
+				
+				foreach ($districts as $district){?>
+				<option <?php 
+				if(isset($user_id)  && $districtEdit){
+					 
+					echo ($districtEdit == $district->name)? 'selected':'';
+
+
+				}else{
+					if(set_value('district')){
+						echo (set_value('district') == $district->id)? 'selected':'';
+					}
+
+				}
+				?>
+
+				value="<?php echo $district->id ?>"><?php echo $district->name ?></option>
+				<?php } ?>
+			</select>
+		</div>
+					<div class="form-group">
+
+			<label for="provinces">Provinces</label>
+			<select class="form-control" value="provinces" name="provinces" id="manucipalities">
+			<option  selected="true" disabled="disabled">Please select</option>
+
+				<?php 
+				
+				foreach ($provinces as $province){?>
+				<option <?php 
+				
+					if(set_value('province')){
+						echo (set_value('province') == $province->id)? 'selected':'';
+					}
+				?>
+
+				value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
+				<?php } ?>
+			</select>
+		</div>
 					<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
 				</div>
 			</div>
 		</div>
 	</form>
-	<?php 
-	$options = array("class"=> "form-group","method"=>"POST");
-	echo form_open("publiczone/contact",$options);
-
-	if(isset($statusInsert)){
-		echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
-	}
-
-	?>
+	
 	<div class="row setup-content" id="step-4">
 		<div class="col-xs-6 col-md-offset-3">
 			<div class="col-md-12">

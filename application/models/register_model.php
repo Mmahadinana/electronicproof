@@ -11,41 +11,32 @@ class Register_model extends CI_MODEL{
 	}
 
 
-public function getUser(array $search=array(),int $limit=ITEMS_PER_PAGE)
-	{
-		
-		$offset=$search['page'] ?? 0;
-		$this->carQuery($search)
-		->limit($limit,$offset);
-		return $this->db->get()->result();
+public function createUser($data){
 
-	}
-	public function createUser($data){
-
-		$res = array(
+		$car = array(
 
 		       
 		        //'manufactures'=>$data['manufactures'],
 		        'manucipality_id'=>$data['manucipality'],
 		        'district_id'=>$data['district'],
-		         'province'=>$data['province'],
+		         'province_plate'=>$data['province_plate'],
 		          );
 		  $this->db->trans_start();
-		$this->db->insert("user",$res);
+		$this->db->insert("user",$car);
 		//$car_id = $this->db->insert_id();
 	 //$this->addVehicle_manufacturer($id_vehicle,$data['manufactures']);
 		return $this->db->trans_complete();
 
 	}
-	public function addUser_models($user_id,$models=array()){
+
+	public function addUser_models($user_id,$manucipalities=array()){
       $batch=array();	
-	foreach ($manucipalities as $manucipalities_id) {
+	foreach ($manucipalities as $manucipality_id) {
 			$batch[] = array(
 						'user_id'=>$user_id,
-						'manucipality_id'=>$manucipalities_id);
+						'manucipality_id'=>$manucipality_id);
 		
 		}
       return	$this->db->insert_batch('user_model',$batch);
 	}
-
 }
