@@ -58,13 +58,11 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 	return $this->db->get()->result() ;
 }
 public function addIdUpload($data){
-	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
-		     		'file_path'=>$data['full_path'],
-		     		'original_name'=>$data['client_name'],
-		     		'url'=>$data['file_path'],
-		     		'newname'=>$data['raw_name'],
+		     		'file_path'=>$data['file_path'],
+		     		//'newname'=>$data['encrypt_name'],
+		     		//'date_request'=>date('Y m d H:i:s'),
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
@@ -180,7 +178,7 @@ $id_upload =$this->upload->data();
 }*/
 public function callback_checkFile($dir){
 $result = array(); 	
-$uploads_dir= 'C:\xampp';
+
 $result = scandir($uploads_dir,1);
 foreach ($result as $file) {
      $files[$file] = filemtime($uploads_dir . '/' . $file);	

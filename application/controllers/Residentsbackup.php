@@ -137,8 +137,6 @@ class Residents extends CI_Controller {
 		}else{
 
 			//$this->request_model->addIdUpload($this->input->post());
-			$this->request_model->addIdUpload($this->upload_data['file']);
-			$this->load->view('ini',$data);
 		}
 		
 	}
@@ -146,14 +144,18 @@ class Residents extends CI_Controller {
 	/******UPLOADING A FILE TO THE FLDER***********************/
 	public function do_upload1(){
 	//var_dump($_FILES);
-	
+		if($_FILES['fileToUpload']['name'] !=0){
+			$upload_dir = 'C:\xampp';
 			$type= explode('.',$_FILES['fileToUpload']['name']);
 			$type= $type[count($type)-1];
 			if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])){
 				move_uploaded_file($_FILES['fileToUpload']['tmp_name'], './uploads/'.uniqid(rand()).'.'.$type);
-
+				
 			}
-		
+		}else{
+			$this->form_validation->set_message('do_upload1', $this->upload->display_errors());
+				return false;
+		}
 	}
 /*public function do_upload1(){
 	$config=array();
@@ -190,15 +192,12 @@ class Residents extends CI_Controller {
 	public function file_upload() { 
 		//$this->load->library('upload');
 		$config=array();
-		//$name=$this->input->post('idUpload');
-		$upfile='idUpload_'.substr(md5(rand()),0,7);
 		if($_FILES['idUpload']['size'] != 0){
-         	
-			$upload_dir = 'C:\xampp';
-
+         		//var_dump($_FILES);
+			$upload_dir = 'C:\xampp';		
 			if (!is_dir($upload_dir)) {
 				mkdir($upload_dir);
-			}			
+			}	
 
 			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 			$config['upload_path']   ='./id_upload/';
@@ -206,8 +205,6 @@ class Residents extends CI_Controller {
 			$config['file_name']     = 'idUpload_'.substr(md5(rand()),0,7);
 			$config['overwrite']     = false;
 			$config['max_size']	 = '5120';
-			//$config['name']	 = $name;
-
 
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('idUpload')){
@@ -215,9 +212,7 @@ class Residents extends CI_Controller {
 				return false;
 			}	
 			else{
-
 				$this->upload_data['file'] = $this->upload->data();
-
 				//$this->request_model->addIdUpload($this->upload_data['file']);
 				
 				return true;
