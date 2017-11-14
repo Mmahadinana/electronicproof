@@ -19,7 +19,8 @@ $user_id = $search['user_id'] ?? FALSE;
 if('$user_id'){
 		$this->db->where('user.id','100');
 	}
-return $this->db->select("user.id,user.name,role.role as role,
+return $this->db
+->select("user.id,user.name,role.role as role,
 		owners.user_id,property.id as property,property.address,property.suburb,
 		town.name as town,town.zip_code,
 		manucipality.name as manucipality,

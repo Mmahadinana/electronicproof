@@ -7,13 +7,24 @@ class Manucipality_model extends CI_MODEL{
 		parent::__construct();
 		$this->load->database();
 	}
+	public function getManucipalities()
+	{
+		$this->db->select("manucipality.id,manucipality.name,district_id")
+		->from("manucipality");
+
+		//return $this->db->get()->result();
+		//var_dump($this->db->get()->result());
+	}
 	public function getManucipality()
-{
-	$this->db->select("manucipality.id,manucipality.name,district_id")
-		         ->from("manucipality");
-		       return $this->db->get()->result();
-}
-	public function callback_checkManufacturers($manucipality_id){
+	{
+		$this->db->select("manucipality.id,manucipality.name,district_id")
+		->from("manucipality");
+		//->where("manucipality_id",$manucipality_id);
+
+		return $this->db->get()->result();
+		//var_dump($this->db->get()->result());
+	}
+	public function callback_checkManucipality($manucipality_id){
 		$this->db->select("manucipality.id")
 		->from("manucipality")
 		->where("id",$manucipality_id);

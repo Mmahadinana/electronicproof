@@ -2,21 +2,25 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Residents extends CI_Controller {
-	public function __construct(){
+
+	public function __construct()
+	{
 		parent::__construct();
 
-	$this->load->model("request_model");
-	$this->load->model("listOfRes_model");
-	$this->load->model("ownersProperty_model");
-	$this->load->model("ownersDetails_model");
-	$this->load->model("register_model");
-	$this->load->model("manucipality_model");
-	$this->load->model("district_model");
-     $this->load->model("province_model");
+		$this->load->model("request_model");
+		$this->load->model("listOfRes_model");
+		$this->load->model("ownersProperty_model");
+		$this->load->model("ownersDetails_model");
+		$this->load->model("register_model");
+		$this->load->model("manucipality_model");
+		$this->load->model("district_model");
+		$this->load->model("province_model");
+		$this->load->model("user_model");
 //$this->load->helper(array('form','url'));
 
 
-}
+	}
+
 
 	/**
 	 * Index Page for this controller.
@@ -109,28 +113,28 @@ class Residents extends CI_Controller {
 					'callback_file_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
 				
-			
-			'errors'=>array(
+				
+				'errors'=>array(
 			//'callback_file_upload'=>'%s is required',
 			//'checkFile'=>'type for %s exist'
 
 
-			)
-		),
+				)
+			),
 			array('field'=>'fileToUpload',
 				'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
 					'callback_do_upload1'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
 				
-			
-			'errors'=>array(
+				
+				'errors'=>array(
 			//'callback_do_upload1'=>'%s is required',
 			//'checkFile'=>'type for %s exist'
 
 
-			)
-		),
+				)
+			),
 
 		);		
 /*if($this->input->post('idUpload')){
@@ -145,23 +149,22 @@ class Residents extends CI_Controller {
 		}else{
 
 			//$this->request_model->addIdUpload($this->input->post());
-			$this->request_model->addIdUpload($this->upload_data['file']);
-			$this->load->view('ini',$data);
 		}
 		
 	}
 
 
+
 	/******UPLOADING A FILE TO THE FLDER***********************/
 	public function do_upload1(){
 	//var_dump($_FILES);
-	
-			$type= explode('.',$_FILES['fileToUpload']['name']);
-			$type= $type[count($type)-1];
-			if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])){
-				move_uploaded_file($_FILES['fileToUpload']['tmp_name'], './uploads/'.uniqid(rand()).'.'.$type);
+		
+		$type= explode('.',$_FILES['fileToUpload']['name']);
+		$type= $type[count($type)-1];
+		if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])){
+			move_uploaded_file($_FILES['fileToUpload']['tmp_name'], './uploads/'.uniqid(rand()).'.'.$type);
 
-			}
+		}
 		
 	}
 /*public function do_upload1(){
@@ -202,7 +205,7 @@ class Residents extends CI_Controller {
 		//$name=$this->input->post('idUpload');
 		$upfile='idUpload_'.substr(md5(rand()),0,7);
 		if($_FILES['idUpload']['size'] != 0){
-         	
+			
 			$upload_dir = 'C:\xampp';
 
 			if (!is_dir($upload_dir)) {
@@ -241,14 +244,28 @@ class Residents extends CI_Controller {
 
 	function registerUser() {
 
-		$data['pageToLoad'] = 'eresidence/register';
+		$search=array();
+		//$search['user_id']= $this->input->get('user_id') ?? '0';
+		$search['user_id']= 203;
+		$data['search'] = $search;
+	  	//$data['authors'] = $authors;
+	  	//$data['editor'] = $editor;
+
+		$data['db'] = $this->user_model->getUser($search);
+		var_dump($data['db'] );
+		$data['user_id']= $this->user_model->getUser($search);
+
+		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
 		$data['pageTitle'] = 'Add User';
 		//data from db
 		$data['manucipality']=$this->manucipality_model->getManucipality();
+		//var_dump($data['manucipality']);
 		$data['district']=$this->district_model->getDistrict();
 		$data['province']=$this->province_model->getProvince();
 
+
+		
 //Including validation library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -257,124 +274,107 @@ class Residents extends CI_Controller {
 
 
 		$config_validation = array(
-		array(
-			'field'=>'email',
-			 'label'=>'email',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert %s for the user')
+			array(
+				'field'=>'email',
+				'label'=>'email',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
 			),
-		array(
-			'field'=>'name',
-			 'label'=>'name',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert %s for the user')
+			array(
+				'field'=>'name',
+				'label'=>'name',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
 			),
 
-
-		array(
-				'field' =>'identityNumber',
-				'label' =>'identityNumber',
-				'rules' =>array(
-							'required',
-							'regex_match[/^(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))/]',
-							array('checkLicence_plate',array($this->Vehicle_model,
-								'callback_checklicence_plate'))
-							
-				),
-				array(
+			array(
 				'field' =>'dateOfBirth',
 				'label' =>'dateOfBirth',
 				'rules' =>array(
-							'required',
-							'regex_match[/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/]',
-							array('checkLicence_plate',array($this->Vehicle_model,
-								'callback_checklicence_plate'))
-							
-				),
-				array(
+					'required',
+					'regex_match[/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/]')
+
+
+			),
+			array(
 				'field' =>'phone',
 				'label' =>'phone',
 				'rules' =>array(
-							'required',
-							'regex_match[/^[0-9]{10}$/]',
-							array('checkLicence_plate',array($this->Vehicle_model,
-								'callback_checklicence_plate'))
-							
-				),
-			array(
-			'field'=>'gender',
-			 'label'=>'gender',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert %s for the user')
+					'required',
+					'regex_match[/^[0-9]{10}$/]')
+
 			),
 			array(
-			'field'=>'address',
-			 'label'=>'address',
-			 'rules'=>array('required','min_length[10]|max_length[50]',
-			 'errors'=>array('required'=>'you should insert %s for the user'))
+				'field'=>'gender',
+				'label'=>'gender',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
 			),
 			array(
-			'field'=>'suburb',
-			 'label'=>'suburb',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle')
+				'field'=>'address',
+				'label'=>'address',
+				'rules'=>array('required','min_length[10]|max_length[50]',
+					'errors'=>array('required'=>'you should insert %s for the user'))
 			),
-			
-			 array(
-			'field'=>'town',
-			 'label'=>'town',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
-			 	array('checkColor',array($this->register_model,'callback_checkColor'))
-			 )
+			array(
+				'field'=>'suburb',
+				'label'=>'suburb',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
 			),
-			  array(
-			'field'=>'district',
-			 'label'=>'district',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
-			 	array('checkColor',array($this->register_model,'callback_checkColor'))
-			 )
+			array(
+				'field'=>'town',
+				'label'=>'town',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
 			),
-			   array(
-			'field'=>'province',
-			 'label'=>'province',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle',
-			 	array('checkColor',array($this->register_model,'callback_checkColor'))
-			 )
+
+			array(
+				'field'=>'district',
+				'label'=>'district',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user',
+					array('callback_checkDistrict',array($this->district_model,'callback_checkDistrict'))
+				)
 			),
-			 array(
-			'field'=>'zip_code',
-			 'label'=>'zip_code',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle')
+			array(
+				'field'=>'province',
+				'label'=>'province',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user',
+					array('callback_checkProvince',array($this->user_model,'callback_checkProvince'))
+				)
 			),
-			 array(
-			'field'=>'manucipality',
-			 'label'=>'manucipality',
-			 'rules'=>'required',
-			 'errors'=>array('required'=>'you should insert one %s for the vehicle', 
-			 	array('checkManufacturers',array($this->register_model,'callback_checkManufacturers'))
+			array(
+				'field'=>'zip_code',
+				'label'=>'zip_code',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+			),
+			array(
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user', 
+					array('callback_checkManucipality',array($this->manucipality_model,'callback_checkManucipality'))
+				)
 			)
-			)
-	);
+		);
 
 
 
-			
-			$this->form_validation->set_rules($config_validation);
+		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE){
 			$this->load->view('ini',$data);
 
 		}else
 		{
 			$statusInsert=$this->register_model->createUser($this->input->post());
-          redirect("Residents/register?statusInsert=$statusInsert");
+			redirect("Residents/register?statusInsert=$statusInsert");
+
 		}
 	}
-
-	
 
 
 	public function listOfResidents()
@@ -383,7 +383,7 @@ class Residents extends CI_Controller {
 		$data['pageActive']='listOfResidents';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		
+
 
 
 		$config_validation=array(
@@ -394,6 +394,75 @@ class Residents extends CI_Controller {
 					'regex_match[/^[0-9]+$/]'),
 
 
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
+				)	 					
+			),		
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
+				),
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
+
+			),
+
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+
+				) 					
+			),
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+
+				) 					
+			),			
+		);		
+
+
+
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
+
+			$this->load->view('ini',$data);
+		}else{
+
+
+		}
+
+	}
+	public function OwnersDetails()
+	{
+		$data['pageToLoad']='eresidence/OwnersDetails';
+		$data['pageActive']='OwnersDetails';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+
+		
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
+				
+				
 				'errors'=>array('required'=>'you should insert a %s ',
 					'exact_length'=>'the %s must have at least length of 10 ',						
 					'regex_match'=>'the %s must be numbers only',					
@@ -434,7 +503,7 @@ class Residents extends CI_Controller {
 			),			
 		);		
 
-		
+
 
 		$this->form_validation->set_rules($config_validation);
 		if ($this->form_validation->run()===FALSE) {
@@ -444,61 +513,60 @@ class Residents extends CI_Controller {
 
 
 		}
-		
+
 	}
+	public function OwnersProperty()
+	{
+		$data['pageToLoad']='eresidence/ownersProperty';
+		$data['pageActive']='ownersProperty';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
-	public function OwnersDetails()
-{
-	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='OwnersDetails';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
 
-
-	
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
-			
-			
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
+		
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
+				
+				
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
 				)	 					
 			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
 				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
-			
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
+				
 			),
-		
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),			
@@ -506,85 +574,15 @@ class Residents extends CI_Controller {
 
 
 
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-public function OwnersProperty()
-{
-	$data['pageToLoad']='eresidence/ownersProperty';
-	$data['pageActive']='ownersProperty';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
+			$this->load->view('ini',$data);
+		}else{
 
 
-	
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
-			
-			
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
-				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
-			
-			),
-		
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+		}
 
-				) 					
-			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
-
-
-
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
-
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-
+	}
 }
 ?>

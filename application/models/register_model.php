@@ -13,16 +13,16 @@ class Register_model extends CI_MODEL{
 
 public function createUser($data){
 
-		$car = array(
+		$muni = array(
 
 		       
 		        //'manufactures'=>$data['manufactures'],
 		        'manucipality_id'=>$data['manucipality'],
 		        'district_id'=>$data['district'],
-		         'province_plate'=>$data['province_plate'],
+		         'province_id'=>$data['province_id'],
 		          );
 		  $this->db->trans_start();
-		$this->db->insert("user",$car);
+		$this->db->insert("user",$muni);
 		//$car_id = $this->db->insert_id();
 	 //$this->addVehicle_manufacturer($id_vehicle,$data['manufactures']);
 		return $this->db->trans_complete();
@@ -31,7 +31,7 @@ public function createUser($data){
 
 	public function addUser_models($user_id,$manucipalities=array()){
       $batch=array();	
-	foreach ($manucipalities as $manucipality_id) {
+	foreach ($manucipalities as $manucipality_id){
 			$batch[] = array(
 						'user_id'=>$user_id,
 						'manucipality_id'=>$manucipality_id);

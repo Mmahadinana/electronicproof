@@ -98,23 +98,97 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label class="control-label">Zip Code</label>
 					<input maxlength="10" type="text" required="required" class="form-control" placeholder="Zip Code"  />
 				</div>
-				<div class="form-group">
-					<label class="control-label">Municipality</label>
-					<input maxlength="10" type="text" required="required" class="form-control" placeholder="Municipality"  />
-				</div>
-				<div class="form-group">
-					<label class="control-label">District</label>
-					<input maxlength="10" type="text" required="required" class="form-control" placeholder="District"  />
-				</div>
-				<div class="form-group">
-					<label class="control-label">Province</label>
-					<input maxlength="10" type="text" required="required" class="form-control" placeholder="Province"  />
-				</div>
+				<?php 
 
-				<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+
+				$action= isset($user_id)?"Residents/registerUser/$user_id" : "Residents/registerUser";
+				echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?>
+				<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='user_id' type='hidden' name='user_id'>
+
+				<form>
+					<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
+					<div class="form-group">
+
+						<label for="manucipality">manucipality</label>
+						<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
+							<option  selected="true" disabled="disabled">Please select</option>
+
+							<?php 
+
+							foreach ($manucipalities as $manucipality){?>
+							<option <?php 
+							if(isset($user_id)  && $manucipalityEdit){
+
+								echo ($manucipalityEdit == $manucipality->name)? 'selected':'';
+
+
+							}else{
+								if(set_value('manucipality')){
+									echo (set_value('manucipality') == $manucipality->id)? 'selected':'';
+								}
+
+							}
+							?>
+
+							value="<?php echo $manucipality->id ?>"><?php echo $manucipality->name ?></option>
+							<?php } ?>
+						</select>
+					</div>
+
+					<div class="form-group">
+
+						<label for="district">district</label>
+						<select class="form-control" value="district" name="district" id="district">
+							<option  selected="true" disabled="disabled">Please select</option>
+
+							<?php 
+
+							foreach ($districts as $district){?>
+							<option <?php 
+							if(isset($user_id)  && $districtEdit){
+
+								echo ($districtEdit == $district->name)? 'selected':'';
+
+
+							}else{
+								if(set_value('district')){
+									echo (set_value('district') == $district->id)? 'selected':'';
+								}
+
+							}
+							?>
+
+							value="<?php echo $district->id ?>"><?php echo $district->name ?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="form-group">
+
+						<label for="province">province</label>
+						<select class="form-control" value="province" name="province" id="province">
+							<option  selected="true" disabled="disabled">Please select</option>
+
+							<?php 
+
+							foreach ($provinces as $province){?>
+							<option <?php 
+
+							if(set_value('province')){
+								echo (set_value('province') == $province->id)? 'selected':'';
+							}
+							?>
+
+							value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+				</div>
 			</div>
+
 		</div>
-	</div>
+	</form>
+
 	<div class="row setup-content" id="step-3">
 		<div class="col-xs-6 col-md-offset-3">
 			<div class="col-md-12">
