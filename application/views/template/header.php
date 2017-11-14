@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="social-sits">
                                                 
                                                 <div class="button-bottom">
-                                                    <p> <a href="<?php echo base_url('publiczone/register') ?>">New account? Signup</a></p>
+                                                    <p> <a href="<?php echo base_url('residents/registerUser') ?>">New account? Signup</a></p>
                                                 </div>
                                             </div>
                                         </div>

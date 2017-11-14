@@ -8,7 +8,7 @@ class District_model extends CI_MODEL{
 	}
 	public function getDistrict()
 {
-	$this->db->select("district.id,district.name")
+	$this->db->select("district.id,district.name,province_id")
 		         ->from("district");
 		       return $this->db->get()->result();
 }
