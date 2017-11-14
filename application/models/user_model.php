@@ -24,15 +24,16 @@ class User_model extends CI_MODEL{
 
 
 		return $this->db
-		->select("user.id as userid,user.name,
+		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
 			owners.user_id,owners.id as ownerid,
 			property.id,property.address,property.suburb,property.town_id,
-			owners_property.property_id,owners_property.owners_id,
+			owners_property.property_id,owners_property.owners_id,town.id as townid,
 			town.name as town,town.zip_code,town.manucipality_id,
 			manucipality.name as manucipality,manucipality.district_id,manucipality.id as manucipalityid,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
 		->from("user")
+		->join("gender","gender.id = user.gender_id")
 		->join("owners","owners.user_id = user.id")
 		->join("owners_property","owners_property.owners_id =owners.id ")
 		->join("property","property.id= owners_property.property_id")
@@ -56,7 +57,7 @@ class User_model extends CI_MODEL{
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
-		return $this->db->get()->result() ;
+		return $this->db->get()->result();
 	}
 
 

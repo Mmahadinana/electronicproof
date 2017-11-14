@@ -80,7 +80,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<label class="control-label">Full Name</label>
 						<input maxlength="100" type="text" required="required" name="name" class="form-control" placeholder="Full Name" />
 					</div>
-					
+					<div class="form-group">
+						<?php echo form_error('identitynumber') ? alertMsg(false,'',form_error('identitynumber')):'';?>
+						<label class="control-label">Identity Number</label>
+						<input  type="text" required="required" class="form-control" name="identitynumber" placeholder="identity Number"  />
+					</div>
 					<div class="form-group">
 						<?php echo form_error('dateOfBirth') ? alertMsg(false,'',form_error('dateOfBirth')):'';?>
 						<label class="control-label">Date of Birth</label>
@@ -122,293 +126,210 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<label class="control-label">suburb</label>
 						<input maxlength="13" type="text" required="required" name="suburb" class="form-control" placeholder="suburb"  />
 					</div>
+					<div class="form-group">
+						<?php echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+						<label class="control-label">town</label>
+						<input maxlength="13" type="text" required="required" name="town" class="form-control" placeholder="town"  />
+					</div>
+					<div class="form-group">
+						<?php echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+						<label class="control-label">zip code</label>
+						<input maxlength="13" type="text" required="required" name="zip_code" class="form-control" placeholder="zip_code"  />
+					</div>
+					
 					<form>
-						<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+						<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 						<div class="form-group">
 
-							<label for="town">town</label>
-							<select class="form-control" value="town" name="town" id="town">
-								<option  selected="true" disabled="disabled">Please select</option>
-
-								<?php 
-
-								foreach ($manucipalities as $town){?>
-								<option <?php 
-								if(isset($user_id)  && $townEdit){
-
-									echo ($townEdit == $town->name)? 'selected':'';
-
-
-								}else{
-									if(set_value('town')){
-										echo (set_value('town') == $town->id)? 'selected':'';
-									}
-
-								}
-								?>
-
-								value="<?php echo $town->id ?>"><?php echo $town->name ?></option>
-								<?php } ?>
-							</select>
-						</div>
-						<form>
-							<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
-							<div class="form-group">
-
-								<label for="zip_code">zip_code</label>
-								<select class="form-control" value="zip_code" name="zip_code" id="zip_code">
-									<option  selected="true" disabled="disabled">Please select</option>
-
-									<?php 
-
-									foreach ($manucipalities as $zip_code){?>
-									<option <?php 
-									if(isset($user_id)  && $zip_codeEdit){
-
-										echo ($zip_codeEdit == $zip_code->name)? 'selected':'';
-
-
-									}else{
-										if(set_value('zip_code')){
-											echo (set_value('zip_code') == $zip_code->id)? 'selected':'';
-										}
-
-									}
-									?>
-
-									value="<?php echo $zip_code->id ?>"><?php echo $zip_code->name ?></option>
-									<?php } ?>
-								</select>
-							</div>
-
-							
-
-							<form>
-								<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
-								<div class="form-group">
-
-									<label for="manucipality">manucipality</label>
-									<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
-										<option  selected="true" disabled="disabled">Please select</option>
-
-										<?php 
-
-										foreach ($manucipalities as $manucipality){?>
-										<option <?php 
-										if(isset($user_id)  && $manucipalityEdit){
-
-											echo ($manucipalityEdit == $manucipality->name)? 'selected':'';
-
-
-										}else{
-											if(set_value('manucipality')){
-												echo (set_value('manucipality') == $manucipality->id)? 'selected':'';
-											}
-
-										}
-										?>
-
-										value="<?php echo $manucipality->id ?>"><?php echo $manucipality->name ?></option>
-										<?php } ?>
-									</select>
-								</div>
-
-								<div class="form-group">
-
-									<label for="district">district</label>
-									<select class="form-control" value="district" name="district" id="district">
-										<option  selected="true" disabled="disabled">Please select</option>
-
-										<?php 
-
-										foreach ($districts as $district){?>
-										<option <?php 
-										if(isset($user_id)  && $districtEdit){
-
-											echo ($districtEdit == $district->name)? 'selected':'';
-
-
-										}else{
-											if(set_value('district')){
-												echo (set_value('district') == $district->id)? 'selected':'';
-											}
-
-										}
-										?>
-
-										value="<?php echo $district->id ?>"><?php echo $district->name ?></option>
-										<?php } ?>
-									</select>
-								</div>
-								<div class="form-group">
-
-									<label for="province">province</label>
-									<select class="form-control" value="province" name="province" id="province">
-										<option  selected="true" disabled="disabled">Please select</option>
-
-										<?php 
-
-										foreach ($provinces as $province){?>
-										<option <?php 
-
-										if(set_value('province')){
-											echo (set_value('province') == $province->id)? 'selected':'';
-										}
-										?>
-
-										value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
-										<?php } ?>
-									</select>
-								</div>
-								<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
-							</div>
-						</div>
-						
-					</div>
-				</form>
-				
-				<div class="row setup-content" id="step-4">
-					<div class="col-xs-6 col-md-offset-3">
-						<div class="col-md-12">
-							<h3>Confirm Information</h3>
-
-							<div class="leftdiv">
-								<div class="form-group">
-									<label class="control-label">FullName<br></label>
-									<br>
-
-								</div>
-								<div class="form-group">
-									<label class="control-label">Date</label>
-									<br>
-								</div>
-
-								
-								<div class="form-group">
-									<label class="control-label">DateOfBirth</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Email</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Phone</label>
-									<br>
-								</div>
-
-								<div class="form-group">
-									<label class="control-label">Gender</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Address</label>
-								</div>
-
-
-							</div>
-							<div class="rightdiv">
-								<div class="form-group">
-									<label class="control-label">:Thatohatsi Mohohlo</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:10/10/17</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:06/05/90</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:thatohatsi@gmail.com</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:0835729736</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:female</label>
-									<br>
-								</div>
-								<div class="form-group">
-									<label class="control-label">:450 Serapelo str<br>Phomolong<br>Henneman<br>9445<br>matjhabeng<br>Lejweleputswa<br>Free State</label>
-
-								</div>
-								<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
-							</div>
-
-						</div>
-
+							<label for="manucipality">manucipality</label>
+							<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
+								<?php	
+								foreach ($manucipality as $manucipalities)
+									{?>	
+								<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
+								<?php
+							}
+							?>
+						</select>
 					</div>
 
+					<div class="form-group">
 
+						<label for="district">district</label>
+						<select class="form-control" value="district" name="district" id="district">
+
+							<?php	
+							foreach ($district as $districts)
+								{?>	
+							<option value="<?php echo $districts->id;?>"><?php echo $districts->name;?></option>
+							<?php
+						}
+						?>
+
+					</select>
+				</div>
+				<div class="form-group">
+
+					<label for="province">province</label>
+					<select class="form-control" value="province" name="province" id="province">
+						<?php	
+						foreach ($province as $provinces)
+							{?>	
+						<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
+						<?php
+					}
+					?>
+				</select>
+			</div>
+			<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+		</div>
+	</div>
+
+</div>
+</form>
+
+<div class="row setup-content" id="step-4">
+	<div class="col-xs-6 col-md-offset-3">
+		<div class="col-md-12">
+			<h3>Confirm Information</h3>
+
+			<div class="leftdiv">
+				<div class="form-group">
+					<label class="control-label">FullName<br></label>
+					<br>
+
+				</div>
+				<div class="form-group">
+					<label class="control-label">Date</label>
+					<br>
 				</div>
 
 
-				<div class="row setup-content" id="step-5">
-					<div class="col-xs-6 col-md-offset-5">
-						<div class="col-md-12">
-							<h3> Step 5</h3>
-							
-							<button class="btn btn-success btn-m pull-right" type="submit">Submit</button>
-
-						</div>
-					</div>
+				<div class="form-group">
+					<label class="control-label">DateOfBirth</label>
+					<br>
 				</div>
-			</form>
+				<div class="form-group">
+					<label class="control-label">Email</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Phone</label>
+					<br>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Gender</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Address</label>
+				</div>
+
+
+			</div>
+			<div class="rightdiv">
+				<div class="form-group">
+					<label class="control-label">:Thatohatsi Mohohlo</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:10/10/17</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:06/05/90</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:thatohatsi@gmail.com</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:0835729736</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:female</label>
+					<br>
+				</div>
+				<div class="form-group">
+					<label class="control-label">:450 Serapelo str<br>Phomolong<br>Henneman<br>9445<br>matjhabeng<br>Lejweleputswa<br>Free State</label>
+
+				</div>
+				<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+			</div>
 
 		</div>
 
+	</div>
+
+
+</div>
+
+
+<div class="row setup-content" id="step-5">
+	<div class="col-xs-6 col-md-offset-5">
+		<div class="col-md-12">
+			<h3> Step 5</h3>
+
+			<button class="btn btn-success btn-m pull-right" type="submit">Submit</button>
+
+		</div>
+	</div>
+</div>
+</form>
+
+</div>
 
 
 
 
 
-		<script type="text/javascript">
-			$(document).ready(function () {
-				var navListItems = $('div.setup-panel div a'),
-				allWells = $('.setup-content'),
-				allNextBtn = $('.nextBtn');
 
+<script type="text/javascript">
+	$(document).ready(function () {
+		var navListItems = $('div.setup-panel div a'),
+		allWells = $('.setup-content'),
+		allNextBtn = $('.nextBtn');
+
+		allWells.hide();
+
+		navListItems.click(function (e) {
+			e.preventDefault();
+			var $target = $($(this).attr('href')),
+			$item = $(this);
+
+			if (!$item.hasClass('disabled')) {
+				navListItems.removeClass('btn-primary').addClass('btn-default');
+				$item.addClass('btn-primary');
 				allWells.hide();
+				$target.show();
+				$target.find('input:eq(0)').focus();
+			}
+		});
 
-				navListItems.click(function (e) {
-					e.preventDefault();
-					var $target = $($(this).attr('href')),
-					$item = $(this);
+		allNextBtn.click(function(){
+			var curStep = $(this).closest(".setup-content"),
+			curStepBtn = curStep.attr("id"),
+			nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+			curInputs = curStep.find("input[type='text'],input[type='url']"),
+			isValid = true;
 
-					if (!$item.hasClass('disabled')) {
-						navListItems.removeClass('btn-primary').addClass('btn-default');
-						$item.addClass('btn-primary');
-						allWells.hide();
-						$target.show();
-						$target.find('input:eq(0)').focus();
-					}
-				});
+			$(".form-group").removeClass("has-error");
+			for(var i=0; i<curInputs.length; i++){
+				if (!curInputs[i].validity.valid){
+					isValid = false;
+					$(curInputs[i]).closest(".form-group").addClass("has-error");
+				}
+			}
 
-				allNextBtn.click(function(){
-					var curStep = $(this).closest(".setup-content"),
-					curStepBtn = curStep.attr("id"),
-					nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-					curInputs = curStep.find("input[type='text'],input[type='url']"),
-					isValid = true;
+			if (isValid)
+				nextStepWizard.removeAttr('disabled').trigger('click');
+		});
 
-					$(".form-group").removeClass("has-error");
-					for(var i=0; i<curInputs.length; i++){
-						if (!curInputs[i].validity.valid){
-							isValid = false;
-							$(curInputs[i]).closest(".form-group").addClass("has-error");
-						}
-					}
-
-					if (isValid)
-						nextStepWizard.removeAttr('disabled').trigger('click');
-				});
-
-				$('div.setup-panel div a.btn-primary').trigger('click');
-			});
+		$('div.setup-panel div a.btn-primary').trigger('click');
+	});
 </script>
 <script> 
 	var errors = false;

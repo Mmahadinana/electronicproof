@@ -24,16 +24,7 @@ class Manucipality_model extends CI_MODEL{
 		return $this->db->get()->result();
 		//var_dump($this->db->get()->result());
 	}
-	public function callback_checkManucipality($manucipality_id){
-		$this->db->select("manucipality.id")
-		->from("manucipality")
-		->where("id",$manucipality_id);
-		if($this->db->get()->row()){
-			return TRUE;
-		}else {
-			return FALSE;
-		}
-	}
+	
 }
 
 ?>
