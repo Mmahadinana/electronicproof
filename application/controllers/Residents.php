@@ -228,7 +228,7 @@ var_dump($data['db'] );
 				'label'=>'manucipality',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user', 
-					array('callback_checkManucipality',array($this->manucipality_model,'10'))
+					array('callback_checkManucipality',array($this->manucipality_model,'callback_checkManucipality'))
 					)
 				)
 			);

@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 
@@ -108,12 +109,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="form-group">
         <input type="file"  class="input-lg fileToUpload" name="idUpload" id="idUpload" >  
-        <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>                  
+        <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
+        <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
     </div>
 
     <div class="form-group">
 
        <input type="file"  class="input-lg fileToUpload" name="fileToUpload" id="fileToUpload" multiple>  
+       <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
 
     </div>
     <p><?php echo form_error('fileToUpload') ? alertMsg(false,'fileToUpload',form_error('fileToUpload')) : ''; ?></p>
@@ -122,10 +125,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
     <div class="form-group">
     <div class="col-md-6">
-        <button class="btn btn-lg btn-primary passbtn" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary passbtn" name="submit" type="submit">Submit</button>
     </div>
     <div class="col-md-6">
-        <button class="btn btn-lg btn-warning passbtn" type="reset">Reset</button>
+        <button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="upload">Reset</button>
     </div>
     </div>
 
