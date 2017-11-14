@@ -24,15 +24,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/request') ?>">Request</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Residents")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Residents</a></li>
-            <li <?php echo setMenuActiveItem ($pageActive == "Profile")?>><a href="<?php echo base_url('residents/eresidence') ?>">Profile</a></li>
-            <li <?php echo setMenuActiveItem ($pageActive == "Profile")?>><a href="<?php echo base_url('residents/eresidence') ?>">Profile</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "listOfRes")?>><a href="<?php echo base_url('residents/eresidence') ?>">List of Residents</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">Owners Property</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
+
 
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav" >
-      <li <?php echo setMenuActiveItem ($pageActive == "Register")?>><a href="<?php echo base_url('publiczone/register') ?>">Register</a></li>
        <li <?php echo setMenuActiveItem ($pageActive == "login")?>> <div class="dropdown-grids">
                         <div id="loginContainer">
                             <a id="loginButton"><span>Login</span></a>

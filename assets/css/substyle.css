@@ -16,62 +16,63 @@
   padding-top: 15px;
   margin-right: 60px;
 
-}*/
-.stepwizard-row {
-  display: table-row;
-}
-.stepwizard {
-  display: table;
-  width: 50%;
-  position: relative;
-  margin-bottom: 90px;
-}
-.stepwizard-step button[disabled] {
-  opacity: 1 !important;
-  filter: alpha(opacity=100) !important;
+  }*/
+  .stepwizard-row {
+    display: table-row;
+  }
+  .stepwizard {
+    display: table;
+    width: 50%;
+    position: relative;
+    margin-bottom: 90px;
+  }
+  .stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
 
-}
-.stepwizard-row:before {
-  top: 14px;
-  bottom: 0;
-  position: absolute;
-  content: " ";
-  width: 100%;
-  height: 1px;
-  background-color: #ccc;
-  z-order: 0;
-}
-.stepwizard-step {
-  display: table-cell;
-  text-align: center;
-  position: relative;
-}
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
-
-}
-.leftdiv
-{
-  padding-right: 600px;
-
-
-}
-.rightdiv
-{
-  padding-left: 200px;
-  float: left;
-  position: absolute;
-  top: -25px;
-  text-align: left;
-
+  }
+  .stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+  }
+  .stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+  }
   
-}
+  .btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+
+  }
+  .leftdiv
+  {
+    padding-right: 600px;
+
+
+  }
+  .rightdiv
+  {
+    padding-left: 200px;
+    float: left;
+    position: absolute;
+    top: -25px;
+    text-align: left;
+
+
+  }
 /*
 #radio101
 {
@@ -192,7 +193,7 @@
   margin-left: 98%;
   float: left;
   position: absolute;*/
- /* top: -25px;*/
+  /* top: -25px;*/
   /*text-align: left;
 
   
@@ -206,12 +207,12 @@
 .btn
 {
   margin-left: 30px;
-}*/
-.contact-section
-{
+  }*/
+  .contact-section
+  {
 
-  color: black;
-  padding-right: -50px;
+    color: black;
+    padding-right: -50px;
 
 }/*
 .form-group
@@ -223,15 +224,15 @@
 .btn-default
 {
   margin-right: 100px;
-}*/
-.rightCarosel
-{
-  margin-left: 98%;
-  float: left;
-  position: absolute;
- /* top: -25px;*/
-  text-align: left;
-}
+  }*/
+  .rightCarosel
+  {
+    margin-left: 98%;
+    float: left;
+    position: absolute;
+    /* top: -25px;*/
+    text-align: left;
+  }
 
 /*#radio101
 {
@@ -322,7 +323,7 @@
   margin-left: 98%;
   float: left;
   position: absolute;*/
- /* top: -25px;*/
+  /* top: -25px;*/
   /*text-align: left;
 
   
@@ -332,30 +333,30 @@
   padding-right: 0px;
 
 
-}*/
+  }*/
 
-.contact
-{
+  .contact
+  {
 
-  color: black;
-  padding-right: -50px;
+    color: black;
+    padding-right: -50px;
 
-}
+  }
 
 
-table {
+  table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-}
+  }
 
-td, th {
+  td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-}
+  }
 
-h1
-{
-  margin-right: 160px;
-}
+  h1
+  {
+    margin-right: 30px;
+  }

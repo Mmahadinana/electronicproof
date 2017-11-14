@@ -1,6 +1,7 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-  ?> <h1 class="whtColor"> List Of Residents To Confirm </h1>
+  ?> 
+
   <div class="container form-area">
  
     <?php
@@ -8,7 +9,7 @@
   $action="residents/eresidence/";
 
   echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
-   	<h5>Administrator Full Name: Larochelle Palesa</h5>
+   <h1 class="whtColor"> List Of Residents To Confirm </h1>
    	<br>
    	<h5>Confirm Request</h5>
    	<table>
