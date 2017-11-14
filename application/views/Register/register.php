@@ -351,6 +351,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="col-xs-6 col-md-offset-5">
 						<div class="col-md-12">
 							<h3> Step 5</h3>
+							
 							<button class="btn btn-success btn-m pull-right" type="submit">Submit</button>
 
 						</div>

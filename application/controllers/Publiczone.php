@@ -10,6 +10,7 @@ class Publiczone extends CI_Controller {
 		$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
+		$this->load->model("district_model");
 		$this->load->model('user_model');
 
 
@@ -131,35 +132,139 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
-	public function register()
-	{
-		$data['pageToLoad']='Register/register';
+	function registerUser() {
+
+		$search=array();
+		$search['user_id']= $this->input->get('user_id') ?? '0';
+		//$search['user_id']= 161;
+		//$data['search'] = $search;
+	  	//$data['authors'] = $authors;
+	  	//$data['editor'] = $editor;
+
+	  	//$data['db'] = $this->user_model->getUser($search);
+        //var_dump($data['db']);
+		$data['user_id']= $this->user_model->getUser($search);
+
+		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
+		$data['pageTitle'] = 'Register User';
+		//data from db
+		$data['manucipality']=$this->manucipality_model->getManucipality();
+		//var_dump($data['manucipality']);
+		$data['district']=$this->district_model->getDistrict();
+		$data['province']=$this->province_model->getProvince();
+
 
 		
-		
-
-		//from helper and library
+//Including validation library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		
-
-		if($this->form_validation->run()===FALSE){
-			$this->load->view('ini',$data);
-
-		}else
-		{
-			$statusInsert=$this->province_model->createVehicle($this->input->post());
-			redirect("publiczone/register?statusInsert=$statusInsert");
-		}
-		//if(empty($this->input->post()))
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
 
-		//view load
-		
-		
-	}
+		$config_validation = array(
+			array(
+				'field'=>'email',
+				'label'=>'email',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
+				),
+			array(
+				'field'=>'name',
+				'label'=>'name',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
+
+			array(
+				'field' =>'dateOfBirth',
+				'label' =>'dateOfBirth',
+				'rules' =>array(
+					'required',
+					'regex_match[/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/]')
+
+
+				),
+			array(
+				'field' =>'phone',
+				'label' =>'phone',
+				'rules' =>array(
+					'required',
+					'regex_match[/^[0-9]{10}$/]')
+
+				),
+			array(
+				'field'=>'gender',
+				'label'=>'gender',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
+			array(
+				'field'=>'address',
+				'label'=>'address',
+				'rules'=>array('required','min_length[10]|max_length[50]',
+					'errors'=>array('required'=>'you should insert %s for the user'))
+				),
+			array(
+				'field'=>'suburb',
+				'label'=>'suburb',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+			array(
+				'field'=>'town',
+				'label'=>'town',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+			array(
+				'field'=>'district',
+				'label'=>'district',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user',
+					array('callback_checkDistrict',array($this->district_model,'callback_checkDistrict'))
+					)
+				),
+			array(
+				'field'=>'province',
+				'label'=>'province',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user',
+					array('callback_checkProvince',array($this->user_model,'callback_checkProvince'))
+					)
+				),
+			array(
+				'field'=>'zip_code',
+				'label'=>'zip_code',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+			array(
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user', 
+					array('callback_checkManucipality',array($this->manucipality_model,'callback_checkManucipality'))
+					)
+				)
+			);
+
+
+
+$this->form_validation->set_rules($config_validation);
+if($this->form_validation->run()===FALSE){
+	$this->load->view('ini',$data);
+
+}else
+{
+	$statusInsert=$this->register_model->createUser($this->input->post());
+	redirect("publiczone/register?statusInsert=$statusInsert");
+
+}
+}
 
 	public function addUser(){
 		$data['pageToLoad'] = 'Register/register';

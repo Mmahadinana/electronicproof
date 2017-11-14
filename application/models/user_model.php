@@ -24,8 +24,8 @@ class User_model extends CI_MODEL{
 
 
 		return $this->db
-		->select("user.id,user.name,
-			owners.user_id,
+		->select("user.id as userid,user.name,
+			owners.user_id,owners.id as ownerid,
 			property.id,property.address,property.suburb,property.town_id,
 			owners_property.property_id,owners_property.owners_id,
 			town.name as town,town.zip_code,town.manucipality_id,
