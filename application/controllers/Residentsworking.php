@@ -136,7 +136,8 @@ class Residents extends CI_Controller {
 			$this->load->view('ini',$data);
 		}else{
 
-			//$this->request_model->addIdUpload($this->input->post());
+			$this->request_model->addIdUpload($this->input->post());
+			$this->load->view('ini',$data);
 		}
 		
 	}
