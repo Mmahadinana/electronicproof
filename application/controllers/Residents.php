@@ -214,7 +214,7 @@ var_dump($data['db'] );
 				'label'=>'province',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user',
-					array('callback_checkProvince',array($this->register_model,'callback_checkProvince'))
+					array('callback_checkProvince',array($this->user_model,'callback_checkProvince'))
 					)
 				),
 			array(
@@ -228,7 +228,7 @@ var_dump($data['db'] );
 				'label'=>'manucipality',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user', 
-					array('callback_checkManucipality',array($this->manucipality_model,'callback_checkManucipality'))
+					array('callback_checkManucipality',array($this->manucipality_model,'10'))
 					)
 				)
 			);

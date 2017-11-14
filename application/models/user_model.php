@@ -16,7 +16,7 @@ class User_model extends CI_MODEL{
 		
 
 		$user_id = $searchterm['user_id'] ?? FALSE;
-var_dump($user_id);
+//var_dump($user_id);
 		if('$user_id'){
 			$this->db->where('town.manucipality_id',$user_id);
 
@@ -26,7 +26,7 @@ var_dump($user_id);
 		return $this->db
 		->select("user.id,user.name,
 			owners.user_id,
-			property.id as propertyid,property.address,property.suburb,property.town_id,
+			property.id,property.address,property.suburb,property.town_id,
 			owners_property.property_id,owners_property.owners_id,
 			town.name as town,town.zip_code,town.manucipality_id,
 			manucipality.name as manucipality,manucipality.district_id,manucipality.id as manucipalityid,
@@ -35,12 +35,12 @@ var_dump($user_id);
 		->from("user")
 		->join("owners","owners.user_id = user.id")
 		->join("owners_property","owners_property.owners_id =owners.id ")
-		->join("property","property.propertyid= owners_property.property_id")
+		->join("property","property.id= owners_property.property_id")
 		->join("town","town.id = property.town_id")
 
 		->join("manucipality","manucipality.id = town.manucipality_id")
-		->join("district","district.districtid= manucipality.district_id")
-		->join("province","province.provinceid = district.province_id")
+		->join("district","district.id= manucipality.district_id")
+		->join("province","province.id = district.province_id")
 
 		->group_by('user.id')
 		->order_by('user.id');
