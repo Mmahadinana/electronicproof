@@ -10,6 +10,8 @@ class Publiczone extends CI_Controller {
 		$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
+		$this->load->model("district_model");
+		$this->load->model('town_model');
 		$this->load->model('user_model');
 
 
@@ -131,154 +133,143 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
-	public function register()
-	{
-		$data['pageToLoad']='Register/register';
+	
+	function registerUser() {
+
+		$search=array();
+		$search['user_id']= $this->input->get('user_id') ?? '0';
+		$search['user_id']= 161;
+		//$data['search'] = $search;
+	  	//$data['authors'] = $authors;
+	  	//$data['editor'] = $editor;
+
+		$data['db'] = $this->user_model->getUser($search);
+		var_dump($data['db']);
+		$data['user_id']= $this->user_model->getUser($search);
+
+		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
-
-		
-		
-
-		//from helper and library
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
-		
-
-		if($this->form_validation->run()===FALSE){
-			$this->load->view('ini',$data);
-
-		}else
-		{
-			$statusInsert=$this->province_model->createVehicle($this->input->post());
-			redirect("publiczone/register?statusInsert=$statusInsert");
-		}
-		//if(empty($this->input->post()))
-
-
-		//view load
-		
-		
-	}
-
-	public function addUser(){
-		$data['pageToLoad'] = 'Register/register';
-		$data['pageActive']='register';
-		$data['pageTitle'] = 'Add User';
-
+		$data['pageTitle'] = 'Register User';
 		//data from db
-		$data['province']=$this->province_model->getProvince();
 		$data['manucipality']=$this->manucipality_model->getManucipality();
+		//var_dump($data['manucipality']);
 		$data['district']=$this->district_model->getDistrict();
+		$data['province']=$this->province_model->getProvince();
 
+		
+		
+//Including validation library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
 
 		$config_validation = array(
 			array(
 				'field'=>'email',
 				'label'=>'email',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
+				'errors'=>array('required'=>'you should insert %s for the user'
 					)
-				),
-			array(
-				'field'=>'password',
-				'label'=>'password',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
-				),
-			array(
-				'field'=>'confirm',
-				'label'=>'confirm',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+
 				),
 
 			array(
 				'field'=>'name',
 				'label'=>'name',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'errors'=>array('required'=>'you should insert %s for the user')
 				),
+
+
 			array(
-				'field'=>'identityNumber',
-				'label'=>'identityNumber',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
-				),
+				'field' =>'identitynumber',
+				'label' =>'identitynumber',
+				'rules' =>array(
+					'required')),
 			array(
-				'field'=>'phone',
-				'label'=>'phone',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'field' =>'dateOfBirth',
+				'label' =>'dateOfBirth',
+				'rules' =>array(
+					'required',
+					'regex_match[/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/]')
+
+
 				),
+
+			array(
+				'field' =>'phone',
+				'label' =>'phone',
+				'rules' =>array(
+					'required',
+					'regex_match[/^[0-9]{10}$/]')
+
+				),
+
 			array(
 				'field'=>'gender',
 				'label'=>'gender',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'errors'=>array('required'=>'you should insert %s for the user')
 				),
+
 			array(
 				'field'=>'address',
 				'label'=>'address',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'rules'=>array('required','min_length[10]|max_length[50]',
+					'errors'=>array('required'=>'you should insert %s for the user'))
 				),
+
 			array(
 				'field'=>'suburb',
 				'label'=>'suburb',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'errors'=>array('required'=>'you should insert one %s for the user')
 				),
+
 			array(
 				'field'=>'town',
 				'label'=>'town',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
+				'errors'=>array('required'=>'you should insert one %s for the user')
 				),
-			array(
-				'field'=>'zip_code',
-				'label'=>'zip_code',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>'
-					)
-				),
-			array(
-				'field'=>'municipality',
-				'label'=>'municipality',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>',
-					array('checkColor',array($this->manucipality_model,'callback_checkManufacturers'))
-					)
-				),
+
 			array(
 				'field'=>'district',
 				'label'=>'district',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>',
-					array('checkColor',array($this->district_model,'callback_checkDistrict'))
+				'errors'=>array('required'=>'you should insert one %s for the user'
+					
 					)
 				),
+
 			array(
 				'field'=>'province',
 				'label'=>'province',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>you should insert one %s for the user</b>',
-					array('checkColor',array($this->province_model,'callback_checkProvince'))
+				'errors'=>array('required'=>'you should insert one %s for the user'
+					
+					)
+				),
+
+			array(
+				'field'=>'zip_code',
+				'label'=>'zip_code',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+			array(
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
+					
 					)
 				)
-
 			);
+
 
 
 $this->form_validation->set_rules($config_validation);
@@ -287,12 +278,14 @@ if($this->form_validation->run()===FALSE){
 
 }else
 {
-	$statusInsert=$this->province_model->register($this->input->post());
+	$statusInsert=$this->register_model->createUser($this->input->post());
 	redirect("publiczone/register?statusInsert=$statusInsert");
+
+}
+
 }
 
 
-}
 
 }
 

@@ -13,15 +13,6 @@ class District_model extends CI_MODEL{
 		       return $this->db->get()->result();
 }
 
-		public function callback_checkDistrict($province_id){
-		$this->db->select("district.id")
-		->from("district")
-		->where("id",$province_id);
-		if($this->db->get()->row()){
-			return TRUE;
-		}else {
-			return FALSE;
-		}
-	}
+		
 }
 ?>
