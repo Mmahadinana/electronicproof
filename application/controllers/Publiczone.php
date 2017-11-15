@@ -144,7 +144,7 @@ class Publiczone extends CI_Controller {
 	  	//$data['editor'] = $editor;
 
 		$data['db'] = $this->user_model->getUser($search);
-		var_dump($data['db']);
+		//var_dump($data['db']);
 		$data['user_id']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
