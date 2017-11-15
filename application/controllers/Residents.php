@@ -160,33 +160,9 @@ class Residents extends CI_Controller {
 		
 	}
 
-	/******UPLOADING A FILE TO THE FLDER***********************/
-	/*public function do_upload1(){
-	//var_dump($_FILES);
-
-		$type= explode('.',$_FILES['fileToUpload']['name']);
-		$type= $type[count($type)-1];
-		if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])){
-			move_uploaded_file($_FILES['fileToUpload']['tmp_name'], './uploads/'.uniqid(rand()).'.'.$type);
-
-		}
-		
-
-	}
-/*public function do_upload1(){
-	$config=array();
-		if($_FILES['fileToUpload']['size'] != 0){
-         		//var_dump($_FILES);
-			$upload_dir = 'C:\xampp';		
-			if (!is_dir($upload_dir)) {
-				mkdir($upload_dir);
-			}	
-
-	}*/
-
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-	public function file_upload() { 
+	/*public function file_upload() { 
 		//$this->load->library('upload');
 		$config=array();
 		$filedir='';
@@ -211,7 +187,7 @@ class Residents extends CI_Controller {
 			return false;
 			
 		}
-	} 
+	} */
 
 	// 
 	
