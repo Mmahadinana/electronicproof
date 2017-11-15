@@ -15,6 +15,8 @@ class Residents extends CI_Controller {
 		$this->load->model("province_model");
 		$this->load->model("user_model");
 		$this->load->model("login_model");
+		$this->load->model("owners_property_model");
+
 
 
 
@@ -51,10 +53,13 @@ class Residents extends CI_Controller {
 		$search=array();
 
 		$search['user_id']= $this->input->get('user_id') ?? '0';
+		//$search[23]= $this->input->get('user_id') ?? '0';
 		
 
 		$data['user_id']= $this->request_model->getAddress($search);
-		
+		//$data['db']= $this->owners_property_model->getOwner($search);
+		//$data['bd']=$this->request_model->getAddress();
+		//var_dump($data['db']);
 		$data['pageToLoad']='eresidence/request';
 		$data['pageActive']='request';
 		
@@ -72,7 +77,7 @@ class Residents extends CI_Controller {
 				'rules'=>array('required',
 					'exact_length[10]',						
 					'regex_match[/^[0-9]+$/]',
-					/*array('checkPhone',array($this->login_model,'callback_checkPhone'))*/),
+					array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
 
 				'errors'=>array('required'=>'you should insert a %s ',
@@ -88,7 +93,7 @@ class Residents extends CI_Controller {
 					'required',
 					'exact_length[13]',
 					'numeric',
-					/*array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))	*/			
+					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
 				),
 				'errors'=>array(
 					'required'=>' %s is required',
@@ -101,7 +106,7 @@ class Residents extends CI_Controller {
 			array('field'=>'email',
 				'label'=>'E-mail',
 				'rules'=>array('required','valid_email',
-					/*array('checkEmail',array($this->login_model,'callback_checkEmail'))*/),
+					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
@@ -150,10 +155,11 @@ class Residents extends CI_Controller {
 			$this->load->view('ini',$data);
 		}else{
 
-			//$this->request_model->addIdUpload($this->input->post());
+		
 			//$this->do_upload1();
 			$this->testFile();
-			$this->load->view('ini',$data);
+			//$this->load->view('ini',$data);
+			redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
 			
 		
@@ -215,12 +221,13 @@ $this->upload->initialize($config);
 				$this->request_model->addIdUpload($this->upload_data['file']);
 
 		}
-		else{
+		
+	}
+	else{
 			$this->form_validation->set_message('file_upload', "No file selected");
 			return false;
 			
 		}
-	}
 
 	if ($_FILES['fileToUpload']['size'] != 0 ) {
 		$config['upload_path']   ='./file_upload/';
@@ -244,7 +251,23 @@ $this->upload->initialize($config);
 	return true;
 }
 
+public function requestPreview($user_id=0)
+	{
+		$search=array();
 
+		$search['user_id']=$user_id;
+		
+
+		$data['user_id']= $this->request_model->getAddress($search);
+		$data['pageToLoad']='eresidence/requestPreview';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+	}
 
 public function listOfResidents()
 {

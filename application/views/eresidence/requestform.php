@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <input type="hidden" id="user_id" name="user_id" value="100">
   <div class="row tablereq">
         <div class="col-md-10">
-          <table class="table text-left ">
+          <table class="table text-left romtbl_borders">
             
             <tbody>
               <tr>
