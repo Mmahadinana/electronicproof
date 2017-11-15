@@ -115,7 +115,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="form-group">
 
-       <input type="file"  class="input-lg fileToUpload" name="fileToUpload" id="fileToUpload" multiple>  
+       <input type="file"  class="input-lg fileToUpload" name="fileToUpload" id="fileToUpload" multiple>
+       <span><?php// echo $_FILES['fileToUpload']['name'] ?></span>  
        <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
 
     </div>
@@ -125,10 +126,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
     <div class="form-group">
     <div class="col-md-6">
-        <button class="btn btn-lg btn-primary passbtn" name="submit" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary " name="submit" id="submit" type="submit">Submit</button>
     </div>
     <div class="col-md-6">
-        <button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="upload">Reset</button>
+        <button class="btn btn-lg btn-warning " name="reset" type="reset" value="upload">Reset</button>
     </div>
     </div>
 
@@ -138,3 +139,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- /div></card-container -->
 <!-- /container --><!-- /.container -->
 
+<script>
+  
+  /*$("#fileToUpload").change(function (){
+
+ var val = $('#fileToUpload').val();
+ $.post('data.php', {value: val}, function (data) {
+   $('#result').html(data);
+ }
+}*/
+</script>

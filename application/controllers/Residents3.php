@@ -71,7 +71,7 @@ class Residents extends CI_Controller {
 				'rules'=>array('required',
 					'exact_length[10]',						
 					'regex_match[/^[0-9]+$/]',
-					/*array('checkPhone',array($this->login_model,'callback_checkPhone'))*/),
+					array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
 
 				'errors'=>array('required'=>'you should insert a %s ',
@@ -87,7 +87,7 @@ class Residents extends CI_Controller {
 					'required',
 					'exact_length[13]',
 					'numeric',
-					/*array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))	*/			
+					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
 				),
 				'errors'=>array(
 					'required'=>' %s is required',
@@ -100,7 +100,7 @@ class Residents extends CI_Controller {
 			array('field'=>'email',
 				'label'=>'E-mail',
 				'rules'=>array('required','valid_email',
-					/*array('checkEmail',array($this->login_model,'callback_checkEmail'))*/),
+					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
@@ -108,7 +108,7 @@ class Residents extends CI_Controller {
 
 				) 					
 			),
-			/*array('field'=>'idUpload',
+			array('field'=>'idUpload',
 				'label'=>'idUpload',
 				'rules'=>array(//'required',					
 					'callback_file_upload'),
@@ -122,7 +122,7 @@ class Residents extends CI_Controller {
 
 			)
 		),
-			array('field'=>'fileToUpload',
+		/*	array('field'=>'fileToUpload',
 				'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
 					'callback_do_upload1'),
@@ -151,11 +151,10 @@ class Residents extends CI_Controller {
 
 			//$this->request_model->addIdUpload($this->input->post());
 			//$this->do_upload1();
-			$this->testFile();
+			//$this->file_upload();
+			$this->request_model->addIdUpload($this->upload_data['file']);
 			$this->load->view('ini',$data);
 		}
-			
-		
 		
 	}
 
@@ -172,7 +171,7 @@ class Residents extends CI_Controller {
 		
 	}*/
 /*public function do_upload1(){
-	$config=array();
+	$config1=array();
 		if($_FILES['fileToUpload']['size'] != 0){
          		//var_dump($_FILES);
 			$upload_dir = 'C:\xampp';		
@@ -180,14 +179,14 @@ class Residents extends CI_Controller {
 				mkdir($upload_dir);
 			}	
 
-			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-			$config['upload_path']   ='./file_upload/';
-			$config['encrypt_name']   =true;
-			$config['file_name']     = 'fileUpload_'.substr(md5(rand()),0,7);
-			$config['overwrite']     = false;
-			$config['max_size']	 = '5120';
+			$config1['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config1['upload_path']   ='./file_upload/';
+			$config1['encrypt_name']   =true;
+			$config1['file_name']     = 'fileUpload_'.substr(md5(rand()),0,7);
+			$config1['overwrite']     = false;
+			$config1['max_size']	 = '5120';
 //var_dump($_FILES);
-			$this->load->library('upload', $config);
+			$this->load->library('upload', $config1);
 			if (!$this->upload->do_upload('fileToUpload')){
 				$this->form_validation->set_message('do_upload1', $this->upload->display_errors());
 				return false;
@@ -197,7 +196,7 @@ class Residents extends CI_Controller {
 				return true;
 			}	
 		}	
-		else{
+		else{//check file exist if condition
 			$this->form_validation->set_message('do_upload1', "No file selected");
 			return false;
 		}
@@ -206,83 +205,38 @@ class Residents extends CI_Controller {
 	public function file_upload() { 
 		//$this->load->library('upload');
 		$config=array();
-		$filedir='';
-		$minetype='';
-		//$upfile='idUpload_'.substr(md5(rand()),0,7);
 		if($_FILES['idUpload']['size'] != 0){
+         		//var_dump($_FILES);
+			$upload_dir = 'C:\xampp';		
+			if (!is_dir($upload_dir)) {
+				mkdir($upload_dir);
+			}	
 
-		
-			$filedir='./id_upload/';
-			$minetype='identity';			
-			$this->testFile($filedir);
-			//$config['name']	 = $name;
-		}
-		if ($_FILES['fileToUpload']['size'] != 0 ) {
+			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config['upload_path']   ='./id_upload/';
+			$config['encrypt_name']   =true;
+			$config['file_name']     = 'idUpload_'.substr(md5(rand()),0,7);
+			$config['overwrite']     = false;
+			$config['max_size']	 = '5120';
+
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('idUpload')){
+				$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+				return false;
+			}	
+			else{
+				$this->upload_data['file'] = $this->upload->data();
+				//$this->request_model->addIdUpload($this->upload_data['file']);
 				
-			$filedir='./file_upload/';	
-			$minetype='property';		
-			$this->testFile($filedir);
+				return true;
+			}	
 		}	
 		else{
 			$this->form_validation->set_message('file_upload', "No file selected");
 			return false;
-			
-		}
-	} 
-
-	// 
-	
-
-	public function testFile(){
-///var_dump($filedir);
-		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-		$config['upload_path']   ='./id_upload/';
-		$config['encrypt_name']   =true;
-			//$config['file_name']     = 'idUpload_'.substr(md5(rand()),0,7);
-		$config['overwrite']     = false;
-		$config['max_size']	 = '5120';
-		//$config['minetype']	 = $minetype;
-//var_dump($_FILES);
-if($_FILES['idUpload']['size'] != 0){
-		$this->load->library('upload', $config);
-$this->upload->initialize($config);
-		$statusIdUpload =$this->upload->do_upload('idUpload');
-		if (!$statusIdUpload){
-			$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-			return false;
-		}elseif($statusIdUpload){
-			$this->upload_data['file'] = $this->upload->data();
-				$this->request_model->addIdUpload($this->upload_data['file']);
-
-		}
-		else{
-			$this->form_validation->set_message('file_upload', "No file selected");
-			return false;
-			
 		}
 	}
-
-	if ($_FILES['fileToUpload']['size'] != 0 ) {
-		$config['upload_path']   ='./file_upload/';
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		$statusFileToUpload =$this->upload->do_upload('fileToUpload');
-		if (!$statusFileToUpload) {
-			$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-			return false;
-		}elseif($statusFileToUpload){
-
-		$this->upload_data['file'] = $this->upload->data();
-		//var_dump($this->upload_data['file']);
-			$this->request_model->addIdUpload($this->upload_data['file']);
-
- //var_dump($this->upload_data['file']);
-
-				//$this->request_model->addIdUpload($this->upload_data['file']);
-	}	
-}
-	return true;
-}
+	
 
 function registerUser() {
 

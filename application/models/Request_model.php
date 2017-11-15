@@ -59,13 +59,14 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 	return $this->db->get()->result() ;
 }
 public function addIdUpload($data){
-	//var_dump($data);
+	//var_dump($minetype);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
 		     		'file_path'=>$data['full_path'],
 		     		'original_name'=>$data['client_name'],
 		     		'url'=>$data['file_path'],
 		     		'newname'=>$data['raw_name'],
+		     		//'minetype'=>$minetype
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
