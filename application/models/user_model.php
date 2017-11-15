@@ -28,8 +28,8 @@ class User_model extends CI_MODEL{
 			owners.user_id,owners.id as ownerid,
 			property.id,property.address,property.suburb,property.town_id,
 			owners_property.property_id,owners_property.owners_id,town.id as townid,
-			town.name as town,town.zip_code,town.manucipality_id,
-			manucipality.name as manucipality,manucipality.district_id,manucipality.id as manucipalityid,
+			town.name as town,town.zip_code,town.manucipality_id,,manucipality.id as manucipalityid,
+			manucipality.name as manucipality,manucipality.district_id,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
 		->from("user")

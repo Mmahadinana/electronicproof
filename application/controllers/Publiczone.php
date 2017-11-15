@@ -156,7 +156,7 @@ class Publiczone extends CI_Controller {
 		$data['district']=$this->district_model->getDistrict();
 		$data['province']=$this->province_model->getProvince();
 
-
+		
 		
 //Including validation library
 		$this->load->helper('form');
@@ -170,7 +170,8 @@ class Publiczone extends CI_Controller {
 				'field'=>'email',
 				'label'=>'email',
 				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')
+				'errors'=>array('required'=>'you should insert %s for the user'
+					)
 
 				),
 
@@ -181,6 +182,12 @@ class Publiczone extends CI_Controller {
 				'errors'=>array('required'=>'you should insert %s for the user')
 				),
 
+
+			array(
+				'field' =>'identitynumber',
+				'label' =>'identitynumber',
+				'rules' =>array(
+					'required')),
 			array(
 				'field' =>'dateOfBirth',
 				'label' =>'dateOfBirth',

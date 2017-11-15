@@ -78,22 +78,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
 						<label class="control-label">Full Name</label>
-						<input maxlength="100" type="text" required="required" name="name" class="form-control" placeholder="Full Name" />
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
+							<input type="text" class="form-control" name="name" id="name" placeholder="full name" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('identitynumber') ? alertMsg(false,'',form_error('identitynumber')):'';?>
 						<label class="control-label">Identity Number</label>
-						<input  type="text" required="required" class="form-control" name="identitynumber" placeholder="identity Number"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="text" class="form-control" name="identitynumber" id="identitynumber" placeholder="identity number" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('dateOfBirth') ? alertMsg(false,'',form_error('dateOfBirth')):'';?>
 						<label class="control-label">Date of Birth</label>
-						<input  type="text" required="required" class="form-control" name="dateOfBirth" placeholder="Date of Birth"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="text" class="form-control" name="dateofbirth" id="dateofbirth" placeholder="date of birth" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
 						<label class="control-label">Phone number</label>
-						<input maxlength="10" type="text" required="required" name="phone" class="form-control" placeholder="Phone number"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+							<input type="text" class="form-control" name="phone" id="phone" placeholder="phone numbers" required>
+						</div>
 					</div>
 					<label  id ="gender" class="control-label">Gender</label>
 
@@ -119,22 +127,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<?php echo form_error('streetAddress') ? alertMsg(false,'',form_error('streetAddress')):'';?>
 						<label class="control-label">Street Address</label>
-						<input maxlength="100" type="text"  required="required" name="streetAddress" class="form-control" placeholder="Street Address" />
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+							<input type="text" class="form-control" name="address" id="address" placeholder="address" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 						<label class="control-label">suburb</label>
-						<input maxlength="13" type="text" required="required" name="suburb" class="form-control" placeholder="suburb"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+							<input type="text" class="form-control" name="suburb" id="suburb" placeholder="suburb" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
 						<label class="control-label">town</label>
-						<input maxlength="13" type="text" required="required" name="town" class="form-control" placeholder="town"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-building"></span></span>
+							<input type="text" class="form-control" name="town" id="town" placeholder="town" required>
+						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 						<label class="control-label">zip code</label>
-						<input maxlength="13" type="text" required="required" name="zip_code" class="form-control" placeholder="zip_code"  />
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+							<input type="text" class="form-control" name="zip_code" id="zip_code" placeholder="zip_code" required>
+						</div>
 					</div>
 					
 					<form>
