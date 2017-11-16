@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="form-group">
 
-       <input type="file"  class="input-lg fileToUpload" name="fileToUpload" id="fileToUpload" multiple>
+       <input type="file"  class="input-lg fileToUpload" name="fileToUpload[]" id="fileToUpload" multiple>
        <span><?php// echo $_FILES['fileToUpload']['name'] ?></span>  
        <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
 

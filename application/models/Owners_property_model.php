@@ -11,10 +11,10 @@ class Owners_property_model extends CI_MODEL{
 	}
 public function requestquery($search ){
 
-$user_id = $search['user_id'] ?? FALSE;
+$pOwner = $search['$pOwner'] ?? FALSE;
 
-if('$user_id'){
-		$this->db->where('owners_property.property_id','23');
+if('$pOwner'){
+		$this->db->where('owners_property.property_id',$pOwner );
 	}
 return $this->db
 ->select("user.id,user.name,user.identitynumber,role.role as role,
@@ -50,6 +50,6 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE){
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
-	var_dump($this->db->get()->result())  ;
+	return $this->db->get()->result() ;
 }
 }

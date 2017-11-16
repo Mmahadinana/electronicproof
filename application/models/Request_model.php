@@ -20,8 +20,8 @@ if('$user_id'){
 		$this->db->where('user.id','100');
 	}
 return $this->db
-->select("user.id,user.name,user.identitynumber,role.role as role,
-		owners.user_id,property.id as property,property.address,property.suburb,
+->select("user.id,user.name,user.identitynumber,role.role,role.id as roleid,
+		owners.id as owner,owners.user_id,owners.house_type,property.id as property,property.address,property.suburb,
 		town.name as town,town.zip_code,
 		manucipality.name as manucipality,
 		district.name as district,
@@ -58,15 +58,15 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function addIdUpload($data){
-	//var_dump($minetype);
+public function addIdUpload($data,$minetype){
+	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
 		     		'file_path'=>$data['full_path'],
 		     		'original_name'=>$data['client_name'],
 		     		'url'=>$data['file_path'],
 		     		'newname'=>$data['raw_name'],
-		     		//'minetype'=>$minetype
+		     		'minetype'=>$minetype,
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
@@ -75,7 +75,21 @@ $requests = array(
  
  
 }
+/*public function getOwner($search ){
+//public function getAddress(){
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->requestquery()
+		$this->db->where('user.id','100');
 
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+	->limit($limit,$offset);
+			//get data from bd
+	return $this->db->get()->result() ;
+}
+*/
 
 
 

@@ -114,7 +114,7 @@ class Residents extends CI_Controller {
 
 				) 					
 			),
-		/*	array('field'=>'idUpload',
+			/*array('field'=>'idUpload',
 				'label'=>'idUpload',
 				'rules'=>array(//'required',					
 					'callback_file_upload'),
@@ -166,44 +166,35 @@ class Residents extends CI_Controller {
 
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-	/*public function file_upload() { 
+	public function upload_opt() { 
 		//$this->load->library('upload');
-		$config=array();
-		$filedir='';
-		$minetype='';
-		//$upfile='idUpload_'.substr(md5(rand()),0,7);
-		if($_FILES['idUpload']['size'] != 0){
 
+		// upload file uptions	
+		$config=array();
+		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+		$config['upload_path']   ='./id_upload/';
+		$config['encrypt_name']   =true;			
+		$config['overwrite']     = false;
+		$config['max_size']	 = '5120';
 		
-			//$filedir='./id_upload/';
-			//$minetype='identity';			
-			$this->testFile();
-			//$config['name']	 = $name;
-		}
-		if ($_FILES['fileToUpload']['size'] != 0 ) {
-				
-			//$filedir='./file_upload/';	
-			//$minetype='property';		
-			$this->testFile();
-		}	
-		else{
-			$this->form_validation->set_message('file_upload', "No file selected");
-			return false;
+		return $config;
 			
 		}
-	} */
+	
 
 	// 
 	
 
 
 	public function file_upload(){
-// upload file uptions
+
+	$config=array();
 		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 		$config['upload_path']   ='./id_upload/';
 		$config['encrypt_name']   =true;			
 		$config['overwrite']     = false;
-		$config['max_size']	 = '5120';
+		$config['max_size']	 = '5120';		
+		
 		$minetype='ID' ;
 //upload file for ID
 		if($_FILES['idUpload']['size'] != 0){
@@ -238,13 +229,13 @@ class Residents extends CI_Controller {
 				$_FILES['fileToUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
 				$_FILES['fileToUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
 				$_FILES['fileToUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
-				$_FILES['fileToUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
+				//$_FILES['fileToUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
 				$_FILES['fileToUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
 
 				$this->load->library('upload', $config);
 				$this->upload->initialize($config);
 				$statusFileToUpload =$this->upload->do_upload('fileToUpload');
-				
+
 				if (!$statusFileToUpload && $_FILES['fileToUpload']['name'] != '') {
 					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
 					return false;
