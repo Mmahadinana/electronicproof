@@ -58,7 +58,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function addIdUpload($data,$minetype){
+public function addIdUpload($data){
 	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
@@ -66,7 +66,7 @@ $requests = array(
 		     		'original_name'=>$data['client_name'],
 		     		'url'=>$data['file_path'],
 		     		'newname'=>$data['raw_name'],
-		     		'minetype'=>$minetype,
+		     		//'minetype'=>$minetype,
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
