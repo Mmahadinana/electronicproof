@@ -114,10 +114,10 @@ class Residents extends CI_Controller {
 
 				) 					
 			),
-		/*	array('field'=>'idUpload',
+	array('field'=>'idUpload',
 				'label'=>'idUpload',
 				'rules'=>array(//'required',					
-					'callback_file_upload'),
+					'callback_id_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
 				
 
@@ -128,10 +128,10 @@ class Residents extends CI_Controller {
 
 				)
 			),
-			array('field'=>'fileToUpload',
+				array('field'=>'fileToUpload',
 				'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
-					'callback_do_upload1'),
+					'callback_file_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
 				
 			
@@ -141,7 +141,7 @@ class Residents extends CI_Controller {
 
 
 			)
-		),*/
+		),
 
 	);		
 
@@ -155,7 +155,9 @@ class Residents extends CI_Controller {
 
 
 			
-			$this->file_upload();
+			//send data to the database
+					$this->request_model->addIdUpload($this->upload_data['file']);
+					$this->request_model->addIdUpload($this->upload_data['file1']);
 			//$this->load->view('ini',$data);
 			redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
@@ -166,38 +168,46 @@ class Residents extends CI_Controller {
 
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-	/*public function file_upload() { 
-		//$this->load->library('upload');
-		$config=array();
-		$filedir='';
-		$minetype='';
-		//$upfile='idUpload_'.substr(md5(rand()),0,7);
-		if($_FILES['idUpload']['size'] != 0){
+public function file_upload() { 
+	$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+		$config['upload_path']   ='./file_upload/';
+		$config['encrypt_name']   =true;			
+		$config['overwrite']     = false;
+		$config['max_size']	 = '599120';
+		if ($_FILES['fileToUpload']['name'] != '') {
 
-		
-			//$filedir='./id_upload/';
-			//$minetype='identity';			
-			$this->testFile();
-			//$config['name']	 = $name;
-		}
-		if ($_FILES['fileToUpload']['size'] != 0 ) {
-				
-			//$filedir='./file_upload/';	
-			//$minetype='property';		
-			$this->testFile();
-		}	
-		else{
-			$this->form_validation->set_message('file_upload', "No file selected");
-			return false;
 			
-		}
-	} */
-
-	// 
+			$minetype='PD';
+//upload file
 	
+			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
+			for($i=0; $i<$number_of_files_uploaded; $i++){
+				$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
+				$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
+				$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
+				$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
+				$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
+				
+				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
+					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+					return false;
+				}elseif($statusFileToUpload){
+
+					$this->upload_data['file1'] = $this->upload->data();
+				//$this->request_model->addIdUpload($this->upload_data['file']);
+				}	
+			}
+		}
+	}
 
 
-	public function file_upload(){
+	// *****************************************************************upload for the identity document************************************/
+
+	public function id_upload(){
 // upload file uptions
 		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 		$config['upload_path']   ='./id_upload/';
@@ -212,57 +222,24 @@ class Residents extends CI_Controller {
 			$statusIdUpload =$this->upload->do_upload('idUpload');
 
 			if (!$statusIdUpload){
-				$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+				$this->form_validation->set_message('id_upload', $this->upload->display_errors());
 				return false;
 			}elseif($statusIdUpload){
 				$this->upload_data['file'] = $this->upload->data();
 			//send data to the database	
-				$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
+				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
 
 			}
 
 		}//error if there in no file to upload
 		else{
-			$this->form_validation->set_message('file_upload', "Identity document must be uploaded ");
+			$this->form_validation->set_message('id_upload', "Identity document must be uploaded ");
 			return false;
 			
-		}
-//upload file for Property/ fileToUpload
-		if ($_FILES['fileToUpload']['name'] != '') {
-
-			$config['upload_path']   ='./file_upload/';
-			$minetype='PD' ;
-//uload file
-			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
-			for($i=0; $i<$number_of_files_uploaded; $i++){
-				$_FILES['fileToUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
-				$_FILES['fileToUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
-				$_FILES['fileToUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
-				$_FILES['fileToUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
-				$_FILES['fileToUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
-
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
-				$statusFileToUpload =$this->upload->do_upload('fileToUpload');
-				
-				if (!$statusFileToUpload && $_FILES['fileToUpload']['name'] != '') {
-					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-					return false;
-				}elseif($statusFileToUpload){
-
-					$this->upload_data['file'] = $this->upload->data();
-		//send data to the database
-					$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
-
- //var_dump($this->upload_data['file']);
-
-				//$this->request_model->addIdUpload($this->upload_data['file']);
-				}	
-			}
-		}
+		}		
 		return true;
 	}
-
+// **********************************************the success page of the request*******************************************************************************************//
 	public function requestPreview($user_id=0)
 	{
 		$search=array();
@@ -280,6 +257,7 @@ class Residents extends CI_Controller {
 		$this->load->view('ini',$data);
 
 	}
+//end of request preview
 
 	public function listOfResidents()
 	{
