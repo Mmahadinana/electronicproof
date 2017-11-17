@@ -71,9 +71,9 @@ class User_model extends CI_MODEL{
 			//'address'=>$data['address'],
 			'identitynumber'=>$data['identitynumber'],
 			'phone'=>$data['phone'],
-			'dateOfBirth'=>'2017-11-11',//$data['dateofbirth'],
+			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
-			'date_registration'=>'2017-11-11',//$data['date_registration'],
+			'date_registration'=>$data['date_registration'],//'2017-11-11',
 
 		     		//'minetype'=>$minetype
 			);
@@ -85,8 +85,56 @@ class User_model extends CI_MODEL{
 		
 		
 	}
+	public function callback_checkEmail($email){
+		$user_id = $this->input->post('user_id');
+		$this->db->select("user.email")
+		->from("user")
+		->where("id",$user_id);
+		$testemail=$this->db->get()->row();
+		if ($testemail->email != $email) {
+			return false;
+		}else{
+			return true;
+
+		} 
+
+	}/*public function callback_checkPhone($phone){
+		
+		$user_id = $this->input->post('phone');
+        //var_dump($phone);
+		$this->db->select("user.phone")
+		->from("user")
+		->where("id",$user_id);
+		//var_dump($this->db->get()->row());
+		$testphone=$this->db->get()->row();
+		var_dump($testphone);
+		if ($testphone->phone != $phone) {
+			return false;
+		}else{
+			return true;
+
+		} 
+
+	}*/public function callback_checkIdnumber($identitynumber){
+	//var_dump($this->input->post('user_id'));
+		$user_id = $this->input->post('user_id');
+		$this->db->select("user.identitynumber,user.phone")
+		->from("user")
+		->where("user.id",$user_id);
+		     	     //var_dump($this->db->get()->row() );
+		$identity=$this->db->get()->row();
+		//var_dump($identity);
+		//foreach ($identity as $value) {
+			if ($identity->identitynumber != $identitynumber) {
+				//var_dump($value->identitynumber );
+				return false;
+			}
+			else{
+				return true;
+		}
 
 
+}
 }
 
 ?>

@@ -224,13 +224,23 @@ class Publiczone extends CI_Controller {
 					'errors'=>array('required'=>'you should insert %s for the user')
 				),*/
 				
-			array(
+			/*array(
 				'field'=>'phone',
 				'label'=>'Phone number',
-				'rules'=>
+				'rules'=>array(
 					'required',
-					'errors'=>array('required'=>'you should insert %s for the user')						
-),
+					'exact_length[10]',						
+
+					'regex_match[/^[0-9]+$/]',
+					),
+
+
+
+				'errors'=>array('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
+				),
 			array(
 				'field'=>'dateOfRegistraion',
 				'label'=>'Date of Registration',
@@ -241,12 +251,7 @@ class Publiczone extends CI_Controller {
 
 			
 			
-			array(
-				'field'=>'gender',
-				'label'=>'Gender',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')
-				),
+			
 
 			/*array(
 				'field'=>'address',
@@ -254,7 +259,12 @@ class Publiczone extends CI_Controller {
 				'rules'=>'required',
 					'errors'=>array('required'=>'you should insert %s for the user')
 				),*/
-
+array(
+				'field'=>'gender',
+				'label'=>'Gender',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
 			array(
 				'field'=>'suburb',
 				'label'=>'suburb',

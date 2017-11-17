@@ -19,10 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <table class="table text-left ">
           
           <tbody>
-            <tr>
-              <td>Date</td>
-              <td>2017/11/02</td>
-            </tr>
+           
             <tr>
               <td>Resident Full Names</td>
               <td>

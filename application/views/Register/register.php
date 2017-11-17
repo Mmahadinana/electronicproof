@@ -34,10 +34,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
-
-
-	
-	
 	<form role="form" action="" method="post">
 		<div class="row setup-content" id="step-1">
 			<div class="col-xs-6 col-md-offset-3">
@@ -46,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>email</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Requested email" required>
+							<input type="email" class="form-control" name="email" id="email" placeholder="Requested email" required>
 						</div>
 						<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
 
@@ -54,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="text" class="form-control" name="password"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+							<input type="text" class="form-control" name="password"    id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 						</div>
 						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
@@ -62,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Confirm Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-							<input type="text" class="form-control" name="confirm"   id="confirm" placeholder="Confirm Password" required>
+							<input type="text" class="form-control" name="confirm"    id="confirm" placeholder="Confirm Password" required>
 						</div>
 						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 					</div>
@@ -77,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label">Full Name</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-							<input type="text" class="form-control" name="name"  id="name" placeholder="full name" required>
+							<input type="text" class="form-control" name="name"   id="name" placeholder="full name" required>
 						</div>
 						<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
 
@@ -101,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label">Date of Registration</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="date" class="form-control" name="date_registration"  id="date_registration" placeholder="date of birth" required>
+							<input type="date" class="form-control" name="date_registration"  id="date_registration"  placeholder="date of birth" required>
 						</div>
 						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 
@@ -127,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
 					</div>
-					<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
 				</div>
 			</div>
 		</div>
@@ -138,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label">Street Address</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-							<input type="text" class="form-control" name="address"   id="address" placeholder="address" required>
+							<input type="text" class="form-control" name="address"    id="address" placeholder="address" required>
 						</div>
 						<p><?php echo form_error('address') ? alertMsg(false,'address',form_error('address')) : ''; ?></p>
 
@@ -154,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label">town</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-building"></span></span>
-							<input type="text" class="form-control" name="town" id="town"   placeholder="town" required>
+							<input type="text" class="form-control" name="town" id="town"    placeholder="town" required>
 						</div>
 						<p><?php echo form_error('town') ? alertMsg(false,'town',form_error('town')) : ''; ?></p>
 
@@ -359,4 +355,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 
 </script>
+
 
