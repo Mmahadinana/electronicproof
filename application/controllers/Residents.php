@@ -156,7 +156,9 @@ class Residents extends CI_Controller {
 
 			
 			//send data to the database
-					$this->request_model->addIdUpload($this->upload_data['file']);
+					$this->request_model->insertFileData($this->upload_data['file']);
+					//var_dump($this->upload_data1['file']);
+					$this->request_model->insertMultipleFileData($this->upload_data1);
 			//$this->load->view('ini',$data);
 			redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
@@ -168,6 +170,8 @@ class Residents extends CI_Controller {
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
 public function file_upload() { 
+	$statusFileToUpload ='';
+	$pdarray=array();
 	$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 		$config['upload_path']   ='./file_upload/';
 		$config['encrypt_name']   =true;			
@@ -191,15 +195,19 @@ public function file_upload() {
 				$this->upload->initialize($config);
 				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 				
+				
 				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
 					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
 					return false;
 				}elseif($statusFileToUpload){
 
-					$this->upload_data['file'] = $this->upload->data();
+					$this->upload_data1[]['file'] = $this->upload->data();
+
+					
 				//$this->request_model->addIdUpload($this->upload_data['file']);
-				}	
+					}
 			}
+			//var_dump($this->upload_data1 );
 		}
 	}
 

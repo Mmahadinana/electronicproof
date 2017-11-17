@@ -82,7 +82,7 @@ position: relative;*/
     border: 0;
     box-shadow: none;
 }
-.navbar-nav .open .dropdown-menu > li > a,
+/*.navbar-nav .open .dropdown-menu > li > a,
 .navbar-nav .open .dropdown-menu .dropdown-header {
     padding: 5px 15px 5px 25px;
 }
@@ -93,7 +93,7 @@ position: relative;*/
 .navbar-nav .open .dropdown-menu > li > a:focus {
     background-image: none;
 
-}
+}*/
     .btnprght{
          margin-left: 1em;
     }

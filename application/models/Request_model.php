@@ -58,7 +58,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function addIdUpload($data){
+public function insertFileData($data){
 	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
@@ -75,6 +75,25 @@ $requests = array(
  
  
 }
+public function insertMultipleFileData($data){
+
+foreach ($data as $value) {
+	foreach ($value as $file) {
+		
+	}
+	//$status = $this->addIdUpload($file);
+	$this->insertFileData($file);
+
+	/*if(!$status){
+
+		 return $status;
+	}*/
+}
+//return $status;
+
+ 
+}
+
 /*public function getOwner($search ){
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
