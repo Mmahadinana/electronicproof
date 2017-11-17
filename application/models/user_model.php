@@ -5,7 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User_model extends CI_MODEL{
 
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 
 		$this->load->database();
@@ -17,7 +18,8 @@ class User_model extends CI_MODEL{
 
 		$user_id = $searchterm['user_id'] ?? FALSE;
 //var_dump($user_id);
-		if('$user_id'){
+		if('$user_id')
+		{
 			$this->db->where('town.manucipality_id',$user_id);
 
 		}
@@ -49,7 +51,7 @@ class User_model extends CI_MODEL{
 
 	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE){
 //public function getAddress(){
-	//where to start bringing the rows for the pagination 
+	//where to start bringing the rows for the pagination
 		$offset = $searchterm['page'] ?? 0;
 //call the query to bring the residence
 		$this->userQuery($searchterm)
@@ -57,7 +59,29 @@ class User_model extends CI_MODEL{
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
-		return $this->db->get()->result();
+		return $this->db->get()->result() ;
+	}
+
+	public function addUser($data){
+	var_dump($data);
+		$add = array(
+			'name'=>$data['name'],
+			'email'=>$data['email'],
+			'identitynumber'=>$data['identitynumber'],
+			'phone'=>$data['phone'],
+			//'dateOfBirth'=>$data['dateOfBirth'],
+			'gender'=>$data['gender'],
+			//'date_registration'=>$data['date_registration'],
+
+		     		//'minetype'=>$minetype
+			);
+		
+		$this->db->trans_start();
+		$this->db->insert("user",$add);
+		$user_id = $this->db->insert_id();
+		return $this->db->trans_complete();
+		
+		
 	}
 
 

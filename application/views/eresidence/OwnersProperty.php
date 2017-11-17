@@ -12,95 +12,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  $action="residents/property/";
 
  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
- 
- <div class="row">
-  <div class="col-md-10">
-    <table class="table text-left">
+     <input type="hidden" id="user_id" name="user_id" value="100">
 
-      <tbody>
-        <tr>
-          <td>Owner's Full Name</td>
-          <td>Refiloe Sibyl</td>
-        </tr>
-
-        <tr>
-          <td rowspan="9">1.Residential Address</td>               
-
-        </tr>
-
-        <tr>
-          <td>1814 Phahameng Section</td>
-
-        </tr> 
-        <tr>
-          <td>Letshuma Street</td>
-
-        </tr>
-        <tr>
-          <td>Mokwallo</td>
-
-        </tr>
-        <tr>
-          <td>VredeFort</td>
-
-        </tr>
-        <tr>
-          <td>9595</td>
-
-        </tr>
-        <tr>
-          <td>Ngwathe</td>            
-        </tr>
-
-        <tr>
-          <td>Fezile Dabi</td>            
-        </tr>
-
-        <tr>
-          <td>Free State</td>            
-        </tr>
-
-
-        <tr>
-          <td rowspan="9">2.Residential Address </td>               
-
-        </tr>
-
-        <tr>
-          <td>1814 Phahameng Section</td>
-
-        </tr> 
-        <tr>
-          <td>Letshuma Street</td>
-
-        </tr>
-        <tr>
-          <td>Mokwallo</td>
-
-        </tr>
-        <tr>
-          <td>VredeFort</td>
-
-        </tr>
-        <tr>
-          <td>9595</td>
-
-        </tr>
-        <tr>
-          <td>Ngwathe</td>            
-        </tr>
-
-        <tr>
-          <td>Fezile Dabi</td>            
-        </tr>
-
-        <tr>
-          <td>Free State</td>            
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
-</div>
-</div>
-</div>
+ <div class="row tablereq">
+      <div class="col-md-10">
+        <table class="table text-left ">
+          
+          <tbody>
+            <tr>
+              <td>Date</td>
+              <td>2017/11/02</td>
+            </tr>
+            <tr>
+              <td>Resident Full Names</td>
+              <td>
+                <?php    
+                
+                foreach ($user_id as $key ) {
+                  echo $key->name;
+                  ?>
+                  
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="7">Address</td>               
+                <td ><?php  echo $key->address?></td>      
+              </tr>
+              
+              
+              <tr>
+                <td><?php  echo $key->suburb?></td>
+                
+              </tr> 
+              <tr>
+                <td><?php  echo $key->town?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->zip_code?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->manucipality?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->district?></td>
+                
+              </tr>
+              <tr>
+                <td><?php  echo $key->province?></td>            
+              </tr><?php
+            }
+            ?>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>

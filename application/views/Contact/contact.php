@@ -1,62 +1,62 @@
-  <?php
-  defined('BASEPATH') OR exit('No direct script access allowed');
-  ?>
+ <?php
+ defined('BASEPATH') OR exit('No direct script access allowed');
+ ?>
  
 
 
-    <div class="container">
-     
-      <section class="contact-section">
-        <div class="contact">
-         <div class="form-area">
+ <div class="container">
+   
+  <section class="contact-section">
+    <div class="contact">
+     <div class="form-area">
 
-          <h1>Contact Us</h1>
+      <h1>Contact Us</h1>
 
-          <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-             <?php 
-             $options = array("class"=> "form-group","method"=>"POST");
-             echo form_open("publiczone/contact",$options);
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+         <?php 
+         $options = array("class"=> "form-group","method"=>"POST");
+         echo form_open("publiczone/contact",$options);
 
-             if(isset($statusInsert)){
-              echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
-            }
+         if(isset($statusInsert)){
+          echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
+        }
 
-            ?>
+        ?>
 
-            <div class="form-group">
-              <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
-              <label for="name">Name</label>
-              <input type="text" class="form-control" id="name"  name="name" placeholder="Palesa Motseare">
-            </div>
-            <div class="form-group">
-              <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
-              <label for="phone">Phone Number</label>
-              <input type="text" class="form-control" id="phone"  name="phone" placeholder="0735517010">
-            </div>
-            <div class="form-group">
-              <?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
-              <label for="email">Email</label>
-              <input type="email" class="form-control" id="email"  name="email" placeholder="palesa.motseare@example.com">
-            </div>
-            <div class="form-group ">
-              <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
-              <label for="message">Your Message</label>
-              <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description"></textarea>
-              <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
-            </div>
-            <div class="form-group">
-
-
-            </div>
-            <button type="submit" class="btn btn-default">Send</button>
-
-          </form>
+        <div class="form-group">
+          <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name"  name="name" placeholder="Palesa Motseare">
         </div>
-      </div>
+        <div class="form-group">
+          <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
+          <label for="phone">Phone Number</label>
+          <input type="text" class="form-control" id="phone"  name="phone" placeholder="0735517010">
+        </div>
+        <div class="form-group">
+          <?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email"  name="email" placeholder="palesa.motseare@example.com">
+        </div>
+        <div class="form-group ">
+          <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
+          <label for="message">Your Message</label>
+          <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description"></textarea>
+          <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
+        </div>
+        <div class="form-group">
+
+
+        </div>
+        <button type="submit" class="btn btn-default">Send</button>
+
+      </form>
     </div>
   </div>
-  </section>
+</div>
+</div>
+</section>
 
 </div>
 
@@ -83,7 +83,7 @@
 
   var errors = false;
     /**
-     * checks if the input name has only letterrs
+     * checks if the input name has only letters
      * 
      */
      $('#name').on('input',function(){
@@ -144,4 +144,4 @@
        }
      });
 
-   </script>
+</script>
