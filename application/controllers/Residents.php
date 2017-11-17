@@ -157,7 +157,6 @@ class Residents extends CI_Controller {
 			
 			//send data to the database
 					$this->request_model->addIdUpload($this->upload_data['file']);
-					$this->request_model->addIdUpload($this->upload_data['file1']);
 			//$this->load->view('ini',$data);
 			redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
@@ -197,7 +196,7 @@ public function file_upload() {
 					return false;
 				}elseif($statusFileToUpload){
 
-					$this->upload_data['file1'] = $this->upload->data();
+					$this->upload_data['file'] = $this->upload->data();
 				//$this->request_model->addIdUpload($this->upload_data['file']);
 				}	
 			}
