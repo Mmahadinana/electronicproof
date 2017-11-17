@@ -20,8 +20,8 @@ if('$user_id'){
 		$this->db->where('user.id','100');
 	}
 return $this->db
-->select("user.id,user.name,role.role as role,
-		owners.user_id,property.id as property,property.address,property.suburb,
+->select("user.id,user.name,user.identitynumber,role.role,role.id as roleid,
+		owners.id as owner,owners.user_id,owners.house_type,property.id as property,property.address,property.suburb,
 		town.name as town,town.zip_code,
 		manucipality.name as manucipality,
 		district.name as district,
@@ -58,15 +58,15 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function addIdUpload($data){
-	//var_dump($minetype);
+public function addIdUpload($data,$minetype){
+	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
 		     		'file_path'=>$data['full_path'],
 		     		'original_name'=>$data['client_name'],
 		     		'url'=>$data['file_path'],
 		     		'newname'=>$data['raw_name'],
-		     		//'minetype'=>$minetype
+		     		'minetype'=>$minetype,
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
@@ -75,7 +75,21 @@ $requests = array(
  
  
 }
+/*public function getOwner($search ){
+//public function getAddress(){
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->requestquery()
+		$this->db->where('user.id','100');
 
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+	->limit($limit,$offset);
+			//get data from bd
+	return $this->db->get()->result() ;
+}
+*/
 
 
 
@@ -121,65 +135,7 @@ public function checkResidentAddress($data){
  	$this->makeRequest();
  }
  }
- public function callback_file_upload(){
-
-$newName="";
-$prevName="";
-//$prevName=$_FILES['picture']['name'];
-$uploads_dir= 'uploads/';   
-$filesCount = count($_FILES['idUpload']['name']);
-$filesCounter = 0;
- //check if there is files uploaded                         
- if(!empty($_FILES) && $_FILES['idUpload']['name'][0]){
-    foreach ( $_FILES['idUpload']['name'] as $key => $value) {
-      // copies the loaded file to the uploads
-        $info = pathinfo($_FILES['idUpload']['name'][$key]); 
-        $prevName= $info['basename'];
-       //returns the file extension 
-       if(isset($info['extension'] ) && $info['extension']){
-          $ext = $info['extension']; 
-       }else{
-        $ext = "";
-       }
-       if(($ext == 'jpg') or ($ext == 'png') or ($ext == 'pdf')){
-         do{
-          //generates a random name with the uniquid function
-          $new_random_file_name = uniqid(); 
-          //writes the new name an the file extension
-          $newName = $new_random_file_name.'.'.$ext;
-          //Checks whether a file or directory exists
-        }while(file_exists('uploads_dir/$newName'));
-//Moves an uploaded file from a temporary location to a new location
-        move_uploaded_file($_FILES['idUpload']['tmp_name'][$key],"$uploads_dir/$newName");
-        //hasfile turn to true 
-        $hasfiles=1;
-        $filepath=$uploads_dir."/".$newName;      
-        
-      }
-      
-         $filesCounter++;
-    }*/
-    /*if ($filesCounter==$filesCount){
-     
-      $error[5] = false;
-    }else{
-   $error[5] = true;
-       }
-}else{
-   $error[5] = false;
-       }*/
- /*public function do_upload(){
-
-$config =array(
-'allowed_types' => 'pdf|jpg|png|jpeg',
-'upload_path'  => $this->file_uploadpath
-);
-
-$this->load->library('upload', $config);
-$this->upload->do_upload();
-$id_upload =$this->upload->data();
-
-}*/
+ 
 public function callback_checkFile($dir){
 $result = array(); 	
 $uploads_dir= 'C:\xampp';
@@ -192,7 +148,8 @@ arsort($result);
 
     return ($result) ? $result : false;
 
-}
+}*/
+
 
 }
 ?>

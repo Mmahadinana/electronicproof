@@ -10,7 +10,7 @@ class Login_model extends CI_MODEL{
 
 	public function query($search){
 		return $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,role.id as roleid,role.role,login.id as loginid,login.password,
-			GROUP_CONCAT(user.name) as author")
+			GROUP_CONCAT(user.name) as user")
 		->from("user")
 		->join("login","login.user_id = user.id")
 		->join("login","login.role_id = role.id")

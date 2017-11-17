@@ -165,7 +165,7 @@ class Publiczone extends CI_Controller {
 
 
 		$config_validation = array(
-			/*array(
+			array(
 				'field'=>'email',
 				'label'=>'email',
 				'rules'=>array('required','valid_email'),
@@ -180,93 +180,67 @@ class Publiczone extends CI_Controller {
 			array(
 				'field'=>'password',
 				'label'=>'Password',
-				'rules'=>array(
+				'rules'=>
 					'required',
-					'exact_length[8]',
-					'numeric',				
-					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 8 numbers',
-					'numeric'=>'the %s Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character ')
+					'errors'=>array('required'=>'you should insert %s for the user')
+
 				
 				),
 			
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',
-				'rules'=>array(
+				'rules'=>
 					'required',
-					'exact_length[8]',
-					'numeric',				
-					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 8 numbers',
-					'numeric'=>'the %s Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character ')
-				
-				),*/
+					'errors'=>array('required'=>'you should insert %s for the user')
+					
+				),
 
 			array('field'=>'name',
 			'label'=>'Full Name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				//'regex_match[/^[0-9]+$/]'
-			),
-			
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				//'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),	
+			'rules'=>'required',
+			 'errors'=>array('required'=>'you should insert %s for the user')						
+				),
 
 
 
-			/*array(
+		array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',				
+				'rules'=>
+					'required',				
 					),
 				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers')
-				
+					'required'=>' %s is required'
+
 				),
 			
 			/*array(
 				'field'=>'dateOfBirth',
 				'label'=>'Date of Birth',
-				'rules'=>array(
+				'rules'=>
 					'required',
-					'exact_length[8]',
-					'numeric',				
-					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 8 numbers',
-					'numeric'=>'the %s must have only numbers')
+								
+					'errors'=>array('required'=>'you should insert %s for the user')
+				),*/
 				
-				),
-			
-
 			array(
 				'field'=>'phone',
 				'label'=>'Phone number',
-				'rules'=>array(
+				'rules'=>
 					'required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]'),
+					'errors'=>array('required'=>'you should insert %s for the user')						
+),
+			array(
+				'field'=>'dateOfRegistraion',
+				'label'=>'Date of Registration',
+				'rules'=>
+					'required',
+					'errors'=>array('required'=>'you should insert %s for the user')						
+),
 
-
-				'errors'=>array('required'=>'you should insert one %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',					
-					)	 					
-				),
+			
+			
 			array(
 				'field'=>'gender',
 				'label'=>'Gender',
@@ -274,12 +248,12 @@ class Publiczone extends CI_Controller {
 				'errors'=>array('required'=>'you should insert %s for the user')
 				),
 
-			array(
+			/*array(
 				'field'=>'address',
 				'label'=>'Street Address',
-				'rules'=>array('required','min_length[10]|max_length[20]',
-					'errors'=>array('required'=>'you should insert %s for the user'))
-				),
+				'rules'=>'required',
+					'errors'=>array('required'=>'you should insert %s for the user')
+				),*/
 
 			array(
 				'field'=>'suburb',
@@ -318,17 +292,11 @@ class Publiczone extends CI_Controller {
 			array(
 				'field'=>'zip_code',
 				'label'=>'zip code',
-				'rules'=>array(
-					'required',
-					'exact_length[4]',						
-					'regex_match[	/^([0-9]){4}$/]'),
+				'rules'=>
+					'required',	
+					'errors'=>array('required'=>'you should insert %s for the user')),
 
 
-				'errors'=>array('required'=>'you should insert one %s ',
-					'exact_length'=>'the %s must have at least length of 4 ',						
-					'regex_match'=>'the %s must be numbers only',					
-					)	 					
-				),
 
 			array(
 				'field'=>'manucipality',
@@ -337,14 +305,14 @@ class Publiczone extends CI_Controller {
 				'errors'=>array('required'=>'you should insert one %s for the user'
 					
 					)
-				)*/
+				)
 			);
 
 
 
 $this->form_validation->set_rules($config_validation);
 if($this->form_validation->run()===FALSE){
-	echo "hello";
+
 	$this->load->view('ini',$data);
 
 }else

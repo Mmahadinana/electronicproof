@@ -63,19 +63,21 @@ class User_model extends CI_MODEL{
 	}
 
 	public function addUser($data){
-	var_dump($data);
+	
+
 		$add = array(
 			'name'=>$data['name'],
 			'email'=>$data['email'],
+			//'address'=>$data['address'],
 			'identitynumber'=>$data['identitynumber'],
 			'phone'=>$data['phone'],
-			//'dateOfBirth'=>$data['dateOfBirth'],
-			'gender'=>$data['gender'],
-			//'date_registration'=>$data['date_registration'],
+			'dateOfBirth'=>'2017-11-11',//$data['dateofbirth'],
+			'gender_id'=>$data['gender'],
+			'date_registration'=>'2017-11-11',//$data['date_registration'],
 
 		     		//'minetype'=>$minetype
 			);
-		
+		//var_dump($data);
 		$this->db->trans_start();
 		$this->db->insert("user",$add);
 		$user_id = $this->db->insert_id();

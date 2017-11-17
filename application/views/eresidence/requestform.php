@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="container form-area">
     <?php
  //var_dump($user_id) ;
+<<<<<<< HEAD
     $action="residents/request/";
 
     echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
@@ -22,6 +23,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tr>
               <td>Date</td>
               <td>2017/11/02</td>
+=======
+  $action="residents/request/";
+
+  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
+  <input type="hidden" id="user_id" name="user_id" value="100">
+  <div class="row tablereq">
+        <div class="col-md-10">
+          <table class="table text-left romtbl_borders">
+            
+            <tbody>
+              <tr>
+                <td>Date</td>
+                <td>2017/11/02</td>
+>>>>>>> d411948a5c3c27b204fb8c53b94e74c9f43f0d18
             </tr>
             <tr>
               <td>Resident Full Names</td>
@@ -96,10 +111,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
    <!-- New Password--> 
 
+<<<<<<< HEAD
    <div class="form-group ">
     <div class="passlabels col-md-6">
       <label for="phone" class="control-label  "><span class="footPadRight"> Phone</span></label>
     </div>				
+=======
+    <div class="form-group ">
+        <div class="passlabels col-md-6">
+        <label for="phone" class="control-label  "><span class="footPadRight"> Phone</span></label>
+        </div>				
+        <div class="col-md-6">
+            <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo set_value('phone') ;?>">
+        </div>
+        <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+    </div>
+<!-- File upload--> 
+
+    <div class="form-group">
+        <input type="file"  class="input-lg fileToUpload" name="idUpload" id="idUpload" >  
+        <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
+        <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
+    </div>
+
+    <div class="form-group">
+
+       <input type="file"  class="input-lg fileToUpload" name="fileToUpload[]" id="fileToUpload" multiple>
+       <span><?php// echo $_FILES['fileToUpload']['name'] ?></span>  
+       <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
+
+    </div>
+    <p><?php echo form_error('fileToUpload') ? alertMsg(false,'fileToUpload',form_error('fileToUpload')) : ''; ?></p>
+
+
+    <input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
+    <div class="form-group">
+    <div class="col-md-6">
+        <button class="btn btn-lg btn-primary " name="submit" id="submit" type="submit">Submit</button>
+    </div>
+>>>>>>> d411948a5c3c27b204fb8c53b94e74c9f43f0d18
     <div class="col-md-6">
       <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo set_value('phone') ;?>">
     </div>

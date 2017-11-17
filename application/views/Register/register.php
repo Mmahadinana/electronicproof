@@ -93,9 +93,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label">Date of Birth</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="text" class="form-control" name="dateofbirth"  id="dateofbirth" placeholder="date of birth" required>
+							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" placeholder="date of birth" required>
 						</div>
 						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
+
+					</div>
+					<div class="form-group">
+						<label class="control-label">Date of Registration</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="date" class="form-control" name="date_registration"  id="date_registration" placeholder="date of birth" required>
+						</div>
+						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 
 					</div>
 					<div class="form-group">
@@ -109,12 +117,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<div class="form-group">
 
-						<input name="group100" name="gender" type="radio" id="radio100">
+						<input  name="gender" type="radio" value="1" id="radio100">
 						<label for="radio100">Male</label>
 					</div>
 
 					<div class="form-group">
-						<input name="group100" name="gender" type="radio" id="radio101"   checked>
+						<input  name="gender" type="radio" value="2" id="radio101"   checked>
 						<label for="radio101">Female</label>
 						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
