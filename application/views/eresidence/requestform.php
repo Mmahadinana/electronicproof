@@ -37,12 +37,12 @@ echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/fo
             </tr>
             <tr>
               <td rowspan="7">Address</td>               
-              <td ><?php  echo $key->address?></td>      
+              <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
             </tr>
 
 
             <tr>
-              <td><?php  echo $key->suburb?></td>
+              <td><?php  echo $key->street_name?></td>
 
             </tr> 
             <tr>

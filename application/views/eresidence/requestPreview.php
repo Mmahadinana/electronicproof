@@ -25,57 +25,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
    </form>
 
-   <table class="table text-left romtbl_borders">
+      <table class="table text-left romtbl_borders">
 
-    <tbody>
-      <tr>
-        <td>Date</td>
-        <td>2017/11/02</td>
-      </tr>
-      <tr>
-        <td>Resident Full Names</td>
-        <td>
-          <?php    
+        <tbody>
+          <tr>
+            <td>Date</td>
+            <td>2017/11/02</td>
+
+          </tr>
+          <tr>
+            <td>Resident Full Names</td>
+            <td>
+              <?php    
+
+              foreach ($user_id as $key ) {
+                echo $key->name;
+                ?>
+
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="7">Address</td>               
+              <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
+            </tr>
 
 
-          echo $key->name;
-          ?>
+            <tr>
+              <td><?php  echo $key->street_name?></td>
 
-        </td>
-      </tr>
-      <tr>
-        <td rowspan="7">Address</td>               
-        <td ><?php  echo $key->address?></td>      
-      </tr>
+            </tr> 
+            <tr>
+              <td><?php  echo $key->town?></td>
 
+            </tr>
+            <tr>
+              <td><?php  echo $key->zip_code?></td>
 
-      <tr>
-        <td><?php  echo $key->suburb?></td>
+            </tr>
+            <tr>
+              <td><?php  echo $key->manucipality?></td>
 
-      </tr> 
-      <tr>
-        <td><?php  echo $key->town?></td>
+            </tr>
+            <tr>
+              <td><?php  echo $key->district?></td>
 
-      </tr>
-      <tr>
-        <td><?php  echo $key->zip_code?></td>
+            </tr>
+            <tr>
+              <td><?php  echo $key->province?></td>            
+              </tr><?php
+            }
+            ?>
+            
+          </tbody>
+        </table>
 
-      </tr>
-      <tr>
-        <td><?php  echo $key->manucipality?></td>
-
-      </tr>
-      <tr>
-        <td><?php  echo $key->district?></td>
-
-      </tr>
-      <tr>
-        <td><?php  echo $key->province?></td>            
-
-      </tr>
-
-    </tbody>
-  </table>
 </div>
 </div>
 <div class="text-left">

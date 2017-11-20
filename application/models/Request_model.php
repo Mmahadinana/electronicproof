@@ -20,8 +20,13 @@ if('$user_id'){
 		$this->db->where('user.id','100');
 	}
 return $this->db
-->select("user.id,user.name,user.identitynumber,role.role,role.id as roleid,
-		owners.id as owner,owners.user_id,owners.house_type,property.id as property,property.address,property.suburb,
+->select("user.id,user.name,user.identitynumber,
+		role.role,role.id as roleid,
+		login.id as login id,
+		owners.id as owner,owners.user_id,owners.house_type,
+		property.id as property,property.address_id,
+		address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+		suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
 		town.name as town,town.zip_code,
 		manucipality.name as manucipality,
 		district.name as district,
@@ -30,11 +35,12 @@ return $this->db
 	->join("gender","gender.id = user.gender_id")
 	->join("login"," login.user_id = user.id ")
 	->join("role"," role.id = login.role_id ")
-
-	->join("owners","owners.user_id = user.id")
-	->join("owners_property","owners_property.owners_id = owners.id")
+	->join("owners","owners.user_id = user.id")	
+	->join("owners_property","owners_property.owners_id = owners.id")	
 	->join("property"," property.id= owners_property.property_id")
-	->join("town","town.id = property.town_id")
+	->join("address"," address.id= property.address_id")
+	->join("suburb"," suburb.id = address.suburb_id")
+	->join("town","town.id = suburb.town_id")
 	->join("manucipality","manucipality.id = town.manucipality_id")
 	->join("district","district.id = manucipality.district_id")
 	->join("province","province.id = district.province_id")
@@ -56,9 +62,9 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
-	return $this->db->get()->result() ;
+	return $this->db->get()->result();
 }
-public function insertFileData($data){
+public function insertFileData($data,$minetype){
 	//var_dump($data);
 $requests = array(
 		     		'original_name'=>$data['file_name'],
@@ -66,7 +72,7 @@ $requests = array(
 		     		'original_name'=>$data['client_name'],
 		     		'url'=>$data['file_path'],
 		     		'newname'=>$data['raw_name'],
-		     		//'minetype'=>$minetype,
+		     		'minetype'=>$minetype,
 		     		);
 		     	$this->db->trans_start();
 		     	$this->db->insert("attachments",$requests);
@@ -81,8 +87,9 @@ foreach ($data as $value) {
 	foreach ($value as $file) {
 		
 	}
+	$minetype='PD';
 	//$status = $this->addIdUpload($file);
-	$this->insertFileData($file);
+	$this->insertFileData($file,$minetype);
 
 	/*if(!$status){
 
