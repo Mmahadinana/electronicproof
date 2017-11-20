@@ -24,18 +24,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/request') ?>">Request</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Residents")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Residents</a></li>
-            <li <?php echo setMenuActiveItem ($pageActive == "listOfRes")?>><a href="<?php echo base_url('residents/eresidence') ?>">List of Residents</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "listOfRes")?>><a href="<?php echo base_url('residents/eresidence')?>">List of Residents</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">Owners Property</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
-
-
           </ul>
         </li>
-      </ul>
-      <ul class="nav navbar-nav" >
-       <li <?php echo setMenuActiveItem ($pageActive == "login")?>> <div class="dropdown-grids">
+      <!--/ul>
+      <ul class="nav navbar-nav" -->
+       <li <?php echo setMenuActiveItem ($pageActive == "login")?>> <a id="loginButton"><span>Login</span></a>
+        </li>
+       <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
+     </ul>
+   </div><!--/.nav-collapse -->
+ </div>
+</nav>
+<div class="dropdown-grids">
                         <div id="loginContainer">
-                            <a id="loginButton"><span>Login</span></a>
+                            
                             <div id="loginBox">                
                                 <form id="loginForm">
                                     <div class="login-grids" >
@@ -67,10 +72,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </form>
                             </div>
                         </div>
-                </div></li>
-       <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
-     </ul>
-   </div><!--/.nav-collapse -->
- </div>
-</nav>
-
+                </div>

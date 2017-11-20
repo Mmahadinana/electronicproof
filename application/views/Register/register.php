@@ -6,12 +6,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="container form-area">
-	
-	<?php
- //var_dump($user_id) ;
-	$action="publiczone/register/";
 
-	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
+	<?php 
+	$options = array("class"=> "form-group","method"=>"POST");
+	echo form_open("publiczone/registerUser",$options);
+	?>
 
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
@@ -31,14 +30,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
 				<p>Step 4</p>
 			</div>
-			<div class="stepwizard-step">
-				<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-				<p>Step 5</p>
-			</div>
+			
 		</div>
 	</div>
-
-
 
 	<form role="form" action="" method="post">
 		<div class="row setup-content" id="step-1">
@@ -46,26 +40,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<h3>Setup Account</h3>
 					<div class="form-group">
-						<?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
 						<label>email</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-
-							<input type="text" class="form-control" name="email" id="email" placeholder="Requested email" required >
+							<input type="email" class="form-control" name="email" id="email" placeholder="Requested email" required>
 						</div>
+						<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('password') ? alertMsg(false,'',form_error('password')):'';?>
 						<label>Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="password" class="form-control" name="password" id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+							<input type="text" class="form-control" name="password"    id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 						</div>
+						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('confirm') ? alertMsg(false,'',form_error('confirm')):'';?>
 						<label>Confirm Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-							<input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm Password" required>
+							<input type="text" class="form-control" name="confirm"    id="confirm" placeholder="Confirm Password" required>
 						</div>
+						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 					</div>
 					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
 				</div>
@@ -76,47 +71,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<h3>Personal Information</h3>
 					<div class="form-group">
-						<?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
 						<label class="control-label">Full Name</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-							<input type="text" class="form-control" name="name" id="name" placeholder="full name" required>
+							<input type="text" class="form-control" name="name"   id="name" placeholder="full name" required>
 						</div>
+						<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('identitynumber') ? alertMsg(false,'',form_error('identitynumber')):'';?>
 						<label class="control-label">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="text" class="form-control" name="identitynumber" id="identitynumber" placeholder="identity number" required>
+							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number" required>
 						</div>
+						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('dateOfBirth') ? alertMsg(false,'',form_error('dateOfBirth')):'';?>
 						<label class="control-label">Date of Birth</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="text" class="form-control" name="dateofbirth" id="dateofbirth" placeholder="date of birth" required>
+							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" placeholder="date of birth" required>
 						</div>
+						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
+						<label class="control-label">Date of Registration</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="date" class="form-control" name="date_registration"  id="date_registration"  placeholder="date of birth" required>
+						</div>
+						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
+
+					</div>
+					<div class="form-group">
 						<label class="control-label">Phone number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-							<input type="text" class="form-control" name="phone" id="phone" placeholder="phone numbers" required>
+							<input type="text" class="form-control" name="phone"   id="phone" placeholder="phone numbers" required>
 						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
 					</div>
 					<label  id ="gender" class="control-label">Gender</label>
 
 					<div class="form-group">
 
-						<input name="group100" name="gender" type="radio" id="radio100">
+						<input  name="gender" type="radio" value="1" id="radio100">
 						<label for="radio100">Male</label>
 					</div>
 
 					<div class="form-group">
-						<?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
-						<input name="group100" name="gender" type="radio" id="radio101" checked>
+						<input  name="gender" type="radio" value="2" id="radio101"   checked>
 						<label for="radio101">Female</label>
+						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
+
 					</div>
-					<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
 				</div>
 			</div>
 		</div>
@@ -125,172 +132,93 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<h3 >Residential Information</h3>
 					<div class="form-group">
-						<?php echo form_error('streetAddress') ? alertMsg(false,'',form_error('streetAddress')):'';?>
 						<label class="control-label">Street Address</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-							<input type="text" class="form-control" name="address" id="address" placeholder="address" required>
+							<input type="text" class="form-control" name="address"    id="address" placeholder="address" required>
 						</div>
+						<p><?php echo form_error('address') ? alertMsg(false,'address',form_error('address')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 						<label class="control-label">suburb</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-							<input type="text" class="form-control" name="suburb" id="suburb" placeholder="suburb" required>
+							<input type="text" class="form-control" name="suburb" id="suburb"   placeholder="suburb" required>
 						</div>
+						<p><?php echo form_error('suburb') ? alertMsg(false,'suburb',form_error('suburb')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
 						<label class="control-label">town</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-building"></span></span>
-							<input type="text" class="form-control" name="town" id="town" placeholder="town" required>
+							<input type="text" class="form-control" name="town" id="town"    placeholder="town" required>
 						</div>
+						<p><?php echo form_error('town') ? alertMsg(false,'town',form_error('town')) : ''; ?></p>
+
 					</div>
 					<div class="form-group">
-						<?php echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 						<label class="control-label">zip code</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-							<input type="text" class="form-control" name="zip_code" id="zip_code" placeholder="zip_code" required>
+							<input type="text" class="form-control" name="zip_code" id="zip_code"   placeholder="zip_code" required>
 						</div>
+						<p><?php echo form_error('zip_code') ? alertMsg(false,'zip_code',form_error('zip_code')) : ''; ?></p>
+
 					</div>
 					
-					<form>
-						<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
-						<div class="form-group">
-
-							<label for="manucipality">manucipality</label>
-							<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
-								<?php	
-								foreach ($manucipality as $manucipalities)
-									{?>	
-								<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
-								<?php
-							}
-							?>
-						</select>
-					</div>
-
+					<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 					<div class="form-group">
 
-						<label for="district">district</label>
-						<select class="form-control" value="district" name="district" id="district">
-
+						<label for="manucipality">manucipality</label>
+						<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
 							<?php	
-							foreach ($district as $districts)
+							foreach ($manucipality as $manucipalities)
 								{?>	
-							<option value="<?php echo $districts->id;?>"><?php echo $districts->name;?></option>
+							<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
 							<?php
 						}
 						?>
-
 					</select>
 				</div>
+
 				<div class="form-group">
 
-					<label for="province">province</label>
-					<select class="form-control" value="province" name="province" id="province">
+					<label for="district">district</label>
+					<select class="form-control" value="district" name="district" id="district">
+
 						<?php	
-						foreach ($province as $provinces)
+						foreach ($district as $districts)
 							{?>	
-						<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
+						<option value="<?php echo $districts->id;?>"><?php echo $districts->name;?></option>
 						<?php
 					}
 					?>
+
 				</select>
 			</div>
-			<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
+			<div class="form-group">
+
+				<label for="province">province</label>
+				<select class="form-control" value="province" name="province" id="province">
+					<?php	
+					foreach ($province as $provinces)
+						{?>	
+					<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
+					<?php
+				}
+				?>
+			</select>
 		</div>
+		<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
 	</div>
+</div>
 
 </div>
-</form>
+
 
 <div class="row setup-content" id="step-4">
-	<div class="col-xs-6 col-md-offset-3">
+	<div class="col-xs-6 col-md-offset-4">
 		<div class="col-md-12">
-			<h3>Confirm Information</h3>
-
-			<div class="leftdiv">
-				<div class="form-group">
-					<label class="control-label">FullName<br></label>
-					<br>
-
-				</div>
-				<div class="form-group">
-					<label class="control-label">Date</label>
-					<br>
-				</div>
-
-
-				<div class="form-group">
-					<label class="control-label">DateOfBirth</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Email</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Phone</label>
-					<br>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label">Gender</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Address</label>
-				</div>
-
-
-			</div>
-			<div class="rightdiv">
-				<div class="form-group">
-					<label class="control-label">:Thatohatsi Mohohlo</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:10/10/17</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:06/05/90</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:thatohatsi@gmail.com</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:0835729736</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:female</label>
-					<br>
-				</div>
-				<div class="form-group">
-					<label class="control-label">:450 Serapelo str<br>Phomolong<br>Henneman<br>9445<br>matjhabeng<br>Lejweleputswa<br>Free State</label>
-
-				</div>
-				<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
-			</div>
-
-		</div>
-
-	</div>
-
-
-</div>
-
-
-<div class="row setup-content" id="step-5">
-	<div class="col-xs-6 col-md-offset-5">
-		<div class="col-md-12">
-			<h3> Step 5</h3>
-
-			<button class="btn btn-success btn-m pull-right" type="submit">Submit</button>
-
+			<h3> Step 4</h3>
+			<button class="btn btn-success btn-lg pull-right" type="submit">Submit</button>
 		</div>
 	</div>
 </div>
@@ -427,4 +355,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 
 </script>
+
 

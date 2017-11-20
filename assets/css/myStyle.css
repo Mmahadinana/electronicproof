@@ -55,7 +55,10 @@ h3 {
     }*/
 
     /** *******************style for navigation menu**********************************/  
-
+.navbar-brand
+{
+ padding: 9.5px 15px;
+  }  
     .nav>li>a {
       padding: 10px 10px;
     }
@@ -70,7 +73,7 @@ h3 {
      font-family: Helvetica;
      font-size: 14px;
      color: #fff;
-     text-align: center;
+     text-align: left;
      opacity: 89%;
      box-shadow: 1px 5px 5px black;
      padding: 0px;
@@ -101,6 +104,7 @@ h3 {
     margin: 0px;
       border: none !important;
     background-color:#2d3f50!important;
+    text-align: left;
   }
 
   .dropdown-menu >li > a {
@@ -191,7 +195,7 @@ h3 {
     border-radius: 1px;
     color: white; 
     height: auto;
-    width: 38%;
+    width: 40%;
     padding-bottom:150px;
     text-align: center;
 
@@ -212,7 +216,15 @@ h3 {
 
   /**********changing medias*************************/  
 
-  @media (min-width: 768px) {
+ @media (max-width: 768px) {
+    .form-area {
+      padding: 15px;
+      margin: 0;
+      width: 100%;
+    }
+  }
+  /*
+   @media (min-width: 768px) {
     .navbar > .container .navbar-brand,
     .navbar > .container-fluid .navbar-brand {
       margin-left: -15px;
@@ -257,12 +269,12 @@ h3 {
     padding-top: 10px;
     padding-bottom: 10px;
     line-height: 20px;
-  }
+  }*/
 
-  @media (max-width: 768px) {
+  /*@media (max-width: 768px) {
     .navbar-nav .open .dropdown-menu {
-      position: static;
-      float: none;
+      /*position: static;*/
+      /*float: none;
       width: auto;
       margin-top: 0;
       background-color: transparent;
@@ -271,7 +283,7 @@ h3 {
     }
     .navbar-nav .open .dropdown-menu > li > a,
     .navbar-nav .open .dropdown-menu .dropdown-header {
-      padding: 5px 15px 5px 25px;
+     padding: 5px 15px 5px 25px;
     }
     .navbar-nav .open .dropdown-menu > li > a {
       line-height: 20px;
@@ -280,8 +292,8 @@ h3 {
     .navbar-nav .open .dropdown-menu > li > a:focus {
       background-image: none;
     }
-  }
-  @media (min-width: 768px) {
+  }*/
+/* @media (min-width: 768px) {
     .navbar-nav {
       float: left;
       margin: 0;
@@ -297,5 +309,4 @@ h3 {
       clear: both;
       
     }
-  }
-  bt
+  }*/

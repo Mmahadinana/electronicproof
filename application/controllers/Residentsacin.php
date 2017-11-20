@@ -156,10 +156,10 @@ class Residents extends CI_Controller {
 
 			
 			//send data to the database
-					$this->request_model->insertFileData($this->upload_data['file'],'ID');
+					$this->request_model->insertFileData($this->upload_data['file']);
 					//var_dump($this->upload_data1['file']);
 					$this->request_model->insertMultipleFileData($this->upload_data1);
-			//$this->load->view('ini',$data); 
+			//$this->load->view('ini',$data);
 			redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
 
