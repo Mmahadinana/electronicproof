@@ -28,7 +28,9 @@ class User_model extends CI_MODEL{
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
 			owners.user_id,owners.id as ownerid,
-			property.id,property.address,property.suburb,property.town_id,
+			property.id,property.address_id,
+			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
+			suburb.id as suburbid,suburb.town_id,
 			owners_property.property_id,owners_property.owners_id,town.id as townid,
 			town.name as town,town.zip_code,town.manucipality_id,,manucipality.id as manucipalityid,
 			manucipality.name as manucipality,manucipality.district_id,
@@ -39,8 +41,9 @@ class User_model extends CI_MODEL{
 		->join("owners","owners.user_id = user.id")
 		->join("owners_property","owners_property.owners_id =owners.id ")
 		->join("property","property.id= owners_property.property_id")
-		->join("town","town.id = property.town_id")
-
+		->join("address","address.id = property.address_id")
+		->join("suburb","suburb.id = address.suburb_id")
+		->join("town","town.id = suburb.town_id")
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id= manucipality.district_id")
 		->join("province","province.id = district.province_id")
