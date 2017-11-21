@@ -224,7 +224,7 @@ class Publiczone extends CI_Controller {
 					'errors'=>array('required'=>'you should insert %s for the user')
 				),*/
 				
-			/*array(
+			array(
 				'field'=>'phone',
 				'label'=>'Phone number',
 				'rules'=>array(
@@ -241,7 +241,7 @@ class Publiczone extends CI_Controller {
 					'regex_match'=>'the %s must be numbers only',									
 					)	 					
 				),
-			array(
+			/*array(
 				'field'=>'dateOfRegistraion',
 				'label'=>'Date of Registration',
 				'rules'=>

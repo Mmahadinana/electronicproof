@@ -30,48 +30,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
 				<p>Step 4</p>
 			</div>
-			
+			<div class="stepwizard-step">
+				<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
+				<p>Step 5</p>
+			</div>
 		</div>
 	</div>
-
 	<form role="form" action="" method="post">
 		<div class="row setup-content" id="step-1">
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
 					<h3>Setup Account</h3>
 					<div class="form-group">
-						<label>email</label>
+						<label for="email">email</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-							<input type="email" class="form-control" name="email" id="email" placeholder="Requested email" required>
+							<input type="email" class="form-control" name="email" id="email" placeholder="Requested email"  onblur="validate()" required>
 						</div>
 						<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
 
 					</div>
 					<div class="form-group">
-						<label>Password</label>
+						<label for="password">Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="text" class="form-control" name="password"    id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+							<input type="text" class="form-control" name="password"  onblur="validate()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 						</div>
 						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
 					</div>
 					<div class="form-group">
-						<label>Confirm Password</label>
+						<label for="confirm">Confirm Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-							<input type="text" class="form-control" name="confirm"    id="confirm" placeholder="Confirm Password" required>
+							<input type="text" class="form-control" name="confirm"   onblur="validate()"  id="confirm" placeholder="Confirm Password" required>
 						</div>
 						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 					</div>
-					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
+					<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" type="submit" >Next</button>
 				</div>
 			</div>
 		</div>
+		
 		<div class="row setup-content" id="step-2">
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
 					<h3>Personal Information</h3>
 					<div class="form-group">
-						<label class="control-label">Full Name</label>
+						<label class="control-label" for="name">Full Name</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
 							<input type="text" class="form-control" name="name"   id="name" placeholder="full name" required>
 						</div>
@@ -79,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">Identity Number</label>
+						<label class="control-label" for="identitynumber">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
 							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number" required>
 						</div>
@@ -87,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">Date of Birth</label>
+						<label class="control-label" for="dateofbirth">Date of Birth</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
 							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" placeholder="date of birth" required>
 						</div>
@@ -103,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">Phone number</label>
+						<label class="control-label" for="phone">Phone number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
 							<input type="text" class="form-control" name="phone"   id="phone" placeholder="phone numbers" required>
 						</div>
@@ -131,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
 					<h3 >Residential Information</h3>
-					<div class="form-group">
+					<div class="form-group" for="address">
 						<label class="control-label">Street Address</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 							<input type="text" class="form-control" name="address"    id="address" placeholder="address" required>
@@ -140,50 +143,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">suburb</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+						<label class="control-label" for="suburb">suburb</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 							<input type="text" class="form-control" name="suburb" id="suburb"   placeholder="suburb" required>
 						</div>
 						<p><?php echo form_error('suburb') ? alertMsg(false,'suburb',form_error('suburb')) : ''; ?></p>
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">town</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-building"></span></span>
+						<label class="control-label" for="town">town</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 							<input type="text" class="form-control" name="town" id="town"    placeholder="town" required>
 						</div>
 						<p><?php echo form_error('town') ? alertMsg(false,'town',form_error('town')) : ''; ?></p>
 
 					</div>
 					<div class="form-group">
-						<label class="control-label">zip code</label>
+						<label class="control-label" for="zip_code">zip code</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 							<input type="text" class="form-control" name="zip_code" id="zip_code"   placeholder="zip_code" required>
 						</div>
 						<p><?php echo form_error('zip_code') ? alertMsg(false,'zip_code',form_error('zip_code')) : ''; ?></p>
 
 					</div>
-					
-					<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 					<div class="form-group">
 
-						<label for="manucipality">manucipality</label>
-						<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
+						<label for="province">province</label>
+						<select class="form-control" value="province" name="province" id="province">
 							<?php	
-							foreach ($manucipality as $manucipalities)
+							foreach ($province as $provinces)
 								{?>	
-							<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
+							<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
 							<?php
 						}
 						?>
 					</select>
 				</div>
 
+				<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
 				<div class="form-group">
 
 					<label for="district">district</label>
-					<select class="form-control" value="district" name="district" id="district">
-
+					<select class="form-control" value="districts" name="district" id="district">
 						<?php	
 						foreach ($district as $districts)
 							{?>	
@@ -191,23 +192,97 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php
 					}
 					?>
-
 				</select>
 			</div>
+			<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 			<div class="form-group">
 
-				<label for="province">province</label>
-				<select class="form-control" value="province" name="province" id="province">
+				<label for="manucipality">manucipality</label>
+				<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
 					<?php	
-					foreach ($province as $provinces)
+					foreach ($manucipality as $manucipalities)
 						{?>	
-					<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
+					<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
 					<?php
 				}
 				?>
 			</select>
 		</div>
+<script type="text/javascript">
+
+$province = $_POST['provinceid'];   // department id
+
+$sql = "SELECT id,name FROM district WHERE province=".$provinceid;
+
+$result = mysqli_query($con,$sql);
+
+$district_arr = array();
+
+while( $row = mysqli_fetch_array($result) ){
+    $districtid = $row['id'];
+    $name = $row['name'];
+
+    $district_arr[] = array("id" => $district_id, "name" => $name);
+}
+
+// encoding array to json format
+echo json_encode($district_arr);
+	
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+    $("#province").change(function(){
+        var provinceid = $(this).val();
+
+        $.ajax({
+            url: 'register.php',
+            type: 'post',
+            data: {province:provinceid},
+            dataType: 'json',
+            success:function(response){
+
+                var len = response.length;
+
+                $("#district").empty();
+                for( var i = 0; i<len; i++){
+                    var id = response[i]['id'];
+                    var name = response[i]['name'];
+                    
+                    $("#district").append("<option value='"+id+"'>"+name+"</option>");
+
+                }
+            }
+        });
+    });
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
 		<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
+
 	</div>
 </div>
 
@@ -217,7 +292,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row setup-content" id="step-4">
 	<div class="col-xs-6 col-md-offset-4">
 		<div class="col-md-12">
-			<h3> Step 4</h3>
+
+			<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
+			
+		</div>
+	</div>
+</div>
+
+<div class="row setup-content" id="step-5">
+	<div class="col-xs-6 col-md-offset-5">
+		<div class="col-md-12">
+			<h3> Step 5</h3>
 			<button class="btn btn-success btn-lg pull-right" type="submit">Submit</button>
 		</div>
 	</div>
@@ -225,8 +310,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </form>
 
 </div>
-
-
 
 
 
@@ -354,6 +437,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#manucipality').html(options);
 	});
 
+</script>
+<script>
+//updates the car models on the form
+function actualiza_modelos(){
+	//bring all the models from php to javascript
+	let modelos 		= <?php echo json_encode($modelos);?>;
+		//if in edit mode asssigns the model id if on insert assigns false
+	let id_province		= <?php echo $province_id ? $province_id : 'false'; ?>; 
+//select box from the models
+	let province_id 		=$("#province_id");
+		//manufacturer id from the select box of the manufacturers
+	let selected  		= $("#district_id").val();
+	//clear prev options
+province_id.empty();
+//write new options
+province_id.append($('<option>', { 
+        value: 0,
+        text : "escolha um modelo" 
+    }));
+$("#select_modelo select option[value='0']").attr("disabled","disabled");
+	$.each(modelos[selected], function (i, item) {
+    province_id.append($('<option>', { 
+        value: item.id,
+        text : item.nome 
+    }));
+});
+	//select the option of the edit mode
+	if(id_province){
+	$("#select_modelo select").val(id_province);
+}else{
+	$("#select_modelo select").val(0);
+}
+	//dispaly the select box
+	$("#select_modelo").attr('style','display:block');
+}
+$(document).ready(function() {
+actualiza_modelos();
+});
 </script>
 
 
