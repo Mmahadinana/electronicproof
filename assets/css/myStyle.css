@@ -220,9 +220,14 @@ h3 {
     .form-area {
       padding: 15px;
       margin: 0;
-      width: 100%;
+      width: 80%;
     }
   }
+  @media (max-width: 768px) {
+    
+  }
+
+
   /*
    @media (min-width: 768px) {
     .navbar > .container .navbar-brand,

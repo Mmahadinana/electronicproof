@@ -17,7 +17,15 @@ class Residents extends CI_Controller {
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
 
+		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
+		if (!$is_logged_in) {
+			//no login check the cookie
+			if (!$this->login_model->CheckLoginWithCookie()) {
+				//no login go out
+			redirect(base_url('login/login?frompage=eresidence'));
+			}
 
+		}
 
 
 	}

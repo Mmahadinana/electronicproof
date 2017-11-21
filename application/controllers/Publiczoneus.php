@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Publiczone extends CI_Controller {
 	
-	//$this->load->library('session');
+	$this->load->library('session');
 	public function __construct()
 	{
 		parent::__construct();
@@ -13,7 +13,6 @@ class Publiczone extends CI_Controller {
 		$this->load->model("district_model");
 		$this->load->model('town_model');
 		$this->load->model('user_model');
-		$this->load->model('login_model');
 
 
 	}
@@ -133,16 +132,6 @@ class Publiczone extends CI_Controller {
 		$data['pageActive']='loginForm';
 		$this->load->view('ini',$data);
 		
-	}
-	public function logout(){
-		//delete cookie data from db
-		$this->login_model->deleteCookieByToken();
-		//delete the cookie
-		delete_cookie(COOKIE_TOKEN);
-		//distroy the session
-		$this->session->sess_destroy();
-		redirect('Publiczone');
-	
 	}
 	
 	function registerUser() {
@@ -348,5 +337,116 @@ if($this->form_validation->run()===FALSE){
 
 
 }
+/*****************************
+$config_validation = array(
+			array(
+				'field'=>'email',
+				'label'=>'email',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
+				) 					
+			),
+
+
+			array(
+				'field'=>'password',
+				'label'=>'Password',
+				'rules'=>
+				'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
+				
+			),
+			
+			array(
+				'field'=>'confirm',
+				'label'=>'Confirm Password',
+				'rules'=>
+				'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
+			),
+
+			array('field'=>'name',
+				'label'=>'Full Name',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')						
+			),
+
+
+
+			array(
+				'field'=>'identitynumber',
+				'label'=>'Identity Number',
+				'rules'=>
+				'required',				
+			),
+			'errors'=>array(
+				'required'=>' %s is required'
+
+			),
+			
+			
+				array(
+					'field'=>'gender',
+					'label'=>'Gender',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert %s for the user')
+				),
+				array(
+					'field'=>'suburb',
+					'label'=>'suburb',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+				array(
+					'field'=>'town',
+					'label'=>'town',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+				array(
+					'field'=>'district',
+					'label'=>'district',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert one %s for the user'
+
+				)
+				),
+
+				array(
+					'field'=>'province',
+					'label'=>'province',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert one %s for the user'
+
+				)
+				),
+
+
+
+				array(
+					'field'=>'zip_code',
+					'label'=>'zip code',
+					'rules'=>
+					'required',	
+					'errors'=>array('required'=>'you should insert %s for the user')),
+
+
+
+				array(
+					'field'=>'manucipality',
+					'label'=>'manucipality',
+					'rules'=>'required',
+					'errors'=>array('required'=>'you should insert one %s for the user'
+
+				)
+				)
+			);
+***********************************************************/
 

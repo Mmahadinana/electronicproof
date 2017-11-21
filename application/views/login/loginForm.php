@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		<?php
 
-		$action="login/login/";
+		$action="login/login_/";
 
 		echo form_open($action,array('class'=>'form-horizontal'));?>
 
@@ -35,10 +35,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type="checkbox" name="rememberme" value="rememberme">Rememberme
 				</label>
 			</div>
-			<input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
+			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 			<a href="<?php echo base_url('login/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a>
-		</form><!-- /form -->
+		</form><!--/form -->
 	
-	</div><!-- /card-container -->
+	<!--div class="dropdown-grids">
+                        <div id="loginContainer">
+                            
+                            <div id="loginBox">                
+                                <form id="loginForm"-->
+                                  <?php
+
+/*$options = array("id"=>"loginForm", "method"=>"POST");
+echo form_open("login/login_",$options); */
+?>
+                                    <!--div class="login-grids" >
+                                        <div class="login-grid-left">
+                                            <fieldset id="body">
+                                                <fieldset>
+                                                    <label for="email">Email Address</label>
+                                                    <input type="email" name="username" id="email" placeholder="Email address" value="<?php set_value('username')?>">
+                                                </fieldset>
+                                                <fieldset>
+                                                    <label for="password">Password</label>
+                                                    <input type="password" name="password" id="password">
+                                                </fieldset>
+                                                <input type="submit" id="login" value="Sign in">
+                                                <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+                                            </fieldset>
+                                            <span><a href="<?php echo base_url('login/reset/') ?>">Forgot your password?</a></span>
+                                            <div class="or-grid">
+                                                <p>OR</p>
+                                            </div>
+                                            <div class="social-sits"-->
+                                                <!--input type="hidden" name="referrer" value="<?php echo $referrer ?>"-->
+                                                <!--div class="button-bottom">
+                                                    <p> <a href="<?php echo base_url('publiczone/registerUser') ?>">New account? Signup</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div-->
+                </div>
+	<!-- /div></card-container -->
 </div><!-- /container --><!-- /.container -->
