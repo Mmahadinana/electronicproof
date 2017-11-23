@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</label>
 			</div>
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
-			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+			<a class="btn btn-lg btn-primary" href="<?php echo base_url('publiczone/registerUser') ?>"">Sign in</button>
 			<a href="<?php echo base_url('publiczone/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a>
 		</form><!--/form -->
 	
