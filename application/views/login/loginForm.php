@@ -38,8 +38,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</label>
 			</div>
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
-			<a class="btn btn-lg btn-primary" href="<?php echo base_url('publiczone/registerUser') ?>"">Sign in</button>
+			<button class="btn btn-md btn-primary" type="submit">Sign in</button>
 			<a href="<?php echo base_url('publiczone/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a>
+			<div class="social-sits">
+                                                <input type="hidden" name="referrer" value="<?php// echo $referrer ?>">
+                                                <div class="button-bottom">
+                                                    <p> <a href="<?php echo base_url('publiczone/registerUser') ?>">New account? Signup</a></p>
+                                                </div>
+                                            </div>
 		</form><!--/form -->
 	
 	<!--div class="dropdown-grids">
