@@ -223,13 +223,15 @@ class Publiczone extends CI_Controller {
 
 		$this->load->view('ini',$data);		
 	}//end of resetmassage function
-	/************************************This function load from the email link to enter new password***************/
-	public function resetpassword($mailtoken=0,$user_id)
+	
+		/************************************This function load from the email link to enter new password***************/
+	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
+		//var_dump($mailtoken);
 		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
 		
-		//var_dump($data['db']->expiretime);
-		if ($data['db'] == null) {
+	
+		if ($data['db'] == null ) {
 
 			$statusUsername=false;
 			redirect('publiczone/reset?statusUsername=$statusUsername');			
@@ -245,12 +247,58 @@ class Publiczone extends CI_Controller {
 			redirect('publiczone/reset?statusDate=$statusDate');
 		}
 
-		$data['pageToLoad']='login/resetpassword';
-		$data['pageActive']='resetpassword';
-		$this->load->helper('form');
+			
+
+			$data['pageToLoad']='login/resetpassword';
+			$data['pageActive']='resetpassword';
+			$this->load->helper('form');
 		// this is for validation 
-		//$this->load->library('form_validation');
-		$this->load->view('ini',$data);	
+			$this->load->library('form_validation');
+
+			
+			$config_validation =array(
+			 array(
+				'field'=>'newpassword',
+				'label'=>'Enter New Password',
+				'rules'=>array('required',	'min_length[5]'),						
+				'errors'=>array(						
+					'required'=>'you should insert one %s for reset',
+					'min_length[5]'=>'You should at least enter 5 charactors of %'),
+					
+
+			),				
+	
+			
+			array(
+				'field'=>'confirmpass',
+				'label'=>'Confirm Password',
+				'rules'=>array('required',
+					'matches[newpassword]'),		
+
+											
+				'errors'=>array(						
+					'required'=>'you should insert one %s for login',
+					'matches[newpassword]'=>'% you entered does not match'),
+			)
+
+			
+		);
+			$this->form_validation->set_rules($config_validation);
+		if($this->form_validation->run()===FALSE){
+
+			$this->load->view('ini',$data);
+
+		}else
+		{
+			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
+
+			//redirect("login/login_?statusResetPass=$statusResetPass");
+			redirect("login/login_");
+
+		}	
+
+			
+
 		
 	}//end of resetpassword function
 	
@@ -300,19 +348,11 @@ class Publiczone extends CI_Controller {
 			array(
 				'field'=>'password',
 				'label'=>'Password',
-				'rules'=>array(
-					'required',
-					array(
-						'checkPassword',
-						array($this->user_model,'checkPassword')
-						)
-					),
-				'errors'=>array(
-					'required'=>'you should insert one %s for the login',
-					'checkPassword'=>'Invalid email or password',
-					)
+				'rules'=>
+				'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
 				),
-			
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',

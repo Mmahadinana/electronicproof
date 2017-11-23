@@ -80,10 +80,14 @@ class User_model extends CI_MODEL{
 
 		     		//'minetype'=>$minetype
 			);
-		//var_dump($data);
+		
 		$this->db->trans_start();
+//var_dump($add);
 		$this->db->insert("user",$add);
+
 		$user_id = $this->db->insert_id();
+		$this->insertPassword($data, $user_id);
+
 		return $this->db->trans_complete();
 		
 		
@@ -136,23 +140,7 @@ class User_model extends CI_MODEL{
 
 
 	}*/
-
-public function getPasswordHashFromUser($username){
-
-
-	//bring the data from the user to the database
-	$hash = $this->db->select("user.id,user.email,login.id,login.password")
-	->from("user")
-	->join("login","login.user_id = user.id")
-	->where('user.email',$username)
-	->where('delete',0)
-
-	->get()->row();
-            //return the hash
-	return $hash->password ?? null;
-}
-
-public function checkPassword($password)
+	public function checkPassword($password)
 	{
 		//insert the username and password
 		$username = $this->input->post('username');
@@ -178,5 +166,32 @@ public function checkPassword($password)
 		return false;
 
 	}
+/**
+ * [getPasswordHashFromUser description]
+ * @param  [type] $username [description]
+ * @return [type]           [description]
+ */
+
+	public function insertPassword($data=array(), $user_id){	
+		//var_dump($data);
+	
+	 $password=password_hash($data['password'], PASSWORD_BCRYPT);
+	 $expireTime = 30*24*3600;
+	 $role_id = 2;
+		//expire date to be sent to the db
+	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+	//return the username
+	$loginadd = array(
+			'password'=>$password,
+			'user_id'=>$user_id,
+			'expireTime'=>$expireDate,
+			'role_id'=>$role_id,
+			
+			);
+		//var_dump($loginadd);
+		//$this->db->trans_start();
+	
+		$this->db->insert("login",$loginadd);	
+}
 }
 ?>

@@ -26,13 +26,10 @@ class Login extends CI_Controller {
 	 */
 	public function login_()
 	{
-		/*$data['pageToLoad']='login/login_';
-		$data['pageActive']='login_';
-		$this->load->helper('form');
-		// this is for validation 
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
-*/
+		
+		if(null!=$this->input->get('statusResetPass')){
+			$data['statusResetPass']= $this->input->get('statusResetPass');
+		}
 		//save the first referrrer to this page
 	    if (NULL == $this->input->get('frompage')) {
 	    $data['referrer'] =$this->input->post('referrer') ?? $this->agent->referrer();

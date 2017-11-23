@@ -6,8 +6,6 @@ class Residents extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		//library to access the session
-		$this->load->library("session");
 		$this->load->model("request_model");
 		$this->load->model("listOfRes_model");
 		$this->load->model("ownersProperty_model");
@@ -19,15 +17,7 @@ class Residents extends CI_Controller {
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
 
-		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if (!$is_logged_in) {
-			//no login check the cookie
-			if (!$this->login_model->CheckLoginWithCookie()) {
-				//no login go out
-			redirect(base_url('login/login_?frompage=eresidence'));
-			}
 
-		}
 
 
 	}
@@ -71,7 +61,7 @@ class Residents extends CI_Controller {
 		//$data['bd']=$this->request_model->getAddress();
 		//var_dump($data['db']);
 		$data['pageToLoad']='eresidence/request';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='request';
 		
 // loading the form and files for file uoload		
 		$this->load->helper(array('form','file','url'));
@@ -279,7 +269,7 @@ public function file_upload() {
 	public function listOfResidents()
 	{
 		$data['pageToLoad']='eresidence/listOfResidents';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='listOfResidents';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -348,7 +338,7 @@ public function file_upload() {
 	public function OwnersDetails()
 	{
 		$data['pageToLoad']='eresidence/OwnersDetails';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='OwnersDetails';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -417,7 +407,7 @@ public function file_upload() {
 	public function OwnersProperty()
 	{
 		$data['pageToLoad']='eresidence/ownersProperty';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='ownersProperty';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
