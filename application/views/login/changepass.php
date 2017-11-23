@@ -10,23 +10,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			//echo form_open($action,array('class'=>'form-inline col-md-offset-2 col-md-8'));
 			echo form_open($action,array('class'=>'form-horizontal'));?>
-
+<input <?php echo isset($user_id)? "value='user_id'":"value='0'";?> 
+	type='hidden' id='userid' name='userid'>
 			<!-- Old Password-->	
 
 			<div class="form-group  ">
 				<label for="oldpassword" class="control-label label-primary passlabels col-sm-2"><span class="footPadRight"> Enter Old Password</span></label>				
 				<div class="col-md-6">
-					<input type="password" id="oldpassword" name="password" class="form-control" placeholder="Enter Old Password" value="<?php echo set_value('password') ;?>">
+					<input type="password" id="oldpassword" name="oldpassword" class="form-control" placeholder="Enter Old Password" value="<?php echo set_value('oldpassword') ;?>">
 				</div>
-				<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+				<p><?php echo form_error('oldpassword') ? alertMsg(false,'oldpassword',form_error('oldpassword')) : ''; ?></p>
 			</div>
 
 			<div class="form-group  ">
 				<label for="repeatPassword" class="control-label label-primary passlabels col-sm-2"><span class="footPadRight"> Confirm Password</span></label>
 				<div class="col-md-6">					
-					<input type="password" id="repeatPassword" name="password" class="form-control" placeholder="Confirm Password" value="<?php echo set_value('password') ;?>">
+					<input type="password" id="repeatPassword" name="repeatpassword" class="form-control" placeholder="Confirm Password" value="<?php echo set_value('oldpassword') ;?>">
 				</div>
-				<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+				<p><?php echo form_error('oldpassword') ? alertMsg(false,'oldpassword',form_error('oldpassword')) : ''; ?></p>
 			</div>
 
 			<!-- New Password--> 
@@ -34,17 +35,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group ">
 				<label for="newpassword" class="control-label label-primary passlabels col-sm-2"><span class="footPadRight"> Enter New Password</span></label>				
 				<div class="col-md-6">
-					<input type="password" id="newpassword" name="password" class="form-control" placeholder="Enter New Password" value="<?php echo set_value('password') ;?>">
+					<input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="Enter New Password" value="<?php echo set_value('newpassword') ;?>">
 				</div>
-				<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+				<p><?php echo form_error('newpassword') ? alertMsg(false,'newpassword',form_error('newpassword')) : ''; ?></p>
 			</div>
 
 			<div class="form-group ">
 				<label for="repeatnewpass" class="control-label label-primary passlabels col-sm-2"><span class="footPadRight"> Confirm Password</span></label>					
 				<div class="col-md-6">
-					<input type="password" id="repeatnewpass" name="password" class="form-control" placeholder="Confirm Password" value="<?php echo set_value('password') ;?>">
+					<input type="password" id="repeatnewpass" name="password" class="form-control" placeholder="Confirm Password" value="<?php echo set_value('newpassword') ;?>">
 				</div>
-				<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+				<p><?php echo form_error('newpassword') ? alertMsg(false,'newpassword',form_error('newpassword')) : ''; ?></p>
 			</div>
 
 			<input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">

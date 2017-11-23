@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 		<?php
-		$action="login/login/";
+		$action="login/login_/";
 		echo form_open($action,array('class'=>'form-horizontal'));?>
 			<div class="form-group resetTopPad">
 		
-				<button class="btn btn-lg btn-primary" type="submit">Go to my account</button>		
-				<a href="<?php echo base_url('login/reset/') ?>" class="btn btn-lg btn-info " type="reset">Go back</a>
+				<a class="btn btn-lg btn-primary" href="https://accounts.google.com" >Go to my account</a>		
+				<a href="<?php echo base_url('publiczone/reset/') ?>" class="btn btn-lg btn-info " type="reset">Go back</a>
 		
 				</div>
 			
