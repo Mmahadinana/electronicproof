@@ -14,8 +14,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1>Proof of Residence</h1>
   <div class="row tablereq">
     <div class="col-md-10">
-     <?php echo form_open_multipart('upload/do_upload');
-     foreach ($user_id as $key ) {?>
+     <?php 
+//var_dump($user_addinfor);
+     echo form_open_multipart('upload/do_upload');
+     //echo $_POST['user_id'];
+     foreach ($user_addinfor as $key ) {?>
 
      <input type="hidden" name="user_id" <?php echo isset($user_id)? "value='echo $key->id'":"value='0'" ?> />
 
@@ -38,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <td>
               <?php    
 
-              foreach ($user_id as $key ) {
+              foreach ($user_addinfor as $key ) {
                 echo $key->name;
                 ?>
 

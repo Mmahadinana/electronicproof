@@ -234,17 +234,19 @@ public function deleteExpiredToken(){
 }//end deleteExpiredToken
 
 public function callback_checkEmail($email){
-	$user_id = $this->input->post('user_id');
+	//$user_id = $this->input->post('user_id');
+	$user_id = $_SESSION['id'];
+	//var_dump( $_SESSION['id']);
 	$this->db->select("user.email")
 	->from("user")
 	->where("id",$user_id);
 	$testemail=$this->db->get()->row();
-	//var_dump($testemail);
-	if ($testemail->email != $email) {
-		return false;
-	}else{
-		return true;
-
+	if ($testemail != null){
+		if ($testemail->email != $email) {
+			return false;
+		}else{
+			return true;
+		}
 	} 
 
 }
@@ -264,37 +266,40 @@ public function callback_checkUsername($email){
 	}
 }
 public function callback_checkPhone($phone){
-	$user_id = $this->input->post('user_id');
+
+	$user_id = $_SESSION['id'];
 	$this->db->select("user.phone,")
 	->from("user")
 	->where("id",$user_id);
 	$testphone=$this->db->get()->row();
-	if ($testphone->phone != $phone) {
-		return false;
-	}else{
-		return true;
+	if ($testphone !=null) {	
 
+		if ($testphone->phone != $phone) {
+			return false;
+		}else{
+			return true;
+		}
 	} 
 
 }
 public function callback_checkIdnumber($identitynumber){
 	//var_dump($this->input->post('user_id'));
-	$user_id = $this->input->post('user_id');
+	$user_id = $_SESSION['id'];
 	$this->db->select("user.identitynumber,user.phone")
 	->from("user")
 	->where("user.id",$user_id);
 		     	     //var_dump($this->db->get()->row() );
 	$identity=$this->db->get()->row();
 		//var_dump($identity);
-		//foreach ($identity as $value) {
-	if ($identity->identitynumber != $identitynumber) {
+	if ($identity !=null) {
+		if ($identity->identitynumber != $identitynumber) {
 				//var_dump($value->identitynumber );
-		return false;
-	}
-	else{
-		return true;
+			return false;
+		}
+		else{
+			return true;
 
-			//} 
+		} 
 
 
 	}
@@ -338,12 +343,12 @@ public function deleteEmailtoken(int $user_id){
 }
 
 public function updatePassword($data=array(), $user_id){
-    $password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;
+	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;
 	$passwordData = array(
 		'password' => $password,
 
 	);
-$this->db->trans_start();
+	$this->db->trans_start();
 	$this->db->where('user_id', $user_id);
 	$this->db->update('login', $passwordData);
 	return $this->db->trans_complete();

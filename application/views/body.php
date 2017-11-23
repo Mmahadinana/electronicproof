@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   	
       <?php
  $this->load->view('template/header');
- //echo password_hash("rosy", PASSWORD_BCRYPT);
+ //echo password_hash("user1", PASSWORD_BCRYPT);
 
  	 $this->load->view($pageToLoad);
 

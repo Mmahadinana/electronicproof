@@ -60,16 +60,18 @@ class Residents extends CI_Controller {
 	}
 	public function request()
 	{
+	
 		$search=array();
 
-		$search['user_id']= $this->input->get('user_id') ?? '0';
+		$search['user_id']= $_SESSION['id'];
 		//$search[23]= $this->input->get('user_id') ?? '0';
-		
+	//var_dump($search['user_id']);
 
-		$data['user_id']= $this->request_model->getAddress($search);
+		$data['user_addinfor']= $this->request_model->getAddress($search);
+
 		//$data['db']= $this->owners_property_model->getOwner($search);
 		//$data['bd']=$this->request_model->getAddress();
-		//var_dump($data['db']);
+		//var_dump($data['user_addinfor']);
 		$data['pageToLoad']='eresidence/request';
 		$data['pageActive']='eresidence';
 		
@@ -170,7 +172,8 @@ class Residents extends CI_Controller {
 					//var_dump($this->upload_data1['file']);
 					$this->request_model->insertMultipleFileData($this->upload_data1);
 			//$this->load->view('ini',$data); 
-			redirect('residents/requestPreview/'.$this->input->get('user_id'));
+					$this->requestPreview($data['user_addinfor']);
+			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 		}
 
 		
@@ -257,14 +260,15 @@ public function file_upload() {
 		return true;
 	}
 // **********************************************the success page of the request*******************************************************************************************//
-	public function requestPreview($user_id=0)
+	public function requestPreview($user_addinfor=array())
 	{
+		//var_dump($user_addinfor);
 		$search=array();
 
-		$search['user_id']=$user_id;
+		$data['user_addinfor']=$user_addinfor;
 		
 
-		$data['user_id']= $this->request_model->getAddress($search);
+		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/requestPreview';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
