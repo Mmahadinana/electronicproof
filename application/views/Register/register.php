@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label" for="identitynumber">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number" required>
+							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number"value="<?php echo set_value('identitynumber') ;?>" required>
 						</div>
 						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
 
@@ -208,79 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 			</select>
 		</div>
-<script type="text/javascript">
 
-$province = $_POST['provinceid'];   // department id
-
-$sql = "SELECT id,name FROM district WHERE province=".$provinceid;
-
-$result = mysqli_query($con,$sql);
-
-$district_arr = array();
-
-while( $row = mysqli_fetch_array($result) ){
-    $districtid = $row['id'];
-    $name = $row['name'];
-
-    $district_arr[] = array("id" => $district_id, "name" => $name);
-}
-
-// encoding array to json format
-echo json_encode($district_arr);
-	
-</script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-
-    $("#province").change(function(){
-        var provinceid = $(this).val();
-
-        $.ajax({
-            url: 'register.php',
-            type: 'post',
-            data: {province:provinceid},
-            dataType: 'json',
-            success:function(response){
-
-                var len = response.length;
-
-                $("#district").empty();
-                for( var i = 0; i<len; i++){
-                    var id = response[i]['id'];
-                    var name = response[i]['name'];
-                    
-                    $("#district").append("<option value='"+id+"'>"+name+"</option>");
-
-                }
-            }
-        });
-    });
-
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 		<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
 
 	</div>
@@ -437,44 +365,6 @@ echo json_encode($district_arr);
 		$('#manucipality').html(options);
 	});
 
-</script>
-<script>
-//updates the car models on the form
-function actualiza_modelos(){
-	//bring all the models from php to javascript
-	let modelos 		= <?php echo json_encode($modelos);?>;
-		//if in edit mode asssigns the model id if on insert assigns false
-	let id_province		= <?php echo $province_id ? $province_id : 'false'; ?>; 
-//select box from the models
-	let province_id 		=$("#province_id");
-		//manufacturer id from the select box of the manufacturers
-	let selected  		= $("#district_id").val();
-	//clear prev options
-province_id.empty();
-//write new options
-province_id.append($('<option>', { 
-        value: 0,
-        text : "escolha um modelo" 
-    }));
-$("#select_modelo select option[value='0']").attr("disabled","disabled");
-	$.each(modelos[selected], function (i, item) {
-    province_id.append($('<option>', { 
-        value: item.id,
-        text : item.nome 
-    }));
-});
-	//select the option of the edit mode
-	if(id_province){
-	$("#select_modelo select").val(id_province);
-}else{
-	$("#select_modelo select").val(0);
-}
-	//dispaly the select box
-	$("#select_modelo").attr('style','display:block');
-}
-$(document).ready(function() {
-actualiza_modelos();
-});
 </script>
 
 

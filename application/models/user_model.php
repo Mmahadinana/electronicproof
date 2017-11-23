@@ -66,7 +66,7 @@ class User_model extends CI_MODEL{
 	}
 
 	public function addUser($data){
-	
+		
 
 		$add = array(
 			'name'=>$data['name'],
@@ -128,16 +128,16 @@ class User_model extends CI_MODEL{
 		$identity=$this->db->get()->row();
 		//var_dump($identity);
 		//foreach ($identity as $value) {
-			if ($identity->identitynumber != $identitynumber) {
+		if ($identity->identitynumber != $identitynumber) {
 				//var_dump($value->identitynumber );
-				return false;
-			}
-			else{
-				return true;
+			return false;
+		}
+		else{
+			return true;
 		}
 
 
-}
+	}
 }
 
 ?>

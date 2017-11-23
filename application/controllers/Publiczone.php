@@ -207,14 +207,19 @@ class Publiczone extends CI_Controller {
 		array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
-				'rules'=>
-					'required',				
-					),
-				'errors'=>array(
-					'required'=>' %s is required'
-
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',
+					array('checkIdnumber',array($this->user_model,'callback_checkIdnumber'))				
 				),
-			
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',
+					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+				
+			),
 			/*array(
 				'field'=>'dateOfBirth',
 				'label'=>'Date of Birth',
