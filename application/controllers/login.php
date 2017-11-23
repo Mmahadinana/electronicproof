@@ -54,7 +54,8 @@ class Login extends CI_Controller {
 		$this->load->helper('form');
 		//validation rules
 		$this->load->library('form_validation');
-
+		//$data['username']=$this->Login_model->getUser();
+//var_dump($data['username']);
 		$config_validation = array(
 			array(
 				'field'=>'username',
@@ -113,7 +114,7 @@ class Login extends CI_Controller {
 
 		
 	}
-	public function reset()
+	/*public function reset()
 	{
 		$data['pageToLoad']='login/reset';
 		$data['pageActive']='reset';
@@ -139,5 +140,5 @@ class Login extends CI_Controller {
 		// this is for validation 
 		//$this->load->library('form_validation');
 		$this->load->view('ini',$data);		
-	}
+	}*/
 }

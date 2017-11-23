@@ -29,15 +29,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
           </ul>
         </li>
-      <!--/ul>
-      <ul class="nav navbar-nav" -->
-       <li> <?php echo (isset($_SESSION['email']) )? '<a href="'. base_url("Publiczone/logout").'">
-              Logout '.$_SESSION['name'].' <span class="text-success">'.ucfirst($_SESSION['role']).'</span></a>':'<a href="'.base_url("login/login_").'">
+     
+        <li>
+           <?php echo (isset($_SESSION['email']) )? '<a href="'. base_url("Publiczone/logout").'">
+              Logout </a>':'<a href="'.base_url("login/login_").'">
              Login </a>';?>
         </li>
-       <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
+      
      </ul>
    </div><!--/.nav-collapse -->
+  
+    
+       
  </div>
 </nav>
-
+<?php //$this->load->view('login/loginForm');?>

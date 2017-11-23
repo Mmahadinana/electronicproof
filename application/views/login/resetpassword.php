@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			echo form_open($action,array('class'=>'form-horizontal'));?>
 
+			<!--input type="hidden" name="user_id" value="<?php echo set_value('password') ;?>"-->
 			<div class="resetTopPad text-center">
 			<div class="form-group ">
 				<label for="newpassword" class="control-label label-primary passlabels col-sm-4"><span class="footPadRight"> Enter New Password</span></label>				

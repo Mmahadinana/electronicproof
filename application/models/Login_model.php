@@ -53,7 +53,7 @@ class Login_model extends CI_MODEL{
 		}
 //will retrieve the password from the user
 		$hash =$this->getPasswordHashFromUser($username);
-	
+
 
 //lets you varify the password
 		if(!empty($hash) && password_verify($password,$hash)){
@@ -98,6 +98,7 @@ public function startUserSession($username){
 
 	//build the session temporary cache by the username 
 	$session_data = (array)$this->get_user($username);
+	//var_dump($session_data);
 	$session_data['is_logged_in'] = true;
 	//var_dump($session_data);
 	$this->session->set_userdata($session_data);
@@ -110,9 +111,12 @@ public function startUserSession($username){
 public function get_user($username){	
 	
 	//return the username
-	$user_data = $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,login.id as loginid,login.password")
-		->from("user")
-		->join("login","login.user_id = user.id")		
+	$user_data = $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,
+		login.id as loginid,login.password,
+		role.id as roleid, role.role")
+	->from("user")
+	->join("login","login.user_id = user.id")		
+	->join("role","role.id = login.role_id")		
 	->where('email',$username)
 	->where('delete',0)
 	->get()->row();
@@ -235,6 +239,7 @@ public function callback_checkEmail($email){
 	->from("user")
 	->where("id",$user_id);
 	$testemail=$this->db->get()->row();
+	//var_dump($testemail);
 	if ($testemail->email != $email) {
 		return false;
 	}else{
@@ -242,7 +247,23 @@ public function callback_checkEmail($email){
 
 	} 
 
-}public function callback_checkPhone($phone){
+}
+public function callback_checkUsername($email){	
+	//var_dump($email);
+	$this->db->select("user.email")
+	->from("user")
+	->where("email",$email);
+	$testemail=$this->db->get()->row();
+	if ($testemail != null){
+		if ($testemail->email != $email) {
+			return false;
+		}else{
+			return true;
+
+		} 
+	}
+}
+public function callback_checkPhone($phone){
 	$user_id = $this->input->post('user_id');
 	$this->db->select("user.phone,")
 	->from("user")
@@ -255,7 +276,8 @@ public function callback_checkEmail($email){
 
 	} 
 
-}public function callback_checkIdnumber($identitynumber){
+}
+public function callback_checkIdnumber($identitynumber){
 	//var_dump($this->input->post('user_id'));
 	$user_id = $this->input->post('user_id');
 	$this->db->select("user.identitynumber,user.phone")
@@ -278,5 +300,42 @@ public function callback_checkEmail($email){
 	}
 
 }
+public function inserEmailToken($id,$token){
+	$this->deleteEmailtoken($id);
+	$expireTime = 1*24*3600;
+		//expire date to be sent to the db
+		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+	$tokendata =array(
+		'user_id'=>$id,
+		'emailtoken'=>$token,
+		'expiretime'=>$expireDate ,
+	);
+$this->db->trans_start();
+		     	$this->db->insert("emailtoken",$tokendata);    	
+		     	return $this->db->trans_complete();
+
+}
+public function get_mailToken($mailtoken,$user_id){
+
+	$this->db->select("*")
+	->from("emailtoken")
+	->where("emailtoken.user_id",$user_id)
+	->where("emailtoken.emailtoken",$mailtoken);
+		     	     //var_dump($this->db->get()->row() );
+	return $this->db->get()->row();
+
+}
+public function deleteEmailtoken(int $user_id){
+	//var_dump($user_id);
+		//begin the transaction
+		$this->db->trans_start();		
+		//delete the email token
+		$this->db->delete("emailtoken",array('user_id'=>$user_id));
+		//return $this->db->affected_rows();
+		return $this->db->trans_complete();
+
+
+	}
+
 }
 ?>
