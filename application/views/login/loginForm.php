@@ -9,6 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		<?php
 
+if (isset($statusUsername)) {
+   echo alertMsg($statusResetPass,'Password reset successfully ','Username not found ');
+ }
 		$action="login/login_/";
 
 		echo form_open($action,array('class'=>'form-horizontal'));?>
@@ -37,15 +40,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type="checkbox" name="rememberme" value="rememberme">Rememberme
 				</label>
 			</div>
+			<div class="col-md-5 text-right" >
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
-			<button class="btn btn-md btn-primary" type="submit">Sign in</button>
-			<a href="<?php echo base_url('publiczone/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a>
-			<div class="social-sits">
-                                                <input type="hidden" name="referrer" value="<?php// echo $referrer ?>">
-                                                <div class="button-bottom">
-                                                    <p> <a href="<?php echo base_url('publiczone/registerUser') ?>">New account? Signup</a></p>
-                                                </div>
-                                            </div>
+			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+		</div>
+			<div class="col-md-2 text-right" >
+				<a href="<?php echo base_url('publiczone/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
+			<a href="<?php echo base_url('publiczone/registerUser') ?>" class="text-danger"><span>New account? Signup</span></a>
+			</div>
+			
 		</form><!--/form -->
 	
 	<!--div class="dropdown-grids">
