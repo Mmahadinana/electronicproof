@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container form-area">
 
 	<?php 
-	$options = array("class"=> "form-group","method"=>"POST");
+	$options = array("class"=> "form-group","method"=>"POST","name"=>"form_name","id"=>"form_id","class"=>"form_class");
 	echo form_open("publiczone/registerUser",$options);
 	?>
 
@@ -26,14 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 				<p>Step 3</p>
 			</div>
-			<div class="stepwizard-step">
-				<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
-				<p>Step 4</p>
-			</div>
-			<div class="stepwizard-step">
-				<a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-home" aria-hidden="true"></i></a>
-				<p>Step 5</p>
-			</div>
+			
+			
 		</div>
 	</div>
 	<form role="form" action="" method="post">
@@ -84,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="control-label" for="identitynumber">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number"value="<?php echo set_value('identitynumber') ;?>" required>
+							<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number" required>
 						</div>
 						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
 
@@ -209,32 +203,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</select>
 		</div>
 
-		<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
-
+	<button class="btn btn-success btn-lg pull-right" type="submit" >Submit</button>
 	</div>
 </div>
 
 </div>
 
-
-<div class="row setup-content" id="step-4">
-	<div class="col-xs-6 col-md-offset-4">
-		<div class="col-md-12">
-
-			<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" type="button" >Next</button>
-			
-		</div>
-	</div>
-</div>
-
-<div class="row setup-content" id="step-5">
-	<div class="col-xs-6 col-md-offset-5">
-		<div class="col-md-12">
-			<h3> Step 5</h3>
-			<button class="btn btn-success btn-lg pull-right" type="submit">Submit</button>
-		</div>
-	</div>
-</div>
 </form>
 
 </div>
@@ -366,5 +340,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 
 </script>
+<script type="text/javascript">
+	var password = document.getElementById("password")
+  , confirm = document.getElementById("confirm");
 
+function validatePassword(){
+  if(password.value != confirm.value) {
+    confirm.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm.onkeyup = validatePassword;
+</script>
 

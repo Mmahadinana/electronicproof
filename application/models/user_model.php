@@ -102,7 +102,6 @@ class User_model extends CI_MODEL{
 		} 
 
 	}/*public function callback_checkPhone($phone){
-		
 		$user_id = $this->input->post('phone');
         //var_dump($phone);
 		$this->db->select("user.phone")
@@ -118,9 +117,9 @@ class User_model extends CI_MODEL{
 
 		} 
 
-	}*/public function callback_checkIdnumber($identitynumber){
+	}public function callback_checkIdnumber($identitynumber){
 	//var_dump($this->input->post('user_id'));
-		$user_id = $this->input->post('user_id');
+		//$user_id = $this->input->post('user_id');
 		$this->db->select("user.identitynumber,user.phone")
 		->from("user")
 		->where("user.id",$user_id);
@@ -129,7 +128,6 @@ class User_model extends CI_MODEL{
 		//var_dump($identity);
 		//foreach ($identity as $value) {
 		if ($identity->identitynumber != $identitynumber) {
-				//var_dump($value->identitynumber );
 			return false;
 		}
 		else{
@@ -137,7 +135,48 @@ class User_model extends CI_MODEL{
 		}
 
 
-	}
+	}*/
+
+public function getPasswordHashFromUser($username){
+
+
+	//bring the data from the user to the database
+	$hash = $this->db->select("user.id,user.email,login.id,login.password")
+	->from("user")
+	->join("login","login.user_id = user.id")
+	->where('user.email',$username)
+	->where('delete',0)
+
+	->get()->row();
+            //return the hash
+	return $hash->password ?? null;
 }
 
+public function checkPassword($password)
+	{
+		//insert the username and password
+		$username = $this->input->post('username');
+		$rememberme = $this->input->post('rememberme');
+
+		if (empty($username) || empty($password)) {
+			//no values go out
+			return false;
+		}
+//will retrieve the password from the user
+		$hash =$this->getPasswordHashFromUser($username);
+
+
+//lets you varify the password
+		if(!empty($hash) && password_verify($password,$hash)){
+	//valid
+			$this->startUserSession($username);
+			$this->remember_cookie($rememberme);
+	//checks if valid
+			return true;
+		}
+//return false if password is not correct
+		return false;
+
+	}
+}
 ?>

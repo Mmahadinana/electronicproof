@@ -109,79 +109,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 					<div class="form-group">
 
-						<label for="manucipality">manucipality</label>
-						<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
-							<option  selected="true" disabled="disabled">Please select</option>
-
-							<?php 
-
-							foreach ($manucipalities as $manucipality){?>
-							<option <?php 
-							if(isset($user_id)  && $manucipalityEdit){
-
-								echo ($manucipalityEdit == $manucipality->name)? 'selected':'';
-
-
-							}else{
-								if(set_value('manucipality')){
-									echo (set_value('manucipality') == $manucipality->id)? 'selected':'';
-								}
-
-							}
-							?>
-
-							value="<?php echo $manucipality->id ?>"><?php echo $manucipality->name ?></option>
-							<?php } ?>
-						</select>
-					</div>
-
-					<div class="form-group">
-
-						<label for="district">district</label>
-						<select class="form-control" value="district" name="district" id="district">
-							<option  selected="true" disabled="disabled">Please select</option>
-
-							<?php 
-
-							foreach ($districts as $district){?>
-							<option <?php 
-							if(isset($user_id)  && $districtEdit){
-
-								echo ($districtEdit == $district->name)? 'selected':'';
-
-
-							}else{
-								if(set_value('district')){
-									echo (set_value('district') == $district->id)? 'selected':'';
-								}
-
-							}
-							?>
-
-							value="<?php echo $district->id ?>"><?php echo $district->name ?></option>
-							<?php } ?>
-						</select>
-					</div>
-					<div class="form-group">
-
 						<label for="province">province</label>
 						<select class="form-control" value="province" name="province" id="province">
-							<option  selected="true" disabled="disabled">Please select</option>
+							<?php	
+							foreach ($province as $provinces)
+								{?>	
+							<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
+							<?php
+						}
+						?>
+					</select>
+				</div>
 
-							<?php 
+				<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
+				<div class="form-group">
 
-							foreach ($provinces as $province){?>
-							<option <?php 
+					<label for="district">district</label>
+					<select class="form-control" value="districts" name="district" id="district">
+						<?php	
+						foreach ($district as $districts)
+							{?>	
+						<option value="<?php echo $districts->id;?>"><?php echo $districts->name;?></option>
+						<?php
+					}
+					?>
+				</select>
+			</div>
+			<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
+			<div class="form-group">
 
-							if(set_value('province')){
-								echo (set_value('province') == $province->id)? 'selected':'';
-							}
-							?>
-
-							value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
-							<?php } ?>
-						</select>
-					</div>
+				<label for="manucipality">manucipality</label>
+				<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
+					<?php	
+					foreach ($manucipality as $manucipalities)
+						{?>	
+					<option value="<?php echo $manucipalities->id;?>"><?php echo $manucipalities->name;?></option>
+					<?php
+				}
+				?>
+			</select>
+		</div>
 					<button class="btn btn-primary nextBtn btn-m pull-right" type="button" >Next</button>
 				</div>
 			</div>
@@ -291,5 +258,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 
 
+
+</script>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+	
+	$("#province").change(function() {
+		if ($(this).data('options') === undefined) {
+			/*Taking an array of all options-2 and kind of embedding it on the select1*/
+			$(this).data('options', $('#manucipality option').clone());
+		}
+		var id = $(this).val();
+		var options = $(this).data('options').filter('[value=' + id + ']');
+		$('#manucipality').html(options);
+	});
 
 </script>
