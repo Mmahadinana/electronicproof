@@ -5,7 +5,7 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 ?>
 
 
-<div class="container form-area">
+<div class="container form-area"></div>
 
 	<?php 
 	$options = array("class"=> "form-group","method"=>"POST","name"=>"form_name","id"=>"form_id","class"=>"form_class");
@@ -171,12 +171,12 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 					
 				</div>
 				<div class="form-group" id="zip_code_input" style="display:none">
-							<label for="zip_code">Zip Code</label>
+					<label for="zip_code">Zip Code</label>
 
 
-							<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+					<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 
-						</div>
+				</div>
 
 				<div class="form-group" id="select_suburb" style="display:none">
 					<label for="suburb">Suburb</label>
@@ -341,9 +341,9 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 <script>
 
 
-/************************ getting the district through the provinve id********************/
-$( document ).ready(function() {
-	$('#province').on('change',function(){
+	/************************ getting the district through the provinve id********************/
+	$( document ).ready(function() {
+		$('#province').on('change',function(){
 	//bring all the districts from php to javascript
 	let district 		= <?php echo json_encode($district);?>;
 
@@ -352,7 +352,7 @@ $( document ).ready(function() {
 let district_id =$("#district");
 		//province id from the select box of the provinces
 		let selected  		= $("#province").val();
-	
+
 	//clear prev options
 	district_id.empty();
 //write new options
@@ -378,13 +378,13 @@ $.each(district[selected], function (i, item) {
 	//dispaly the select box
 	$("#select_district").attr('style','display:block');
 });
-});
-/*get municipali by distric id*/	
-$( document ).ready(function() {
-$('#district').on('change',function(){
+	});
+	/*get municipali by distric id*/	
+	$( document ).ready(function() {
+		$('#district').on('change',function(){
 	//bring all the districts from php to javascript
 	let manucipality 		= <?php echo json_encode($manucipality);?>;
-console.log(manucipality);
+	console.log(manucipality);
 	
 //select box from the ditrict
 let manucipality_id =$("#manucipality");
@@ -415,14 +415,14 @@ $.each(manucipality[selected], function (i, item) {
 	//dispaly the select box
 	$("#select_manucipality").attr('style','display:block');
 });
-});
+	});
 
-/**get town by municipality id**/
-$( document ).ready(function() {
-$('#manucipality').on('change',function(){
+	/**get town by municipality id**/
+	$( document ).ready(function() {
+		$('#manucipality').on('change',function(){
 	//bring all the districts from php to javascript
 	let town 		= <?php echo json_encode($town);?>;
-console.log(town);
+	console.log(town);
 	
 //select box from the ditrict
 let town_id =$("#town");
@@ -449,14 +449,14 @@ $.each(town[selected], function (i, item) {
 	$("#select_town").attr('style','display:block');
 
 });
-});
+	});
 
-/**get town by municipality id**/
-$( document ).ready(function() {
-$('#town').on('change',function(){
+	/**get town by municipality id**/
+	$( document ).ready(function() {
+		$('#town').on('change',function(){
 	//bring all the districts from php to javascript
 	let suburb 		= <?php echo json_encode($suburb);?>;
-console.log(suburb);
+	console.log(suburb);
 	
 //select box from the ditrict
 let suburb_id =$("#suburb");
@@ -473,12 +473,12 @@ suburb_id.append($('<option>', {
 }));
 $("#suburb select option[value='0']").attr("disabled","disabled");
 $.each(suburb[selected], function (i, item) {
-$("#zip_code_input").empty();
+	$("#zip_code_input").empty();
 	$("#zip_code_input").append($('<input>', { 
-	
-	placeholder: item.zip_code,
-	
-}));
+
+		placeholder: item.zip_code,
+
+	}));
 	item.zip_code;
 	suburb_id.append($('<option>', { 
 		value: item.id,
@@ -496,7 +496,7 @@ $("#zip_code_input").empty();
 //console.log(towninput);
 $("#zip_code_input").attr('style','display:block');
 $("#select_suburb").attr('style','display:block');
-	
+
 });
 });
 
@@ -510,7 +510,7 @@ $( document ).ready(function() {
 let address_id =$("#address");
 		//province id from the select box of the provinces
 		let selected  		= $("#suburb").val();
-	
+
 	//clear prev options
 	address_id.empty();
 //write new options

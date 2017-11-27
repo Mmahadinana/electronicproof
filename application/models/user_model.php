@@ -171,26 +171,46 @@ class User_model extends CI_MODEL{
  * @return [type]           [description]
  */
 
-	public function insertPassword($data=array(), $user_id){	
+public function insertPassword($data=array(), $user_id){	
 		//var_dump($data);
 	
-	 $password=password_hash($data['password'], PASSWORD_BCRYPT);
-	 $expireTime = 30*24*3600;
-	 $role_id = 2;
+	$password=password_hash($data['password'], PASSWORD_BCRYPT);
+	$expireTime = 30*24*3600;
+	$role_id = 2;
 		//expire date to be sent to the db
 	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
 	//return the username
 	$loginadd = array(
-			'password'=>$password,
-			'user_id'=>$user_id,
-			'expireTime'=>$expireDate,
-			'role_id'=>$role_id,
-			
-			);
+		'password'=>$password,
+		'user_id'=>$user_id,
+		'expireTime'=>$expireDate,
+		'role_id'=>$role_id,
+		
+		);
 		//var_dump($loginadd);
 		//$this->db->trans_start();
 	
-		$this->db->insert("login",$loginadd);	
+	$this->db->insert("login",$loginadd);	
+}
+public function insertAddress($data=array(), $user_id){	
+		//var_dump($data);
+	
+	$door_number=password_hash($data['door_number'], PASSWORD_BCRYPT);
+	$street_name = 30*24*3600;
+	$suburb_id = 2;
+		//expire date to be sent to the db
+	
+	//return the username
+	$addressAdd = array(
+		'door_number'=>$door_number,
+		'street_name'=>$street_name,
+		'suburb_id'=>$suburb_id,
+		
+		);
+		//var_dump($addressAdd);
+		//$this->db->trans_start();
+	
+	$this->db->insert("login",$addressAdd);	
 }
 }
 ?>
