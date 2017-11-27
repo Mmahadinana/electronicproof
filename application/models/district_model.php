@@ -6,12 +6,23 @@ class District_model extends CI_MODEL{
 		parent::__construct();
 		$this->load->database();
 	}
-	public function getDistrict()
+	public function getDistrict($search=0)
 {
+	//var_dump($search);
 	$this->db->select("district.id,district.name,province_id")
-		         ->from("district");
+		         ->from("district")
+		         ->where('province_id',$search);
 		       return $this->db->get()->result();
 }
+public function getDistricts()
+{
+	
+	$this->db->select("district.id,district.name,province_id")
+		         ->from("district");
+		         //->where('province_id',$search);
+		       return $this->db->get()->result();
+}
+
 
 		
 }

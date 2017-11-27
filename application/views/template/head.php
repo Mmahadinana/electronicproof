@@ -28,5 +28,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   ?>
   <script src="js/ie-emulation-modes-warning.js"></script>
   <!--script src="js/myjs.js"></script-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+ 
   </head>

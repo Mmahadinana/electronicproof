@@ -10,13 +10,18 @@ class Publiczone extends CI_Controller {
 		$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
+		$this->load->model('suburb_model');
 		$this->load->model("district_model");
 		$this->load->model('town_model');
 		$this->load->model('user_model');
 		$this->load->model('login_model');
 		$this->load->library('email');
 		$this->load->model('Postoffice_model');
+
 		//$this->load->model('listOfOwnersProperty_model');
+
+		$this->load->model('address_model');
+
 
 
 
@@ -140,13 +145,6 @@ class Publiczone extends CI_Controller {
 		
 	}
 
-	public function login()
-	{
-		$data['pageToLoad']='login/loginForm';
-		$data['pageActive']='loginForm';
-		$this->load->view('ini',$data);
-		
-	}
 	public function logout(){
 		//delete cookie data from db
 		$this->login_model->deleteCookieByToken();
@@ -157,160 +155,55 @@ class Publiczone extends CI_Controller {
 		redirect('Publiczone');
 
 	}//end of logout function
-	/*******************************this function checks the email for reset*******************************/
-	public function reset()
+
+	/*public function getDistrict()
 	{
-		if(null!=$this->input->get('statusUsername')){
-			$data['statusUsername']= $this->input->get('statusUsername');
+		echo "string";
+		$province_id = $this->input->post('province');
+		$districts = $this->district_model->getDistrict($province_id);
+		if (count($districts)>0) {
+			$district_select='';
+			$district_select .= "<option value=''>Select District";
+			foreach ($districts as $district) {
+				$district_select .= '<option value="'.$district->id.'">'.$district->name;
+			}
+
+			echo json_encode($district_select );
 		}
-		if(null!=$this->input->get('statusToken')){
-			$data['statusToken']= $this->input->get('statusToken');
-		}if(null!=$this->input->get('statusDate')){
-			$data['statusDate']= $this->input->get('statusDate');
-		}
-		$data['pageToLoad']='login/reset';
-		$data['pageActive']='reset';
-		$this->load->helper('form');
-		// this is for validation 
-		$this->load->library('form_validation');
-		$config_validation = array(
-			array('field'=>'username',
-				'label'=>'Username',
-				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkUsername'))),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
-
-				) 					
-			),				
-		);
-		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE) {
-
-			$this->load->view('ini',$data);
-		}else{
-
-			$data['db']=$this->login_model->get_user($this->input->post('username'));
-
-			$user_id= $data['db']->id;
-			$name = $data['db']->name;
-
-			$email =$data['db']->email;
-
-
-					/*$name = 'name';
-					$email ='freestateresident@gmail.com';*/
-					$token = bin2hex(openssl_random_pseudo_bytes(32));				
-					$url = 'publiczone/resetpassword/'.$token.'/'.$user_id;
-				//url to be sent by the email
-					$url_to_activate = base_url($url);
-				//prepare the template new user to be sent by email
-					$this->Postoffice_model->setTemplate($this->load->view("email/new_user_email_template",array(),TRUE));
-				//prepare the data neaded for the email
-					$templateData = array(
-						'user_name'			=> $name,
-						'url_to_activate' 	=> $url_to_activate 
-					);
-					$this->Postoffice_model->setDataToTemplate($templateData);
-					$subject ='Registration' ;
-				//send email to the new user
-					$this->Postoffice_model->sendEmail($subject,$email);
-				//end email
-					$this->login_model->inserEmailToken($user_id,$token);
-					redirect('publiczone/resetmessage/');
-
-				}
-	}//end of reset function
-	/***********************************this function load the notification that email has been send ****************/ 
-	public function resetmessage()
+	}*/
+	public function getProvinceDistrict():array
 	{
-		$data['pageToLoad']='login/resetmessage';
-		$data['pageActive']='resetmessage';
-		$this->load->helper('form');
-		// this is for validation 
-		//$this->load->library('form_validation');	
-
-		$this->load->view('ini',$data);		
-	}//end of resetmassage function
-	
-		/************************************This function load from the email link to enter new password***************/
-	public function resetpassword($mailtoken=0,$user_id=0)
-	{	
-		//var_dump($mailtoken);
-		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
-		
-	
-		if ($data['db'] == null ) {
-
-		$statusUsername=false;
-			redirect('publiczone/reset?statusUsername=$statusUsername');			
-			
-		}
-		if ($mailtoken != $data['db']->emailtoken && $user_id != $data['db']->user_id) {
-			$statusToken=true;
-				redirect('publiczone/reset?statusToken=$statusToken');
+		$tempdata=array();
+				$tempdata['province']=$this->province_model->getProvince();
+				foreach ($tempdata['province'] as $prov) {
+					$tempdata['district'][$prov->id]=$this->district_model->getDistrict($prov->id);
 				
-		}
-		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) {
-			$statusDate=true;
-			redirect('publiczone/reset?statusDate=$statusDate');
-		}
-			
+				}
+				$tempdata['districts']=$this->district_model->getDistricts();
+				foreach ($tempdata['districts'] as $distr) {
+				$tempdata['manucipality'][$distr->id]=$this->manucipality_model->getManucipality($distr->id);
+				
+				}
+				$tempdata['manucipalities']=$this->manucipality_model->getManucipalities();
+				foreach ($tempdata['manucipalities'] as $tow) {
+				$tempdata['town'][$tow->id]=$this->town_model->getTown($tow->id);
+				
+				}
 
-			$data['pageToLoad']='login/resetpassword';
-			$data['pageActive']='resetpassword';
-			$this->load->helper('form');
-		// this is for validation 
-			$this->load->library('form_validation');
+				$tempdata['towns']=$this->town_model->getTowns();
+				foreach ($tempdata['towns'] as $sub) {
+				$tempdata['suburb'][$sub->id]=$this->suburb_model->getSuburb($sub->id);
+				
+				}
+				$tempdata['towns']=$this->suburb_model->getSuburbs();
+				foreach ($tempdata['towns'] as $add) {
+				$tempdata['address'][$add->id]=$this->address_model->getAddress($add->id);
+				
+				}
 
-			
-			$config_validation =array(
-			 array(
-				'field'=>'newpassword',
-				'label'=>'Enter New Password',
-				'rules'=>array('required',	'min_length[5]'),						
-				'errors'=>array(						
-					'required'=>'you should insert one %s for reset',
-					'min_length[5]'=>'You should at least enter 5 charactors of %'),
-					
+			return $tempdata;		
 
-			),				
-	
-			
-			array(
-				'field'=>'confirmpass',
-				'label'=>'Confirm Password',
-				'rules'=>array('required',
-					'matches[newpassword]'),		
-
-											
-				'errors'=>array(						
-					'required'=>'you should insert one %s for login',
-					'matches[newpassword]'=>'% you entered does not match'),
-			)
-
-			
-		);
-			$this->form_validation->set_rules($config_validation);
-		if($this->form_validation->run()===FALSE){
-
-			$this->load->view('ini',$data);
-
-		}else
-		{
-			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
-
-			//redirect("login/login_?statusResetPass=$statusResetPass");
-			redirect("login/login_");
-
-		}	
-
-			
-		
-	}//end of resetpassword function
-	
+	}
 	function registerUser() {
 
 		$search=array();
@@ -329,12 +222,35 @@ class Publiczone extends CI_Controller {
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		//data from db
-		$data['manucipality']=$this->manucipality_model->getManucipality();
-		//var_dump($data['manucipality']);
-		$data['district']=$this->district_model->getDistrict();
-		$data['province']=$this->province_model->getProvince();
 
+		/***get the provice and distric by provice id*******/
+		$selDistrict = $this->getProvinceDistrict();
+			$data['province'] = $selDistrict['province'];
+			$data['district']     = $selDistrict['district'];
+			$data['manucipality']=$selDistrict['manucipality'];	
+			$data['town']=$selDistrict['town'];	
+			$data['suburb']=$selDistrict['suburb'];	
+			$data['address']=$selDistrict['address'];	
+			//var_dump($data['manucipality']);	
+		/*****end */		
+					
+
+		//data from db
+		;
+		
+		$search = array();
+		$data['province']=$this->province_model->getProvince();
+		$district = $this->input->post('province');
+
+		//$data['district']=$this->district_model->getDistrict($district);
+		
+		
+/*$search['district'] = 
+		//$data['district']=$this->district_model->getDistrict();
+		$data['province']=$this->province_model->getProvince();
+		foreach ($data['province'] as $key => $value) {
+			$data['district']=$this->district_model->getDistrict($value->name);
+		}*/
 		
 		
 //Including validation library
@@ -500,13 +416,16 @@ class Publiczone extends CI_Controller {
 		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE){
 
-			//$this->load->view('ini',$data);
+			$this->load->view('ini',$data);
 
 		}else
 		{
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
+
+
 			redirect("publiczone/registerUser?statusInsert=$statusInsert");
+
 
 		}
 

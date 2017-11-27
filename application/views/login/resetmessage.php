@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group resetTopPad">
 		
 				<a class="btn btn-lg btn-primary" href="https://accounts.google.com" >Go to my account</a>		
-				<a href="<?php echo base_url('publiczone/reset/') ?>" class="btn btn-lg btn-info " type="reset">Go back</a>
+				<a href="<?php echo base_url('passwords/reset/') ?>" class="btn btn-lg btn-info " type="reset">Go back</a>
 		
 				</div>
 			

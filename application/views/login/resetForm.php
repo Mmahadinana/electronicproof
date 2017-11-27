@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  if (isset($statusDate)) {
    echo alertMsg(false,' ','Date has expired');
  }
-			$action="publiczone/reset/";
+			$action="passwords/reset/";
 
 			echo form_open($action,array('class'=>'form-horizontal'));?>
 

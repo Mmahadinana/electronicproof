@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!--div class="card card-container"-->
 			<?php
            //var_dump($db);
-			$action="publiczone/resetpassword/".$db->emailtoken."/".$db->user_id;
+			$action="passwords/resetpassword/".$db->emailtoken."/".$db->user_id;
 
 			echo form_open($action,array('class'=>'form-horizontal'));?>
 
