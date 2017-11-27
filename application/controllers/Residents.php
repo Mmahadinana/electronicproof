@@ -19,8 +19,19 @@ class Residents extends CI_Controller {
 
 
 
+		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
+		if (!$is_logged_in) {
+			//no login check the cookie
+			if (!$this->login_model->CheckLoginWithCookie()) {
+				//no login go out
+			redirect(base_url('login/login_?frompage=eresidence'));
+			}   
+
+
+
 
 	}
+}
 
 	/**
 	 * Index Page for this controller.
@@ -464,8 +475,43 @@ if ($this->form_validation->run()===FALSE) {
 }else{
 
 
-}
+		}
 
+	}
+	public function EditownersProperty($user_id = 0){
+
+
+	}
+
+		public function ownerProperty($user_addinfor=array())
+	{
+		//var_dump($user_addinfor);
+		$search=array();
+
+		$data['user_addinfor']=$user_addinfor;
+		
+
+
+
+
+
+	
+		//to re-write the links
+		$config['enable_query_string'] = TRUE;
+		//to show the actual page number
+		$config['page_query_string'] = TRUE;
+		//config base_url that use pagination
+		$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
+		//number of results to be divided on the pagination
+		//$config['total_rows'] =$data['addressCount'];
+		//load the pagination library
+		$this->load->library('pagination');
+		//initialise the pagination with config
+		$this->pagination->initialize($config);
+		//create links to be send to the view
+		$data['search_pagination']=$this->pagination->create_links();
+		//view load page
+	
 }
 
 }
