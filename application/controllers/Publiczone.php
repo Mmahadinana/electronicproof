@@ -17,11 +17,7 @@ class Publiczone extends CI_Controller {
 		$this->load->model('login_model');
 		$this->load->library('email');
 		$this->load->model('Postoffice_model');
-
-		//$this->load->model('listOfOwnersProperty_model');
-
 		$this->load->model('address_model');
-
 
 
 
@@ -82,8 +78,8 @@ class Publiczone extends CI_Controller {
 				'label'=>'name',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-			)
-			),
+					)
+				),
 
 			
 			array(
@@ -91,23 +87,23 @@ class Publiczone extends CI_Controller {
 				'label'=>'email',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-			)
-			),
+					)
+				),
 			array(
 				'field'=>'message',
 				'label'=>'message',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should type a %s </b>'
-			)
-			),
+					)
+				),
 			array(
 				'field'=>'phone',
 				'label'=>'phone',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should type a %s </b>'
-			)
-			),
-		);
+					)
+				),
+			);
 
 		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE){
@@ -136,15 +132,13 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
-
-		public function listOfOwnersProperty()
+	public function login()
 	{
-		$data['pageToLoad']='E-Residence/listOfOwnersProperty';
-		$data['pageActive']='listOfOwnersProperty';
+		$data['pageToLoad']='login/loginForm';
+		$data['pageActive']='loginForm';
 		$this->load->view('ini',$data);
 		
 	}
-
 	public function logout(){
 		//delete cookie data from db
 		$this->login_model->deleteCookieByToken();
@@ -155,7 +149,161 @@ class Publiczone extends CI_Controller {
 		redirect('Publiczone');
 
 	}//end of logout function
+	/*******************************this function checks the email for reset*******************************/
+	public function reset()
+	{
+		if(null!=$this->input->get('statusUsername')){
+			$data['statusUsername']= $this->input->get('statusUsername');
+		}
+		if(null!=$this->input->get('statusToken')){
+			$data['statusToken']= $this->input->get('statusToken');
+		}if(null!=$this->input->get('statusDate')){
+			$data['statusDate']= $this->input->get('statusDate');
+		}
+		$data['pageToLoad']='login/reset';
+		$data['pageActive']='reset';
+		$this->load->helper('form');
+		// this is for validation 
+		$this->load->library('form_validation');
+		$config_validation = array(
+			array('field'=>'username',
+				'label'=>'Username',
+				'rules'=>array('required','valid_email',
+					array('checkEmail',array($this->login_model,'callback_checkUsername'))),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+					'checkEmail'=>'%s does not exist, please enter the correct email'
 
+					) 					
+				),				
+			);
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
+
+			$this->load->view('ini',$data);
+		}else{
+
+			$data['db']=$this->login_model->get_user($this->input->post('username'));
+
+			$user_id= $data['db']->id;
+			$name = $data['db']->name;
+
+			$email =$data['db']->email;
+
+
+					/*$name = 'name';
+					$email ='freestateresident@gmail.com';*/
+					$token = bin2hex(openssl_random_pseudo_bytes(32));				
+					$url = 'publiczone/resetpassword/'.$token.'/'.$user_id;
+				//url to be sent by the email
+					$url_to_activate = base_url($url);
+				//prepare the template new user to be sent by email
+					$this->Postoffice_model->setTemplate($this->load->view("email/new_user_email_template",array(),TRUE));
+				//prepare the data neaded for the email
+					$templateData = array(
+						'user_name'			=> $name,
+						'url_to_activate' 	=> $url_to_activate 
+						);
+					$this->Postoffice_model->setDataToTemplate($templateData);
+					$subject ='Registration' ;
+				//send email to the new user
+					$this->Postoffice_model->sendEmail($subject,$email);
+				//end email
+					$this->login_model->inserEmailToken($user_id,$token);
+					redirect('publiczone/resetmessage/');
+
+				}
+	}//end of reset function
+	/***********************************this function load the notification that email has been send ****************/ 
+	public function resetmessage()
+	{
+		$data['pageToLoad']='login/resetmessage';
+		$data['pageActive']='resetmessage';
+		$this->load->helper('form');
+		// this is for validation 
+		//$this->load->library('form_validation');	
+
+		$this->load->view('ini',$data);		
+	}//end of resetmassage function
+	
+		/************************************This function load from the email link to enter new password***************/
+	public function resetpassword($mailtoken=0,$user_id=0)
+	{	
+		//var_dump($mailtoken);
+		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
+		
+	
+		if ($data['db'] == null ) {
+
+			$statusUsername=false;
+			redirect('publiczone/reset?statusUsername=$statusUsername');			
+			
+		}
+		if ($mailtoken != $data['db']->emailtoken && $user_id != $data['db']->user_id) {
+			$statusToken=true;
+			redirect('publiczone/reset?statusToken=$statusToken');
+
+		}
+		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) {
+			$statusDate=true;
+			redirect('publiczone/reset?statusDate=$statusDate');
+		}
+
+			
+
+			$data['pageToLoad']='login/resetpassword';
+			$data['pageActive']='resetpassword';
+			$this->load->helper('form');
+		// this is for validation 
+			$this->load->library('form_validation');
+
+			
+			$config_validation =array(
+			 array(
+				'field'=>'newpassword',
+				'label'=>'Enter New Password',
+				'rules'=>array('required',	'min_length[5]'),						
+				'errors'=>array(						
+					'required'=>'you should insert one %s for reset',
+					'min_length[5]'=>'You should at least enter 5 charactors of %'),
+					
+
+			),				
+	
+			
+			array(
+				'field'=>'confirmpass',
+				'label'=>'Confirm Password',
+				'rules'=>array('required',
+					'matches[newpassword]'),		
+
+											
+				'errors'=>array(						
+					'required'=>'you should insert one %s for login',
+					'matches[newpassword]'=>'% you entered does not match'),
+			)
+
+			
+		);
+			$this->form_validation->set_rules($config_validation);
+		if($this->form_validation->run()===FALSE){
+
+			$this->load->view('ini',$data);
+
+		}else
+		{
+			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
+
+			//redirect("login/login_?statusResetPass=$statusResetPass");
+			redirect("login/login_");
+
+		}	
+
+			
+
+		
+	}//end of resetpassword function
 	/*public function getDistrict()
 	{
 		echo "string";
@@ -266,8 +414,8 @@ class Publiczone extends CI_Controller {
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
 
-				) 					
-			),
+					) 					
+				),
 
 
 			array(
@@ -277,9 +425,7 @@ class Publiczone extends CI_Controller {
 				'required',
 				'errors'=>array('required'=>'you should insert %s for the user')
 
-				
-			),
-			
+				),
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',
@@ -287,13 +433,13 @@ class Publiczone extends CI_Controller {
 				'required',
 				'errors'=>array('required'=>'you should insert %s for the user')
 
-			),
+				),
 
 			array('field'=>'name',
 				'label'=>'Full Name',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert %s for the user')						
-			),
+				),
 
 
 
@@ -302,11 +448,11 @@ class Publiczone extends CI_Controller {
 				'label'=>'Identity Number',
 				'rules'=>
 				'required',				
-			),
+				),
 			'errors'=>array(
 				'required'=>' %s is required'
 
-			),
+				),
 			
 			/*array(
 				'field'=>'dateOfBirth',
@@ -315,25 +461,25 @@ class Publiczone extends CI_Controller {
 					'required',
 								
 					'errors'=>array('required'=>'you should insert %s for the user')
-				),*/
-				
-				array(
-					'field'=>'phone',
-					'label'=>'Phone number',
-					'rules'=>array(
-						'required',
-						'exact_length[10]',						
+					),*/
 
-						'regex_match[/^[0-9]+$/]',
-					),
+array(
+	'field'=>'phone',
+	'label'=>'Phone number',
+	'rules'=>array(
+		'required',
+		'exact_length[10]',						
+
+		'regex_match[/^[0-9]+$/]',
+		),
 
 
 
-					'errors'=>array('required'=>'you should insert one %s ',
-						'exact_length'=>'the %s must have at least length of 10 ',						
-						'regex_match'=>'the %s must be numbers only',									
-					)	 					
-				),
+	'errors'=>array('required'=>'you should insert one %s ',
+		'exact_length'=>'the %s must have at least length of 10 ',						
+		'regex_match'=>'the %s must be numbers only',									
+		)	 					
+	),
 			/*array(
 				'field'=>'dateOfRegistraion',
 				'label'=>'Date of Registration',
@@ -351,86 +497,83 @@ class Publiczone extends CI_Controller {
 				'label'=>'Street Address',
 				'rules'=>'required',
 					'errors'=>array('required'=>'you should insert %s for the user')
-				),*/
-				array(
-					'field'=>'gender',
-					'label'=>'Gender',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert %s for the user')
-				),
-				array(
-					'field'=>'suburb',
-					'label'=>'suburb',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert one %s for the user')
-				),
+					),*/
+   array(
+	'field'=>'gender',
+	'label'=>'Gender',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert %s for the user')
+	),
+array(
+	'field'=>'suburb',
+	'label'=>'suburb',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user')
+	),
 
-				array(
-					'field'=>'town',
-					'label'=>'town',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert one %s for the user')
-				),
+array(
+	'field'=>'town',
+	'label'=>'town',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user')
+	),
 
-				array(
-					'field'=>'district',
-					'label'=>'district',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert one %s for the user'
+array(
+	'field'=>'district',
+	'label'=>'district',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user'
 
-				)
-				),
+		)
+	),
 
-				array(
-					'field'=>'province',
-					'label'=>'province',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert one %s for the user'
+array(
+	'field'=>'province',
+	'label'=>'province',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user'
 
-				)
-				),
-
-
-
-				array(
-					'field'=>'zip_code',
-					'label'=>'zip code',
-					'rules'=>
-					'required',	
-					'errors'=>array('required'=>'you should insert %s for the user')),
+		)
+	),
 
 
 
-				array(
-					'field'=>'manucipality',
-					'label'=>'manucipality',
-					'rules'=>'required',
-					'errors'=>array('required'=>'you should insert one %s for the user'
-
-				)
-				)
-			);
+array(
+	'field'=>'zip_code',
+	'label'=>'zip code',
+	'rules'=>
+	'required',	
+	'errors'=>array('required'=>'you should insert %s for the user')),
 
 
 
-		$this->form_validation->set_rules($config_validation);
-		if($this->form_validation->run()===FALSE){
+array(
+	'field'=>'manucipality',
+	'label'=>'manucipality',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user'
 
-			$this->load->view('ini',$data);
-
-		}else
-		{
-			$statusInsert=$this->user_model->addUser($this->input->post());
-
-
-
-			redirect("publiczone/registerUser?statusInsert=$statusInsert");
+		)
+	)
+);
 
 
-		}
 
-	}
+$this->form_validation->set_rules($config_validation);
+if($this->form_validation->run()===FALSE){
 
+	$this->load->view('ini',$data);
+
+}else
+{
+
+	$statusInsert=$this->user_model->addUser($this->input->post());
+
+	redirect("publiczone/registerUser?statusInsert=$statusInsert");
+
+}
+
+}
 
 
 }
