@@ -6,6 +6,8 @@ class Residents extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		//library to access the session
+		$this->load->library("session");
 		$this->load->model("request_model");
 		$this->load->model("listOfRes_model");
 		$this->load->model("ownersProperty_model");
@@ -18,7 +20,6 @@ class Residents extends CI_Controller {
 		$this->load->model("owners_property_model");
 
 
-
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if (!$is_logged_in) {
 			//no login check the cookie
@@ -27,11 +28,10 @@ class Residents extends CI_Controller {
 			redirect(base_url('login/login_?frompage=eresidence'));
 			}   
 
-
+		}
 
 
 	}
-}
 
 	/**
 	 * Index Page for this controller.
@@ -61,18 +61,20 @@ class Residents extends CI_Controller {
 	}
 	public function request()
 	{
+	
 		$search=array();
 
-		$search['user_id']= $this->input->get('user_id') ?? '0';
+		$search['user_id']= $_SESSION['id'];
 		//$search[23]= $this->input->get('user_id') ?? '0';
-		
+	//var_dump($search['user_id']);
 
-		$data['user_id']= $this->request_model->getAddress($search);
+		$data['user_addinfor']= $this->request_model->getAddress($search);
+
 		//$data['db']= $this->owners_property_model->getOwner($search);
 		//$data['bd']=$this->request_model->getAddress();
-		//var_dump($data['db']);
+		//var_dump($data['user_addinfor']);
 		$data['pageToLoad']='eresidence/request';
-		$data['pageActive']='request';
+		$data['pageActive']='eresidence';
 		
 // loading the form and files for file uoload		
 		$this->load->helper(array('form','file','url'));
@@ -95,8 +97,8 @@ class Residents extends CI_Controller {
 					'exact_length'=>'the %s must have at least length of 10 ',						
 					'regex_match'=>'the %s must be numbers only',	
 					'checkPhone'=>'%s does not exist, please enter the correct email',				
-					)	 					
-				),		
+				)	 					
+			),		
 			array(
 				'field'=>'idnumber',
 				'label'=>'ID No.',
@@ -105,14 +107,14 @@ class Residents extends CI_Controller {
 					'exact_length[13]',
 					'numeric',
 					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
-					),
+				),
 				'errors'=>array(
 					'required'=>' %s is required',
 					'exact_length'=>'the %s must have 13 numbers',
 					'numeric'=>'the %s must have only numbers',
 					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
 				
-				),
+			),
 			
 			array('field'=>'email',
 				'label'=>'E-mail',
@@ -123,9 +125,9 @@ class Residents extends CI_Controller {
 					'valid_email'=>'invalid email',
 					'checkEmail'=>'%s does not exist, please enter the correct email'
 
-					) 					
-				),
-			array('field'=>'idUpload',
+				) 					
+			),
+	array('field'=>'idUpload',
 				'label'=>'idUpload',
 				'rules'=>array(//'required',					
 					'callback_id_upload'),
@@ -137,117 +139,118 @@ class Residents extends CI_Controller {
 			//'checkFile'=>'type for %s exist'
 
 
-					)
-				),
-			array('field'=>'fileToUpload',
+				)
+			),
+				array('field'=>'fileToUpload',
 				'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
 					'callback_file_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
 				
-				
-				'errors'=>array(
+			
+			'errors'=>array(
 			//'callback_do_upload1'=>'%s is required',
 			//'checkFile'=>'type for %s exist'
 
 
-					)
-				),
+			)
+		),
 
-			);		
+	);		
 
 
 		//Validating the form
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
+			$this->load->view('ini',$data);
+		}else{
 
 
-	
+			
 			//send data to the database
-	$this->request_model->insertFileData($this->upload_data['file'],'ID');
+					$this->request_model->insertFileData($this->upload_data['file'],'ID');
 					//var_dump($this->upload_data1['file']);
-	$this->request_model->insertMultipleFileData($this->upload_data1);
+					$this->request_model->insertMultipleFileData($this->upload_data1);
 			//$this->load->view('ini',$data); 
-	redirect('residents/requestPreview/'.$this->input->get('user_id'));
-}
+					$this->requestPreview($data['user_addinfor']);
+			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
+		}
+
+		
+		
+	}
 
 
-
-}
-
-
-/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
+	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
 public function file_upload() { 
 	$statusFileToUpload ='';
 	$pdarray=array();
 	$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-	$config['upload_path']   ='./file_upload/';
-	$config['encrypt_name']   =true;			
-	$config['overwrite']     = false;
-	$config['max_size']	 = '599120';
-	if ($_FILES['fileToUpload']['name'] != '') {
+		$config['upload_path']   ='./file_upload/';
+		$config['encrypt_name']   =true;			
+		$config['overwrite']     = false;
+		$config['max_size']	 = '599120';
+		if ($_FILES['fileToUpload']['name'] != '') {
 
-		
-		$minetype='PD';
+			
+			$minetype='PD';
 //upload file
-		
-		$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
-		for($i=0; $i<$number_of_files_uploaded; $i++){
-			$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
-			$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
-			$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
-			$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
-			$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
+	
+			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
+			for($i=0; $i<$number_of_files_uploaded; $i++){
+				$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
+				$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
+				$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
+				$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
+				$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			$statusFileToUpload =$this->upload->do_upload('filetoUpload');
-			
-			
-			if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
-				$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-				return false;
-			}elseif($statusFileToUpload){
-
-				$this->upload_data1[]['file'] = $this->upload->data();
-
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 				
+				
+				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
+					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+					return false;
+				}elseif($statusFileToUpload){
+
+					$this->upload_data1[]['file'] = $this->upload->data();
+
+					
 				//$this->request_model->addIdUpload($this->upload_data['file']);
+					}
 			}
-		}
 			//var_dump($this->upload_data1 );
+		}
 	}
-}
 
 
 	// *****************************************************************upload for the identity document************************************/
 
-public function id_upload(){
+	public function id_upload(){
 // upload file uptions
-	$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-	$config['upload_path']   ='./id_upload/';
-	$config['encrypt_name']   =true;			
-	$config['overwrite']     = false;
-	$config['max_size']	 = '5120';
-	$minetype='ID' ;
+		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+		$config['upload_path']   ='./id_upload/';
+		$config['encrypt_name']   =true;			
+		$config['overwrite']     = false;
+		$config['max_size']	 = '5120';
+		$minetype='ID' ;
 //upload file for ID
-	if($_FILES['idUpload']['size'] != 0){
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		$statusIdUpload =$this->upload->do_upload('idUpload');
+		if($_FILES['idUpload']['size'] != 0){
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			$statusIdUpload =$this->upload->do_upload('idUpload');
 
-		if (!$statusIdUpload){
-			$this->form_validation->set_message('id_upload', $this->upload->display_errors());
-			return false;
-		}elseif($statusIdUpload){
-			$this->upload_data['file'] = $this->upload->data();
+			if (!$statusIdUpload){
+				$this->form_validation->set_message('id_upload', $this->upload->display_errors());
+				return false;
+			}elseif($statusIdUpload){
+				$this->upload_data['file'] = $this->upload->data();
 			//send data to the database	
 				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
 
-		}
+			}
 
 		}//error if there in no file to upload
 		else{
@@ -258,14 +261,15 @@ public function id_upload(){
 		return true;
 	}
 // **********************************************the success page of the request*******************************************************************************************//
-	public function requestPreview($user_id=0)
+	public function requestPreview($user_addinfor=array())
 	{
+		//var_dump($user_addinfor);
 		$search=array();
 
-		$search['user_id']=$user_id;
+		$data['user_addinfor']=$user_addinfor;
 		
 
-		$data['user_id']= $this->request_model->getAddress($search);
+		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/requestPreview';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -297,8 +301,8 @@ public function id_upload(){
 				'errors'=>array('required'=>'you should insert a %s ',
 					'exact_length'=>'the %s must have at least length of 10 ',						
 					'regex_match'=>'the %s must be numbers only',					
-					)	 					
-				),		
+				)	 					
+			),		
 			array(
 				'field'=>'address',
 				'label'=>'address.',
@@ -306,13 +310,13 @@ public function id_upload(){
 					'required',
 					'exact_length[13]',
 					'numeric',				
-					),
+				),
 				'errors'=>array(
 					'required'=>' %s is required',
 					'exact_length'=>'the %s must have 13 numbers',
 					'numeric'=>'the %s must have only numbers',)
 
-				),
+			),
 
 			array('field'=>'date',
 				'label'=>'date',
@@ -321,8 +325,8 @@ public function id_upload(){
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
 
-					) 					
-				),
+				) 					
+			),
 			array('field'=>'edit',
 				'label'=>'edit',
 				'rules'=>array('required','valid_email'),
@@ -330,137 +334,74 @@ public function id_upload(){
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
 
-					) 					
-				),			
-			);		
-
-
-
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
-
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-public function OwnersDetails()
-{
-	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='OwnersDetails';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
-
-
-
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'Full Name',
-			'rules'=>'required',
-			'errors'=>array('required'=>'you should insert %s for the user')						
-			),
-		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
-				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
-
-			),
-
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
-				) 					
-			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
 				) 					
 			),			
 		);		
 
 
 
-	$this->form_validation->set_rules($config_validation);
-	if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-		$this->load->view('ini',$data);
-	}else{
+			$this->load->view('ini',$data);
+		}else{
 
+
+		}
 
 	}
-
-}
-public function OwnersProperty()
-{
-	$data['pageToLoad']='eresidence/ownersProperty';
-	$data['pageActive']='ownersProperty';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
+	public function OwnersDetails()
+	{
+		$data['pageToLoad']='eresidence/OwnersDetails';
+		$data['pageActive']='OwnersDetails';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
 
 
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
 
 
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
 				)	 					
 			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
 				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
 
 			),
 
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),			
@@ -468,11 +409,89 @@ public function OwnersProperty()
 
 
 
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
+			$this->load->view('ini',$data);
+		}else{
+
+
+		}
+
+	}
+	public function OwnersProperty()
+	{
+		$data['pageToLoad']='eresidence/ownersProperty';
+		$data['pageActive']='ownersProperty';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$id =  $_SESSION['id'];
+		
+
+		$search['user_id']= $_SESSION['id'];
+		//$search[23]= $this->input->get('user_id') ?? '0';
+	//var_dump($search['user_id']);
+
+		$data['user_addinfor']= $this->request_model->getAddress($search);
+		$this->ownerProperty($data['user_addinfor']);
+
+
+
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
+
+
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
+				)	 					
+			),		
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
+				),
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
+
+			),
+
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+
+				) 					
+			),
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+
+				) 					
+			),			
+		);		
+
+
+
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
+
+			$this->load->view('ini',$data);
+		}else{
 
 
 		}
@@ -491,9 +510,14 @@ if ($this->form_validation->run()===FALSE) {
 		$data['user_addinfor']=$user_addinfor;
 		
 
-
-
-
+		//$data['user_id']= $this->request_model->getAddress($search);
+		$data['pageToLoad']='eresidence/ownersProperty';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		//$this->load->view('ini',$data);
 
 	
 		//to re-write the links
@@ -501,7 +525,7 @@ if ($this->form_validation->run()===FALSE) {
 		//to show the actual page number
 		$config['page_query_string'] = TRUE;
 		//config base_url that use pagination
-		$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
+		//$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
 		//number of results to be divided on the pagination
 		//$config['total_rows'] =$data['addressCount'];
 		//load the pagination library
@@ -512,8 +536,9 @@ if ($this->form_validation->run()===FALSE) {
 		$data['search_pagination']=$this->pagination->create_links();
 		//view load page
 	
-}
 
+	}
+	
 }
 
 
