@@ -359,3 +359,11 @@
   {
     margin-right: 30px;
   }
+.tably tr td{
+ border-style: none;
+ border: none !important;
+}
+
+.pagination :hover{
+ background-color: yellow;
+}

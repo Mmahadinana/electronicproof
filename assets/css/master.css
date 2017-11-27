@@ -431,3 +431,7 @@ input:focus {
 .romtbl_borders tr td{
     border-style: none !important;
 }
+.bs-example :hover{
+    color: yellow;
+
+}

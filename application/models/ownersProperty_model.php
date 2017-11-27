@@ -70,7 +70,33 @@ $address = array(
 }
 
 
+
+public function addUser($data){
+		
+
+		$add = array(
+			'name'=>$data['name'],
+			'email'=>$data['email'],
+			//'address'=>$data['address'],
+			'identitynumber'=>$data['identitynumber'],
+			'phone'=>$data['phone'],
+			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
+			'gender_id'=>$data['gender'],
+			'date_registration'=>$data['date_registration'],//'2017-11-11',
+
+		     		//'minetype'=>$minetype
+			);
+		
+		$this->db->trans_start();
+//var_dump($add);
+		$this->db->insert("user",$add);
+
+		$user_id = $this->db->insert_id();
+		$this->insertPassword($data, $user_id);
+
+		return $this->db->trans_complete();
+		
+		
+	}
 }
-
-
 ?>

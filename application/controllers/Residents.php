@@ -6,7 +6,6 @@ class Residents extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		//library to access the session
 		$this->load->library("session");
 		$this->load->model("request_model");
 		$this->load->model("listOfRes_model");
@@ -18,16 +17,9 @@ class Residents extends CI_Controller {
 		$this->load->model("user_model");
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
+		//$this->load->model("listOfOwnersProperty_model");
 
-		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if (!$is_logged_in) {
-			//no login check the cookie
-			if (!$this->login_model->CheckLoginWithCookie()) {
-				//no login go out
-			redirect(base_url('login/login_?frompage=eresidence'));
-			}
 
-		}
 
 
 	}
@@ -73,7 +65,7 @@ class Residents extends CI_Controller {
 		//$data['bd']=$this->request_model->getAddress();
 		//var_dump($data['user_addinfor']);
 		$data['pageToLoad']='eresidence/request';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='request';
 		
 // loading the form and files for file uoload		
 		$this->load->helper(array('form','file','url'));
@@ -283,7 +275,7 @@ public function file_upload() {
 	public function listOfResidents()
 	{
 		$data['pageToLoad']='eresidence/listOfResidents';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='listOfResidents';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -352,7 +344,7 @@ public function file_upload() {
 	public function OwnersDetails()
 	{
 		$data['pageToLoad']='eresidence/OwnersDetails';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='OwnersDetails';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -421,9 +413,18 @@ public function file_upload() {
 	public function OwnersProperty()
 	{
 		$data['pageToLoad']='eresidence/ownersProperty';
-		$data['pageActive']='eresidence';
+		$data['pageActive']='ownersProperty';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		$id =  $_SESSION['id'];
+		
+
+		$search['user_id']= $_SESSION['id'];
+		//$search[23]= $this->input->get('user_id') ?? '0';
+	//var_dump($search['user_id']);
+
+		$data['user_addinfor']= $this->request_model->getAddress($search);
+		$this->ownerProperty($data['user_addinfor']);
 
 
 
@@ -487,6 +488,44 @@ public function file_upload() {
 		}
 
 	}
+
+		public function ownerProperty($user_addinfor=array())
+	{
+		//var_dump($user_addinfor);
+		$search=array();
+
+		$data['user_addinfor']=$user_addinfor;
+		
+
+		//$data['user_id']= $this->request_model->getAddress($search);
+		$data['pageToLoad']='eresidence/ownersProperty';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		//$this->load->view('ini',$data);
+
+	
+		//to re-write the links
+		$config['enable_query_string'] = TRUE;
+		//to show the actual page number
+		$config['page_query_string'] = TRUE;
+		//config base_url that use pagination
+		//$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
+		//number of results to be divided on the pagination
+		//$config['total_rows'] =$data['addressCount'];
+		//load the pagination library
+		$this->load->library('pagination');
+		//initialise the pagination with config
+		$this->pagination->initialize($config);
+		//create links to be send to the view
+		$data['search_pagination']=$this->pagination->create_links();
+		//view load page
+	
+
+	}
+	
 }
 
 

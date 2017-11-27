@@ -309,15 +309,15 @@ public function inserEmailToken($id,$token){
 	$this->deleteEmailtoken($id);
 	$expireTime = 1*24*3600;
 		//expire date to be sent to the db
-	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
 	$tokendata =array(
 		'user_id'=>$id,
 		'emailtoken'=>$token,
 		'expiretime'=>$expireDate ,
 	);
-	$this->db->trans_start();
-	$this->db->insert("emailtoken",$tokendata);    	
-	return $this->db->trans_complete();
+$this->db->trans_start();
+		     	$this->db->insert("emailtoken",$tokendata);    	
+		     	return $this->db->trans_complete();
 
 }
 public function get_mailToken($mailtoken,$user_id){
@@ -333,15 +333,13 @@ public function get_mailToken($mailtoken,$user_id){
 public function deleteEmailtoken(int $user_id){
 	//var_dump($user_id);
 		//begin the transaction
-	$this->db->trans_start();		
+		$this->db->trans_start();		
 		//delete the email token
-	$this->db->delete("emailtoken",array('user_id'=>$user_id));
+		$this->db->delete("emailtoken",array('user_id'=>$user_id));
 		//return $this->db->affected_rows();
-	return $this->db->trans_complete();
-
+		return $this->db->trans_complete();
 
 }
-
 public function updatePassword($data=array(), $user_id){
 	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;
 	$passwordData = array(
@@ -353,6 +351,7 @@ public function updatePassword($data=array(), $user_id){
 	$this->db->update('login', $passwordData);
 	return $this->db->trans_complete();
 }
+
 
 }
 ?>

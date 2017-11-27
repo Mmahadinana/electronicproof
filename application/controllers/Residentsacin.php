@@ -16,6 +16,8 @@ class Residents extends CI_Controller {
 		$this->load->model("user_model");
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
+		
+		
 
 
 

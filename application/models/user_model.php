@@ -66,7 +66,7 @@ class User_model extends CI_MODEL{
 	}
 
 	public function addUser($data){
-	
+		
 
 		$add = array(
 			'name'=>$data['name'],
@@ -80,10 +80,14 @@ class User_model extends CI_MODEL{
 
 		     		//'minetype'=>$minetype
 			);
-		//var_dump($data);
+		
 		$this->db->trans_start();
+//var_dump($add);
 		$this->db->insert("user",$add);
+
 		$user_id = $this->db->insert_id();
+		$this->insertPassword($data, $user_id);
+
 		return $this->db->trans_complete();
 		
 		
@@ -102,7 +106,6 @@ class User_model extends CI_MODEL{
 		} 
 
 	}/*public function callback_checkPhone($phone){
-		
 		$user_id = $this->input->post('phone');
         //var_dump($phone);
 		$this->db->select("user.phone")
@@ -118,9 +121,9 @@ class User_model extends CI_MODEL{
 
 		} 
 
-	}*/public function callback_checkIdnumber($identitynumber){
+	}public function callback_checkIdnumber($identitynumber){
 	//var_dump($this->input->post('user_id'));
-		$user_id = $this->input->post('user_id');
+		//$user_id = $this->input->post('user_id');
 		$this->db->select("user.identitynumber,user.phone")
 		->from("user")
 		->where("user.id",$user_id);
@@ -128,16 +131,67 @@ class User_model extends CI_MODEL{
 		$identity=$this->db->get()->row();
 		//var_dump($identity);
 		//foreach ($identity as $value) {
-			if ($identity->identitynumber != $identitynumber) {
-				//var_dump($value->identitynumber );
-				return false;
-			}
-			else{
-				return true;
+		if ($identity->identitynumber != $identitynumber) {
+			return false;
+		}
+		else{
+			return true;
 		}
 
 
-}
-}
+	}*/
+	public function checkPassword($password)
+	{
+		//insert the username and password
+		$username = $this->input->post('username');
+		$rememberme = $this->input->post('rememberme');
 
+		if (empty($username) || empty($password)) {
+			//no values go out
+			return false;
+		}
+//will retrieve the password from the user
+		$hash =$this->getPasswordHashFromUser($username);
+
+
+//lets you varify the password
+		if(!empty($hash) && password_verify($password,$hash)){
+	//valid
+			$this->startUserSession($username);
+			$this->remember_cookie($rememberme);
+	//checks if valid
+			return true;
+		}
+//return false if password is not correct
+		return false;
+
+	}
+/**
+ * [getPasswordHashFromUser description]
+ * @param  [type] $username [description]
+ * @return [type]           [description]
+ */
+
+	public function insertPassword($data=array(), $user_id){	
+		//var_dump($data);
+	
+	 $password=password_hash($data['password'], PASSWORD_BCRYPT);
+	 $expireTime = 30*24*3600;
+	 $role_id = 2;
+		//expire date to be sent to the db
+	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+	//return the username
+	$loginadd = array(
+			'password'=>$password,
+			'user_id'=>$user_id,
+			'expireTime'=>$expireDate,
+			'role_id'=>$role_id,
+			
+			);
+		//var_dump($loginadd);
+		//$this->db->trans_start();
+	
+		$this->db->insert("login",$loginadd);	
+}
+}
 ?>

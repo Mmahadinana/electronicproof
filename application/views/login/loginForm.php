@@ -44,7 +44,7 @@ if (isset($statusUsername)) {
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 		</div>
-			<div class="col-md-2 text-right" >
+			<div class="col-md-2 text-left" >
 				<a href="<?php echo base_url('publiczone/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
 			<a href="<?php echo base_url('publiczone/registerUser') ?>" class="text-danger"><span>New account? Signup</span></a>
 			</div>

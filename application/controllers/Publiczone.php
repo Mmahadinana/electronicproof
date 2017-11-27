@@ -16,6 +16,8 @@ class Publiczone extends CI_Controller {
 		$this->load->model('login_model');
 		$this->load->library('email');
 		$this->load->model('Postoffice_model');
+		//$this->load->model('listOfOwnersProperty_model');
+
 
 
 	}
@@ -129,6 +131,15 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
+
+		public function listOfOwnersProperty()
+	{
+		$data['pageToLoad']='E-Residence/listOfOwnersProperty';
+		$data['pageActive']='listOfOwnersProperty';
+		$this->load->view('ini',$data);
+		
+	}
+
 	public function login()
 	{
 		$data['pageToLoad']='login/loginForm';
@@ -489,7 +500,7 @@ class Publiczone extends CI_Controller {
 		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE){
 
-			$this->load->view('ini',$data);
+			//$this->load->view('ini',$data);
 
 		}else
 		{
