@@ -23,6 +23,7 @@ class User_model extends CI_MODEL{
 			$this->db->where('town.manucipality_id',$user_id);
 
 		}
+		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
 			owners.user_id,owners.id as ownerid,
