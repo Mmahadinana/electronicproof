@@ -10,12 +10,15 @@ class Publiczone extends CI_Controller {
 		$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
+		$this->load->model('suburb_model');
 		$this->load->model("district_model");
 		$this->load->model('town_model');
 		$this->load->model('user_model');
 		$this->load->model('login_model');
 		$this->load->library('email');
 		$this->load->model('Postoffice_model');
+		$this->load->model('address_model');
+
 
 
 	}
@@ -301,7 +304,54 @@ class Publiczone extends CI_Controller {
 
 		
 	}//end of resetpassword function
-	
+	/*public function getDistrict()
+	{
+		echo "string";
+		$province_id = $this->input->post('province');
+		$districts = $this->district_model->getDistrict($province_id);
+		if (count($districts)>0) {
+			$district_select='';
+			$district_select .= "<option value=''>Select District";
+			foreach ($districts as $district) {
+				$district_select .= '<option value="'.$district->id.'">'.$district->name;
+			}
+
+			echo json_encode($district_select );
+		}
+	}*/
+	public function getProvinceDistrict():array
+	{
+		$tempdata=array();
+				$tempdata['province']=$this->province_model->getProvince();
+				foreach ($tempdata['province'] as $prov) {
+					$tempdata['district'][$prov->id]=$this->district_model->getDistrict($prov->id);
+				
+				}
+				$tempdata['districts']=$this->district_model->getDistricts();
+				foreach ($tempdata['districts'] as $distr) {
+				$tempdata['manucipality'][$distr->id]=$this->manucipality_model->getManucipality($distr->id);
+				
+				}
+				$tempdata['manucipalities']=$this->manucipality_model->getManucipalities();
+				foreach ($tempdata['manucipalities'] as $tow) {
+				$tempdata['town'][$tow->id]=$this->town_model->getTown($tow->id);
+				
+				}
+
+				$tempdata['towns']=$this->town_model->getTowns();
+				foreach ($tempdata['towns'] as $sub) {
+				$tempdata['suburb'][$sub->id]=$this->suburb_model->getSuburb($sub->id);
+				
+				}
+				$tempdata['towns']=$this->suburb_model->getSuburbs();
+				foreach ($tempdata['towns'] as $add) {
+				$tempdata['address'][$add->id]=$this->address_model->getAddress($add->id);
+				
+				}
+
+			return $tempdata;		
+
+	}
 	function registerUser() {
 
 		$search=array();
@@ -320,12 +370,35 @@ class Publiczone extends CI_Controller {
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		//data from db
-		$data['manucipality']=$this->manucipality_model->getManucipality();
-		//var_dump($data['manucipality']);
-		$data['district']=$this->district_model->getDistrict();
-		$data['province']=$this->province_model->getProvince();
 
+		/***get the provice and distric by provice id*******/
+		$selDistrict = $this->getProvinceDistrict();
+			$data['province'] = $selDistrict['province'];
+			$data['district']     = $selDistrict['district'];
+			$data['manucipality']=$selDistrict['manucipality'];	
+			$data['town']=$selDistrict['town'];	
+			$data['suburb']=$selDistrict['suburb'];	
+			$data['address']=$selDistrict['address'];	
+			//var_dump($data['manucipality']);	
+		/*****end */		
+					
+
+		//data from db
+		;
+		
+		$search = array();
+		$data['province']=$this->province_model->getProvince();
+		$district = $this->input->post('province');
+
+		//$data['district']=$this->district_model->getDistrict($district);
+		
+		
+/*$search['district'] = 
+		//$data['district']=$this->district_model->getDistrict();
+		$data['province']=$this->province_model->getProvince();
+		foreach ($data['province'] as $key => $value) {
+			$data['district']=$this->district_model->getDistrict($value->name);
+		}*/
 		
 		
 //Including validation library
@@ -493,6 +566,7 @@ if($this->form_validation->run()===FALSE){
 
 }else
 {
+
 	$statusInsert=$this->user_model->addUser($this->input->post());
 
 	redirect("publiczone/registerUser?statusInsert=$statusInsert");

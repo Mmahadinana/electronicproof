@@ -8,7 +8,16 @@ class Town_model extends CI_MODEL{
 		$this->load->database();
 	}
 
-	public function getTown()
+	public function getTown($manucipality_id)
+	{
+		$this->db->select("town.id,town.name,town.zip_code,manucipality_id")
+		->from("town")
+		->where("manucipality_id",$manucipality_id);
+
+		return $this->db->get()->result();
+		//var_dump($this->db->get()->result());
+	}
+	public function getTowns()
 	{
 		$this->db->select("town.id,town.name,town.zip_code,manucipality_id")
 		->from("town");

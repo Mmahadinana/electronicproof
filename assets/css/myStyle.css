@@ -227,7 +227,10 @@ h3 {
     
   }
 
-
+#door
+{
+  color: black;
+}
   /*
    @media (min-width: 768px) {
     .navbar > .container .navbar-brand,
