@@ -19,13 +19,14 @@ class Residents extends CI_Controller {
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
 
+
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if (!$is_logged_in) {
 			//no login check the cookie
 			if (!$this->login_model->CheckLoginWithCookie()) {
 				//no login go out
 			redirect(base_url('login/login_?frompage=eresidence'));
-			}
+			}   
 
 		}
 
@@ -496,6 +497,10 @@ public function file_upload() {
 		}
 
 	}
+	public function EditownersProperty($user_id = 0){
+
+
+	}
 
 		public function ownerProperty($user_addinfor=array())
 	{
@@ -520,7 +525,7 @@ public function file_upload() {
 		//to show the actual page number
 		$config['page_query_string'] = TRUE;
 		//config base_url that use pagination
-		//$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
+		$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
 		//number of results to be divided on the pagination
 		//$config['total_rows'] =$data['addressCount'];
 		//load the pagination library

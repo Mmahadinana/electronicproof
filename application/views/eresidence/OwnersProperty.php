@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</td>
 						<td>
 							<div class="col-md-2 text-left" >
-						<a href="<?php echo base_url('publiczone/E-Residence/') ?>" class="edit-address" name="edit address"><span></span>EDIT ADDRESS</a>
+						<a href="<?php echo base_url('residents/EditownersProperty/') ?>" class="edit-address" name="editaddress"><span></span>EDIT ADDRESS</a>
 							</div>
 						</td>
 					</tr>
