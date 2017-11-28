@@ -207,7 +207,7 @@ h3 {
     border: 1px solid GREY;
     border-radius: 1px;
     color: white; 
-    height: 600px;
+    height: auto;
     width: 60%;
     padding-bottom:150px;
     text-align: center;
