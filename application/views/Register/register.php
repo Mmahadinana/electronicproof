@@ -5,8 +5,7 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 ?>
 
 
-<div class="container form-area"></div>
-
+<div class="container form-area">
 	<?php 
 	$options = array("class"=> "form-group","method"=>"POST","name"=>"form_name","id"=>"form_id","class"=>"form_class");
 	echo form_open("publiczone/registerUser",$options);
@@ -30,7 +29,7 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 			
 		</div>
 	</div>
-	<form role="form" action="" method="post">
+	<form role="form" action="" id="data" method="post">
 		<div class="row setup-content" id="step-1">
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
@@ -224,6 +223,9 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 
 </div>
 
+</div>
+
+	
 
 
 
