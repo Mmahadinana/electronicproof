@@ -50,6 +50,10 @@ class Residents extends CI_Controller {
 	 */
 	public function Eresidence()
 	{
+		$search=array();
+		$search['owner_confirmation_states']=0;
+		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+		
 		$data['pageToLoad']='eresidence/eresidence';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -57,6 +61,41 @@ class Residents extends CI_Controller {
 		
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
+		
+
+	}
+	public function viewRequestMade($user_id=0)
+	{
+		$search=array();
+		$search['user_id']=$user_id;
+		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+//var_dump($data['getListToComfirm']);
+		$data['pageToLoad']='eresidence/viewRequestMade';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+		
+
+	}
+	public function cancelRequest($request_id=0)
+	{
+		//var_dump($request_id);
+		$search=array();
+		$search['request_id']=$request_id;
+		$data['db']=$this->request_model->getListToComfirm($search);
+	
+		$data['message']=$this->request_model->cancelRequest($request_id);
+		$data['pageToLoad']='eresidence/cancelRequest';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		redirect('residents/viewRequestMade');
+		
 
 	}
 	public function request()
@@ -165,13 +204,27 @@ class Residents extends CI_Controller {
 
 			$this->load->view('ini',$data);
 		}else{
-
-
-			
+			/*
 			//send data to the database
-					$this->request_model->insertFileData($this->upload_data['file'],'ID');
+			$proofOfRecData=array();
+			foreach($data['user_addinfor'] as $property){
+				$proofOfRecData['property']= $property->property;
+
+			}
+			//$property_id=
+			$proofOfRecData['user_id']=$_SESSION['id'];
+					$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
 					//var_dump($this->upload_data1['file']);
-					$this->request_model->insertMultipleFileData($this->upload_data1);
+					$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+			//$this->load->view('ini',$data); 
+					$this->requestPreview($data['user_addinfor']);
+			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
+
+			*/
+			//send data to the database
+					//$this->request_model->insertFileData($this->upload_data['file'],'ID');
+					//var_dump($this->upload_data1['file']);
+					//$this->request_model->insertMultipleFileData($this->upload_data1);
 			//$this->load->view('ini',$data); 
 					$this->requestPreview($data['user_addinfor']);
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
@@ -262,11 +315,16 @@ public function file_upload() {
 	}
 // **********************************************the success page of the request*******************************************************************************************//
 	public function requestPreview($user_addinfor=array())
-	{
-		//var_dump($user_addinfor);
+	{ 
 		$search=array();
-
-		$data['user_addinfor']=$user_addinfor;
+		foreach($user_addinfor as $userdata){
+			$search['property_id']=$userdata->property;
+			//var_dump($userdata);
+		}
+		
+		$data['residentInfor']=$user_addinfor;
+		$data['owner_addinfor']=$this->request_model->getOwner($search);
+		//var_dump($data['user_addinfor']);
 		
 
 		//$data['user_id']= $this->request_model->getAddress($search);
@@ -280,6 +338,29 @@ public function file_upload() {
 
 	}
 //end of request preview
+
+	public function waitingForApproval($user_id=0,$owner_id=0,$property_id=0)
+	{ 
+	 
+		$search=array();
+
+		$search['user_id']= $user_id;
+		//$search[23]= $this->input->get('user_id') ?? '0';
+	//var_dump($search['user_id']);
+
+		$data['user_addinfor']= $this->request_model->getAddress($search);
+		
+
+		//$data['user_id']= $this->request_model->getAddress($search);
+		$data['pageToLoad']='eresidence/waitingForApproval';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		// this is for validation 
+		
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+	}
 
 	public function listOfResidents()
 	{

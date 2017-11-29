@@ -2,23 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-
+ 
 
 <div class="starter-template">
- <h1>Preview Message</h1>
+<h1>Preview of Proof of Residence</h1>
  <div class="card card-container">
-  <h4>Your request has been successfully submitted</h4>
-  <h4><mark>NB</mark>Please contact the owner of the residence if you have not recieve email or text message of the proof of residence within 48 hours!!!</h4>
+  <h4>Well done!!! Please click a confirm button to confirm your request or cancel to cancel your request</h4>
+  <h4>Please contact the owner of the residence if you have not recieve email or text message of the proof of residence within 48 hours!!!</h4>
 </div>
 <div class="form-area">
   <h1>Proof of Residence</h1>
   <div class="row tablereq">
     <div class="col-md-10">
      <?php 
+       
 //var_dump($user_addinfor);
      echo form_open_multipart('upload/do_upload');
      //echo $_POST['user_id'];
-     foreach ($user_addinfor as $key ) {?>
+     foreach ($residentInfor as $key ) {?>
 
      <input type="hidden" name="user_id" <?php echo isset($user_id)? "value='echo $key->id'":"value='0'" ?> />
 
@@ -33,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <tbody>
           <tr>
             <td>Date</td>
-            <td>2017/11/02</td>
+            <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
           </tr>
           <tr>
@@ -41,8 +42,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <td>
               <?php    
 
-              foreach ($user_addinfor as $key ) {
+             
                 echo $key->name;
+                $userid=$key->id;
                 ?>
 
               </td>
@@ -76,7 +78,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tr>
               <td><?php  echo $key->province?></td>            
               </tr><?php
-            }
+            
+            foreach ($owner_addinfor as $valowner ) {
+                //storing the data of the owner where resident lives
+              $owner_id=$valowner ->owner;
+              $property_id=$valowner ->property;
+
             ?>
             
           </tbody>
@@ -85,27 +92,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 <div class="text-left">
- <p>This is to confirm that  <strong class="text-warning"><?php echo $key->name?> </strong>ID number <strong class="text-warning"><?php echo $key->identitynumber?> </strong> stays at the above mentioned address since (date) until today. The <strong class="text-warning"><?php  echo $key->house_type?></strong> owned by <strong class="text-warning"><?php  echo $key->name  ?></strong>.</p>
+ <p>This is to confirm that  <strong class="text-warning"><?php echo $key->name;?> </strong>ID number <strong class="text-warning"><?php echo $key->identitynumber;?> </strong> stays at the above mentioned address since (date) until today. The <strong class="text-warning"><?php  echo $valowner->house_type;?></strong> owned by <strong class="text-warning"><?php  echo $valowner->name;  }}?></strong>.</p>
  <br>
  <p> This letter will be valid for only three months, starting from the date issued.</p>
- <?php
-}
-?>
+
 </div>
-<div>      
+<div> 
+   
  <div class="signleft"> SIGNATURE</div>
  <div class="signline">
    <!--ins><span ></span></ins--> <hr class="signline">
  </div> 
 </div>
 <div class="form-group">
+
   <div class="col-lg-4 col-md-12  ">
-    <button class="btn btn-lg btn-primary " name="submit" id="submit" type="submit">CONFIRM</button>
+   
+   <a href="<?php echo base_url('residents/waitingForApproval/'.$userid.'/'.$owner_id.'/'.$property_id) ?>" class="btn btn-lg btn-primary ">CONFIRM</a>
   </div>
   <div class="col-lg-4 col-md-12">
     <a href="<?php echo base_url() ?>" class="btn btn-lg btn-warning ">CANCEL</a>
   </div>
 </div>
 </div>
+
 
 </div>

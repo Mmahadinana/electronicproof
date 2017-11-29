@@ -1,39 +1,41 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 ?>
 
-<!--div class="container ">
 
-<h1>List Of Owners Property</h1>
 
-<?php
- //var_dump($user_id) ;
-//echo $_SESSION['id'];
-$action="residents/request/";
-
-echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
+<div class="starter-template">
+  <div class="card card-container">
+    <h1>Preview Message</h1>
+  <h4 class="text-success">Your request has been successfully submitted</h4>
+  
+</div>
 <div class="form-area">
-  <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
+  <h1>Proof of Residence</h1>
   <div class="row tablereq">
-    <div class="col-md-10">
+    <div class="col-md-10 ">
+     <?php 
+//var_dump($user_addinfor);
+     echo form_open_multipart('upload/do_upload');
+     //echo $_POST['user_id'];
+     foreach ($user_addinfor as $key ) {?>
+
+     <input type="hidden" name="user_id" <?php echo isset($user_id)? "value='echo $key->id'":"value='0'" ?> />
+
+     <br /><br />
+
+
+
+   </form>
+
       <table class="table text-left romtbl_borders">
 
         <tbody>
-
-          <p>
-    <button type="button" class="btn btn-info">
-      <span class="glyphicon glyphicon-search"></span> Search
-    </button>
-  </p>
           <tr>
             <td>Date</td>
-            <td>2017/11/02</td>
+            <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
           </tr>
-          <div class="col-md-2 text-right" >
-        <a href="<?php echo base_url('publiczone/E-Residence/') ?>" class="edit-address"><span>EDIT ADDRESS</span></a>
-      </div>
           <tr>
             <td>Resident Full Names</td>
             <td>
@@ -41,6 +43,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 
               foreach ($user_addinfor as $key ) {
                 echo $key->name;
+                $user_id=$key->id;
                 ?>
 
               </td>
@@ -79,28 +82,27 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
             
           </tbody>
         </table>
-      </div>
-    </div>
-    
 
+</div>
+</div>
 
-<div class="bs-example">
-    <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li><a href="#">7</a></li>
-        <li><a href="#">8</a></li>
-        <li><a href="#">9</a></li>
-        <li><a href="#">10</a></li>
-        <li><a href="#">&raquo;</a></li>
-    </ul>
-</div-->
+<div class="text-left">
+ <p class="text-center"><strong class="text-danger">Your application is waiting for approval</strong></p>
 
-<script>
+ 
+ <?php
+}
+?>
+</div>
+<div>      
 
-</script>
+<div class="form-group text-center">
+  <div class="col-lg-12">
+    <button class="btn btn-lg btn-default " disabled="disabled" name="submit" id="submit" type="submit">APPROVED</button>
+    <a class="h4" href="<?php echo base_url('residents/viewRequestMade/'.$user_id)?>"><span class="glyphicon glyphicon-eye-open"></span> <span class="text-primary"> View the list of your requests</span></a>
+  </div>
+
+</div>
+</div>
+
+</div>

@@ -22,7 +22,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
         <tbody>
           <tr>
             <td>Date</td>
-            <td>2017/11/02</td>
+           <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
           </tr>
           <tr>
@@ -143,6 +143,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 
 
 </form><!-- /form -->
+</div>
 </div>
 <!-- /div></card-container -->
 <!-- /container --><!-- /.container -->
