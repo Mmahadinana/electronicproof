@@ -50,10 +50,7 @@ class Residents extends CI_Controller {
 	 */
 	public function Eresidence()
 	{
-		$search=array();
-		$search['owner_confirmation_states']=0;
-		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
-		
+				
 		$data['pageToLoad']='eresidence/eresidence';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -434,6 +431,25 @@ public function file_upload() {
 
 
 		}
+
+	}
+	public function confirmList()
+	{
+		$search=array();
+		$search['owner_confirmation_states']=0;
+		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+
+		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+
+
+		
+
+			$this->load->view('ini',$data);
+		
 
 	}
 	public function OwnersDetails()
