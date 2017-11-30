@@ -367,11 +367,19 @@ public function file_upload() {
 
 	public function listOfResidents()
 	{
-		$data['pageToLoad']='eresidence/listOfResidents';
-		$data['pageActive']='listOfResidents';
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+		$search=array();
 
+	$search['user_id']= $_SESSION['id'];
+	
+	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
+	$data['pageToLoad']='eresidence/listOfResidents';
+	$data['pageActive']='eresidence';
+	
+// loading the form and files for file uoload		
+	$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
 
 
 		$config_validation=array(
