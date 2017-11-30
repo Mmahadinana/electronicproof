@@ -9,7 +9,7 @@ class Residents extends CI_Controller {
 		//library to access the session
 		$this->load->library("session");
 		$this->load->model("request_model");
-		$this->load->model("listOfRes_model");
+		$this->load->model("approval_model");
 		$this->load->model("ownersProperty_model");
 		$this->load->model("ownersDetails_model");
 		$this->load->model("manucipality_model");
@@ -18,6 +18,7 @@ class Residents extends CI_Controller {
 		$this->load->model("user_model");
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
+		$this->load->model("listOfRes_model");
 
 
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
@@ -637,7 +638,24 @@ public function file_upload() {
 	
 
 	}
+	public function approve()
+{
 	
+	$search=array();
+
+	$search['user_id']= $_SESSION['id'];
+	
+	$data['user_addinfor']= $this->approval_model->getAddress($search);
+	$data['pageToLoad']='eresidence/approve';
+	$data['pageActive']='eresidence';
+	
+// loading the form and files for file uoload		
+	$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
+	
+}
 }
 
 
