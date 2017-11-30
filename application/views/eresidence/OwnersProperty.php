@@ -31,12 +31,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td>Date						
 						</td>
-						<td>
+						<td class="text-primary"><?php  echo date('Y / m / d')?></td>
+						<!--td>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
 								<input type="date" class="form-control" name="date"  id="date" placeholder="date" required>
 							</div>
 							<p><?php echo form_error('date') ? alertMsg(false,'date',form_error('date')) : ''; ?></p>
-						</td>
+						</td-->
 						<td>
 							<div class="col-md-2 text-left" >
 						<a href="<?php echo base_url('residents/EditownersProperty/') ?>" class="edit-address" name="editaddress"><span></span>EDIT ADDRESS</a>

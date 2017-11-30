@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
@@ -23,12 +24,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <tr>
               <td>Name</td>
-              <td><?php    
+             <td>
+                <?php    
 
                 foreach ($user_addinfor as $key ) {
-                  echo $key->name;
-                  ?></td>
 
+                  ?>
+
+                </td>
                 </tr>
                 <td>
 

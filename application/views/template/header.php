@@ -34,12 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!--/ul>
       <ul class="nav navbar-nav" -->
        <li> <?php echo (isset($_SESSION['email']) )? '<a href="'. base_url("Publiczone/logout").'">
-              Logout '.$_SESSION['name'].' <span class="text-success">'.ucfirst($_SESSION['role']).'</span></a>':'<a href="'.base_url("login/login_").'">
-             Login </a>';?>
-        </li>
-       <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
-     </ul>
-   </div><!--/.nav-collapse -->
- </div>
+        Logout '.$_SESSION['name'].' <span class="text-success">'.ucfirst($_SESSION['role']).'</span></a>':'<a href="'.base_url("login/login_").'">
+        Login </a>';?>
+      </li>
+      <!--li <?php echo setMenuActiveItem ($pageActive == "login")?>><a  id="loginButton" href="<?php echo base_url() ?>"><span>Login</span></a></li-->
+    </ul>
+  </div><!--/.nav-collapse -->
+</div>
 </nav>
 

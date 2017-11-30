@@ -549,6 +549,122 @@ if($this->form_validation->run()===FALSE){
 
 }
 
+public function askdelete($id_remove=0)
+{
+	
+
+	if($id_remove!=0 and is_numeric($id_remove))
+	{
+		$data['user_id']=$id_remove;
+			//$this->Vehicle_model->deleteVehicle($id_remove);
+		}/*else{
+			redirect("publiczone/fleet");
+		}*/
+
+		$data['pageToLoad'] = 'fleet/askdelete';
+		$data['pageActive']='fleet';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		//Launch the view to check delete
+		$this->load->view('ini',$data);
+		
+	}
+
+	public function editUser($id=0)
+	{
+		//check delete book
+		//$data['id_book']=$id;
+		if($id!=0 and is_numeric($id))
+		{
+			$data['user_id'] = $id;
+		}else{
+			redirect("publiczone/fleet");
+		}
+
+		$data['pageToLoad'] = 'fleet/createVehicle';
+		$data['pageActive']='createVehicle';
+		$data['pageTitle']='Edit Vehicle';
+		
+		//data from db
+		$data['colors']=$this->Color_model->getColors();
+		$data['models']=$this->Model_model->getModels();
+		$data['manufacturers']=$this->Manufacturer_model->getManufacturers();
+		$search['user_id'] = $id;
+		$data['db']=$this->Vehicle_model->getVehicle($search);
+
+		
+		foreach ($data['db'] as $value) {
+
+			$data['manufactureEdit'] = $value->manufacture;
+			$data['modelEdit'] = $value->models;
+			$data['colorEdit'] = $value->colors;
+			$data['licence_plateEdit'] = $value->licence_plate;
+			$data['availableEdit'] = $value->available;
+
+			
+			
+		}
+		//from helper and library
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$config_validation= array(
+			array(
+				'field'=>'manufacturers',
+				'label'=>'manufacturers',
+				'rules'=>array(
+					'required',array('checkModel',array($this->Manufacturer_model,'callback_checkManufacturers')
+						)
+					),
+				'errors'=>array('required'=>'<b>You should insert one %s for the Vehicle</b>',
+					'checkManufacturers'=>'you should insert one existing %s'
+					)
+				),
+			array(
+				'field'=>'models',
+				'label'=>'models',
+				'rules'=>'required',
+				'errors'=>array('required'=>'<b>You should select one %s for the vehicle</b>'
+					)
+				),
+			array(
+				'field'=>'licence_plate',
+				'label'=>'licence_plate',
+				'rules'=>'required',
+				'errors'=>array('required'=>'<b>You should select one %s for the vehicle</b>'
+					)
+				),
+			array(
+				'field'=>'colors',
+				'label'=>'colors',
+				'rules'=>array(
+					'required',array('checkColor',array($this->Color_model,'callback_checkColor')
+						)
+					),
+				'errors'=>array('required'=>'<b>You should insert one %s for the Vehicle</b>',
+					'checkColor'=>'you should insert one existing %s'
+					)
+				
+				),
+			
+			);
+
+
+
+
+$this->form_validation->set_rules($config_validation);
+if($this->form_validation->run()===FALSE){
+	$this->load->view('ini',$data);
+
+}else
+{
+	$statusEdit=$this->Vehicle_model->updateVehicle($this->input->post());
+	redirect("residents/listOfResidents?statusEdit=$statusEdit");
+}
+
+}
+
 
 }
 

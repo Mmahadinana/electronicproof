@@ -286,76 +286,76 @@ public function id_upload(){
 	{
 		$search=array();
 
-	$search['user_id']= $_SESSION['id'];
+		$search['user_id']= $_SESSION['id'];
 		
-	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
-	$data['pageToLoad']='eresidence/listOfResidents';
-	$data['pageActive']='eresidence';
-	
+		$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
+		$data['pageToLoad']='eresidence/listOfResidents';
+		$data['pageActive']='eresidence';
+		
 // loading the form and files for file uoload		
-	$this->load->helper(array('form','file','url'));
+		$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
-	$this->load->library('form_validation');
-    $this->load->view('ini',$data);
-	
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+		
 
-}
-public function OwnersDetails()
-{
-	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='OwnersDetails';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
-
-
-
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
+	}
+	public function OwnersDetails()
+	{
+		$data['pageToLoad']='eresidence/OwnersDetails';
+		$data['pageActive']='OwnersDetails';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
 
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
+
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
+
+
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
+					)	 					
+				),		
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
+					),
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
+
 				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
 
-			),
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+					) 					
+				),
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
-				) 					
-			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
+					) 					
+				),			
+			);		
 
 
 
@@ -495,7 +495,7 @@ public function approve()
 	$search=array();
 
 	$search['user_id']= $_SESSION['id'];
-		
+	
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
 	$data['pageToLoad']='eresidence/approve';
 	$data['pageActive']='eresidence';
@@ -504,7 +504,7 @@ public function approve()
 	$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
 	$this->load->library('form_validation');
-    $this->load->view('ini',$data);
+	$this->load->view('ini',$data);
 	
 }
 
