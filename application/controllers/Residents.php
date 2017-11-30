@@ -324,32 +324,37 @@ public function file_upload() {
 		
 		$data['residentInfor']=$user_addinfor;
 		$data['owner_addinfor']=$this->request_model->getOwner($search);
-		//var_dump($data['user_addinfor']);
+		
 		
 
 		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/requestPreview';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
-		// this is for validation 
 		
-		$this->load->library('form_validation');
+		
+		
 		$this->load->view('ini',$data);
 
 	}
 //end of request preview
 
-	public function waitingForApproval($user_id=0,$owner_id=0,$property_id=0)
+	public function confirmRequestInsert($user_id=0,$owner_id=0,$property_id=0)
+	{
+		$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+		redirect('residents/waitingForApproval/'.$user_id);
+	}
+	 public function waitingForApproval($user_id=0)
 	{ 
 	 
 		$search=array();
 
 		$search['user_id']= $user_id;
 		//$search[23]= $this->input->get('user_id') ?? '0';
-	//var_dump($search['user_id']);
+	
 
 		$data['user_addinfor']= $this->request_model->getAddress($search);
-		
+		//var_dump($search['user_addinfor']);
 
 		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/waitingForApproval';
@@ -359,7 +364,7 @@ public function file_upload() {
 		
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
-$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+
 	}
 
 	public function listOfResidents()
@@ -511,7 +516,7 @@ $this->request_model->insertRequest($user_id,$owner_id,$property_id);
 
 		$search['user_id']= $_SESSION['id'];
 		//$search[23]= $this->input->get('user_id') ?? '0';
-	//var_dump($search['user_id']);
+	//var_dump($search['user_addinfor']);
 
 		$data['user_addinfor']= $this->request_model->getAddress($search);
 		$this->ownerProperty($data['user_addinfor']);
@@ -578,10 +583,7 @@ $this->request_model->insertRequest($user_id,$owner_id,$property_id);
 		}
 
 	}
-	public function EditownersProperty($user_id = 0){
-
-
-	}
+	
 
 		public function ownerProperty($user_addinfor=array())
 	{

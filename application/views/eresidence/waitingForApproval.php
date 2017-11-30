@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               foreach ($user_addinfor as $key ) {
                 echo $key->name;
                 $user_id=$key->id;
+                //var_dump($user_id);
                 ?>
 
               </td>

@@ -230,7 +230,7 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0){
 	);
 
 	$this->db->insert("request_docs",$requestdata);
-	var_dump($this->db->insert_id());
+	//var_dump($this->db->insert_id());
 	
 }
 
