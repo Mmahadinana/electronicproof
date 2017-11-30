@@ -27,7 +27,7 @@
     <td><?php echo $user->door_number.' '.$user->street_name; ?></td>
     <td><?php echo $user->date_request; ?></td>
      <td class='text-center'>
-      <a href="<?php echo base_url('eresidence/editdResident/'); ?>" class='btn btn-primary btn-xs' title="edit">
+      <a href="<?php echo base_url('residents/approve/'); ?>" class='btn btn-primary btn-xs' title="edit">
         <span class='glyphicon glyphicon-pencil'></span> 
       </a>
     </td>
