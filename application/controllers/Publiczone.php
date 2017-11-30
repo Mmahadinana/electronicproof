@@ -227,13 +227,13 @@ class Publiczone extends CI_Controller {
 		$this->load->view('ini',$data);		
 	}//end of resetmassage function
 	
-		/************************************This function load from the email link to enter new password***************/
+	/************************************This function load from the email link to enter new password***************/
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
 		//var_dump($mailtoken);
 		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
 		
-	
+		
 		if ($data['db'] == null ) {
 
 			$statusUsername=false;
@@ -250,27 +250,27 @@ class Publiczone extends CI_Controller {
 			redirect('publiczone/reset?statusDate=$statusDate');
 		}
 
-			
+		
 
-			$data['pageToLoad']='login/resetpassword';
-			$data['pageActive']='resetpassword';
-			$this->load->helper('form');
+		$data['pageToLoad']='login/resetpassword';
+		$data['pageActive']='resetpassword';
+		$this->load->helper('form');
 		// this is for validation 
-			$this->load->library('form_validation');
+		$this->load->library('form_validation');
 
-			
-			$config_validation =array(
-			 array(
+		
+		$config_validation =array(
+			array(
 				'field'=>'newpassword',
 				'label'=>'Enter New Password',
 				'rules'=>array('required',	'min_length[5]'),						
 				'errors'=>array(						
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %'),
-					
+				
 
-			),				
-	
+				),				
+			
 			
 			array(
 				'field'=>'confirmpass',
@@ -278,15 +278,15 @@ class Publiczone extends CI_Controller {
 				'rules'=>array('required',
 					'matches[newpassword]'),		
 
-											
+				
 				'errors'=>array(						
 					'required'=>'you should insert one %s for login',
 					'matches[newpassword]'=>'% you entered does not match'),
-			)
+				)
 
 			
-		);
-			$this->form_validation->set_rules($config_validation);
+			);
+		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE){
 
 			$this->load->view('ini',$data);
@@ -300,7 +300,7 @@ class Publiczone extends CI_Controller {
 
 		}	
 
-			
+		
 
 		
 	}//end of resetpassword function
@@ -322,47 +322,41 @@ class Publiczone extends CI_Controller {
 	public function getProvinceDistrict():array
 	{
 		$tempdata=array();
-				$tempdata['province']=$this->province_model->getProvince();
-				foreach ($tempdata['province'] as $prov) {
-					$tempdata['district'][$prov->id]=$this->district_model->getDistrict($prov->id);
-				
-				}
-				$tempdata['districts']=$this->district_model->getDistricts();
-				foreach ($tempdata['districts'] as $distr) {
-				$tempdata['manucipality'][$distr->id]=$this->manucipality_model->getManucipality($distr->id);
-				
-				}
-				$tempdata['manucipalities']=$this->manucipality_model->getManucipalities();
-				foreach ($tempdata['manucipalities'] as $tow) {
-				$tempdata['town'][$tow->id]=$this->town_model->getTown($tow->id);
-				
-				}
+		$tempdata['province']=$this->province_model->getProvince();
+		foreach ($tempdata['province'] as $prov) {
+			$tempdata['district'][$prov->id]=$this->district_model->getDistrict($prov->id);
+			
+		}
+		$tempdata['districts']=$this->district_model->getDistricts();
+		foreach ($tempdata['districts'] as $distr) {
+			$tempdata['manucipality'][$distr->id]=$this->manucipality_model->getManucipality($distr->id);
+			
+		}
+		$tempdata['manucipalities']=$this->manucipality_model->getManucipalities();
+		foreach ($tempdata['manucipalities'] as $tow) {
+			$tempdata['town'][$tow->id]=$this->town_model->getTown($tow->id);
+			
+		}
 
-				$tempdata['towns']=$this->town_model->getTowns();
-				foreach ($tempdata['towns'] as $sub) {
-				$tempdata['suburb'][$sub->id]=$this->suburb_model->getSuburb($sub->id);
-				
-				}
-				$tempdata['towns']=$this->suburb_model->getSuburbs();
-				foreach ($tempdata['towns'] as $add) {
-				$tempdata['address'][$add->id]=$this->address_model->getAddress($add->id);
-				
-				}
+		$tempdata['towns']=$this->town_model->getTowns();
+		foreach ($tempdata['towns'] as $sub) {
+			$tempdata['suburb'][$sub->id]=$this->suburb_model->getSuburb($sub->id);
+			
+		}
+		$tempdata['towns']=$this->suburb_model->getSuburbs();
+		foreach ($tempdata['towns'] as $add) {
+			$tempdata['address'][$add->id]=$this->address_model->getAddress($add->id);
+			
+		}
 
-			return $tempdata;		
+		return $tempdata;		
 
 	}
 	function registerUser() {
 
 		$search=array();
 		$search['user_id']= $this->input->get('user_id') ?? '0';
-		//$search['user_id']= 161;
-		//$data['search'] = $search;
-	  	//$data['authors'] = $authors;
-	  	//$data['editor'] = $editor;
-
-		//$data['db'] = $this->user_model->getUser($search);
-		//var_dump($data['db']);
+		
 		$data['user_id']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
@@ -370,18 +364,23 @@ class Publiczone extends CI_Controller {
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		if(null!=$this->input->get('statusInsert'))
+		{
+			$data['statusInsert']=$this->input->get('statusInsert');
+		}
+
 
 		/***get the provice and distric by provice id*******/
 		$selDistrict = $this->getProvinceDistrict();
-			$data['province'] = $selDistrict['province'];
-			$data['district']     = $selDistrict['district'];
-			$data['manucipality']=$selDistrict['manucipality'];	
-			$data['town']=$selDistrict['town'];	
-			$data['suburb']=$selDistrict['suburb'];	
-			$data['address']=$selDistrict['address'];	
+		$data['province'] = $selDistrict['province'];
+		$data['district']     = $selDistrict['district'];
+		$data['manucipality']=$selDistrict['manucipality'];	
+		$data['town']=$selDistrict['town'];	
+		$data['suburb']=$selDistrict['suburb'];	
+		$data['address']=$selDistrict['address'];	
 			//var_dump($data['manucipality']);	
 		/*****end */		
-					
+		
 
 		//data from db
 		;
@@ -393,31 +392,24 @@ class Publiczone extends CI_Controller {
 		//$data['district']=$this->district_model->getDistrict($district);
 		
 		
-/*$search['district'] = 
-		//$data['district']=$this->district_model->getDistrict();
-		$data['province']=$this->province_model->getProvince();
-		foreach ($data['province'] as $key => $value) {
-			$data['district']=$this->district_model->getDistrict($value->name);
-		}*/
-		
+
 		
 //Including validation library
 		
 
 
 		$config_validation = array(
-			array(
-				'field'=>'email',
+			array('field'=>'email',
 				'label'=>'email',
-				'rules'=>array('required','valid_email'),
+				'rules'=>array('required','valid_email',
+					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
+					'checkEmail'=>'%s does not exist, please enter the correct email'
 
 					) 					
 				),
-
-
 			array(
 				'field'=>'password',
 				'label'=>'Password',
@@ -446,116 +438,98 @@ class Publiczone extends CI_Controller {
 			array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
-				'rules'=>
-				'required',				
-				),
-			'errors'=>array(
-				'required'=>' %s is required'
-
-				),
-			
-			/*array(
-				'field'=>'dateOfBirth',
-				'label'=>'Date of Birth',
-				'rules'=>
+				'rules'=>array(
 					'required',
-								
-					'errors'=>array('required'=>'you should insert %s for the user')
-					),*/
+					'exact_length[13]',
+					'numeric',
+					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+					),
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',
+					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+				
+				),
+			
+			
 
-array(
-	'field'=>'phone',
-	'label'=>'Phone number',
-	'rules'=>array(
-		'required',
-		'exact_length[10]',						
-
-		'regex_match[/^[0-9]+$/]',
-		),
-
-
-
-	'errors'=>array('required'=>'you should insert one %s ',
-		'exact_length'=>'the %s must have at least length of 10 ',						
-		'regex_match'=>'the %s must be numbers only',									
-		)	 					
-	),
-			/*array(
-				'field'=>'dateOfRegistraion',
-				'label'=>'Date of Registration',
-				'rules'=>
+			array(
+				'field'=>'phone',
+				'label'=>'Phone number',
+				'rules'=>array(
 					'required',
-					'errors'=>array('required'=>'you should insert %s for the user')						
-),
+					'exact_length[10]',						
 
-			
-			
-			
+					'regex_match[/^[0-9]+$/]',
+					),
 
-			/*array(
-				'field'=>'address',
-				'label'=>'Street Address',
+
+
+				'errors'=>array('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
+				),
+			
+			array(
+				'field'=>'gender',
+				'label'=>'Gender',
 				'rules'=>'required',
-					'errors'=>array('required'=>'you should insert %s for the user')
-					),*/
-   array(
-	'field'=>'gender',
-	'label'=>'Gender',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert %s for the user')
-	),
-array(
-	'field'=>'suburb',
-	'label'=>'suburb',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert one %s for the user')
-	),
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
+			array(
+				'field'=>'suburb',
+				'label'=>'suburb',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
 
-array(
-	'field'=>'town',
-	'label'=>'town',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert one %s for the user')
-	),
+			array(
+				'field'=>'town',
+				'label'=>'town',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
 
-array(
-	'field'=>'district',
-	'label'=>'district',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert one %s for the user'
+			array(
+				'field'=>'district',
+				'label'=>'district',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
 
-		)
-	),
+					)
+				),
 
-array(
-	'field'=>'province',
-	'label'=>'province',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert one %s for the user'
+			array(
+				'field'=>'province',
+				'label'=>'province',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
 
-		)
-	),
+					)
+				),
 
 
 
-array(
-	'field'=>'zip_code',
-	'label'=>'zip code',
-	'rules'=>
-	'required',	
-	'errors'=>array('required'=>'you should insert %s for the user')),
+			array(
+				'field'=>'zip_code',
+				'label'=>'zip code',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user')),
 
 
 
-array(
-	'field'=>'manucipality',
-	'label'=>'manucipality',
-	'rules'=>'required',
-	'errors'=>array('required'=>'you should insert one %s for the user'
+			array(
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
 
-		)
-	)
-);
+					)
+				)
+			);
 
 
 

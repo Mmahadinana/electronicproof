@@ -6,15 +6,20 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 
 
 <div class="container form-area">
-	<?php 
-	$options = array("class"=> "form-group","method"=>"POST","name"=>"form_name","id"=>"form_id","class"=>"form_class");
-	echo form_open("publiczone/registerUser",$options);
-	?>
+	   <?php 
+         $options = array("class"=> "form-group","method"=>"POST");
+         echo form_open("publiczone/registerUser",$options);
 
+         if(isset($statusInsert)){
+          echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
+        }
+
+        ?>
+ 
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
 			<div class="stepwizard-step">
-				<a href="#step-1" type="button" class="btn btn-primary btn-circle"><i class="fa fa-lock" aria-hidden="true"></i></a>
+				<a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
 				<p>Step 1</p>
 			</div>
 			<div class="stepwizard-step">
@@ -40,6 +45,7 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 							<input type="email" class="form-control" name="email" id="email" placeholder="Requested email"  onblur="validate()" required>
 						</div>
 						<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
+
 
 					</div>
 					<div class="form-group">
@@ -225,9 +231,6 @@ $modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		
 
 </div>
 
-	
-
-
 
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -371,12 +374,7 @@ $.each(district[selected], function (i, item) {
 	}));
 
 });
-	//select the option of the edit mode
-	/*if(id_district){
-	$("#select_district select").val(id_district);
-}else{
-	$("#select_district select").val(0);
-}*/
+	
 	//dispaly the select box
 	$("#select_district").attr('style','display:block');
 });
@@ -408,12 +406,7 @@ $.each(manucipality[selected], function (i, item) {
 		text : item.name 
 	}));
 });
-	//select the option of the edit mode
-	/*if(id_district){
-	$("#select_district select").val(id_district);
-}else{
-	$("#select_district select").val(0);
-}*/
+	
 	//dispaly the select box
 	$("#select_manucipality").attr('style','display:block');
 });
@@ -527,45 +520,15 @@ $.each(address[selected], function (i, item) {
 		text : item.street_name 
 
 	}));
-	/*$("#select_Number").empty();
-	$("#select_Number").append($('<input name="door_number" type="text">', { 
-		//value: item.id,
-		placeholder : "Enter door number", 
-		
 
-	}));*/
 
 });
-	//select the option of the edit mode
-	/*if(id_district){
-	$("#select_district select").val(id_district);
-}else{
-	$("#select_district select").val(0);
-}*/
+	
 	//dispaly the select box
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
 });
 });
-/*$( document ).ready(function() {
-	$('#door').on('change',function(){
-//$("#select_Number").append($('<input name="door_number" type="text">', { 
-		//value: item.id,
-		//placeholder : $('#door').val(), 
-		var number = $(this).data();
-    /*$("#door_number").val(function() {
-        return this.value + number;
-    });*/
-	/*	console.log(number);
-
-	});
-   // $('#example').append($('#example-textarea').val());
-
-
-});
-//});*/
-
-
 </script>
 
 
