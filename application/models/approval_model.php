@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class ListOfRes_model extends CI_MODEL{
+class Approval_model extends CI_MODEL{
 
 
 	public function __construct()
@@ -12,7 +12,7 @@ class ListOfRes_model extends CI_MODEL{
 		$this->load->database();
 	}
 
-public function listquery($search ){
+public function approvalquery($search ){
 
 $user_id = $search['user_id'] ?? FALSE;
 
@@ -20,7 +20,7 @@ if($user_id){
 		$this->db->where('user.id',$user_id);
 	}
 return $this->db
-->select("user.id,user.name,user.identitynumber,
+->select("user.id,user.name,user.identitynumber,user.date_registration,
 		owners.id as owner,owners.user_id,owners.house_type,
 		property.id as property,property.address_id,
 		address.id as addressid, address.door_number, address.street_name, address.suburb_id,
@@ -50,7 +50,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-	$this->listquery($search)
+	$this->approvalquery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);

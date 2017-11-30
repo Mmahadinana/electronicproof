@@ -2,8 +2,6 @@
  defined('BASEPATH') OR exit('No direct script access allowed');
  ?>
  
-
-
  <div class="container">
    
   <section class="contact-section">

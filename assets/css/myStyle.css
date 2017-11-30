@@ -25,7 +25,7 @@ body {
 }
 /***************************** default style for links************************/
 a {
-  color: white;
+  color: blue;
   background-color: transparent;
   font-weight: normal;
 }
@@ -249,6 +249,31 @@ h3 {
   }
 
 
+<<<<<<< HEAD
+#door
+{
+  color: black;
+}
+#approve
+{
+  margin-left: -30px;
+  margin-top: 70px;
+}
+#decline
+{
+  margin-left: 110px;
+  margin-top: 70px;
+}
+#para
+{
+  margin-top: 60px;
+  margin-left: -50px;
+}
+.row 
+{
+  margin-left: 110px;
+}
+
   /*
    @media (min-width: 768px) {
     .navbar > .container .navbar-brand,
@@ -338,3 +363,4 @@ h3 {
   }*/
 
   
+>>>>>>> ebe1abfe4b97cb81272ce7ebe27cea92f20407b7
