@@ -587,19 +587,22 @@ public function askdelete($id_remove=0)
 		$data['pageTitle']='Edit Vehicle';
 		
 		//data from db
-		$data['colors']=$this->Color_model->getColors();
-		$data['models']=$this->Model_model->getModels();
-		$data['manufacturers']=$this->Manufacturer_model->getManufacturers();
-		$search['user_id'] = $id;
-		$data['db']=$this->Vehicle_model->getVehicle($search);
+		$search=array();
+		$search['user_id']= $this->input->get('user_id') ?? '0';
+		$data['provinces']=$this->province_model->getProvince();
+		$data['districts']=$this->district_model->getDistrict();
+		$data['manucipalities']=$this->manucipality_model->getManucipality();
+
+		$data['user_id']= $this->user_model->getUser($search);
+
 
 		
 		foreach ($data['db'] as $value) {
 
-			$data['manufactureEdit'] = $value->manufacture;
-			$data['modelEdit'] = $value->models;
-			$data['colorEdit'] = $value->colors;
-			$data['licence_plateEdit'] = $value->licence_plate;
+			$data['userEdit'] = $value->user_id;
+			$data['provinceEdit'] = $value->provinces;
+			$data['districtEdit'] = $value->districts;
+			$data['manucipalityEdit'] = $value->manucipalities;
 			$data['availableEdit'] = $value->available;
 
 			
@@ -609,45 +612,151 @@ public function askdelete($id_remove=0)
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		$config_validation= array(
-			array(
-				'field'=>'manufacturers',
-				'label'=>'manufacturers',
-				'rules'=>array(
-					'required',array('checkModel',array($this->Manufacturer_model,'callback_checkManufacturers')
-						)
-					),
-				'errors'=>array('required'=>'<b>You should insert one %s for the Vehicle</b>',
-					'checkManufacturers'=>'you should insert one existing %s'
-					)
+		
+			$search = array();
+		$data['province']=$this->province_model->getProvince();
+		$district = $this->input->post('province');
+
+		//$data['district']=$this->district_model->getDistrict($district);
+		
+		
+
+		
+//Including validation library
+		
+
+
+		$config_validation = array(
+			array('field'=>'email',
+				'label'=>'email',
+				'rules'=>array('required','valid_email',
+					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
+					'checkEmail'=>'%s does not exist, please enter the correct email'
+
+					) 					
 				),
 			array(
-				'field'=>'models',
-				'label'=>'models',
+				'field'=>'password',
+				'label'=>'Password',
+				'rules'=>
+				'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
+				),
+			array(
+				'field'=>'confirm',
+				'label'=>'Confirm Password',
+				'rules'=>
+				'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+
+				),
+
+			array('field'=>'name',
+				'label'=>'Full Name',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should select one %s for the vehicle</b>'
-					)
+				'errors'=>array('required'=>'you should insert %s for the user')						
 				),
+
+
+
 			array(
-				'field'=>'licence_plate',
-				'label'=>'licence_plate',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should select one %s for the vehicle</b>'
-					)
-				),
-			array(
-				'field'=>'colors',
-				'label'=>'colors',
+				'field'=>'identitynumber',
+				'label'=>'Identity Number',
 				'rules'=>array(
-					'required',array('checkColor',array($this->Color_model,'callback_checkColor')
-						)
+					'required',
+					'exact_length[13]',
+					'numeric',
+					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
 					),
-				'errors'=>array('required'=>'<b>You should insert one %s for the Vehicle</b>',
-					'checkColor'=>'you should insert one existing %s'
-					)
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',
+					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
 				
 				),
 			
+			
+
+			array(
+				'field'=>'phone',
+				'label'=>'Phone number',
+				'rules'=>array(
+					'required',
+					'exact_length[10]',						
+
+					'regex_match[/^[0-9]+$/]',
+					),
+
+
+
+				'errors'=>array('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
+				),
+			
+			array(
+				'field'=>'gender',
+				'label'=>'Gender',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
+			array(
+				'field'=>'suburb',
+				'label'=>'suburb',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+			array(
+				'field'=>'town',
+				'label'=>'town',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user')
+				),
+
+			array(
+				'field'=>'district',
+				'label'=>'district',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
+
+					)
+				),
+
+			array(
+				'field'=>'province',
+				'label'=>'province',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
+
+					)
+				),
+
+
+
+			array(
+				'field'=>'zip_code',
+				'label'=>'zip code',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user')),
+
+
+
+			array(
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert one %s for the user'
+
+					)
+				)
 			);
 
 

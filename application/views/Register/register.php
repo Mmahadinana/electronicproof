@@ -1,21 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$modelo_id 		= $dados_carro['modelo_id'] 		?? $this->input->post('modelo_id') 		?? false;
-//var_dump($manucipality);
+
 ?>
 
 
-<div class="container form-area">
-	   <?php 
-         $options = array("class"=> "form-group","method"=>"POST");
-         echo form_open("publiczone/registerUser",$options);
+<h1 ><?php echo $pageTitle;
 
-         if(isset($statusInsert)){
-          echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
-        }
+	if(isset($statusEdit)){
+		echo alertMsg($statusEdit,'Vehicle Added','Vehicle Not Added');
+	}
+	?></h1>
 
-        ?>
- 
+
+	<?php 
+
+
+	$action= isset($user_id)?"publiczone/editUser/$user_id" : "publiczone/registerUser";
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?>
+	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='iduser' type='hidden' name='iduser'>
+
+
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
 			<div class="stepwizard-step">
@@ -374,7 +378,7 @@ $.each(district[selected], function (i, item) {
 	}));
 
 });
-	
+
 	//dispaly the select box
 	$("#select_district").attr('style','display:block');
 });
@@ -406,7 +410,7 @@ $.each(manucipality[selected], function (i, item) {
 		text : item.name 
 	}));
 });
-	
+
 	//dispaly the select box
 	$("#select_manucipality").attr('style','display:block');
 });
@@ -523,7 +527,7 @@ $.each(address[selected], function (i, item) {
 
 
 });
-	
+
 	//dispaly the select box
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
