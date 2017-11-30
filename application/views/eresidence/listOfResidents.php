@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
              <td>
                 <?php    
 
-                foreach ($user_addinfor as $key ) {
+                foreach($user_addinfor as $key ) {
 
                   ?>
 
@@ -37,16 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 </td>
                 <tr>
-
-
-
                 </tr>
                 <tr>
                   <td rowspan="7">Address</td>               
                   <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
                 </tr>
-
-
                 <tr>
                   <td><?php  echo $key->street_name?></td>
 
