@@ -11,12 +11,14 @@ class Login_model extends CI_MODEL{
 	}
 
 	public function query($search){
-//var_dump($search);
+
+		;
+//var_dump($user_idprofile);
 		$username = $search['username'] ?? FALSE;
 
 		if('$username'){
 			$this->db->where('user.email','$username');
-		}	
+		}						
 		return $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,role.id as roleid,role.role,login.id as loginid,login.password,
 			GROUP_CONCAT(user.name) as user")
 		->from("user")

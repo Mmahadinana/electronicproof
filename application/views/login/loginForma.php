@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 	<!--div class="starter-template"-->		
-	<div class="container">	
+	
 	<!--div class="card-container card"-->		
 		
 		
@@ -50,6 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                 </div>
-                </div>
+              
 	<!-- /div></card-container -->
 <!--/div>< /container --><!-- /.container -->

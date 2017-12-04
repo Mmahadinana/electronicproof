@@ -435,3 +435,12 @@ input:focus {
     color: yellow;
 
 }
+.pfTbl_padding{
+    padding: 5em 6em 5em -10em;
+}
+.text-white span{
+color: #fff !important;
+}
+.text-white span:hover{
+color: pink !important;
+}

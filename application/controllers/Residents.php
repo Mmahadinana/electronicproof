@@ -51,15 +51,56 @@ class Residents extends CI_Controller {
 	 */
 	public function Eresidence()
 	{
-				
+		$id_remove=$this->input->post('id_book');
+		if ($id_remove!=0 and is_numeric($id_remove)) {
+		$data['statusRemove']= $this->books->deleteBook($id_remove);
+
+		}
+		if(null!=$this->input->get('statusEdit')){
+			$data['statusEdit']= $this->input->get('statusEdit');
+		}if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+		}	
+
+
 		$data['pageToLoad']='eresidence/eresidence';
 		$data['pageActive']='eresidence';
-		$this->load->helper('form');
-		// this is for validation 
+		$this->load->helper('form');	
 		
-		$this->load->library('form_validation');
+		/*$search['title']=$this->input->get('title') ?? '';			
+		$search['isbn']=$this->input->get('isbn') ?? '';		
+		//db communication		
+		$search['editor']=$this->input->get('editor')??0;
+		$search['author']=$this->input->get('author')??0;*/
+		$search['page']=$this->input->get('page')??0;
+			
+		$data['search']=$search;
+		
+		/*$data['editor']=$this->editor_model->getEditors();
+		$data['author']=$this->auther_model->getAuthor();	*/	
+		$data['db']=$this->ownersProperty_model->getProperty($search);
+		var_dump($data['db']);
+		$data['countProperties']=$this->ownersProperty_model->countProperties($search);
+		//var_dump($search['title']);
+		//pagination for the Properties
+		$config['enable_query_string']=true;
+		//this is the one to show the actual page number,?page=someInt
+		$config['page_query_string']=true;
+		//url that will use the link
+		/*$config['base_url']=base_url('project/managebooks?title='.$search['title'].'&isbn='.$search['isbn'].'&editor='.$search['editor'].'&author='.$search['author']);*/
+		//number of results to be devided on the pagintion
+		$config['total_rows']=$data['countProperties'];
+		//load the pagination library		
+		$this->load->library('pagination');
+
+		//intialize the pagination with our config
+		//$this->pagination->initialize($config);
+		$data['search_pagination']=$this->pagination->create_links();
+
+		$this->load->helper('form');	
+	
 		$this->load->view('ini',$data);
-		
+
 
 	}
 	public function viewRequestMade($user_id=0)
@@ -335,6 +376,31 @@ public function file_upload() {
 		$this->load->view('ini',$data);
 
 	}
+	public function userprofile()
+	{ 
+		$search=array();
+		$properties=array();
+		$search['user_idprofile']= $_SESSION['id'];
+
+		//$search[23]= $this->input->get('user_id') ?? '0';
+	
+
+		$data['user_addinfor']= $this->request_model->getUser($search);
+		$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
+		//var_dump($data['property_addinfor']);
+		$data['pageToLoad']='userprofile/userprofile';
+		$data['pageActive']='userprofile';
+		
+// loading the form and files for file uoload		
+		$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+		$this->load->library('form_validation');		
+		
+		
+		
+		$this->load->view('ini',$data);
+
+	}
 //end of request preview
 
 	public function confirmRequestInsert($user_id=0,$owner_id=0,$property_id=0)
@@ -379,7 +445,7 @@ public function file_upload() {
 	$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
 	$this->load->library('form_validation');
-	$this->load->view('ini',$data);
+	//$this->load->view('ini',$data);
 
 
 		$config_validation=array(

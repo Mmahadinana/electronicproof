@@ -51,10 +51,14 @@ class Request_model extends CI_MODEL{
 	public function ownerquery($search ){
 
 		$property_id = $search['property_id'] ?? FALSE;
+		
 
 		if($property_id){
 			$this->db->where('property.id',$property_id); 
 		}
+
+
+		
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
 			role.role,role.id as roleid,
@@ -80,6 +84,28 @@ class Request_model extends CI_MODEL{
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
+
+		->group_by('user.id')
+		->order_by('user.id');
+
+	}
+	public function userquery($search ){
+
+		$user_idprofile = $search['user_idprofile'] ?? FALSE;
+		
+
+		if($user_idprofile){
+			$this->db->where('user.id',$user_idprofile); 
+		}
+
+
+		
+		return $this->db
+		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
+			gender.gender, ")
+		->from("user")
+		->join("gender","gender.id = user.gender_id")
+		
 
 		->group_by('user.id')
 		->order_by('user.id');
@@ -132,6 +158,18 @@ class Request_model extends CI_MODEL{
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 		$this->requestquery($search)
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+			//get data from bd
+		return $this->db->get()->result();
+	}
+	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE){
+//public function getAddress(){
+	//where to start bringing the rows for the pagination
+		$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+		$this->userquery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
@@ -250,81 +288,11 @@ public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_
 	return $this->db->get()->result();
 }
 
-/*public function getOwner($search ){
-//public function getAddress(){
-	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
-//call the query to bring the residence
-	$this->requestquery()
-		$this->db->where('user.id','100');
-
-	//$this->requestquery();
-		//establish the limit and start to bring the owner address
-	->limit($limit,$offset);
-			//get data from bd
-	return $this->db->get()->result() ;
-}
-*/
-
-
-
-/*public function makeRequest($data){
-$this->checkResidentAddress($data);
-$requests = array(
-		     		'user_id'=>$data['user_id'],
-		     		'property_id'=>$data['property_id'],
-		     		'date_request'=>$data['date_request'],
-		     		);
-		     	$this->db->trans_start();
-		     	$this->db->insert("books",$requests);
-		     	$book_id = $this->db->insert_id();
-		     	return $this->db->trans_complete();
- 
- 
-}
-public function checkResidentAddress($data){
-
- $requests=array( 	
- 	"phone"=>$data["phone"];
- 	"identitynumber"=>$data["idnumber"];
- 	"email"=>$data["email"];
- 	"id"=>$data["user_id"];
- );
-
- //$this->requestquery($requests);
- if($requests === requestquery($requests)){
- 	$this->makeRequest();
- }
- }
- public function insertRequestFiles($data){
-
- $requests=array( 	
- 	"phone"=>$data["phone"];
- 	"identitynumber"=>$data["idnumber"];
- 	"email"=>$data["email"];
- 	"id"=>$data["user_id"];
- );
-
- //$this->requestquery($requests);
- if($requests === requestquery($requests)){
- 	$this->makeRequest();
- }
- }
- 
-public function callback_checkFile($dir){
-$result = array(); 	
-$uploads_dir= 'C:\xampp';
-$result = scandir($uploads_dir,1);
-foreach ($result as $file) {
-     $files[$file] = filemtime($uploads_dir . '/' . $file);	
-}
-arsort($result);
-    $result = array_keys($result);
-
-    return ($result) ? $result : false;
-
-}*/
 
 
 }
+
+
+
+
 ?>

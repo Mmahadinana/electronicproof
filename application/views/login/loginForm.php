@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-	<!--div class="starter-template"-->		
-	<div class="container">	
+	<div class="starter-template">		
+	<div class="container form-area">	
 	<!--div class="card-container card"-->		
 		<h1> Login </h1>
 		
@@ -44,9 +44,9 @@ if (isset($statusUsername)) {
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 		</div>
-			<div class="col-md-2 text-left" >
+			<div class="col-md-3 text-left" >
 				<a href="<?php echo base_url('passwords/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
-			<a href="<?php echo base_url('publiczone/registerUser') ?>" class="text-danger"><span>New account? Signup</span></a>
+			<a href="<?php echo base_url('publiczone/registerUser') ?>" class="text-white"><span>New account? Signup</span></a>
 			</div>
 			
 		</form><!--/form -->
@@ -88,8 +88,8 @@ echo form_open("login/login_",$options); */
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                        </div-->
+                            </div-->
+                        </div>
                 </div>
 	<!-- /div></card-container -->
 <!--/div>< /container --><!-- /.container -->
