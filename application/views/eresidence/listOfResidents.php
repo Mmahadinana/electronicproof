@@ -78,43 +78,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <th>Members</th>
                 <th>Edit</th>
                 <th>Delete</th>
-
+                
               </tr>
             </thead>
             <tbody>
               <tr>
+
                 <td><?php  echo $key->name?></td>
-                <td><a href="#">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </a></td>
-                <td> <a href="#">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a></td>
-              </tr>
-              <tr>
                 <td><?php  echo $key->name?></td>
-                <td><a href="#">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </a></td>
-                <td> <a href="#">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a></td>
-              </tr>
-              <tr>
                 <td><?php  echo $key->name?></td>
-                <td><a href="#">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </a></td>
-                <td> <a href="#">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a></td>
+               <a href ="<?php echo base_url("publiczone/editUser/".$key ->id) ?>" class ="btn btn-default btn-md" title="Edit">
+					<span class="glyphicon glyphicon-pencil"></span></a>
               </tr>
-              <tr>
-                <td>New Resident</td>
-                <td></td>
-                <td><a href="#">
-                  <span class="glyphicon glyphicon-plus"></span>
-                </a></td>
+          
+                
+             
+                
               </tbody>
             </table>
 

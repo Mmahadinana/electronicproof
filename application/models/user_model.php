@@ -63,6 +63,7 @@ class User_model extends CI_MODEL{
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
+	
 
 	public function addUser($data){
 		

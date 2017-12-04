@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </table>
         <h5 id="para">This is to confirm <?php echo $key->name;?> Id numbers <?php echo $key->identitynumber;?> 
         stays at the above mentioned address since (<?php echo $key->date_registration;?>)   until today. The house owned by <?php echo $key->name;?> </h5>
-          <h5 id="pari">You can go to  (<a href="publiczone/registerUser/">Confirm User Address</a>) to check the applicant  </h5>
+          <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/registerUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
         <div class="form-group">
           <div class="col-lg-4">
             <button class="btn btn-lg btn-primary " name="approve" id="approve" type="approve">Approve</button>

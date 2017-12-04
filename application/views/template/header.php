@@ -22,9 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="btn dropdown-toggle btn-bkg" type="button" data-toggle="dropdown">E-Residence  &nbsp;&nbsp;<span class="caret"></span></a>
           <ul class="dropdown-menu dropdownmenu " >            
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
+
             <li <?php echo setMenuActiveItem ($pageActive == "listOfResidents")?>><a href="<?php echo base_url('residents/listOfResidents') ?>">Manage Residents</a></li>
-            <li <?php echo setMenuActiveItem ($pageActive == "approve")?>><a href="<?php echo base_url('residents/approve')?>">Approval</a></li>
-           
+            <li <?php echo setMenuActiveItem ($pageActive == "approve")?>><a href="<?php echo base_url('residents/approve')?>">Approval</a></li>      
 
             <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">Owners Property</a></li>
             

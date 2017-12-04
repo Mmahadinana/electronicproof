@@ -730,6 +730,9 @@ public function file_upload() {
 	$this->load->view('ini',$data);
 	
 }
+
+
+
 }
 
 

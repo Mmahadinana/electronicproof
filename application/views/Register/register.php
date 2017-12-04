@@ -2,24 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
-
+<div class="container form-area">
 
 <h1 ><?php echo $pageTitle;
 
 	if(isset($statusEdit)){
-		echo alertMsg($statusEdit,'Vehicle Added','Vehicle Not Added');
+		echo alertMsg($statusEdit,'User Added','User Not Added');
 	}
 	?></h1>
 
 
-	<?php 
+	<!--?php 
 
 
-	$action= isset($user_id)?"publiczone/editUser/$user_id" : "publiczone/registerUser";
-	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?>
-	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='iduser' type='hidden' name='iduser'>
-
-
+	$action= isset($user_id)?"residents/editUser/$user_id" : "publiczone/registerUser";
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?-->
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
 			<div class="stepwizard-step">
@@ -34,7 +31,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 				<p>Step 3</p>
 			</div>
-			
 			
 		</div>
 	</div>

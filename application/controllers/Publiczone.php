@@ -96,13 +96,25 @@ class Publiczone extends CI_Controller {
 				'errors'=>array('required'=>'<b>You should type a %s </b>'
 					)
 				),
+			
 			array(
 				'field'=>'phone',
-				'label'=>'phone',
-				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should type a %s </b>'
-					)
+				'label'=>'Phone number',
+				'rules'=>array(
+					'required',
+					'exact_length[10]',						
+
+					'regex_match[/^[0-9]+$/]',
+					),
+
+
+
+				'errors'=>array('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
 				),
+			
 			);
 
 		$this->form_validation->set_rules($config_validation);
@@ -548,30 +560,71 @@ if($this->form_validation->run()===FALSE){
 }
 
 }
-
-public function askdelete($id_remove=0)
-{
-	
-
-	if($id_remove!=0 and is_numeric($id_remove))
+public function user()
 	{
-		$data['user_id']=$id_remove;
-			//$this->Vehicle_model->deleteVehicle($id_remove);
-		}/*else{
-			redirect("publiczone/fleet");
-		}*/
 
-		$data['pageToLoad'] = 'fleet/askdelete';
-		$data['pageActive']='fleet';
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+		$data['pageToLoad'] = 'eresidence/listOfResidents';
+		$data['pageActive']='listOfResidents';
 
-		//Launch the view to check delete
-		$this->load->view('ini',$data);
+			//from helper and library
+		 $this->load->helper('form');
 		
+		$this->load->library('form_validation');
+		$id_remove = $this->input->post('user_id');
+
+	
+		if(null!=$this->input->get('statusEdit'))
+		{
+			$data['statusEdit'] = $this->input->get('statusEdit');
+		}
+		if(null!=$this->input->get('statusInsert'))
+		{
+			$data['statusInsert']=$this->input->get('statusInsert');
+		}
+		
+		$search=array();
+		
+			$search['search']= $this->input->get('search') ?? '';
+			$search['page']= $this->input->get('page') ?? 0;
+			$search['inputsearch']= $this->input->get('inputsearch') ?? '';
+//db communication 
+
+
+$config['base_url'] =base_url('publiczone/listOfResidents?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
+
+
+	  	//$data['authors'] = $authors;
+	  	//$data['editor'] = $editor;
+
+	  	$data['db'] = $this->Vehicle_model->getVehicle($search);
+	  	$data['vehiclesCount'] = $this->Vehicle_model->countVehicle($search);
+	  	$data['models']=$this->Model_model->getModels();
+	  	$data['colors']=$this->Color_model->getColors();
+	  	//var_dump($search);
+	  	//pagination for the books
+
+	  	//To re-write the links
+	  	 $config['enable_query_string'] = TRUE;
+	  	 //To  show the actual page number
+	  	 $config['page_query_string'] = TRUE;
+          //url that will use the pagination
+	  	 //$config['base_url'] = base_url('publiczone/fleet?models='.$search['models'].'&licence_plate='.$search['licence_plate'].'&manufactures='.$search['manufactures'].'&colors='.$search['colors'].'&available='.$search['available']);
+	  	 //$config['total_rows'] = $data['vehiclesCount'];
+
+	  	 //load the pagination library
+	  	 //$this->load->library('pagination');
+	  	 //initialize the pagination
+	  	 //$this->pagination->initialize($config);
+	  	 //$data['search_pagination']=$this->pagination->create_links();
+
+
+       
+	  	$this->load->view('ini',$data);
+
+
 	}
 
-	public function editUser($id=0)
+public function editUser($id=0)
 	{
 		//check delete book
 		//$data['id_book']=$id;
@@ -579,12 +632,12 @@ public function askdelete($id_remove=0)
 		{
 			$data['user_id'] = $id;
 		}else{
-			redirect("publiczone/fleet");
+			redirect("publiczone/user");
 		}
 
-		$data['pageToLoad'] = 'fleet/createVehicle';
-		$data['pageActive']='createVehicle';
-		$data['pageTitle']='Edit Vehicle';
+		$data['pageToLoad'] = 'register/register';
+		$data['pageActive']='register';
+		$data['pageTitle']='Edit User';
 		
 		//data from db
 		$search=array();
@@ -597,7 +650,7 @@ public function askdelete($id_remove=0)
 
 
 		
-		foreach ($data['db'] as $value) {
+		foreach ($data['user_id'] as $value) {
 
 			$data['userEdit'] = $value->user_id;
 			$data['provinceEdit'] = $value->provinces;
@@ -769,11 +822,11 @@ if($this->form_validation->run()===FALSE){
 }else
 {
 	$statusEdit=$this->Vehicle_model->updateVehicle($this->input->post());
-	redirect("residents/listOfResidents?statusEdit=$statusEdit");
+	redirect("publiczone/listOfResidents?statusEdit=$statusEdit");
 }
 
 }
-
+	
 
 }
 
