@@ -25,7 +25,7 @@
         <div class="form-group">
           <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name"  name="name" placeholder="Palesa Motseare">
+          <input type="text" class="form-control" id="name"  pattern="[a-zA-Z][a-zA-Z ]{2,}"  name="name" placeholder="Palesa Motseare">
         </div>
         <div class="form-group">
           <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
@@ -79,36 +79,7 @@
     });    
   });
 
-  var errors = false;
-    /**
-     * checks if the input name has only letters
-     * 
-     */
-     $('#name').on('input',function(){
-        //the input that called the function
-        var input = $(this);
-       //gets the value of the input
-       var current_name = input.val();
-       //regex to only allow leters for the name
-       var regex = /^[a-zA-Z\s]+$/;
-       //check the parent of the input to change the class latter
-       var parent = input.parent();
-       //check if the input has only letters if has
-       if (regex.test(current_name)){
-        //removes the class has errors from the input parent
-        parent.removeClass('has-error'); 
-         //adds the class has success to the input parent
-         parent.addClass('has-success');
-         errors = false;  
-       } else {//if not
-         var parent = input.parent();
-         //removes the class has success from the input parent
-         parent.removeClass('has-success');
-         //adds the class has errors to the input parent
-         parent.addClass('has-error');
-         errors = true;
-       }
-     });
+
 /**
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 
