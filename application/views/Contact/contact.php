@@ -79,7 +79,7 @@
     });    
   });
 
-
+-
 /**
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 
