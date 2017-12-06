@@ -11,11 +11,47 @@ class OwnersProperty_model extends CI_MODEL{
 	public function propertyquery($search ){
 
 		$user_addinfor = $search['user_idprofile'] ?? FALSE;
-		
+		$name=	$search['name'] ?? FALSE;
+		$property_id=	$search['property_id'] ?? FALSE;
+		$town=	$search['town'] ?? FALSE;
+		$municipality=	$search['municipality'] ?? FALSE;
+		$district=	$search['district'] ?? FALSE;
+		$province=	$search['province'] ?? FALSE;
 
 
-		if('$user_addinfor'){
+		if($user_addinfor){
 			$this->db->where('owners.user_id',$user_addinfor);
+		}
+
+		
+		if ($name)  {
+			$where='(user.name LIKE "%'.$name.'%")';
+			$this->db->where($where);
+
+		}
+		if($property_id){
+			$this->db->where('property.id',$property_id);
+		}	
+		if ($town)  {
+			$where='(town.name LIKE "%'.$town.'%")';
+			$this->db->where($where);
+
+		}
+
+		if ($municipality)  {
+			$where='(manucipality.name LIKE "%'.$municipality.'%")';
+			$this->db->where($where);
+
+		}
+		if ($district)  {
+			$where='(district.name LIKE "%'.$district.'%")';
+			$this->db->where($where);
+
+		}
+		if ($province)  {
+			$where='(province.name LIKE "%'.$province.'%")';
+			$this->db->where($where);
+
 		}
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
@@ -41,8 +77,9 @@ class OwnersProperty_model extends CI_MODEL{
 		->join("town","town.id = suburb.town_id")
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id = manucipality.district_id")
-		->join("province","province.id = district.province_id");
-		
+		->join("province","province.id = district.province_id")
+		->group_by("property.id")	
+		->order_by("property.id");	
 
 	}
 
@@ -51,16 +88,18 @@ class OwnersProperty_model extends CI_MODEL{
 	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE){
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
-		$offset = $search['page'] ?? 0;
+		$offset = $search['page']??0;
 
 //call the query to bring the residence
 		$this->propertyquery($search)
-	
+
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
+	
+	
 	public function countProperties(array $search=array()){
 		$this->propertyquery($search);
 

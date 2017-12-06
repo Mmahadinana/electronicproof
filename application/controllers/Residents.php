@@ -19,7 +19,7 @@ class Residents extends CI_Controller {
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
 		$this->load->model("listOfRes_model");
-
+		$this->load->library('pagination');
 
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if (!$is_logged_in) {
@@ -49,11 +49,13 @@ class Residents extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	// This function list all the properties and enable search for property
 	public function Eresidence()
 	{
-		$id_remove=$this->input->post('id_book');
+		$id_remove=$this->input->post('id_Property');
 		if ($id_remove!=0 and is_numeric($id_remove)) {
-		$data['statusRemove']= $this->books->deleteBook($id_remove);
+		$data['statusRemove']= $this->ownersProperty_model->deleteProperty($id_remove);
 
 		}
 		if(null!=$this->input->get('statusEdit')){
@@ -67,42 +69,74 @@ class Residents extends CI_Controller {
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');	
 		
-		/*$search['title']=$this->input->get('title') ?? '';			
-		$search['isbn']=$this->input->get('isbn') ?? '';		
-		//db communication		
-		$search['editor']=$this->input->get('editor')??0;
-		$search['author']=$this->input->get('author')??0;*/
-		$search['page']=$this->input->get('page')??0;
-			
-		$data['search']=$search;
+		/** start search for property   **/		
+		$search['inputForSearch']=$this->input->get('inputForSearch')??0;
+		$data['inputForSearch']=$this->input->get('inputForSearch');
 		
-		/*$data['editor']=$this->editor_model->getEditors();
-		$data['author']=$this->auther_model->getAuthor();	*/	
+						
+		
+		$search['name'] = '';
+		$search['property_id'] = 0;
+		$search['town'] = '';
+		$search['municipality'] = '';
+		$search['district'] = '';
+		$search['province'] = '';
+
+		if ($data['inputForSearch']==1) {
+
+				$search['name']=$this->input->get('mysearch') ?? '';
+			}
+			elseif ($data['inputForSearch']== 2) {
+				$search['property_id']=$this->input->get('mysearch') ?? 0;
+
+			}
+			elseif($data['inputForSearch']== 3){
+				$search['town']=$this->input->get('mysearch') ?? '';
+			}
+			elseif($data['inputForSearch']== 4){
+				$search['municipality']=$this->input->get('mysearch') ?? '';
+			}
+			elseif($data['inputForSearch']== 5){
+				$search['district']=$this->input->get('mysearch') ?? '';
+			}
+			elseif($data['inputForSearch']== 6){
+				$search['province']=$this->input->get('mysearch') ?? '';
+			}
+
+		$search['page']=$this->input->get('per_page')??0;
+
+		$data['search']=$search;		
 		$data['db']=$this->ownersProperty_model->getProperty($search);
-		var_dump($data['db']);
+		
 		$data['countProperties']=$this->ownersProperty_model->countProperties($search);
-		//var_dump($search['title']);
+	
 		//pagination for the Properties
+		
 		$config['enable_query_string']=true;
 		//this is the one to show the actual page number,?page=someInt
 		$config['page_query_string']=true;
 		//url that will use the link
-		/*$config['base_url']=base_url('project/managebooks?title='.$search['title'].'&isbn='.$search['isbn'].'&editor='.$search['editor'].'&author='.$search['author']);*/
+		$config['base_url']=base_url('residents/eresidence?inputForSearch='.$data["inputForSearch"].'&mysearch='.$this->input->get('mysearch'));
+
 		//number of results to be devided on the pagintion
 		$config['total_rows']=$data['countProperties'];
 		//load the pagination library		
-		$this->load->library('pagination');
-
+		
+		// atribute for the class assigned to the pagination
+		$config['attributes'] = array('class' =>'Property_pagination');
+ 		$config['uri_segment']  = 3;
 		//intialize the pagination with our config
-		//$this->pagination->initialize($config);
+		$this->pagination->initialize($config);
 		$data['search_pagination']=$this->pagination->create_links();
 
-		$this->load->helper('form');	
+	
 	
 		$this->load->view('ini',$data);
 
 
 	}
+
+	//////////**************** this function enable the user who has made a request to view the request they maderesidence************///////////
 	public function viewRequestMade($user_id=0)
 	{
 		$search=array();
@@ -119,6 +153,7 @@ class Residents extends CI_Controller {
 		
 
 	}
+	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
 	public function cancelRequest($request_id=0)
 	{
 		//var_dump($request_id);
@@ -137,6 +172,7 @@ class Residents extends CI_Controller {
 		
 
 	}
+	//////////**************** this function enable the user to make a request for proof of residence************///////////
 	public function request()
 	{
 	

@@ -438,9 +438,19 @@ input:focus {
 .pfTbl_padding{
     padding: 5em 6em 5em -10em;
 }
+.pfTbl_rom_padding{
+    padding: 5em 2em 5em -10em;
+    margin: 5em 2em 5em -10em;
+}
 .text-white span{
 color: #fff !important;
 }
 .text-white span:hover{
 color: pink !important;
+}
+.Property_pagination{
+color: #fff !important;
+margin: 5px;
+padding: 5px;
+border: 2px solid pink;
 }
