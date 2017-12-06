@@ -14,7 +14,7 @@ if (isset($statusUsername)) {
  }
 		$action="login/login_/";
 
-		echo form_open($action,array('class'=>'form-horizontal'));?>
+		echo form_open($action,array('class'=>'form-horizontal','method'=>'POST'));?>
 
 
 		<div class="form-group ">

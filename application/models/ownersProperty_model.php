@@ -81,11 +81,54 @@ class OwnersProperty_model extends CI_MODEL{
 		->group_by("property.id")	
 		->order_by("property.id");	
 
+	}public function addressquery($search ){
+
+		$property_id=	$search['property_id'] ?? FALSE;
+	
+		
+
+
+		if($property_id){
+			$this->db->where('property.id',$property_id);
+		}	
+		
+		return $this->db
+		->select("property.id as property,property.address_id,
+			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+			suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
+			town.name as town,town.zip_code,
+			manucipality.name as manucipality,
+			district.name as district,
+			province.name as province ")
+		->from("property")		
+		->join("property"," property.id= owners_property.property_id")
+		->join("address"," address.id= property.address_id")
+		->join("suburb"," suburb.id = address.suburb_id")
+		->join("town","town.id = suburb.town_id")
+		->join("manucipality","manucipality.id = town.manucipality_id")
+		->join("district","district.id = manucipality.district_id")
+		->join("province","province.id = district.province_id")
+		->group_by("property.id")	
+		->order_by("property.id");	
+
 	}
 
 
 
 	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE){
+//public function getAddress(){
+	//where to start bringing the rows for the pagination
+		$offset = $search['page']??0;
+
+//call the query to bring the residence
+		$this->propertyquery($search)
+
+		//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+			//get data from bd
+		return $this->db->get()->result() ;
+	}
+	public function getProperty_Address(array $search = array(),int $limit = ITEMS_PER_PAGE){
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page']??0;

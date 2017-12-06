@@ -439,8 +439,8 @@ input:focus {
     padding: 5em 6em 5em -10em;
 }
 .pfTbl_rom_padding{
-    padding: 5em 2em 5em -10em;
-    margin: 5em 2em 5em -10em;
+    padding: 5em -30em 5em -10em;
+    margin: 5em 0em 5em -10em;
 }
 .text-white span{
 color: #fff !important;
