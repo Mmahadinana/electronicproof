@@ -14,10 +14,10 @@ class ListOfRes_model extends CI_MODEL{
 
 public function listquery($search ){
 
-$user_id = $search['user_id'] ?? FALSE;
+$user_id = $search['property_id'] ?? FALSE;
 
 if($user_id){
-		$this->db->where('user.id',$user_id);
+		$this->db->where('owners_property.property_id',$user_id);
 	}
 return $this->db
 ->select("user.id,user.name,user.identitynumber,

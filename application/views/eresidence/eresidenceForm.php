@@ -5,10 +5,10 @@
  <div class="form-area">
 <h1>List of Properties</h1>
 
- 	<?php $action="residents/eresidence/";
+ 	<?php $action="residents/listOfResidents/";
 //var_dump($db);
  	echo form_open($action,array('class'=>'form-horizontal','method'=>'GET','enctype'=>'multipart/form-data'));?>
- 	<div class="container">
+ 	
  		
  		  <div class="container">
 
@@ -67,9 +67,13 @@
  								<td><?php echo $value->district ?></td>
  								<td><?php echo $value->province ?></td>
  							
- 								<td>  <a href="<?php echo base_url('residents/listOfResidents'.$value->property) ?>">&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a><a href="#">&nbsp;<i class="fa fa-trash fa-2x text-danger" aria-hidden="true"></i></a></td>
 
- 							</tr><?php	} ?>
+ 								<td>  <a href="<?php echo base_url('residents/listOfResidents/'.$value->property) ?>">&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a><a href="#">&nbsp;<i class="fa fa-trash fa-2x text-danger" aria-hidden="true"></i></a></td>
+
+
+ 							</tr>	
+ 							<!--input type="hidden" name="property_id" value="<?php echo $value->property?>"-->
+ 							<?php	} ?>
  						</tbody>
  					</table> 
  					<div class="align-center">
@@ -78,7 +82,7 @@
  				</div>
  				
  			</div>
- 				 		
+ 			 		
  	</form>
  </div>
 <script>

@@ -467,11 +467,12 @@ public function file_upload() {
 
 	}
 
-	public function listOfResidents()
+	public function listOfResidents($property_id = 0)
 	{
 		$search=array();
-
-	$search['user_id']= $_SESSION['id'];
+		var_dump($property_id);
+    $search['property_id']=$property_id;
+	//$search['user_id']= $_SESSION['id'];
 	
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
