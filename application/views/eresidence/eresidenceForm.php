@@ -67,7 +67,9 @@
  								<td><?php echo $value->district ?></td>
  								<td><?php echo $value->province ?></td>
  							
- 								<td>  <a href="#">&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a><a href="#">&nbsp;<i class="fa fa-trash fa-2x text-danger" aria-hidden="true"></i></a></td>
+ 								<td>  
+                <a href="#">&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a><a 
+                href="#">&nbsp;<i class="fa fa-trash fa-2x text-danger" aria-hidden="true"></i></a></td>
 
  							</tr><?php	} ?>
  						</tbody>
