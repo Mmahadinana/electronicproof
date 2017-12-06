@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container ">
 
   <h1 > List Of Residents</h1>
-
+ 
   <?php
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
@@ -85,10 +85,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <tr>
 
                 <td><?php  echo $key->name?></td>
-                <td><?php  echo $key->name?></td>
-                <td><?php  echo $key->name?></td>
-               <a href ="<?php echo base_url("publiczone/editUser/".$key ->id) ?>" class ="btn btn-default btn-md" title="Edit">
-					<span class="glyphicon glyphicon-pencil"></span></a>
+                <td><a href ="<?php echo base_url("publiczone/editUser/".$key ->id) ?>" class ="btn btn-default btn-md" title="Edit">
+          <span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key->id) ?>" class ="btn btn-default btn-md" title="Delete">
+          <span class="glyphicon glyphicon-trash"></span></a></td>
+               
               </tr>
           
                 

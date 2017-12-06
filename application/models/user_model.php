@@ -92,6 +92,26 @@ class User_model extends CI_MODEL{
 		
 		
 	}
+
+	public function countUser(array $search=array())
+	{
+				$this->userQuery($search);
+		         return $this->db->count_all_results();
+	}
+	public function deleteUser(int $user_id){
+		
+		   //begin the transaction
+		    $this->db->trans_start();
+		    //delete the relations
+			$this->removeFromUser($user_id);
+			//delete the book
+			$this->db->delete("user",array("id"=>$user_id));
+			//close the transaction
+			return $this->db->trans_complete();
+	}
+	public function removeFromUser(int $user_id){
+		$this->db->delete("user",array("id"=>$user_id));
+	}
 	public function callback_checkEmail($email){
 		$user_id = $this->input->post('user_id');
 		$this->db->select("user.email")

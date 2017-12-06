@@ -232,7 +232,7 @@ class Publiczone extends CI_Controller {
 	{
 		$data['pageToLoad']='login/resetmessage';
 		$data['pageActive']='resetmessage';
-		$this->load->helper('form');
+		$this->load->helper('resetmessage');
 		// this is for validation 
 		//$this->load->library('form_validation');	
 
@@ -260,7 +260,7 @@ class Publiczone extends CI_Controller {
 		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) {
 			$statusDate=true;
 			redirect('publiczone/reset?statusDate=$statusDate');
-		}
+		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 		
 
@@ -596,8 +596,8 @@ $config['base_url'] =base_url('publiczone/listOfResidents?search='.$search['sear
 	  	//$data['authors'] = $authors;
 	  	//$data['editor'] = $editor;
 
-	  	$data['db'] = $this->Vehicle_model->getVehicle($search);
-	  	$data['vehiclesCount'] = $this->Vehicle_model->countVehicle($search);
+	  	$data['db'] = $this->user_model->getuser($search);
+	  	$data['vehiclesCount'] = $this->user_model->countuser($search);
 	  	$data['models']=$this->Model_model->getModels();
 	  	$data['colors']=$this->Color_model->getColors();
 	  	//var_dump($search);
@@ -826,6 +826,27 @@ if($this->form_validation->run()===FALSE){
 }
 
 }
+public function askdelete($id_remove=0)
+	{
+		
+
+		if($id_remove!=0 and is_numeric($id_remove))
+		{
+			$data['id_user']=$id_remove;
+			//$this->Vehicle_model->deleteVehicle($id_remove);
+		}/*else{
+			redirect("publiczone/fleet");
+		}*/
+
+		$data['pageToLoad'] = 'eResidence/askdelete';
+		$data['pageActive']='eResidence';
+	     $this->load->helper('form');
+		$this->load->library('form_validation');
+
+		//Launch the view to check delete
+		$this->load->view('ini',$data);
+	
+	}
 	
 
 }
