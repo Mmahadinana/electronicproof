@@ -12,11 +12,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	?></h1>
 
 
-	<!--?php 
+	<?php 
 
 
 	$action= isset($user_id)?"residents/editUser/$user_id" : "publiczone/registerUser";
-	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?-->
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?>
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
 			<div class="stepwizard-step">
@@ -396,7 +396,7 @@ let manucipality_id =$("#manucipality");
 //write new options
 manucipality_id.append($('<option>', { 
 	value: 0,
-	text : "select manucipality" 
+	text : "select manucipality"  
 }));
 $("#manucipality select option[value='0']").attr("disabled","disabled");
 $.each(manucipality[selected], function (i, item) {

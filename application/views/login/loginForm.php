@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 	<div class="starter-template">		
@@ -8,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h1> Login </h1>
 		
 		<?php
-
+//var_dump($_SESSION ['user_time']);
 if (isset($statusUsername)) {
    echo alertMsg($statusResetPass,'Password reset successfully ','Username not found ');
  }
@@ -35,11 +36,7 @@ if (isset($statusUsername)) {
 			</div>
 				
 			</div>
-			<div id="remember" class="checkbox">
-				<label>
-					<input type="checkbox" name="rememberme" value="rememberme">Rememberme
-				</label>
-			</div>
+			
 			<div class="col-md-5 text-right" >
 			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>

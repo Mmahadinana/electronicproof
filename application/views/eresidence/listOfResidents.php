@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <tr>
 
                 <td><?php  echo $key->name?></td>
-                <td><a href ="<?php echo base_url("publiczone/editUser/".$key ->id) ?>" class ="btn btn-default btn-md" title="Edit">
+                <td><a href ="<?php echo base_url("publiczone/editUser/".$key->id) ?>" class ="btn btn-default btn-md" title="Edit">
           <span class="glyphicon glyphicon-pencil"></span></a></td>
                 <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key->id) ?>" class ="btn btn-default btn-md" title="Delete">
           <span class="glyphicon glyphicon-trash"></span></a></td>

@@ -454,3 +454,17 @@ margin: 5px;
 padding: 5px;
 border: 2px solid pink;
 }
+.chgTransition h1{
+    font-weight: lighter;
+    transition: font-weight 2s, transform 4s;
+    animation-name: chgTransition;
+    animation-duration: 8s;
+}
+.chgTransition h1:hover{
+ /*font-weight: bolder;*/
+ 
+}
+@keyframes chgTransition {
+    from {color:#2d3f50 ;}
+    to {color:gold ;}
+}

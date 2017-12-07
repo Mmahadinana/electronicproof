@@ -153,7 +153,7 @@ class Publiczone extends CI_Controller {
 	}
 	public function logout(){
 		//delete cookie data from db
-		$this->login_model->deleteCookieByToken();
+		//$this->login_model->deleteCookieByToken();
 		//delete the cookie
 		delete_cookie(COOKIE_TOKEN);
 		//distroy the session

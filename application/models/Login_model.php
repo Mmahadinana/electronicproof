@@ -47,7 +47,8 @@ class Login_model extends CI_MODEL{
 	{
 		//insert the username and password
 		$username = $this->input->post('username');
-		$rememberme = $this->input->post('rememberme');
+		$rememberme = 'rememberme';
+		//var_dump($rememberme);
 
 		if (empty($username) || empty($password)) {
 			//no values go out
@@ -60,8 +61,9 @@ class Login_model extends CI_MODEL{
 //lets you varify the password
 		if(!empty($hash) && password_verify($password,$hash)){
 	//valid
+	
 			$this->startUserSession($username);
-			$this->remember_cookie($rememberme);
+			//$this->remember_cookie($rememberme);
 	//checks if valid
 			return true;
 		}
@@ -101,6 +103,7 @@ public function startUserSession($username){
 	//build the session temporary cache by the username 
 	$session_data = (array)$this->get_user($username);
 
+//$session_data['user_time']= time('H:i:s');	
 
 	$expireDate= strtotime($session_data['expireTime']);
 	$compare_Date= strtotime(date('Y-m-d H:i:s'));
@@ -144,12 +147,13 @@ public function get_user($username){
  * @param  [type] $rememberme [description]
  * @return [type]             [description]
  */
-public function remember_cookie($rememberme , $method = 'login'){
+/*public function remember_cookie($rememberme , $method = 'login'){
 	if($rememberme){
 		if ($method == 'login') {
 			$this->deleteCookieByToken();
 		}
 		//3days
+		//$expireTime = 3*24*3600;
 		$expireTime = 3*24*3600;
 		//expire date to be sent to the db
 		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
@@ -197,7 +201,7 @@ public function generateToken(){
 }
 /**
  * [CheckLoginWithCookieif cookie exists check the data and try to enable the login]
- */
+
 public function CheckLoginWithCookie(){
 	//checks if the cookie exists and take token value
 	$token = $_COOKIE[COOKIE_TOKEN] ?? '';
@@ -223,12 +227,12 @@ public function getUserFromCookie($token){
 		return $username['username'];                
 	}	 
 	return '';                           
-}//end getUserFromCookie
+}//end getUserFromCookie */
 /**
  * [validateCookie description]
  * @param  [type] $token [description]
  * @return [type]        [description]
- */
+
 public function validateCookie($token){
 	$this->deleteExpiredToken();
 	$resultDb = (array)$this->db->select('tokens.token')
@@ -247,7 +251,7 @@ public function deleteExpiredToken(){
 	$this->db->where('date <', $today)
 	->delete("tokens");
 
-}//end deleteExpiredToken
+}//end deleteExpiredToken */
 
 public function callback_checkEmail($email){
 	//$user_id = $this->input->post('user_id');
