@@ -79,17 +79,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tbody>
              
  <?php    
- 
+ //var_dump($user_addinfor);
                 foreach ($user_addinfor as $key1) {
 
                   ?>
-              <tr>
+              <tr class="warning text-danger">
                 <td><?php  echo $key1->name;?></td>
 
-                <td><a href ="<?php echo base_url("publiczone/editUser/".$key1->id) ?>" class ="btn btn-default btn-md" title="Edit">
-          <span class="glyphicon glyphicon-pencil"></span></a></td>
-                <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key1->id) ?>" class ="btn btn-default btn-md" title="Delete">
-          <span class="glyphicon glyphicon-trash"></span></a></td>
+                <td><a href ="<?php echo base_url("publiczone/editUser/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Edit">
+          <span class="glyphicon glyphicon-pencil text-primary"></span></a></td>
+                <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
+          <span class="glyphicon glyphicon-trash text-danger"></span></a></td>
             
               </tr>
           

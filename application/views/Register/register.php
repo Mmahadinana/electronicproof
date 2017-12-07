@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		?>
 
-	<input <?php echo isset($id_vehicle)? "value='$user_id'":"value='0'";?> id='user_id' type='hidden' name='user_id'>
+		<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
 
 		<div class="stepwizard col-md-offset-3">
 			<div class="stepwizard-row setup-panel">
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label for="email">email</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-								<input type="email" class="form-control" name="email" id="email" placeholder="Requested email"  onblur="validate()" required>
+								<input type="email" class="form-control" name="email" id="email" value="<?php echo isset($user_id)? $emailEdit: set_value('email')?>" placeholder="Requested email"  onblur="validate()" required>
 							</div>
 							<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
 
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="control-label" for="name">Full Name</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-								<input type="text" class="form-control" name="name"   id="name" placeholder="full name" required>
+								<input type="text" class="form-control" name="name" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>"    id="name" placeholder="full name" required>
 							</div>
 							<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
 
@@ -88,23 +88,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="control-label" for="identitynumber">Identity Number</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="text" class="form-control" name="identitynumber"  id="identitynumber" placeholder="identity number" required>
+								<input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
 							</div>
 							<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
-
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="dateofbirth">Date of Birth</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" placeholder="date of birth" required>
+								<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
 							</div>
 							<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
 
 						</div>
 						<div class="form-group">
-							<label class="control-label">Date of Registration</label>
+							<label class="control-label" for="date_registration">Date of Registration</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="date_registration"  id="date_registration"  placeholder="date of birth" required>
+								<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of birth" required>
 							</div>
 							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 
@@ -112,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="control-label" for="phone">Phone number</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-								<input type="text" class="form-control" name="phone"   id="phone" placeholder="phone numbers" required>
+								<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
 							</div>
 							<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
 						</div>

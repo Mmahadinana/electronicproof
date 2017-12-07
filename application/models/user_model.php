@@ -20,7 +20,7 @@ class User_model extends CI_MODEL{
 //var_dump($user_id);
 		if('$user_id')
 		{
-			$this->db->where('town.manucipality_id',$user_id);
+			$this->db->where('user.id',$user_id);
 
 		}
 		
@@ -92,6 +92,41 @@ class User_model extends CI_MODEL{
 		
 		
 	}
+		public function updateUser($data){
+		//prepare the data to insert
+		$user = array(
+
+		     'name'=>$data['name'],
+			'email'=>$data['email'],
+			//'address'=>$data['address'],
+			'identitynumber'=>$data['identitynumber'],
+			'phone'=>$data['phone'],
+			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
+			'gender_id'=>$data['gender'],
+			'date_registration'=>$data['date_registration'],//'2017-11-11',
+
+		    		//'minetype'=>$minetype
+			);
+		$this->db->trans_start();
+		$this->db->where('user.id',$data['iduser'])
+		         ->update('user',$user);
+		         //update 
+		         return $this->db->trans_complete();
+	}
+   public function updateUser_models($user_id,$users=array()){
+		
+		$batch = array();
+		foreach ($users as $users_id) {
+			$batch[] = array(
+						'user_id'=>$user_id,
+						'name'=>$name);
+		
+		}
+		//remove the previous relation
+		$this->removeFromUser($user_id);
+		//insert the new relations
+      return	$this->db->insert_batch('user_model',$batch);
+	}
 
 	public function countUser(array $search=array())
 	{
@@ -125,7 +160,7 @@ class User_model extends CI_MODEL{
 
 		} 
 
-	}/*public function callback_checkPhone($phone){
+	}public function callback_checkPhone($phone){
 		$user_id = $this->input->post('phone');
         //var_dump($phone);
 		$this->db->select("user.phone")
@@ -159,7 +194,7 @@ class User_model extends CI_MODEL{
 		}
 
 
-	}*/
+	}
 	public function checkPassword($password)
 	{
 		//insert the username and password
