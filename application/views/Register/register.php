@@ -12,11 +12,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		?></h1>
 
 
-		<!--?php 
+		<?php 
 
 
 		$action= isset($user_id)?"publiczone/editUser/$user_id" : "publiczone/registerUser";
-		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));?-->
+		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));
+
+		?>
+
+	<input <?php echo isset($id_vehicle)? "value='$user_id'":"value='0'";?> id='user_id' type='hidden' name='user_id'>
+
 		<div class="stepwizard col-md-offset-3">
 			<div class="stepwizard-row setup-panel">
 				<div class="stepwizard-step">

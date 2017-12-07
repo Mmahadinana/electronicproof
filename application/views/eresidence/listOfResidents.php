@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    <table class="table text-left romtbl_borders">
 
           <tbody>
-            <tr class="table-active">
+            <tr>
               <td>Date</td>
               <td>2017/11/02</td>
 
@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td ><?php  echo $key->door_number.$key->street_name?></td>      
               </tr>
 
-              <tr class="table-success">
+              <tr>
                 <td><?php  echo $key->town?></td>
 
               </tr>
@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </table>
           <table class="table table-bordered">
             <thead>
-              <tr class="table-active">
+              <tr>
                 <th>List Of Residents</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -83,10 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 foreach ($user_addinfor as $key1) {
 
                   ?>
-              <tr class="table-active">
+              <tr>
                 <td><?php  echo $key1->name;?></td>
 
-                <td><a href ="<?php echo base_url("publiczone/editUser/".$key1 ->id) ?>" class ="btn btn-default btn-md" title="Edit">
+                <td><a href ="<?php echo base_url("publiczone/editUser/".$key1->id) ?>" class ="btn btn-default btn-md" title="Edit">
           <span class="glyphicon glyphicon-pencil"></span></a></td>
                 <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key1->id) ?>" class ="btn btn-default btn-md" title="Delete">
           <span class="glyphicon glyphicon-trash"></span></a></td>

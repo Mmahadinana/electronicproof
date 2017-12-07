@@ -36,6 +36,7 @@ class Login extends CI_Controller {
 	    }else{
 	     $data['referrer'] =base_url('residents/eresidence');
 	    }
+
 		//echo $data['referrer'];
 		//view load
 		/*$search=array();
@@ -93,6 +94,7 @@ class Login extends CI_Controller {
 			$this->load->view('ini',$data);
 		}else
 		{
+
 		redirect ($data['referrer']);
 
 		} 
@@ -101,6 +103,7 @@ class Login extends CI_Controller {
 	}
 	public function changepass()
 	{
+		
 		$data['pageToLoad']='login/changepass';
 		$data['pageActive']='changepass';
 		$this->load->helper('form');

@@ -53,6 +53,7 @@ class Residents extends CI_Controller {
 	// This function list all the properties and enable search for property
 	public function Eresidence()
 	{
+		//var_dump($_SESSION);
 		$id_remove=$this->input->post('id_Property');
 		if ($id_remove!=0 and is_numeric($id_remove)) {
 			$data['statusRemove']= $this->ownersProperty_model->deleteProperty($id_remove);
@@ -468,8 +469,10 @@ if ($this->form_validation->run()===FALSE) {
 	public function listOfResidents($property_id = 0)
 	{
 		$search=array();
+
 		$search['property_id']=$property_id;
 		$search['property_id1']=$property_id;
+
 	//$search['user_id']= $_SESSION['id'];
 
 		$data['user_addinfor']= $this->listOfRes_model->getAddress($search);

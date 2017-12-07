@@ -43,7 +43,7 @@ class Login_model extends CI_MODEL{
 		return $this->db->get()->result() ;
 	}
 
-	public function checkPassword($password)
+	public function checkPassword($password) 
 	{
 		//insert the username and password
 		$username = $this->input->post('username');
@@ -100,10 +100,23 @@ public function startUserSession($username){
 
 	//build the session temporary cache by the username 
 	$session_data = (array)$this->get_user($username);
-	//var_dump($session_data);
-	$session_data['is_logged_in'] = true;
-	//var_dump($session_data);
-	$this->session->set_userdata($session_data);
+
+
+	$expireDate= strtotime($session_data['expireTime']);
+	$compare_Date= strtotime(date('Y-m-d H:i:s'));
+	
+if($expireDate-($compare_Date) < 0){
+	
+	$backpass=$this->input->post('password');
+
+	redirect('login/changepass/');
+		
+	}else {
+		$session_data['is_logged_in'] = true;
+	
+		$this->session->set_userdata($session_data);
+	}
+ 	
 }
 /**
  * [get_user description]
@@ -114,13 +127,14 @@ public function get_user($username){
 	
 	//return the username
 	$user_data = $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,
-		login.id as loginid,login.password,
+		login.id as loginid,login.password,login.expireTime,
 		role.id as roleid, role.role")
 	->from("user")
 	->join("login","login.user_id = user.id")		
 	->join("role","role.id = login.role_id")		
 	->where('email',$username)
 	->where('delete',0)
+	->where('deceased',0)
 	->get()->row();
 //var_dump($user_data);
 	return $user_data ?? null; 
@@ -311,15 +325,15 @@ public function inserEmailToken($id,$token){
 	$this->deleteEmailtoken($id);
 	$expireTime = 1*24*3600;
 		//expire date to be sent to the db
-		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
 	$tokendata =array(
 		'user_id'=>$id,
 		'emailtoken'=>$token,
 		'expiretime'=>$expireDate ,
 	);
-$this->db->trans_start();
-		     	$this->db->insert("emailtoken",$tokendata);    	
-		     	return $this->db->trans_complete();
+	$this->db->trans_start();
+	$this->db->insert("emailtoken",$tokendata);    	
+	return $this->db->trans_complete();
 
 }
 public function get_mailToken($mailtoken,$user_id){
@@ -335,11 +349,11 @@ public function get_mailToken($mailtoken,$user_id){
 public function deleteEmailtoken(int $user_id){
 	//var_dump($user_id);
 		//begin the transaction
-		$this->db->trans_start();		
+	$this->db->trans_start();		
 		//delete the email token
-		$this->db->delete("emailtoken",array('user_id'=>$user_id));
+	$this->db->delete("emailtoken",array('user_id'=>$user_id));
 		//return $this->db->affected_rows();
-		return $this->db->trans_complete();
+	return $this->db->trans_complete();
 
 }
 public function updatePassword($data=array(), $user_id){

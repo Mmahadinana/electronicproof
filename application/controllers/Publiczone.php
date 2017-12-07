@@ -460,6 +460,7 @@ public function editUser($id=0)
 	{
 		//check delete book
 		//$data['id_book']=$id;
+		//var_dump($id);
 		if($id!=0 and is_numeric($id))
 		{
 			$data['user_id'] = $id;
@@ -473,16 +474,18 @@ public function editUser($id=0)
 		
 		//data from db
 		$search=array();
+		
 		$search['user_id']= $this->input->get('user_id') ?? '0';
+		var_dump($search['user_id']);
 		$data['provinces']=$this->province_model->getProvince();
 		$data['districts']=$this->district_model->getDistrict();
 		$data['manucipalities']=$this->manucipality_model->getManucipality();
 
-		$data['user_id']= $this->user_model->getUser($search);
+		$data['userInfo']= $this->user_model->getUser($search);
 
 
 		
-		foreach ($data['user_id'] as $value) {
+		foreach ($data['userInfo'] as $value) {
 
 			$data['userEdit'] = $value->user_id;
 			$data['provinceEdit'] = $value->provinces;
