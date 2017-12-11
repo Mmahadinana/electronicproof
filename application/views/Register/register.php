@@ -15,7 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php 
 
 
-		$action= isset($user_id)?"publiczone/editUser/$user_id" : "publiczone/registerUser";
+		$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
+		
 		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));
 
 		?>
@@ -53,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 						</div>
-						<div class="form-group">
+						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="password">Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 								<input type="text" class="form-control" name="password"  onblur="validate()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
@@ -61,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
 						</div>
-						<div class="form-group">
+						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="confirm">Confirm Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
 								<input type="text" class="form-control" name="confirm"   onblur="validate()"  id="confirm" placeholder="Confirm Password" required>
@@ -137,85 +138,142 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
 						<h3 >Residential Information</h3>
+						<div class="form-group">
+
+							<label for="province">Province</label>
+							<select class="form-control" value="province" name="province" id="province">
+								<option  selected="true" disabled="disabled">Please select</option>
+
+								<?php 
+
+								foreach ($province as $province){?>
+								<option <?php 
+								if(isset($user_id)  && $provinceEdit){
+
+									echo ($provinceEdit == $province->name)? 'selected':'';
+
+
+								}else{
+									if(set_value('province')){
+										echo (set_value('province') == $province->id)? 'selected':'';
+									}
+
+								}
+								?>
+
+								value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
+								<?php } ?>
+							</select>
+							<?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
+						</div>
+
+
 
 						<div class="form-group">
 
-							<label for="province">province</label>
-							<select class="form-control" name="province" id="province">
-								<option value="">Select a province</option>
-								<?php	
-								foreach ($province as $provinces)
-									{?>	
-								<option value="<?php echo $provinces->id;?>"><?php echo $provinces->name;?></option>
-								<?php
-							}
-							?>
-						</select>
-					</div>
+							<label for="district">District</label>
+							<select class="form-control" value="district" name="district" id="district">
+								<option  selected="true" disabled="disabled">Please select</option>
+
+								<?php 
+
+								foreach ($district as $district){?>
+								<option <?php 
+								if(isset($user_id)  && $districtEdit){
+
+									echo ($districtEdit == $district->name)? 'selected':'';
 
 
-					<div class="form-group" id="select_district" style="display:none">
-						<label for="district">District</label>
+								}else{
+									if(set_value('district')){
+										echo (set_value('district') == $district->id)? 'selected':'';
+									}
 
-						<select class="form-control" name="district" id="district" required>
-						</select>
-						<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
+								}
+								?>
 
-					</div>
+								value="<?php echo $district->id ?>"><?php echo $district->name ?></option>
+								<?php } ?>
+							</select>
+							<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
+						</div>
 
-					<div class="form-group" id="select_manucipality" style="display:none">
-						<label for="manucipality">Manucipality</label>
+						<div class="form-group">
 
-						<select class="form-control" name="manucipality" id="manucipality" required>
-						</select>
-						<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
+							<label for="manucipality">Manucipality</label>
+							<select class="form-control" value="manucipality" name="manucipality" id="manucipality">
+								<option  selected="true" disabled="disabled">Please select</option>
 
-					</div>
-					<div class="form-group" id="select_town" style="display:none">
-						<label for="town">town</label>
+								<?php 
 
-						<select class="form-control" name="town" id="town" required>
-						</select>
-						<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+								foreach ($manucipality as $manucipality){?>
+								<option <?php 
+								if(isset($user_id)  && $manucipalityEdit){
 
-					</div>
-					<div class="form-group" id="zip_code_input" style="display:none">
-						<label for="zip_code">Zip Code</label>
-
-
-						<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
-
-					</div>
-
-					<div class="form-group" id="select_suburb" style="display:none">
-						<label for="suburb">Suburb</label>
-
-						<select class="form-control" name="suburb" id="suburb" required>
-						</select>
-						<?php  echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
-
-					</div>
+									echo ($manucipalityEdit == $manucipality->name)? 'selected':'';
 
 
+								}else{
+									if(set_value('manucipality')){
+										echo (set_value('manucipality') == $manucipality->id)? 'selected':'';
+									}
 
-					<div class="form-group" id="select_address" style="display:none">
-						<label for="address">Street Name</label>
+								}
+								?>
 
-						<select class="form-control" name="address" id="address" required>
-						</select>
-						<?php  echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
+								value="<?php echo $manucipality->id ?>"><?php echo $manucipality->name ?></option>
+								<?php } ?>
+							</select>
+							<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
+						</div>
 
-					</div>
-					<div class="form-group" id="select_address" style="display:none">
-						<label for="street_name">Street Name</label>
+						<div class="form-group">
+							<label class="control-label" for="town">town</label>
+							<div class="input-group"> 
+								<input type="text" class="form-control" name="town" value="<?php echo isset($user_id)? $townEdit: set_value('town')?>"   id="select_town" placeholder="town" required>
+							</div>
+							<p><?php echo form_error('town') ? alertMsg(false,'town',form_error('town')) : ''; ?></p>
+						</div>
 
-						<select class="form-control" name="street_name" id="street_name" required>
-						</select>
-						<?php  echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
 
-					</div>
-					<div class="form-group" id="select_Number" style="display:none">
-						<label for="door_number">Door Number</label>
+
+						<!--div class="form-group">
+							<label class="control-label" for="Zip Code">zip_code</label>
+							<div class="input-group"> 
+								<input type="text" class="form-control" name="zip_code" value="<?php echo isset($user_id)? $zipCodeEdit: set_value('zip_code')?>"   id="zip_code_input" placeholder="zip_code" required>
+							</div>
+							<p><?php echo form_error('zip_code') ? alertMsg(false,'zip_code',form_error('zip_code')) : ''; ?></p>
+						</div-->
+						<!--div class="form-group">
+							<label class="control-label" for="suburb">Suburb</label>
+							<div class="input-group"> 
+								<input type="text" class="form-control" name="suburb" value="<?php echo isset($user_id)? $suburbEdit: set_value('suburb')?>"   id="select_suburb" placeholder="suburb" required>
+							</div>
+							<p><?php echo form_error('suburb') ? alertMsg(false,'suburb',form_error('suburb')) : ''; ?></p>
+						</div>
+
+
+
+
+
+						<div class="form-group" id="select_address" style="display:none">
+							<label for="address">Street Name</label>
+
+							<select class="form-control" name="address" id="address" required>
+							</select>
+							<?php  echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
+
+						</div>
+						<div class="form-group" id="select_address" style="display:none">
+							<label for="street_name">Street Name</label>
+
+							<select class="form-control" name="street_name" id="street_name" required>
+							</select>
+							<?php  echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
+
+						</div>
+						<div class="form-group" id="select_Number" style="display:none">
+							<label for="door_number">Door Number</label>
 					<!--input type="text" name="door_number" id="door_number" placeholder="Enter door_number" >
 					<select class="form-control" name="door_number" id="door_number" required>
 					</select-->

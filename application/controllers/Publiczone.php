@@ -153,7 +153,7 @@ class Publiczone extends CI_Controller {
 	}
 	public function logout(){
 		//delete cookie data from db
-		$this->login_model->deleteCookieByToken();
+		//$this->login_model->deleteCookieByToken();
 		//delete the cookie
 		delete_cookie(COOKIE_TOKEN);
 		//distroy the session
@@ -199,9 +199,9 @@ class Publiczone extends CI_Controller {
 	function registerUser() {
 
 		$search=array();
-		$search['user_id']= $this->input->get('user_id') ?? '0';
+		//$search['user_id']= $this->input->get('user_id') ?? '0';
 		
-		$data['user_id']= $this->user_model->getUser($search);
+		//$data['user_id']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
@@ -475,21 +475,26 @@ public function editUser($id=0)
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
 		$data['pageTitle']='Edit User';
-		
+	
 		//data from db
 		$search=array();
 		
 		$search['user_id']= $data['user_id'];
-		//var_dump($search['user_id']);
+		
 		$data['email']=$this->user_model->getUser();
 		$data['name']=$this->user_model->getUser();
 		$data['identitynumber']=$this->user_model->getUser();
 		$data['dateOfbirth']=$this->user_model->getUser();
 		$data['date_registration']=$this->user_model->getUser();
 		$data['phone']=$this->user_model->getUser();
-		
+		$data['province']=$this->province_model->getProvince();
+		$data['district']=$this->district_model->getDistricts();
+    	$data['manucipality']=$this->manucipality_model->getManucipalities();
+    	$data['town']=$this->town_model->getTowns();
+    	//$data['suburb']=$this->suburb_model->getSuburbs();
+    	//$data['zip_code']=$this->zip_code_model->getZip_code();
+
 		$data['userInfo']= $this->user_model->getUser($search);
-			//var_dump($data['userInfo']);
 
 		
 		foreach ($data['userInfo'] as $value) {
@@ -497,28 +502,22 @@ public function editUser($id=0)
 			$data['userEdit'] = $value->user_id;
 			$data['emailEdit'] = $value->email;
 			$data['nameEdit'] = $value->name;
-			$data['identitynumberEdit'] = $value->identitynumber;
-			$data['dateofbirthEdit'] = $value->dateOfbirth;
+			$data['identitynumberEdit'] = $value->identityNumber;
+			$data['dateofbirthEdit'] = $value->dateOfBirth;
 			$data['dateOfRegistrationEdit'] = $value->date_registration;
 			$data['phoneEdit'] = $value->phone;
-			
-			//$data['districtEdit'] = $value->districts;
-			//$data['manucipalityEdit'] = $value->manucipalities;
-			//$data['availableEdit'] = $value->available;
-
-			
+			$data['provinceEdit'] = $value->province;
+			$data['districtEdit'] = $value->district;
+			$data['manucipalityEdit'] = $value->manucipality;
+			$data['townEdit'] = $value->town;
+			//$data['suburbEdit'] = $value->suburb;
+			//$data['zip-codeEdit'] = $value->zip_code;
 			
 		}
 		//from helper and library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		
-			$search = array();
-		$data['province']=$this->province_model->getProvince();
-		$district = $this->input->post('province');
-
-		//$data['district']=$this->district_model->getDistrict($district);
 		
 		
 
@@ -593,7 +592,7 @@ public function editUser($id=0)
 				),
 			array(
 				'field'=>'suburb',
-				'label'=>'suburb',
+				'label'=>'Suburb',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user')
 				),
@@ -607,7 +606,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'district',
-				'label'=>'district',
+				'label'=>'District',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 
@@ -616,7 +615,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'province',
-				'label'=>'province',
+				'label'=>'Province',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 
@@ -636,7 +635,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'manucipality',
-				'label'=>'manucipality',
+				'label'=>'Manucipality',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 

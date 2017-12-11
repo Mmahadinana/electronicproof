@@ -20,7 +20,7 @@ class Residents extends CI_Controller {
 		$this->load->model("owners_property_model");
 		$this->load->model("listOfRes_model");
 		$this->load->library('pagination');
-
+	 logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if (!$is_logged_in) {
 			//no login check the cookie

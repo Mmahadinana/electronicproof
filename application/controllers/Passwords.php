@@ -16,6 +16,7 @@ class Passwords extends CI_Controller {
 		$this->load->model('Postoffice_model');
 
 
+
 	}
 	/**
 	 * Index Page for this controller.

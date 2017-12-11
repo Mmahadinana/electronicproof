@@ -29,4 +29,17 @@ if (!function_exists("alertMsg")) {
 		}
 	}
 }
+if(!function_exists('logoutByInactiv')){
+	function logoutByInactiv(){
+	if (isset($_SESSION['LAST_ACTIVITY'])) {
+	
+		if ($_SESSION['LAST_ACTIVITY'] < time() - (5*60)) {
+			session_destroy();
+			redirect('publiczone/index');
+		}
+		
+	}
+	$_SESSION['LAST_ACTIVITY'] = time();
+}
+}
 ?>
