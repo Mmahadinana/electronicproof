@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <td>
                 <?php    
 
-                foreach ($user_addinfor as $key ) {
+                foreach ($add_addinfor as $key ) {
 
                   ?>
 
@@ -40,14 +40,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </tr>
               <tr>
                 <td rowspan="7">Address</td>               
-                <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
+                <td ><?php  echo $key->door_number.$key->street_name?></td>      
               </tr>
 
-
-              <tr>
-                <td><?php  echo $key->street_name?></td>
-
-              </tr> 
               <tr>
                 <td><?php  echo $key->town?></td>
 
@@ -75,24 +70,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Members</th>
+                <th>List Of Residents</th>
                 <th>Edit</th>
                 <th>Delete</th>
                 
               </tr>
             </thead>
             <tbody>
-              <tr>
+             
+ <?php    
+ //var_dump($user_addinfor);
+                foreach ($user_addinfor as $key1) {
 
-                <td><?php  echo $key->name?></td>
-                <td><a href ="<?php echo base_url("publiczone/editUser/".$key->id) ?>" class ="btn btn-default btn-md" title="Edit">
-          <span class="glyphicon glyphicon-pencil"></span></a></td>
-                <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key->id) ?>" class ="btn btn-default btn-md" title="Delete">
-          <span class="glyphicon glyphicon-trash"></span></a></td>
-               
+
+                  ?>
+              <tr class="warning text-danger">
+                <td><?php  echo $key1->name;?></td>
+
+                <td><a href ="<?php echo base_url("publiczone/editUser/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Edit">
+          <span class="glyphicon glyphicon-pencil text-primary"></span></a></td>
+                <td>  <a href ="<?php echo base_url("publiczone/askdelete/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
+          <span class="glyphicon glyphicon-trash text-danger"></span></a></td>
+            
+
               </tr>
           
-                
+                <?php } ?>  
              
                 
               </tbody>

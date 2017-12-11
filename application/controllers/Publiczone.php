@@ -199,9 +199,9 @@ class Publiczone extends CI_Controller {
 	function registerUser() {
 
 		$search=array();
-		$search['user_id']= $this->input->get('user_id') ?? '0';
+		//$search['user_id']= $this->input->get('user_id') ?? '0';
 		
-		$data['user_id']= $this->user_model->getUser($search);
+		//$data['user_id']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
@@ -296,8 +296,12 @@ class Publiczone extends CI_Controller {
 				
 				),
 			
-			
-
+			array(
+				'field'=>'gender',
+				'label'=>'Date of Birth',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
+				),
 			array(
 				'field'=>'phone',
 				'label'=>'Phone number',
@@ -422,16 +426,16 @@ public function user()
 //db communication 
 
 
-$config['base_url'] =base_url('publiczone/listOfResidents?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
+$config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
 
 
 	  	//$data['authors'] = $authors;
 	  	//$data['editor'] = $editor;
 
 	  	$data['db'] = $this->user_model->getuser($search);
-	  	$data['vehiclesCount'] = $this->user_model->countuser($search);
-	  	$data['models']=$this->Model_model->getModels();
-	  	$data['colors']=$this->Color_model->getColors();
+	  	$data['userCount'] = $this->user_model->countuser($search);
+	  	//$data['models']=$this->Model_model->getModels();
+	  	//$data['colors']=$this->Color_model->getColors();
 	  	//var_dump($search);
 	  	//pagination for the books
 
@@ -460,6 +464,7 @@ public function editUser($id=0)
 	{
 		//check delete book
 		//$data['id_book']=$id;
+		//var_dump($id);
 		if($id!=0 and is_numeric($id))
 		{
 			$data['user_id'] = $id;
@@ -470,39 +475,49 @@ public function editUser($id=0)
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
 		$data['pageTitle']='Edit User';
-		
+	
 		//data from db
 		$search=array();
-		$search['user_id']= $this->input->get('user_id') ?? '0';
-		$data['provinces']=$this->province_model->getProvince();
-		$data['districts']=$this->district_model->getDistrict();
-		$data['manucipalities']=$this->manucipality_model->getManucipality();
+		
+		$search['user_id']= $data['user_id'];
+		
+		$data['email']=$this->user_model->getUser();
+		$data['name']=$this->user_model->getUser();
+		$data['identitynumber']=$this->user_model->getUser();
+		$data['dateOfbirth']=$this->user_model->getUser();
+		$data['date_registration']=$this->user_model->getUser();
+		$data['phone']=$this->user_model->getUser();
+		$data['province']=$this->province_model->getProvince();
+		$data['district']=$this->district_model->getDistricts();
+    	$data['manucipality']=$this->manucipality_model->getManucipalities();
+    	$data['town']=$this->town_model->getTowns();
+    	//$data['suburb']=$this->suburb_model->getSuburbs();
+    	//$data['zip_code']=$this->zip_code_model->getZip_code();
 
-		$data['user_id']= $this->user_model->getUser($search);
-
+		$data['userInfo']= $this->user_model->getUser($search);
 
 		
-		foreach ($data['user_id'] as $value) {
+		foreach ($data['userInfo'] as $value) {
 
 			$data['userEdit'] = $value->user_id;
-			$data['provinceEdit'] = $value->provinces;
-			$data['districtEdit'] = $value->districts;
-			$data['manucipalityEdit'] = $value->manucipalities;
-			$data['availableEdit'] = $value->available;
-
-			
+			$data['emailEdit'] = $value->email;
+			$data['nameEdit'] = $value->name;
+			$data['identitynumberEdit'] = $value->identityNumber;
+			$data['dateofbirthEdit'] = $value->dateOfBirth;
+			$data['dateOfRegistrationEdit'] = $value->date_registration;
+			$data['phoneEdit'] = $value->phone;
+			$data['provinceEdit'] = $value->province;
+			$data['districtEdit'] = $value->district;
+			$data['manucipalityEdit'] = $value->manucipality;
+			$data['townEdit'] = $value->town;
+			//$data['suburbEdit'] = $value->suburb;
+			//$data['zip-codeEdit'] = $value->zip_code;
 			
 		}
 		//from helper and library
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		
-			$search = array();
-		$data['province']=$this->province_model->getProvince();
-		$district = $this->input->post('province');
-
-		//$data['district']=$this->district_model->getDistrict($district);
 		
 		
 
@@ -522,22 +537,6 @@ public function editUser($id=0)
 					'checkEmail'=>'%s does not exist, please enter the correct email'
 
 					) 					
-				),
-			array(
-				'field'=>'password',
-				'label'=>'Password',
-				'rules'=>
-				'required',
-				'errors'=>array('required'=>'you should insert %s for the user')
-
-				),
-			array(
-				'field'=>'confirm',
-				'label'=>'Confirm Password',
-				'rules'=>
-				'required',
-				'errors'=>array('required'=>'you should insert %s for the user')
-
 				),
 
 			array('field'=>'name',
@@ -593,7 +592,7 @@ public function editUser($id=0)
 				),
 			array(
 				'field'=>'suburb',
-				'label'=>'suburb',
+				'label'=>'Suburb',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user')
 				),
@@ -607,7 +606,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'district',
-				'label'=>'district',
+				'label'=>'District',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 
@@ -616,7 +615,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'province',
-				'label'=>'province',
+				'label'=>'Province',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 
@@ -636,7 +635,7 @@ public function editUser($id=0)
 
 			array(
 				'field'=>'manucipality',
-				'label'=>'manucipality',
+				'label'=>'Manucipality',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert one %s for the user'
 
@@ -653,8 +652,8 @@ if($this->form_validation->run()===FALSE){
 
 }else
 {
-	$statusEdit=$this->Vehicle_model->updateVehicle($this->input->post());
-	redirect("publiczone/listOfResidents?statusEdit=$statusEdit");
+	$statusEdit=$this->user_model->updateUser($this->input->post());
+	redirect("publiczone/user?statusEdit=$statusEdit");
 }
 
 }
