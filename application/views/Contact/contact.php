@@ -40,7 +40,7 @@
         <div class="form-group ">
           <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
           <label for="message">Your Message</label>
-          <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description"></textarea>
+          <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description" rows="5"></textarea>
           <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
         </div>
         
