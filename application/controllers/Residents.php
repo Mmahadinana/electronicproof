@@ -649,8 +649,15 @@ public function OwnersProperty()
 		//$search[23]= $this->input->get('user_id') ?? '0';
 	//var_dump($search['user_addinfor']);
 
+
+	//$data['user_addinfor']=$user_addinfor;
+
+	//$data['user_addinfor']= $this->request_model->getUser($search);
+	$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
+//var_dump($data['user_addinfor']);
+
 	$data['user_addinfor']= $this->request_model->getAddress($search);
-	$this->ownerProperty($data['user_addinfor']);
+	//$this->ownerProperty($data['user_addinfor']);
 
 
 
@@ -718,12 +725,16 @@ if ($this->form_validation->run()===FALSE) {
 
 public function ownerProperty($user_addinfor=array())
 {
-		//var_dump($user_addinfor);
+		
 	$search=array();
+	$properties=array();
+	$search['user_idprofile']= $_SESSION['id'];
 
-	$data['user_addinfor']=$user_addinfor;
+	//$data['user_addinfor']=$user_addinfor;
 
-
+	$data['user_addinfor']= $this->request_model->getUser($search);
+	$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
+//var_dump($data['user_addinfor']);
 		//$data['user_id']= $this->request_model->getAddress($search);
 	$data['pageToLoad']='eresidence/ownersProperty';
 	$data['pageActive']='eresidence';
@@ -760,6 +771,7 @@ public function approve()
 	$search['user_id']= $_SESSION['id'];
 	
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
+	//var_dump($data['user_addinfor']);
 	$data['pageToLoad']='eresidence/approve';
 	$data['pageActive']='eresidence';
 	

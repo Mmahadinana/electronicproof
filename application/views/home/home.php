@@ -14,6 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <li data-target="#Carousel" data-slide-to="0" class="active"></li>
                         <li data-target="#Carousel" data-slide-to="1"></li>
                         <li data-target="#Carousel" data-slide-to="2"></li>
+                        <li data-target="#Carousel" data-slide-to="3"></li>
                     </ol>
                     
                     <!-- Carousel items -->
@@ -32,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="row">
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/chris.png')?>" alt="Image" style="max-width:100%;"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ekur.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                            <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/eThekwini.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                           <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/tswelopele_m.png')?>" alt="Image" style="max-width:100%"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/GARIEP.png')?>" alt="Image" style="max-width:100%;"></a></div>
                         </div><!--.row-->
                     </div><!--.item-->
@@ -40,11 +41,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="item">
                         <div class="row">
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/jobe-municipal.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                            <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/moqhaka.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Matjhabeng_m.png')?>" alt="Image" style="max-width:100%;"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/midvaal.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/masilonyana-logo.png')?>" alt="Image" style="max-width:100%;"></a></div>
                         </div><!--.row-->
                     </div><!--.item-->
+
+                    <div class="item">
+                            <div class="row">
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width:100%;"></a></div>
+                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/moqhaka_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                               <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/eThekwini.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ngwathe_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                          </div><!--.row-->
+                      </div><!--.item-->
+
                     
                 </div><!--.carousel-inner-->
                 <a data-slide="prev" href="#Carousel" class="leftCarosel carousel-control">‹</a>

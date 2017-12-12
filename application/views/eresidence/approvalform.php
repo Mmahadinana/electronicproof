@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <tbody>
             <tr>
               <td>Date</td>
-            <td class="text-primary"><?php  echo date('Y / m / d')?></td>
+              <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
             </tr>
             <tr>
@@ -64,27 +64,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </tr>
               <tr>
                 <td><?php  echo $key->province?></td>            
-              </tr><?php
-            }
-            ?>
+                </tr><?php
+              }
+              ?>
+
+            </tbody>
+          </table>
+          <h5 id="para">This is to confirm <?php// echo $key->name;?> Id numbers <?php //echo $key->identitynumber;?> 
+            stays at the above mentioned address since (<?php// echo $key->date_registration;?>)   until today. The house owned by <?php //echo $key->name;?> </h5>
+            <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/registerUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
+
             
-          </tbody>
-        </table>
-        <h5 id="para">This is to confirm <?php echo $key->name;?> Id numbers <?php echo $key->identitynumber;?> 
-        stays at the above mentioned address since (<?php echo $key->date_registration;?>)   until today. The house owned by <?php echo $key->name;?> </h5>
-          <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/registerUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
-        <div class="form-group">
-          <div class="col-lg-4">
-            <button class="btn btn-lg btn-primary " name="approve" id="approve" type="approve">Approve</button>
-          </div>
 
-          <div class="col-lg-4">
-            <button class="btn btn-lg btn-warning " name="decline"  id="decline" type="decline" value="decline">Decline</button>
+
           </div>
+<div class="col-lg-3">
+              <button class="btn btn-lg btn-primary form-control" name="approve"  type="submit">Approve</button>     
+            </div>
+
+            <div class="col-lg-3">
+              <a class="btn btn-lg btn-warning form-control" type="text">Decline</a>
+            </div>
+
         </div>
-
-      </div>
-
+      </form><!-- /form -->
     </div>
-  </form><!-- /form -->
-</div>

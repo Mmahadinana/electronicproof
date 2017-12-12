@@ -105,3 +105,6 @@
 .pagination :hover{
  background-color: yellow;
 }
+.thumbnails{
+  height: 50px;
+}
