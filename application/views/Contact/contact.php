@@ -4,8 +4,8 @@
  
  <div class="container">
    
-  <section class="contact-section">
-    <div class="contact">
+  <!--section class="contact-section">
+    <div class="contact"-->
      <div class="form-area">
 
       <h1>Contact Us</h1>
@@ -43,24 +43,21 @@
           <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description"></textarea>
           <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
         </div>
-        <div class="form-group">
-
-
-        </div>
+        
         <button type="submit" class="btn btn-default">Send</button>
 
       </form>
     </div>
   </div>
 </div>
-</div>
-</section>
+<!--/div>
+</section-->
 
 </div>
 
 
 <script type="text/javascript">
-	$(document).ready(function(){ 
+  $(document).ready(function(){ 
     $('#characterLeft').text('500characters left');
     $('#message').keydown(function () {
       var max = 500;

@@ -5,21 +5,21 @@
 }
 .samap {
 
-	padding-top:1em;
+    padding-top:1em;
     background-color: #2d3f50;
     height: auto;
     box-shadow: 5px 5px 5px 5px;
 
 }
 .samap img{
-	width: 60%;
-    margin-left: 20%
+    width: 60%;
+    margin-left: 20% 
 
 }
 .about{
-	font-size: 1.2em;
-	width: 60%;
-	margin-left: 20%;
+    font-size: 1.2em;
+    width: 60%;
+    margin-left: 20%;
 }
 
 .abt-img{
@@ -27,21 +27,10 @@
     padding: 0px;
     margin: 0px;
     margin-top: 2em;
-    /*;padding-left: 25%*/
+    padding-left: 25%;
 
 }
-.abt-img div{
 
-
-   /* margin-right: 2em;
-    padding: 0px;*/
- 
-}
-/*.abt-img:hover{
-	font-weight: bolder;
-	color: #404040;
-	font-size: 16px;
-}*/
 .abt-img img{
  width: 200px;
  height: 200px;
@@ -63,7 +52,7 @@ position: relative;*/
 }
 
 .abt-img img:active{
-	width: 200px;
+    width: 200px;
     height: 200px;
     border-radius: 22px;
     /*z-index: -5;*/
@@ -72,28 +61,7 @@ position: relative;*/
 .abt-img div{
     float: left;
 }
-/*@media (min-width: 768px) {
-  .navbar-nav .open .dropdown-menu {
-    position: static;
-    float: none;
-    width: auto;
-    margin-top: 0;
-    background-color: transparent;
-    border: 0;
-    box-shadow: none;
-}*/
-/*.navbar-nav .open .dropdown-menu > li > a,
-.navbar-nav .open .dropdown-menu .dropdown-header {
-    padding: 5px 15px 5px 25px;
-}
-.navbar-nav .open .dropdown-menu > li > a {
-    line-height: 20px;
-}
-.navbar-nav .open .dropdown-menu > li > a:hover,
-.navbar-nav .open .dropdown-menu > li > a:focus {
-    background-image: none;
 
-}*/
     .btnprght{
          margin-left: 1em;
     }
@@ -110,15 +78,7 @@ position: relative;*/
     padding: 30px 0px 60px 50px;
     color: #000
 }
-/*.btn {
-    font-weight: 700;
-    height: 36px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: default;
-}
-*/
+
 /*
  * Card component
  */
@@ -229,30 +189,30 @@ position: relative;*/
 
 .footPadRight a
 {
-	color: white;
-	margin: 0.5em; 
+    color: white;
+    margin: 0.5em; 
 }
-.footPadRight{	
-	margin-right: 2em;
+.footPadRight{  
+    margin-right: 2em;
 }
 .footPadRight a :hover{
     font-size: large;
 }
 .white-text{
-	color: #fff;
+    color: #fff;
 }
 .black-text a{
-	color: black;
+    color: black;
 }
 .black-text {
-	text-align: left;
+    text-align: left;
 }
 .passbtn{
-	width: 40%;
+    width: 40%;
 }
 .resetTopPad{
-	padding-top: 5em;
-	padding-left: 5em;
+    padding-top: 5em;
+    padding-left: 5em;
 }
 .upload{
     margin: 3px
@@ -435,12 +395,28 @@ input:focus {
     color: yellow;
 
 }
+.bs-example{
+    padding-left: 1.3em
+}
 .pfTbl_padding{
     padding: 5em 6em 5em -10em;
 }
 .pfTbl_rom_padding{
-    padding: 5em -30em 5em -10em;
-    margin: 5em 0em 5em -10em;
+
+    padding: 5em -30em 5em 0em;
+    margin: 5em 0em 5em 0em;
+}
+.pfTbl_rom_padding .colBrd{    
+ padding: 2px;
+ margin: 0px;
+}
+.rowBrd{
+    border-bottom: 1px solid #ddd
+}
+
+.colBrd-warning{
+ /*border:1px solid black;*/
+ background-color:#fcf8e4 ;
 }
 .text-white span{
 color: #fff !important;
@@ -464,7 +440,43 @@ border: 2px solid pink;
  /*font-weight: bolder;*/
  
 }
+.btn_padding {
+ padding: 0px;
+ clear: 
+}
 @keyframes chgTransition {
     from {color:#2d3f50 ;}
     to {color:gold ;}
-}
+} 
+@media (max-width: 768px) {
+   
+    .navbar-brand{     
+      
+   margin-left: 4em;
+   /*width: 100%;*/
+ 
+    }
+    
+    
+  }
+@media (min-width: 200px) {
+   
+    .container .abt-img {
+      /*padding: 0px;
+      margin: 0px;
+      width: 100%;
+       overflow-x: scroll;*/
+   font-size: 100%;
+    }
+    .logo{     
+      
+   margin-left: 100em;
+
+
+ 
+    }
+    
+  }
+ 
+
+

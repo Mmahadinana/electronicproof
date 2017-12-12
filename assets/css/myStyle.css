@@ -28,7 +28,7 @@ a {
   color: blue;
   background-color: transparent;
   font-weight: normal;
-}
+} 
 
 /***************************************** default style for h3***************/
 h3 {
@@ -168,7 +168,7 @@ h3 {
   }
   /* The controlsy */
   .carousel-control {
-    left: -12px;
+    left: -22px;
     height: 40px;
     width: 40px;
     background: none repeat scroll 0 0 #222222;
@@ -211,6 +211,7 @@ h3 {
     color: white; 
     height: auto;
     width: 60%;
+    min-width: 20%;
     padding-bottom:150px;
     text-align: center;
     box-shadow: 0px 8px 8px #000;
@@ -230,26 +231,60 @@ h3 {
 
   /**********changing medias*************************/  
 
- @media (max-width: 768px) {
-    .form-area {
-      padding: 15px;
-      margin: 5;
-      width: 80%;
+ @media (max-width: 1166px) {
+ 
+    .mytable{
+      /*padding-left: -110px;*/
+      margin: 0px;
+      font-size: 100%;
     }
   }
-  @media (max-width: 460px) {
-    .starter-templat{
-      margin: 30px 2px;
-      width: 100%;
-    }
+  /* @media (max-width: 708px) {
     .form-area {
-      padding: 5px;
-      margin: 2px;
-      width: 96%;
+      padding: 0px;
+      margin: 0;
+      width:100%;
+      
+    }
+    .mytable{
+      padding-left: -110px;
+      margin: 0px;
+    }
+  }*/
+  
+@media (min-width: 200px) {
+    .starter-templat{
+     
+      width: 80%;
+
+    }
+    .form-area{
+      /*padding: 0px;
+      margin: 0px;
+      width: 100%;*/
+       overflow-x: auto;
+   font-size: 100%;
+    }
+     .mytable{
+      /*padding-left: -110px;*/
+      margin: 0px;
     }
     
   }
-
+  @media (max-width: 500px) {
+   
+    .form-area {
+      
+      width: 100%;
+   
+ 
+    }
+     .mytable{
+     /* padding-left: -110px;*/
+      margin: 0px;
+    }
+    
+  }
 
 #door
 {
@@ -270,12 +305,12 @@ h3 {
   margin-top: 60px;
   margin-left: -50px;
 }
-.row 
+/*.row 
 {
   margin-left: 110px;
 }
 
-  /*
+  
    @media (min-width: 768px) {
     .navbar > .container .navbar-brand,
     .navbar > .container-fluid .navbar-brand {

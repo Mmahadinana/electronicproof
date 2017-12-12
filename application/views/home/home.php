@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="item">
                             <div class="row">
                               <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width:100%;"></a></div>
-                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/moqhaka.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/moqhaka_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                                <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/eThekwini.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                               <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ngwathe_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                           </div><!--.row-->
