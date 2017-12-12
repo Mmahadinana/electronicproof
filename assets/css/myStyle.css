@@ -100,6 +100,7 @@ h3 {
      background-color: #2d3f50!important;
 
    }
+   .navbar-nav,
    .navbar-nav a :hover,
    #loginButton >a> span:hover,
    .navbar-nav a :active
@@ -290,16 +291,8 @@ h3 {
 {
   color: black;
 }
-#approve
-{
-  margin-left: -30px;
-  margin-top: 70px;
-}
-#decline
-{
-  margin-left: 110px;
-  margin-top: 70px;
-}
+
+
 #para
 {
   margin-top: 60px;
