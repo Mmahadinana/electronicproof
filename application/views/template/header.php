@@ -49,7 +49,6 @@ echo sessionX();
           <ul class="dropdown-menu dropdownmenu " >            
             <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
 
-            <li <?php echo setMenuActiveItem ($pageActive == "listOfResidents")?>><a href="<?php echo base_url('residents/listOfResidents') ?>">Manage Residents</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "approve")?>><a href="<?php echo base_url('residents/approve')?>">Approval</a></li>      
 
             <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">Owners Property</a></li>
@@ -62,7 +61,6 @@ echo sessionX();
           <ul class="dropdown-menu dropdownmenu " >
             <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/request') ?>">Request</a></li>
            
-            <li <?php echo setMenuActiveItem ($pageActive == "listOfResidents")?>><a href="<?php echo base_url('residents/listOfResidents') ?>">Manage residents</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li>    
             
             <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">My Property</a></li>

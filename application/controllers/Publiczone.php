@@ -491,11 +491,12 @@ public function editUser($id=0)
 		$data['district']=$this->district_model->getDistricts();
     	$data['manucipality']=$this->manucipality_model->getManucipalities();
     	$data['town']=$this->town_model->getTowns();
-    	//$data['suburb']=$this->suburb_model->getSuburbs();
+    	$data['suburb']=$this->suburb_model->getSuburbs();
+
     	//$data['zip_code']=$this->zip_code_model->getZip_code();
 
 		$data['userInfo']= $this->user_model->getUser($search);
-
+		var_dump($data['userInfo']);
 		
 		foreach ($data['userInfo'] as $value) {
 
@@ -510,7 +511,7 @@ public function editUser($id=0)
 			$data['districtEdit'] = $value->district;
 			$data['manucipalityEdit'] = $value->manucipality;
 			$data['townEdit'] = $value->town;
-			//$data['suburbEdit'] = $value->suburb;
+			$data['suburbEdit'] = $value->suburb;
 			//$data['zip-codeEdit'] = $value->zip_code;
 			
 		}
@@ -539,12 +540,22 @@ public function editUser($id=0)
 					) 					
 				),
 
-			array('field'=>'name',
-				'label'=>'Full Name',
+			array('field'=>'dateofbirth',
+				'label'=>'Date of Birth',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert %s for the user')						
 				),
 
+				array('field'=>'date_registration',
+				'label'=>'Date of Registration',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')						
+				),
+				array('field'=>'name',
+				'label'=>'Full Name',
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')						
+				),
 
 
 			array(
