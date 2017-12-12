@@ -725,7 +725,7 @@ if ($this->form_validation->run()===FALSE) {
 
 public function ownerProperty($user_addinfor=array())
 {
-		//var_dump($user_addinfor);
+		
 	$search=array();
 	$properties=array();
 	$search['user_idprofile']= $_SESSION['id'];
@@ -771,6 +771,7 @@ public function approve()
 	$search['user_id']= $_SESSION['id'];
 	
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
+	//var_dump($data['user_addinfor']);
 	$data['pageToLoad']='eresidence/approve';
 	$data['pageActive']='eresidence';
 	

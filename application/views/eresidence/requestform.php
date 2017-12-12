@@ -132,11 +132,11 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
  
  <div class="form-group">
   <div class="col-lg-6">
-    <button class="btn btn-lg btn-primary " name="submit" id="submit" type="submit">Submit</button>
+    <button class="btn btn-lg btn-primary form-control" name="submit" id="submit" type="submit">Submit</button>
   </div>
 
   <div class="col-lg-6">
-    <button class="btn btn-lg btn-warning " name="reset" type="reset" value="upload">Reset</button>
+    <button class="btn btn-lg btn-warning form-control" name="reset" type="reset" value="upload">Reset</button>
   </div>
 </div>
 
