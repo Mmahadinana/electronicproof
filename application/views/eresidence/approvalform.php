@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <tbody>
             <tr>
               <td>Date</td>
-              <td>2017/11/02</td>
+            <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
             </tr>
             <tr>
