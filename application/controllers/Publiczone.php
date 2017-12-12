@@ -462,9 +462,7 @@ $config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inpu
 
 public function editUser($id=0)
 	{
-		//check delete book
-		//$data['id_book']=$id;
-		//var_dump($id);
+		
 		if($id!=0 and is_numeric($id))
 		{
 			$data['user_id'] = $id;
