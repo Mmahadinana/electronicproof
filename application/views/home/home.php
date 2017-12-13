@@ -22,18 +22,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                         <div class="item active">
                             <div class="row">
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/1.jpg') ?>" alt="Image" style="max-width:100%;"></a></div>
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/kopanong.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Ba-Phalaborwa.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Bushbuckridge_CoA.png')?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width:100%;"></a></div>
+                            <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/tswelopele_m.png')?>" alt="Image" style="max-width:100%"></a></div>
+                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ngwathe_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Matjhabeng_m.png')?>" alt="Image" style="max-width:100%;"></a></div>
+                             
                           </div><!--.row-->
                       </div><!--.item-->
                       
                       <div class="item">
                         <div class="row">
+                          <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Bushbuckridge_CoA.png')?>" alt="Image" style="max-width:100%;"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/chris.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                            <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ekur.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                           <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/tswelopele_m.png')?>" alt="Image" style="max-width:100%"></a></div>
+                            <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ekur.png')?>" alt="Image" style="max-width:100%;"></a></div>                           
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/GARIEP.png')?>" alt="Image" style="max-width:100%;"></a></div>
                         </div><!--.row-->
                     </div><!--.item-->
@@ -41,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="item">
                         <div class="row">
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/jobe-municipal.png')?>" alt="Image" style="max-width:100%;"></a></div>
-                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Matjhabeng_m.png')?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Ba-Phalaborwa.png')?>" alt="Image" style="max-width:100%;"></a></div>                              
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/midvaal.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                             <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/masilonyana-logo.png')?>" alt="Image" style="max-width:100%;"></a></div>
                         </div><!--.row-->
@@ -49,10 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <div class="item">
                             <div class="row">
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/kopanong.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/1.jpg') ?>" alt="Image" style="max-width:100%;"></a></div>
                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/moqhaka_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
                                <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/eThekwini.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
-                              <div class="col-md-3"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/ngwathe_m.jpg')?>" alt="Image" style="max-width:100%;"></a></div>
+                             
                           </div><!--.row-->
                       </div><!--.item-->
 

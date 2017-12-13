@@ -77,13 +77,42 @@
  								<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
  								<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
  								<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
- 								<th>Make a Request</th>
+ 								
  								<th>Edit Address</th>
 
  							</tr>
  						</thead>
  						<tbody>
  							<?php foreach ($property_addinfor as $value) {?>
+
+ 							<tr>
+ 								<td><?php echo $value->property ?></td>
+ 								<td><?php echo $value->door_number. ' '.$value->street_name?></td>
+ 								<td><?php echo $value->town ?></td>
+ 								
+ 								<td>  <a href="#">&nbsp;&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a></td>
+
+ 							</tr><?php	} ?>
+ 						</tbody>
+ 					</table>
+ 				</div>
+ 			</div>
+ 			<div class="row">
+ 				<div class="col-sm-8 col-lg-8 pfTbl_padding">
+ 					<table class="table ">
+ 						<caption class="h3 text-center">Lives at:</caption>
+ 						<thead>
+ 							<tr class="warning text-danger">
+ 								<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
+ 								<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
+ 								<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
+ 								<th>Make a Request</th>
+ 								<th>Edit Address</th>
+
+ 							</tr>
+ 						</thead>
+ 						<tbody>
+ 							<?php foreach ($add_addinfor as $value) {?>
 
  							<tr>
  								<td><?php echo $value->property ?></td>

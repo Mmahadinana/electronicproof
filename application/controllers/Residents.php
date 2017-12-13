@@ -20,7 +20,7 @@ class Residents extends CI_Controller {
 		$this->load->model("owners_property_model");
 		$this->load->model("listOfRes_model");
 		$this->load->library('pagination');
-	 logoutByInactiv();
+		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if (!$is_logged_in) {
 			//no login check the cookie
@@ -174,76 +174,80 @@ class Residents extends CI_Controller {
 
 	}
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
-	public function request()
+	public function request($property_id=0)
 	{
+		if($property_id==0){
+			$this->ResidencialProperty();
 
-		$search=array();
+	//redirect('residents/requestPreview');
+		}else{
+			$search=array();
 
-		$search['user_id']= $_SESSION['id'];
-		//$search[23]= $this->input->get('user_id') ?? '0';
-	//var_dump($search['user_id']);
+			$search['property_id']= $property_id;
+			$search["user_id"]= $_SESSION['id'];
 
-		$data['user_addinfor']= $this->request_model->getAddress($search);
 
-		//$data['db']= $this->owners_property_model->getOwner($search);
+			$data['user_addinfor']= $this->request_model->getAddress($search);
+
+		    $data['db']= $this->request_model->getOwner($search);
 		//$data['bd']=$this->request_model->getAddress();
-		//var_dump($data['user_addinfor']);
-		$data['pageToLoad']='eresidence/request';
-		$data['pageActive']='eresidence';
-		
+		//var_dump($data['db']);
+			$data['pageToLoad']='eresidence/request';
+			$data['pageActive']='eresidence';
+
 // loading the form and files for file uoload		
-		$this->load->helper(array('form','file','url'));
+			$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
-		$this->load->library('form_validation');
+			$this->load->library('form_validation');
 
 
 // this is for validation 
-		$minetypes='';
-		$config_validation=array(
-			array('field'=>'phone',
-				'label'=>'Phone',
-				'rules'=>array('required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]',
-					array('checkPhone',array($this->login_model,'callback_checkPhone'))),
+			$minetypes='';
+			$config_validation=array(
+				array('field'=>'phone',
+					'label'=>'Phone',
+					'rules'=>array('required',
+						'exact_length[10]',						
+						'regex_match[/^[0-9]+$/]',
+						array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
 
-				'errors'=>array('required'=>'you should insert a %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',	
-					'checkPhone'=>'%s does not exist, please enter the correct email',				
+					'errors'=>array('required'=>'you should insert a %s ',
+						'exact_length'=>'the %s must have at least length of 10 ',						
+						'regex_match'=>'the %s must be numbers only',	
+						'checkPhone'=>'%s does not exist, please enter the correct email',				
 					)	 					
 				),		
-			array(
-				'field'=>'idnumber',
-				'label'=>'ID No.',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',
-					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+				array(
+					'field'=>'idnumber',
+					'label'=>'ID No.',
+					'rules'=>array(
+						'required',
+						'exact_length[13]',
+						'numeric',
+						array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
 					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',
-					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
-				
+					'errors'=>array(
+						'required'=>' %s is required',
+						'exact_length'=>'the %s must have 13 numbers',
+						'numeric'=>'the %s must have only numbers',
+						'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+
 				),
-			
-			array('field'=>'email',
-				'label'=>'E-mail',
-				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
+
+				array('field'=>'email',
+					'label'=>'E-mail',
+					'rules'=>array('required','valid_email',
+						array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+					'errors'=>array(
+						'required'=>'%s is required',
+						'valid_email'=>'invalid email',
+						'checkEmail'=>'%s does not exist, please enter the correct email'
 
 					) 					
 				),
-			array('field'=>'idUpload',
-				'label'=>'idUpload',
+				array('field'=>'idUpload',
+					'label'=>'idUpload',
 				'rules'=>array(//'required',					
 					'callback_id_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
@@ -254,10 +258,10 @@ class Residents extends CI_Controller {
 			//'checkFile'=>'type for %s exist'
 
 
-					)
-				),
-			array('field'=>'fileToUpload',
-				'label'=>'fileToUpload',
+				)
+			),
+				array('field'=>'fileToUpload',
+					'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
 					'callback_file_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
@@ -268,18 +272,18 @@ class Residents extends CI_Controller {
 			//'checkFile'=>'type for %s exist'
 
 
-					)
-				),
+				)
+			),
 
 			);		
 
 
 		//Validating the form
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+			$this->form_validation->set_rules($config_validation);
+			if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
+				$this->load->view('ini',$data);
+			}else{
 			/*
 			//send data to the database
 			$proofOfRecData=array();
@@ -306,80 +310,80 @@ if ($this->form_validation->run()===FALSE) {
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
-
-
 			}
 
-
-			/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-			public function file_upload() { 
-				$statusFileToUpload ='';
-				$pdarray=array();
-				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-				$config['upload_path']   ='./file_upload/';
-				$config['encrypt_name']   =true;			
-				$config['overwrite']     = false;
-				$config['max_size']	 = '599120';
-				if ($_FILES['fileToUpload']['name'] != '') {
+		}
 
 
-					$minetype='PD';
+		/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
+		public function file_upload() { 
+			$statusFileToUpload ='';
+			$pdarray=array();
+			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config['upload_path']   ='./file_upload/';
+			$config['encrypt_name']   =true;			
+			$config['overwrite']     = false;
+			$config['max_size']	 = '599120';
+			if ($_FILES['fileToUpload']['name'] != '') {
+
+
+				$minetype='PD';
 //upload file
 
-					$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
-					for($i=0; $i<$number_of_files_uploaded; $i++){
-						$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
-						$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
-						$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
-						$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
-						$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
+				$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
+				for($i=0; $i<$number_of_files_uploaded; $i++){
+					$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
+					$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
+					$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
+					$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
+					$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
 
-						$this->load->library('upload', $config);
-						$this->upload->initialize($config);
-						$statusFileToUpload =$this->upload->do_upload('filetoUpload');
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+					$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 
 
-						if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
-							$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-							return false;
-						}elseif($statusFileToUpload){
+					if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
+						$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+						return false;
+					}elseif($statusFileToUpload){
 
-							$this->upload_data1[]['file'] = $this->upload->data();
+						$this->upload_data1[]['file'] = $this->upload->data();
 
 
 				//$this->request_model->addIdUpload($this->upload_data['file']);
-						}
 					}
-			//var_dump($this->upload_data1 );
 				}
+			//var_dump($this->upload_data1 );
 			}
+		}
 
 
 	// *****************************************************************upload for the identity document************************************/
 
-			public function id_upload(){
+		public function id_upload(){
 // upload file uptions
-				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-				$config['upload_path']   ='./id_upload/';
-				$config['encrypt_name']   =true;			
-				$config['overwrite']     = false;
-				$config['max_size']	 = '5120';
-				$minetype='ID' ;
+			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config['upload_path']   ='./id_upload/';
+			$config['encrypt_name']   =true;			
+			$config['overwrite']     = false;
+			$config['max_size']	 = '5120';
+			$minetype='ID' ;
 //upload file for ID
-				if($_FILES['idUpload']['size'] != 0){
-					$this->load->library('upload', $config);
-					$this->upload->initialize($config);
-					$statusIdUpload =$this->upload->do_upload('idUpload');
+			if($_FILES['idUpload']['size'] != 0){
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$statusIdUpload =$this->upload->do_upload('idUpload');
 
-					if (!$statusIdUpload){
-						$this->form_validation->set_message('id_upload', $this->upload->display_errors());
-						return false;
-					}elseif($statusIdUpload){
-						$this->upload_data['file'] = $this->upload->data();
+				if (!$statusIdUpload){
+					$this->form_validation->set_message('id_upload', $this->upload->display_errors());
+					return false;
+				}elseif($statusIdUpload){
+					$this->upload_data['file'] = $this->upload->data();
 			//send data to the database	
 				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
 
-					}
+				}
 
 		}//error if there in no file to upload
 		else{
@@ -424,6 +428,7 @@ if ($this->form_validation->run()===FALSE) {
 
 		$data['user_addinfor']= $this->request_model->getUser($search);
 		$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
+		$data['add_addinfor']= $this->owners_property_model->getProperty($search);
 		//var_dump($data['property_addinfor']);
 		$data['pageToLoad']='userprofile/userprofile';
 		$data['pageActive']='userprofile';
@@ -499,8 +504,8 @@ if ($this->form_validation->run()===FALSE) {
 				'errors'=>array('required'=>'you should insert a %s ',
 					'exact_length'=>'the %s must have at least length of 10 ',						
 					'regex_match'=>'the %s must be numbers only',					
-					)	 					
-				),		
+				)	 					
+			),		
 			array(
 				'field'=>'address',
 				'label'=>'address.',
@@ -508,13 +513,13 @@ if ($this->form_validation->run()===FALSE) {
 					'required',
 					'exact_length[13]',
 					'numeric',				
-					),
+				),
 				'errors'=>array(
 					'required'=>' %s is required',
 					'exact_length'=>'the %s must have 13 numbers',
 					'numeric'=>'the %s must have only numbers',)
 
-				),
+			),
 
 			array('field'=>'date',
 				'label'=>'date',
@@ -523,8 +528,8 @@ if ($this->form_validation->run()===FALSE) {
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
 
-					) 					
-				),
+				) 					
+			),
 			array('field'=>'edit',
 				'label'=>'edit',
 				'rules'=>array('required','valid_email'),
@@ -532,93 +537,98 @@ if ($this->form_validation->run()===FALSE) {
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
 
-					) 					
-				),			
-			);		
+				) 					
+			),			
+		);		
 
 
 
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-public function confirmList()
-{
-	$search=array();
-	$search['owner_confirmation_states']=0;
-	$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
-
-	$data['pageToLoad']='eresidence/confirmList';
-	$data['pageActive']='eresidence';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
+			$this->load->view('ini',$data);
+		}else{
 
 
+		}
+
+	}
+	public function confirmList()
+	{
+		$search=array();
+		$search['user_id']=$_SESSION['id'];
+		//$search['property_id']=$this->input->post('property_id');
+
+		//var_dump($search['property_id']);
+		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+		$data['owner']=$this->request_model->getOwner($search);
 
 
-
-	$this->load->view('ini',$data);
-
-
-}
-public function OwnersDetails()
-{
-	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='OwnersDetails';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
+		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
 
 
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
 
 
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
+		$this->load->view('ini',$data);
+
+
+	}
+	public function OwnersDetails()
+	{
+		$data['pageToLoad']='eresidence/OwnersDetails';
+		$data['pageActive']='OwnersDetails';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+
+
+		$config_validation=array(
+			array('field'=>'name',
+				'label'=>'name',
+				'rules'=>array('required',
+					'exact_length[10]',						
+					'regex_match[/^[0-9]+$/]'),
+
+
+				'errors'=>array('required'=>'you should insert a %s ',
+					'exact_length'=>'the %s must have at least length of 10 ',						
+					'regex_match'=>'the %s must be numbers only',					
 				)	 					
 			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
+			array(
+				'field'=>'address',
+				'label'=>'address.',
+				'rules'=>array(
+					'required',
+					'exact_length[13]',
+					'numeric',				
 				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
+				'errors'=>array(
+					'required'=>' %s is required',
+					'exact_length'=>'the %s must have 13 numbers',
+					'numeric'=>'the %s must have only numbers',)
 
 			),
 
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			array('field'=>'date',
+				'label'=>'date',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
+			array('field'=>'edit',
+				'label'=>'edit',
+				'rules'=>array('required','valid_email'),
+				'errors'=>array(
+					'required'=>'%s is required',
+					'valid_email'=>'invalid email',
 
 				) 					
 			),			
@@ -626,104 +636,43 @@ public function OwnersDetails()
 
 
 
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
+		$this->form_validation->set_rules($config_validation);
+		if ($this->form_validation->run()===FALSE) {
 
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-public function OwnersProperty()
-{
-	$data['pageToLoad']='eresidence/ownersProperty';
-	$data['pageActive']='ownersProperty';
-	$this->load->helper('form');
-	$this->load->library('form_validation');
-	$id =  $_SESSION['id'];
+			$this->load->view('ini',$data);
+		}else{
 
 
-	$search['user_id']= $_SESSION['id'];
-		//$search[23]= $this->input->get('user_id') ?? '0';
-	//var_dump($search['user_addinfor']);
+		}
+
+	}
+	public function ResidencialProperty()
+	{
+		$data['pageToLoad']='eresidence/ResidencialProperty';
+		$data['pageActive']='ResidencialProperty';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$id =  $_SESSION['id'];
 
 
-	//$data['user_addinfor']=$user_addinfor;
+		$search['user_id']= $_SESSION['id'];	
+		$search['mysearch']= $this->input->post('mysearch');	
 
 	//$data['user_addinfor']= $this->request_model->getUser($search);
-	$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
-//var_dump($data['user_addinfor']);
+		
 
-	$data['user_addinfor']= $this->request_model->getAddress($search);
+
+		$data['property_addinfor']= $this->owners_property_model->getProperty($search);
+		$data['mysearch']= $this->owners_property_model->getProperty($search);
+		//var_dump($data['property_addinfor']);
 	//$this->ownerProperty($data['user_addinfor']);
+		$this->load->view('ini',$data);
 
 
 
-	$config_validation=array(
-		array('field'=>'name',
-			'label'=>'name',
-			'rules'=>array('required',
-				'exact_length[10]',						
-				'regex_match[/^[0-9]+$/]'),
 
-
-			'errors'=>array('required'=>'you should insert a %s ',
-				'exact_length'=>'the %s must have at least length of 10 ',						
-				'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-		array(
-			'field'=>'address',
-			'label'=>'address.',
-			'rules'=>array(
-				'required',
-				'exact_length[13]',
-				'numeric',				
-				),
-			'errors'=>array(
-				'required'=>' %s is required',
-				'exact_length'=>'the %s must have 13 numbers',
-				'numeric'=>'the %s must have only numbers',)
-
-			),
-
-		array('field'=>'date',
-			'label'=>'date',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
-				) 					
-			),
-		array('field'=>'edit',
-			'label'=>'edit',
-			'rules'=>array('required','valid_email'),
-			'errors'=>array(
-				'required'=>'%s is required',
-				'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
-
-
-
-$this->form_validation->set_rules($config_validation);
-if ($this->form_validation->run()===FALSE) {
-
-	$this->load->view('ini',$data);
-}else{
-
-
-}
-
-}
-
-
-public function ownerProperty($user_addinfor=array())
+	}
+/*public function ownerProperty($user_addinfor=array())
 {
 		
 	$search=array();
@@ -762,26 +711,28 @@ public function ownerProperty($user_addinfor=array())
 		//view load page
 	
 
-}
-public function approve()
-{
-	
-	$search=array();
+}*/
 
-	$search['user_id']= $_SESSION['id'];
-	
-	$data['user_addinfor']= $this->approval_model->getAddress($search);
+
+	public function approve()
+	{
+
+		$search=array();
+
+		$search['user_id']= $_SESSION['id'];
+
+		$data['user_addinfor']= $this->approval_model->getAddress($search);
 	//var_dump($data['user_addinfor']);
-	$data['pageToLoad']='eresidence/approve';
-	$data['pageActive']='eresidence';
-	
+		$data['pageToLoad']='eresidence/approve';
+		$data['pageActive']='eresidence';
+
 // loading the form and files for file uoload		
-	$this->load->helper(array('form','file','url'));
+		$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
-	$this->load->library('form_validation');
-	$this->load->view('ini',$data);
-	
-}
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+	}
 
 
 
