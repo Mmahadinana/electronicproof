@@ -27,7 +27,8 @@
     padding: 0px;
     margin: 0px;
     margin-top: 2em;
-    padding-left: 25%;
+    /*padding-left: 25%;*/
+    padding-left: 5em;
 
 }
 
@@ -453,7 +454,8 @@ border: 2px solid pink;
     .navbar-brand{     
       
    margin-left: 4em;
-   /*width: 100%;*/
+   /*width: 100%;
+    */
  
     }
     

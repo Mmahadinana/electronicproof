@@ -14,10 +14,16 @@ class Request_model extends CI_MODEL{
 	/**************This query get user address through the lives_on table***************/
 	public function requestquery($search ){
 
+		$property_id = $search['property_id'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 
-		if($user_id){
+		/*if($user_id){
 			$this->db->where('user.id',$user_id); 
+		}*/
+
+		if($property_id && $user_id){
+			$this->db->where('lives_on.property_id',$property_id)
+			->where('user.id',$user_id); 
 		}
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
@@ -51,10 +57,14 @@ class Request_model extends CI_MODEL{
 	public function ownerquery($search ){
 
 		$property_id = $search['property_id'] ?? FALSE;
+		$user_id = $search['user_id'] ?? FALSE;
 		
 
 		if($property_id){
 			$this->db->where('property.id',$property_id); 
+		}
+		if($user_id){
+			$this->db->where('owners.user_id',$user_id); 
 		}
 
 
@@ -117,6 +127,8 @@ class Request_model extends CI_MODEL{
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$request_id = $search['request_id'] ?? FALSE;
+			
+		
 
 		if($user_id){
 			$this->db->where('request_docs.user_id',$user_id); 
@@ -124,6 +136,7 @@ class Request_model extends CI_MODEL{
 		if($request_id){
 			$this->db->where('request_docs.id',$request_id); 
 		}
+
 		if($owner_confirmation_states){
 			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
 		}

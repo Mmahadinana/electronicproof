@@ -1,18 +1,22 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-  
+  //var_dump($owner);
   ?> 
 
   <div class="container form-area">
  
     <?php
 
-  $action="residents/eresidence/";
+  $action="residents/confirmList/";
 
-  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
+  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
    <h1 class="whtColor"> List Of Residents To Confirm </h1>
     <br>
-    <h4><b><i>Confirm Request</b></i></h4>
+    <h4><b><span class="text-danger"><?php foreach ($owner as $value) {
+      echo $value->name.', ';?></span><i>Confirm Request</b></i></h4>
+<input type="hidden" name="property_id" value="  <?php echo $value->property; ?>">
+      <?php
+    } ?>
     <table class="table">
   <tr class="danger text-warning">
     <th>Name</th>

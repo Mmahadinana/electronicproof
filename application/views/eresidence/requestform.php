@@ -16,7 +16,9 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 <div class="form-area">
   <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
   <div class="row tablereq">
-    <div class="col-md-10">
+    <div class="col-md-10"><span class="text-warning h4"> Owner :<?php foreach ($db as $value) {
+      echo ', '.$value->name;
+    } ?> </span>
       <table class="table text-left romtbl_borders">
 
         <tbody>

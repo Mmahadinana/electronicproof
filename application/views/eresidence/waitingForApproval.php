@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
 </div>
 <div class="form-area">
-  <h1>Proof of Residence</h1>
+  <h1>Proof of Residence </h1>
   <div class="row tablereq">
     <div class="col-md-10 ">
      <?php 

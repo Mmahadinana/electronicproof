@@ -4,32 +4,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container form-area">
 
-	<h2 class="whtColor"> List Of Owners Property </h2>
+	<h2 class="whtColor"><i>LIVE'S AT</i></h2>
 
 
 	<?php
 
-	$action="residents/OwnersProperty/";
+	$action="residents/ResidencialProperty/";
 
-	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data'));?>
-	<input type="hidden" id="user_id" name="user_id" value="100">
+	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+	<!--input type="hidden" id="user_id" name="user_id" value="100"-->
 
 	<div class="row tablereq">
-		<div class="col-md-8">
+		<div class="col-lg-7 ">
+					<div class="col-lg-3">
+						<button type="submit" id="button" class="btn btn-info form-control">
+							<span class="glyphicon glyphicon-search"></span> Search </button>
+						</div>
+					<div class="col-lg-4">		
+							<input type="text" class="form-control" name="mysearch" value="<?php echo isset($search['mysearch']) ? $search['mysearch'] : '' ;?>" id="search" placeholder="Search Address Number" >
+						</div>
+						
+						
+						
+					</div>
+					<br>
+		<div class="col-md-10">
 			<table class="table tably text-left">
 
 				<tbody>
 
-					<div class="col-lg-3 col-sm-7">
-					<p class="text-left">
-						<button type="button" id="button" onclick="clearFields()" class="clear btn btn-info">
-							<span class="glyphicon glyphicon-search"></span> Search <input type="text" class="form-control" name="mysearch" value="<?php echo isset($search['mysearch']) ? $search['mysearch'] : '' ;?>" id="search" placeholder="Search" style="width: 90px">
-						</button>
-						<br>
-						<br> 
-						</p>
-					</div>
-					
+
       
   
 					<tr>
@@ -42,11 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<p><?php echo form_error('date') ? alertMsg(false,'date',form_error('date')) : ''; ?></p>
 						</td-->
-						<td>
-							<div class="col-md-2 text-left" >
-								<a href="<?php echo base_url('publiczone/editUser/') ?>" class="editaddress" name="editaddress"><span></span>EDIT ADDRESS</a>
-							</div>
-						</td>
+						
 					</tr>
 
 					<tr>
@@ -54,15 +54,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td>
 							<?php    
 
-							foreach ($user_addinfor as $key ) {
+							foreach ($property_addinfor as $key ) {
 								echo $key->name;
 								?>
 
 							</td>
+						
 						</tr>
 						<tr>
 							<td rowspan="7">Address</td>               
-							<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
+							<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
+								<td rowspan="7" class="col-md-4 text-left">
+						
+								<a href="<?php echo base_url('residents/request/'.$key->property) ?>" class="editaddress" name="editaddress"><span class="text-success">Make a Proof of resident request</span></a>
+						
+						</td>    
 						</tr>
 
 
@@ -96,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</table>
 			</div>
 		</div>
-		<div class="row">
+		<!--div class="row">
  				<div class="col-sm-8 col-lg-8 pfTbl_padding">
  					<table class="table ">
  						<caption class="h3 text-center">List of your properties</caption>
@@ -119,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						</tbody>
  					</table>
  				</div>
- 			</div>
+ 			</div-->
 
 		<div class="pag">
 			<div class="bs-example">
@@ -134,13 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</ul>
 			</div>
 			
-			<div class="col-lg-3">
-				<button class="btn btn-lg btn-primary form-control" type="submit">Send</button>			
-			</div>
-
-			<div class="col-lg-3">
-				<a class="btn btn-lg btn-warning form-control" type="text">Back</a>
-			</div>
+			
 		</div>
 
 	</div>

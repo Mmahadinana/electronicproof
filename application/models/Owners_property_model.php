@@ -37,11 +37,20 @@ return $this->db
 
 }
 public function propertyquery($search ){
-
-		$user_idprofile = $search['user_idprofile'] ?? FALSE;
+//var_dump($search);
+		$user_idprofile = $search['user_idprofile'] ?? FALSE; 
+		$user_id = $search['user_id'] ?? FALSE; 
+		$mysearch = $search['mysearch'] ?? FALSE; 
 
 		if($user_idprofile){
 			$this->db->where('lives_on.user_id',$user_idprofile); 
+		}
+		if($user_id){
+			$this->db->where('lives_on.user_id',$user_id); 
+		}
+		if($mysearch && $user_id){
+			$this->db->where('lives_on.user_id',$user_id)
+					->where('address.door_number',$mysearch); 
 		}
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,

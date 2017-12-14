@@ -51,7 +51,7 @@ echo sessionX();
 
             <li <?php echo setMenuActiveItem ($pageActive == "approve")?>><a href="<?php echo base_url('residents/approve')?>">Approval</a></li>      
 
-            <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">Owners Property</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
             <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
           </ul>
@@ -63,7 +63,7 @@ echo sessionX();
            
             <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li>    
             
-            <li <?php echo setMenuActiveItem ($pageActive == "ownersProperty")?>><a href="<?php echo base_url('residents/ownersProperty') ?>">My Property</a></li>
+            <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
             <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
           </ul>
