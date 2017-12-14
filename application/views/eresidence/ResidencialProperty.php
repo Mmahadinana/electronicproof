@@ -34,78 +34,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td>Date						
 							</td>
 							<td class="text-primary"><?php  echo date('Y / m / d')?></td>						
-						
-					</tr>
-
-					<tr>
-						<td>Resident Full Names</td>
-						<td>
-							<?php    
-
-							foreach ($property_addinfor as $key ) {
-								echo $key->name;
-								?>
-
-							</td>
 
 						</tr>
-						<tr>
-							<td rowspan="7">Address</td>               
-							<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
-							<td rowspan="7" class="col-md-4 text-left">
-
-								<a href="<?php echo base_url('residents/request/'.$key->property) ?>" class="editaddress" name="editaddress"><span class="text-success">Make a Proof of resident request</span></a>
-
-							</td>    
-						</tr>
-
 
 						<tr>
-							<td><?php  echo $key->street_name?></td>
+							<td>Resident Full Names</td>
+							<td>
+								<?php    
 
-						</tr> 
-						<tr>
-							<td><?php  echo $key->town?></td>
+								foreach ($property_addinfor as $key ) {
+									echo $key->name;
+									?>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->zip_code?></td>
+								</td>
+							</tr>
+							
+							<tr>
+								<td rowspan="7">Address</td>               
+								<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
+								<td rowspan="7" class="col-md-4 text-left">
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->manucipality?></td>
+									<a href="<?php echo base_url('residents/request/'.$key->property) ?>" class="editaddress" name="editaddress"><span class="text-success">Make a Proof of resident request</span></a>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->district?></td>
+								</td>    
+							</tr>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->province?></td>            
-							</tr><?php
-						}
-						?>
 
-					</tbody>
-				</table>
+							<tr>
+								<td><?php  echo $key->street_name?></td>
+
+							</tr> 
+							<tr>
+								<td><?php  echo $key->town?></td>
+
+							</tr>
+							<tr>
+								<td><?php  echo $key->zip_code?></td>
+
+							</tr>
+							<tr>
+								<td><?php  echo $key->manucipality?></td>
+
+							</tr>
+							<tr>
+								<td><?php  echo $key->district?></td>
+
+							</tr>
+							<tr>
+								<td><?php  echo $key->province?></td>            
+								</tr><?php
+							}
+							?>
+
+						</tbody>
+					</table>
+				</div>
 			</div>
+
+			<div class="pag">
+				<div class="bs-example">
+					<ul class="pagination col-lg-12">
+						<li><a href="#">&laquo;</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>				
+						<li><a href="#">&raquo;</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+
 		</div>
-	
- 			<div class="pag">
- 				<div class="bs-example">
- 					<ul class="pagination col-lg-12">
- 						<li><a href="#">&laquo;</a></li>
- 						<li><a href="#">1</a></li>
- 						<li><a href="#">2</a></li>
- 						<li><a href="#">3</a></li>
- 						<li><a href="#">4</a></li>
- 						<li><a href="#">5</a></li>				
- 						<li><a href="#">&raquo;</a></li>
- 					</ul>
- 				</div>
-
-
- 			</div>
-
- 		</div>
 

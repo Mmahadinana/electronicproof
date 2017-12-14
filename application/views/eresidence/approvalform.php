@@ -75,8 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/registerUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
 
             
-
-
           </div>
 <div class="col-lg-3">
               <button class="btn btn-lg btn-primary form-control" name="approve"  type="submit">Approve</button>     

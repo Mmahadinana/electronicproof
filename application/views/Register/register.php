@@ -5,7 +5,6 @@ $id_province 	= $user_data->province_id 	?? $this->input->post('province') 	?? f
 $id_district		= $user_data->district_id 		?? $this->input->post('district') 		?? false;
 $id_manucipality 		= $user_data->manucipality_id 			?? $this->input->post('manucipality') ?? false;
 $id_town		= $user_data->town_id 		?? $this->input->post('town') 		?? false;
-
 $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 
 
@@ -14,174 +13,169 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 
 	<h1 ><?php echo $pageTitle;
 
-		if(isset($statusEdit)){
-			echo alertMsg($statusEdit,'User Added','User Not Added');
-		}
-		?></h1>
+	if(isset($statusEdit)){
+		echo alertMsg($statusEdit,'User Added','User Not Added');
+	}
+	?></h1>
 
 
-		<?php 
+	<?php
 
+	$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
 
-		$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
-		
-		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));
 
-		?>
+	?>
 
-		<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
+	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
 
-		<div class="stepwizard col-md-offset-3">
-			<div class="stepwizard-row setup-panel">
-				<div class="stepwizard-step">
-					<a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
-					<p>Step 1</p>
+	<div class="stepwizard col-md-offset-3">
+		<div class="stepwizard-row setup-panel">
+			<div class="stepwizard-step">
+				<a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
+				<p>Step 1</p>
+			</div>
+			<div class="stepwizard-step">
+				<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
+				<p>Step 2</p>
+			</div>
+			<div class="stepwizard-step">
+				<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				<p>Step 3</p>
+			</div>
+
+		</div>
+	</div>
+	<form role="form" action="" id="data" method="post">
+		<div class="row setup-content" id="step-1">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-12">
+					<h3>Setup Account</h3>
+					<div class="form-group">
+						<label for="email">email</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+							<input type="email" class="form-control" name="email" id="email" value="<?php echo isset($user_id)? $emailEdit: set_value('email')?>" placeholder="Requested email"  onblur="validate()" required>
+						</div>
+						<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
+
+					</div>
+					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
+						<label for="password">Password</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							<input type="text" class="form-control" name="password"  onblur="validate()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+						</div>
+						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+
+					</div>
+					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
+						<label for="confirm">Confirm Password</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
+							<input type="text" class="form-control" name="confirm"   onblur="validate()"  id="confirm" placeholder="Confirm Password" required>
+						</div>
+						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
+					</div>
+					<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" type="submit" >Next</button>
 				</div>
-				<div class="stepwizard-step">
-					<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
-					<p>Step 2</p>
-				</div>
-				<div class="stepwizard-step">
-					<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-					<p>Step 3</p>
-				</div>
-
 			</div>
 		</div>
-		<form role="form" action="" id="data" method="post">
-			<div class="row setup-content" id="step-1">
-				<div class="col-xs-6 col-md-offset-3">
-					<div class="col-md-12">
-						<h3>Setup Account</h3>
-						<div class="form-group">
-							<label for="email">email</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-								<input type="email" class="form-control" name="email" id="email" value="<?php echo isset($user_id)? $emailEdit: set_value('email')?>" placeholder="Requested email"  onblur="validate()" required>
-							</div>
-							<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
 
+		<div class="row setup-content" id="step-2">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-12">
+					<h3>Personal Information</h3>
+					<div class="form-group">
+						<label class="control-label" for="name">Full Name</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
+							<input type="text" class="form-control" name="name" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>" id="name" placeholder="full name" required>
+						</div>
+						<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
 
-						</div>
-						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-							<label for="password">Password</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="text" class="form-control" name="password"  onblur="validate()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
-							</div>
-							<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
-
-						</div>
-						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-							<label for="confirm">Confirm Password</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-								<input type="text" class="form-control" name="confirm"   onblur="validate()"  id="confirm" placeholder="Confirm Password" required>
-							</div>
-							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
-						</div>
-						<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" type="submit" >Next</button>
 					</div>
+					<div class="form-group">
+						<label class="control-label" for="identitynumber">Identity Number</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
+						</div>
+						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="dateofbirth">Date of Birth</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
+						</div>
+						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
+
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="date_registration">Date of Registration</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
+						</div>
+						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
+
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="phone">Phone number</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+					<label  id ="gender" class="control-label">Gender</label>
+
+					<div class="form-group">
+
+						<input  name="gender" type="radio" value="1" id="radio100">
+						<label for="radio100">Male</label>
+					</div>
+
+					<div class="form-group">
+						<input  name="gender" type="radio" value="2" id="radio101"   checked>
+						<label for="radio101">Female</label>
+						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
+
+					</div>
+					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
 				</div>
 			</div>
+		</div>
+		<div class="row setup-content" id="step-3">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-12">
+					<h3>Residential Information</h3>
+					<div class="form-group">
 
-			<div class="row setup-content" id="step-2">
-				<div class="col-xs-6 col-md-offset-3">
-					<div class="col-md-12">
-						<h3>Personal Information</h3>
-						<div class="form-group">
-							<label class="control-label" for="name">Full Name</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-								<input type="text" class="form-control" name="name" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>"    id="name" placeholder="full name" required>
-							</div>
-							<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
+						<label for="province">Province</label>
+						<select class="form-control" value="province" name="province" id="province" onchange="update_districts()">
+							<option  selected="true" disabled="disabled">Please select</option>
 
-						</div>
-						<div class="form-group">
-							<label class="control-label" for="identitynumber">Identity Number</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
-							</div>
-							<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
-						</div>
-						<div class="form-group">
-							<label class="control-label" for="dateofbirth">Date of Birth</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
-							</div>
-							<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
+							<?php 
 
-						</div>
-						<div class="form-group">
-							<label class="control-label" for="date_registration">Date of Registration</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
-							</div>
-							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
-							
+							foreach ($province as $province){?>
+							<option <?php 
+							if(isset($user_id)  && $provinceEdit){
 
-						</div>
-						<div class="form-group">
-							<label class="control-label" for="phone">Phone number</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-								<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
-							</div>
-							<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-						</div>
-						<label  id ="gender" class="control-label">Gender</label>
+								echo ($provinceEdit == $province->name)? 'selected':'';
 
-						<div class="form-group">
 
-							<input  name="gender" type="radio" value="1" id="radio100">
-							<label for="radio100">Male</label>
-						</div>
+							}else{
+								if(set_value('province')){
+									echo (set_value('province') == $province->id)? 'selected':'';
+								}    
 
-						<div class="form-group">
-							<input  name="gender" type="radio" value="2" id="radio101"   checked>
-							<label for="radio101">Female</label>
-							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
+							}
+							?>
 
-						</div>
-						<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
+							value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
+							<?php } ?>
+						</select>
+						<?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
 					</div>
-				</div>
-			</div>
-			<div class="row setup-content" id="step-3">
-				<div class="col-xs-6 col-md-offset-3">
-					<div class="col-md-12">
-						<h3 >Residential Information</h3>
-						<div class="form-group">
 
-							<label for="province">Province</label>
-							<select class="form-control" value="province" name="province" id="province" onchange="update_districts()">
-								<option  selected="true" disabled="disabled">Please select</option>
+					<div class="form-group" id="select_district" style="display:none">
+						<label for="district">District</label>
 
-								<?php 
-
-								foreach ($province as $province){?>
-								<option <?php 
-								if(isset($user_id)  && $provinceEdit){
-
-									echo ($provinceEdit == $province->name)? 'selected':'';
-
-
-								}else{
-									if(set_value('province')){
-										echo (set_value('province') == $province->id)? 'selected':'';
-									}    
-
-								}
-								?>
-
-								value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
-								<?php } ?>
-							</select>
-							<?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
-						</div>
-
-
-
-						<div class="form-group" id="select_district" style="display:none">
-							<label for="district">District</label>
-
-							<select class="form-control" name="district" id="district" required>
+						<select class="form-control" name="district" id="district" required>
 							
 							<!--option <?php 
 
@@ -215,50 +209,48 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 
 						</div>
 						<div class="form-group" id="select_town" style="display:none">
-					<label for="town">town</label>
-					
-					<select class="form-control" name="town" id="town" required>
-					</select>
-					<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
-					
-				</div>
-				<div class="form-group" id="zip_code_input" style="display:none">
-					<label for="zip_code">Zip Code</label>
+							<label for="town">town</label>
+
+							<select class="form-control" name="town" id="town" required>
+							</select>
+							<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+
+						</div>
+						<div class="form-group" id="zip_code_input" style="display:none">
+							<label for="zip_code">Zip Code</label>
 
 
-					<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+							<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 
-				</div>
+						</div>
 
-				<div class="form-group" id="select_suburb" style="display:none">
-					<label for="suburb">Suburb</label>
-					
-					<select class="form-control" name="suburb" id="suburb" required>
-					</select>
-					<?php  echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
-					
-				</div>
+						<div class="form-group" id="select_suburb" style="display:none">
+							<label for="suburb">Suburb</label>
 
-				
+							<select class="form-control" name="suburb" id="suburb" required>
+							</select>
+							<?php  echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 
-				<div class="form-group" id="select_address" style="display:none">
-					<label for="address">Street Name</label>
-					
-					<select class="form-control" name="address" id="address" required>
-					</select>
-					<?php  echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
-					
-				</div>
-				<div class="form-group" id="select_address" style="display:none">
-					<label for="street_name">Street Name</label>
-					
-					<select class="form-control" name="street_name" id="street_name" required>
-					</select>
-					<?php  echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
-					
-				</div>
-				<div class="form-group" id="select_Number" style="display:none">
-					<label for="door_number">Door Number</label>
+						</div>
+
+						<div class="form-group" id="select_address" style="display:none">
+							<label for="address">Street Name</label>
+
+							<select class="form-control" name="address" id="address" required>
+							</select>
+							<?php  echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
+
+						</div>
+						<div class="form-group" id="select_address" style="display:none">
+							<label for="street_name">Street Name</label>
+
+							<select class="form-control" name="street_name" id="street_name" required>
+							</select>
+							<?php  echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
+
+						</div>
+						<div class="form-group" id="select_Number" style="display:none">
+							<label for="door_number">Door Number</label>
 					<!--input type="text" name="door_number" id="door_number" placeholder="Enter door_number" >
 					<select class="form-control" name="door_number" id="door_number" required>
 					</select-->
@@ -398,13 +390,13 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 		$('#province').on('change',function(){
 	//bring all the districts from php to javascript
 	let district 		= <?php echo json_encode($district);?>;
-let id_district		= <?php echo $id_district ? $id_district : 'false'; ?>;
+	let id_district		= <?php echo $id_district ? $id_district : 'false'; ?>;
 	
 //select box from the ditrict
 let district_id =$("#district");
 		//province id from the select box of the provinces
 		let selected  		= $("#province").val();
-console.log(selected);
+		console.log(selected);
 	//clear prev options
 	district_id.empty();
 //write new options
@@ -422,7 +414,7 @@ $.each(district[selected], function (i, item) {
 
 });
 //select the option of the edit mode
-	if(id_district){
+if(id_district){
 	$("#select_district select").val(id_district);
 }else{
 	$("#select_district select").val(0);
@@ -548,10 +540,10 @@ $("#zip_code_input").attr('style','display:block');
 $("#select_suburb").attr('style','display:block');
 
 });
-});
+	});
 
-$( document ).ready(function() {
-	$('#suburb').on('change',function(){
+	$( document ).ready(function() {
+		$('#suburb').on('change',function(){
 	//bring all the districts from php to javascript
 	let address 		= <?php echo json_encode($address);?>;
 
@@ -583,7 +575,7 @@ $.each(address[selected], function (i, item) {
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
 });
-});
+	});
 </script>
 
 
