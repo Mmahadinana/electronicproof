@@ -17,6 +17,15 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
+	public function getAddresses()
+	{
+
+		$this->db->select("address.id,address.door_number,address.street_name")
+		->from("address");
+		
+		return $this->db->get()->result();
+		
+	}
 	
 }
 

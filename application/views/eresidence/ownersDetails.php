@@ -5,10 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1 >Owner's Details</h1>
+  <h1>Owner's Details</h1>
 
   <?php
- //var_dump($user_id) ;
+
 //echo $_SESSION['id'];
   $action="residents/details/";
 
@@ -33,6 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               foreach ($user_addinfor as $key ) {
                 echo $key->name;
                 ?>
+                
 
               </td>
             </tr>

@@ -7,7 +7,7 @@ $id_manucipality 		= $user_data->manucipality_id 			?? $this->input->post('manuc
 $id_town		= $user_data->town_id 		?? $this->input->post('town') 		?? false;
 
 $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
-
+$id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 ?>
 <div class="container form-area">
@@ -56,7 +56,7 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 						<div class="form-group">
 							<label for="email">email</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-								<input type="email" class="form-control" name="email" id="email" value="<?php echo isset($user_id)? $emailEdit: set_value('email')?>" placeholder="Requested email"  onblur="validate()" required>
+								<input type="email" class="form-control" name="email" id="email" value="<?php echo isset($user_id)? $emailEdit: set_value('email')?>" placeholder="Requested email"  required>
 							</div>
 							<p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
 
@@ -65,7 +65,7 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="password">Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="text" class="form-control" name="password"  onblur="validate()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+								<input type="text" class="form-control" name="password"  onblur="validatePassword()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 							</div>
 							<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
@@ -73,7 +73,7 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="confirm">Confirm Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-								<input type="text" class="form-control" name="confirm"   onblur="validate()"  id="confirm" placeholder="Confirm Password" required>
+								<input type="text" class="form-control" name="confirm"   onblur="validatePassword()"  id="confirm" placeholder="Confirm Password" required>
 							</div>
 							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 						</div>
@@ -147,10 +147,11 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
 						<h3 >Residential Information</h3>
+						<!-- Province start-->
 						<div class="form-group">
 
 							<label for="province">Province</label>
-							<select class="form-control" value="province" name="province" id="province" onchange="update_districts()">
+							<select class="form-control" name="province" id="province" onchange ="update_distric()">
 								<option  selected="true" disabled="disabled">Please select</option>
 
 								<?php 
@@ -165,7 +166,7 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 								}else{
 									if(set_value('province')){
 										echo (set_value('province') == $province->id)? 'selected':'';
-									}    
+									}
 
 								}
 								?>
@@ -175,106 +176,98 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 							</select>
 							<?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
 						</div>
+						<!-- Province end-->
 
+						<!-- District start-->
+						<div class="form-group" id="select_district" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
 
-
-						<div class="form-group" id="select_district" style="display:none">
 							<label for="district">District</label>
-
-							<select class="form-control" name="district" id="district" required>
 							
-							<!--option <?php 
-
-							
-								if(isset($user_id)  && $districtEdit){
-
-									echo ($districtEdit == $id_district)? 'selected':'';
-
-
-								}else{
-									if(set_value('district')){
-										echo (set_value('district') == $district->id)? 'selected':'';
-									}    
-
-								}
-								?>
-
-								value="<?php echo $user_data->district_id  ?>"><?php echo $user_data->district ?></option-->
-								<?php// } ?>
+							<select class="form-control"  name="district" id="district" onchange="update_manucipality()">
+								
 							</select>
 							<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
 
+
+
 						</div>
+						<!-- District end-->
 
-						<div class="form-group" id="select_manucipality" style="display:none">
+						<!-- manucipality start-->
+						<div class="form-group" id="select_manucipality" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>						
 							<label for="manucipality">Manucipality</label>
+							<select class="form-control" name="manucipality" id="manucipality" onchange="update_town()">
 
-							<select class="form-control" name="manucipality" id="manucipality" required>
 							</select>
 							<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
+						</div>
+						<!-- manucipality end-->
+
+						<!-- town start-->
+
+						<div class="form-group" id="select_town" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+
+							<label for="town">town</label>
+							<select class="form-control" name="town" id="town" onchange="update_suburb()">
+								<option  selected="true" disabled="disabled">Please select</option>
+
+
+							</select>
+							<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
+						</div>
+						<!-- town end-->
+
+						<!-- suburb start-->
+						<div class="form-group" id="select_suburb" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+
+							<label for="suburb">Suburb</label>
+							<select class="form-control" name="suburb" id="suburb" onchange="update_address()">
+								<option  selected="true" disabled="disabled">Please select</option>
+
+
+							</select>
+							<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
+						</div>
+						<!-- suburb end-->
+
+						<!-- address start-->
+						<div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+							<label for="address">Street Address</label>
+
+							<select class="form-control" name="street_name" id="address">
+								<option  selected="true" disabled="disabled">Please select</option>
+
+
+							</select>
+							<?php 
+							echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
 
 						</div>
-						<div class="form-group" id="select_town" style="display:none">
-					<label for="town">town</label>
-					
-					<select class="form-control" name="town" id="town" required>
-					</select>
-					<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
-					
-				</div>
-				<div class="form-group" id="zip_code_input" style="display:none">
-					<label for="zip_code">Zip Code</label>
+						<!-- address end-->
 
+						<!-- street_name start-->
 
-					<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+						<!-- street_name end-->
 
-				</div>
+						<!-- door_number start-->			
+						<div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+							<label for="door_number">Door Number</label>
 
-				<div class="form-group" id="select_suburb" style="display:none">
-					<label for="suburb">Suburb</label>
-					
-					<select class="form-control" name="suburb" id="suburb" required>
-					</select>
-					<?php  echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
-					
+							<input type="number" id="door" value="" name="door" min="1" max="1000">
+							<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
+
+						</div>
+						<!-- door_number end-->
+						<button class="btn btn-success btn-lg pull-right" type="submit" >Submit</button>
+					</div>
+
 				</div>
 
-				
-
-				<div class="form-group" id="select_address" style="display:none">
-					<label for="address">Street Name</label>
-					
-					<select class="form-control" name="address" id="address" required>
-					</select>
-					<?php  echo form_error('address') ? alertMsg(false,'',form_error('address')):'';?>
-					
-				</div>
-				<div class="form-group" id="select_address" style="display:none">
-					<label for="street_name">Street Name</label>
-					
-					<select class="form-control" name="street_name" id="street_name" required>
-					</select>
-					<?php  echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
-					
-				</div>
-				<div class="form-group" id="select_Number" style="display:none">
-					<label for="door_number">Door Number</label>
-					<!--input type="text" name="door_number" id="door_number" placeholder="Enter door_number" >
-					<select class="form-control" name="door_number" id="door_number" required>
-					</select-->
-					<input type="number" id="door" value="" name="door" min="1" max="1000">
-					<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
-					
-				</div>
-				<button class="btn btn-success btn-lg pull-right" type="submit" >Submit</button>
 			</div>
-		</div>
+
+		</form>
 
 	</div>
-
-</form>
-
-</div>
 
 </div>
 
@@ -394,17 +387,19 @@ $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 
 
 	/************************ getting the district through the provinve id********************/
-	$( document ).ready(function() {
-		$('#province').on('change',function(){
+	function update_distric() {
 	//bring all the districts from php to javascript
-	let district 		= <?php echo json_encode($district);?>;
-let id_district		= <?php echo $id_district ? $id_district : 'false'; ?>;
-	
-//select box from the ditrict
-let district_id =$("#district");
+	let district 		= <?php echo json_encode($districts);?>;
+	console.log(district);
+//if in edit mode asssigns the model id if on insert assigns false
+let id_district		= <?php echo $id_district ? $id_district : 'false' ?>; 
+console.log(id_district	);
+
+	//select box from the ditrict
+	let district_id =$("#district");
 		//province id from the select box of the provinces
 		let selected  		= $("#province").val();
-console.log(selected);
+
 	//clear prev options
 	district_id.empty();
 //write new options
@@ -422,34 +417,35 @@ $.each(district[selected], function (i, item) {
 
 });
 //select the option of the edit mode
-	if(id_district){
+if(id_district){
 	$("#select_district select").val(id_district);
 }else{
 	$("#select_district select").val(0);
 }
 	//dispaly the select box
-//console.log(towninput);
-
-	//dispaly the select box
 	$("#select_district").attr('style','display:block');
+}
+$( document ).ready(function() {
+	update_distric() ;
 });
-	});
-	/*get municipali by distric id*/	
-	$( document ).ready(function() {
-		$('#district').on('change',function(){
+
+
+/*get municipali by distric id*/	
+function update_manucipality(){
 	//bring all the districts from php to javascript
-	let manucipality 		= <?php echo json_encode($manucipality);?>;
-	console.log(manucipality);
+	let manucipality 		= <?php echo json_encode($manucipalities);?>;
+	let id_manucipality		= <?php echo $id_manucipality ? $id_manucipality : 'false' ?>; 
+	
 	
 //select box from the ditrict
-let manucipality_id =$("#manucipality");
+		let manucipality_id =$("#manucipality");
 		//province id from the select box of the provinces
 		let selected  		= $("#district").val();
 		
 	//clear prev options
 	manucipality_id.empty();
-//write new options
-manucipality_id.append($('<option>', { 
+	//write new options
+	manucipality_id.append($('<option>', { 
 	value: 0,
 	text : "select manucipality" 
 }));
@@ -461,17 +457,26 @@ $.each(manucipality[selected], function (i, item) {
 		text : item.name 
 	}));
 });
-
+//select the option of the edit mode
+if(id_manucipality){
+	$("#select_manucipality select").val(id_manucipality);
+}else{
+	$("#select_manucipality select").val(0);
+}
 	//dispaly the select box
 	$("#select_manucipality").attr('style','display:block');
-});
-	});
+}
+$( document ).ready(function() {
+	update_manucipality() ;
 
-	/**get town by municipality id**/
-	$( document ).ready(function() {
-		$('#manucipality').on('change',function(){
+});
+
+/**get town by municipality id**/
+
+function update_town(){
 	//bring all the districts from php to javascript
-	let town 		= <?php echo json_encode($town);?>;
+	let town 		= <?php echo json_encode($towns);?>;
+	let id_town		= <?php echo $id_town ? $id_town : 'false'; ?>; 
 	console.log(town);
 	
 //select box from the ditrict
@@ -494,18 +499,25 @@ $.each(town[selected], function (i, item) {
 		text : item.name 
 	}));
 });
-
+if(id_town){
+	$("#select_town select").val(id_town);
+}else{
+	$("#select_town select").val(0);
+}
 	//dispaly the select box
 	$("#select_town").attr('style','display:block');
 
+}
+$( document ).ready(function() {
+	update_town();
 });
-	});
 
-	/**get town by municipality id**/
-	$( document ).ready(function() {
-		$('#town').on('change',function(){
+/**get town by municipality id**/
+
+function update_suburb(){
 	//bring all the districts from php to javascript
-	let suburb 		= <?php echo json_encode($suburb);?>;
+	let suburb 		= <?php echo json_encode($suburbs);?>;
+	let id_suburb		= <?php echo $id_suburb ? $id_suburb : 'false'; ?>; 
 	console.log(suburb);
 	
 //select box from the ditrict
@@ -537,24 +549,27 @@ $.each(suburb[selected], function (i, item) {
 	
 });
 	//select the option of the edit mode
-	/*if(id_district){
-	$("#select_district select").val(id_district);
-}else{
-	$("#select_district select").val(0);
-}*/
+	if(id_suburb){
+		$("#select_suburb select").val(id_suburb);
+	}else{
+		$("#select_suburb select").val(0);
+	}
 	//dispaly the select box
 //console.log(towninput);
 $("#zip_code_input").attr('style','display:block');
 $("#select_suburb").attr('style','display:block');
 
-});
+}
+$( document ).ready(function() {
+	update_suburb();
 });
 
-$( document ).ready(function() {
-	$('#suburb').on('change',function(){
+
+function update_address(){
 	//bring all the districts from php to javascript
 	let address 		= <?php echo json_encode($address);?>;
-
+	let id_address		= <?php echo $id_address ? $id_address : 'false'; ?>; 
+	console.log(id_address);
 	
 //select box from the ditrict
 let address_id =$("#address");
@@ -578,11 +593,17 @@ $.each(address[selected], function (i, item) {
 
 
 });
-
+if(id_suburb){
+		$("#select_address select").val(id_address);
+	}else{
+		$("#select_address select").val(0);
+	}
 	//dispaly the select box
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
-});
+}
+$( document ).ready(function() {
+	update_address();
 });
 </script>
 
@@ -604,3 +625,4 @@ $.each(address[selected], function (i, item) {
 	password.onchange = validatePassword;
 	confirm.onkeyup = validatePassword;
 </script>
+

@@ -18,6 +18,8 @@ class Publiczone extends CI_Controller {
 		$this->load->library('email');
 		$this->load->model('Postoffice_model');
 		$this->load->model('address_model');
+		
+
 
 
 
@@ -217,10 +219,10 @@ class Publiczone extends CI_Controller {
 		/***get the provice and distric by provice id*******/
 		$selDistrict = $this->getProvinceDistrict();
 		$data['province'] = $selDistrict['province'];
-		$data['district']     = $selDistrict['district'];
-		$data['manucipality']=$selDistrict['manucipality'];	
-		$data['town']=$selDistrict['town'];	
-		$data['suburb']=$selDistrict['suburb'];	
+		$data['districts']     = $selDistrict['district'];
+		$data['manucipalities']=$selDistrict['manucipality'];	
+		$data['towns']=$selDistrict['town'];	
+		$data['suburbs']=$selDistrict['suburb'];	
 		$data['address']=$selDistrict['address'];	
 			//var_dump($data['manucipality']);	
 		/*****end */		
@@ -485,11 +487,21 @@ public function editUser($id=0)
 		$data['dateOfbirth']=$this->user_model->getUser();
 		$data['date_registration']=$this->user_model->getUser();
 		$data['phone']=$this->user_model->getUser();
-		$data['province']=$this->province_model->getProvince();
-		$data['district']=$this->district_model->getDistricts();
-    	$data['manucipality']=$this->manucipality_model->getManucipalities();
-    	$data['town']=$this->town_model->getTowns();
-    	$data['suburb']=$this->suburb_model->getSuburbs();
+		/*$data['province']=$this->province_model->getProvince();
+		$data['districts']=$this->district_model->getDistricts();
+    	$data['manucipalities']=$this->manucipality_model->getManucipalities();
+    	$data['towns']=$this->town_model->getTowns();
+    	$data['suburbs']=$this->suburb_model->getSuburbs();
+    	$data['addresses']=$this->address_model->getAddresses();
+    	$data['door_numbers']=$this->address_model->getAddresses();*/
+    	
+    	$selDistrict = $this->getProvinceDistrict();
+		$data['province'] = $selDistrict['province'];
+		$data['districts']     = $selDistrict['district'];
+		$data['manucipalities']=$selDistrict['manucipality'];	
+		$data['towns']=$selDistrict['town'];	
+		$data['suburbs']=$selDistrict['suburb'];	
+		$data['address']=$selDistrict['address'];
 
 
     	//$data['zip_code']=$this->zip_code_model->getZip_code();
@@ -516,6 +528,8 @@ public function editUser($id=0)
 			$data['manucipalityEdit'] = $value->manucipality;
 			$data['townEdit'] = $value->town;
 			$data['suburbEdit'] = $value->suburb;
+			$data['streetNameEdit'] = $value->street_name;
+			$data['doorNoEdit'] = $value->door_number;
 			//$data['zip-codeEdit'] = $value->zip_code;
 			
 		}
