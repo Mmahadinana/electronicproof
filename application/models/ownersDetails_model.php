@@ -82,6 +82,18 @@ class OwnersDetails_model extends CI_MODEL{
 		
 		
 	}
+	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
+//public function getAddress(){
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->userQuery($search)
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+	->limit($limit,$offset);
+			//get data from bd
+	return $this->db->get()->result();
+}
 }
 
 

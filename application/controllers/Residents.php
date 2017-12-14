@@ -567,10 +567,18 @@ public function confirmList()
 
 
 }
-public function OwnersDetails()
+public function OwnersDetails($property_id = 0)
 {
+	$search=array();
+
+    $search['property_id']=$property_id;
+	$search['property_id1']=$property_id;
+	$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+	//var_dump($data['user_addinfor']);
+
 	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='OwnersDetails';
+	$data['pageActive']='eresidence';
+
 	$this->load->helper('form');
 	$this->load->library('form_validation');
 

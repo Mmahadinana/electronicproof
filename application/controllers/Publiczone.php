@@ -491,10 +491,16 @@ public function editUser($id=0)
     	$data['town']=$this->town_model->getTowns();
     	$data['suburb']=$this->suburb_model->getSuburbs();
 
+
     	//$data['zip_code']=$this->zip_code_model->getZip_code();
 
 		$data['userInfo']= $this->user_model->getUser($search);
-		var_dump($data['userInfo']);
+		
+		foreach ($data['userInfo'] as $key => $value) {
+			$data['user_data']=$value;
+			
+
+}
 		
 		foreach ($data['userInfo'] as $value) {
 
