@@ -568,6 +568,8 @@ class Residents extends CI_Controller {
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
 
 
 
