@@ -565,13 +565,14 @@ class Residents extends CI_Controller {
 
 
 	}
-	public function OwnersDetails($property_id = 0)
-	{
-		$search=array();
+	
+public function OwnersDetails($property_id = 0)
+{
+	$search=array();
+    $search['property_id']=$property_id;
+	$search['property_id1']=$property_id;
+	$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 
-		$search['property_id']=$property_id;
-		$search['property_id1']=$property_id;
-		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 	//var_dump($data['user_addinfor']);
 
 		$data['pageToLoad']='eresidence/OwnersDetails';

@@ -13,7 +13,7 @@ class Login_model extends CI_MODEL{
 	public function query($search){
 
 		;
-//var_dump($user_idprofile);
+
 		$username = $search['username'] ?? FALSE;
 
 		if('$username'){
@@ -48,7 +48,7 @@ class Login_model extends CI_MODEL{
 		//insert the username and password
 		$username = $this->input->post('username');
 		$rememberme = 'rememberme';
-		//var_dump($rememberme);
+		
 
 		if (empty($username) || empty($password)) {
 			//no values go out
@@ -61,7 +61,7 @@ class Login_model extends CI_MODEL{
 //lets you varify the password
 		if(!empty($hash) && password_verify($password,$hash)){
 	//valid
-	
+
 			$this->startUserSession($username);
 			//$this->remember_cookie($rememberme);
 	//checks if valid
@@ -85,7 +85,7 @@ public function getPasswordHashFromUser($username){
 	->join("login","login.user_id = user.id")
 	->where('user.email',$username)
 	->where('delete',0)
-
+	->where('deceased',0)
 	->get()->row();
             //return the hash
 	return $hash->password ?? null;
@@ -102,24 +102,23 @@ public function startUserSession($username){
 
 	//build the session temporary cache by the username 
 	$session_data = (array)$this->get_user($username);
+	if(!empty($session_data)){	
 
-//$session_data['user_time']= time('H:i:s');	
+		$expireDate= strtotime($session_data['expireTime']);
+		$compare_Date= strtotime(date('Y-m-d H:i:s'));
 
-	$expireDate= strtotime($session_data['expireTime']);
-	$compare_Date= strtotime(date('Y-m-d H:i:s'));
-	
-if($expireDate-($compare_Date) < 0){
-	
-	$backpass=$this->input->post('password');
+		if($expireDate-($compare_Date) < 0){
 
-	redirect('login/changepass/');
-		
-	}else {
-		$session_data['is_logged_in'] = true;
-	
-		$this->session->set_userdata($session_data);
+			$backpass=$this->input->post('password');
+
+			redirect('login/changepass/');
+
+		}else {
+			$session_data['is_logged_in'] = true;
+
+			$this->session->set_userdata($session_data);
+		}
 	}
- 	
 }
 /**
  * [get_user description]
@@ -127,7 +126,7 @@ if($expireDate-($compare_Date) < 0){
  * @return [user data]           [description]
  */
 public function get_user($username){	
-	
+
 	//return the username
 	$user_data = $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,
 		login.id as loginid,login.password,login.expireTime,
@@ -139,7 +138,7 @@ public function get_user($username){
 	->where('delete',0)
 	->where('deceased',0)
 	->get()->row();
-//var_dump($user_data);
+
 	return $user_data ?? null; 
 }//end get_user
 /**
@@ -254,9 +253,9 @@ public function deleteExpiredToken(){
 }//end deleteExpiredToken */
 
 public function callback_checkEmail($email){
-	//$user_id = $this->input->post('user_id');
+	
 	$user_id = $_SESSION['id'];
-	//var_dump( $_SESSION['id']);
+
 	$this->db->select("user.email")
 	->from("user")
 	->where("id",$user_id);
@@ -271,7 +270,7 @@ public function callback_checkEmail($email){
 
 }
 public function callback_checkUsername($email){	
-	//var_dump($email);
+
 	$this->db->select("user.email")
 	->from("user")
 	->where("email",$email);
@@ -303,17 +302,17 @@ public function callback_checkPhone($phone){
 
 }
 public function callback_checkIdnumber($identitynumber){
-	//var_dump($this->input->post('user_id'));
+	
 	$user_id = $_SESSION['id'];
 	$this->db->select("user.identitynumber,user.phone")
 	->from("user")
 	->where("user.id",$user_id);
-		     	     //var_dump($this->db->get()->row() );
+		     	 
 	$identity=$this->db->get()->row();
-		//var_dump($identity);
+	
 	if ($identity !=null) {
 		if ($identity->identitynumber != $identitynumber) {
-				//var_dump($value->identitynumber );
+				
 			return false;
 		}
 		else{
@@ -346,12 +345,12 @@ public function get_mailToken($mailtoken,$user_id){
 	->from("emailtoken")
 	->where("emailtoken.user_id",$user_id)
 	->where("emailtoken.emailtoken",$mailtoken);
-		     	     //var_dump($this->db->get()->row() );
+		     	    
 	return $this->db->get()->row();
 
 }
 public function deleteEmailtoken(int $user_id){
-	//var_dump($user_id);
+	
 		//begin the transaction
 	$this->db->trans_start();		
 		//delete the email token
