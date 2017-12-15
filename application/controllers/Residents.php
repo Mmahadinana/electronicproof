@@ -74,8 +74,6 @@ class Residents extends CI_Controller {
 		$search['inputForSearch']=$this->input->get('inputForSearch')??0;
 		$data['inputForSearch']=$this->input->get('inputForSearch');
 		
-
-		
 		$search['name'] = '';
 		$search['property_id'] = 0;
 		$search['town'] = '';
@@ -152,7 +150,6 @@ class Residents extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
 		
-
 	}
 	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
 	public function cancelRequest($request_id=0)
@@ -171,7 +168,6 @@ class Residents extends CI_Controller {
 		$this->load->library('form_validation');
 		redirect('residents/viewRequestMade');
 		
-
 	}
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
 	public function request($property_id=0)
@@ -189,7 +185,7 @@ class Residents extends CI_Controller {
 
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 
-		    $data['db']= $this->request_model->getOwner($search);
+			$data['db']= $this->request_model->getOwner($search);
 		//$data['bd']=$this->request_model->getAddress();
 		//var_dump($data['db']);
 			$data['pageToLoad']='eresidence/request';
@@ -492,7 +488,6 @@ class Residents extends CI_Controller {
 		$this->load->library('form_validation');
 	//$this->load->view('ini',$data);
 
-
 		$config_validation=array(
 			array('field'=>'name',
 				'label'=>'name',
@@ -542,7 +537,6 @@ class Residents extends CI_Controller {
 		);		
 
 
-
 		$this->form_validation->set_rules($config_validation);
 		if ($this->form_validation->run()===FALSE) {
 
@@ -563,7 +557,6 @@ class Residents extends CI_Controller {
 		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
 		$data['owner']=$this->request_model->getOwner($search);
 
-
 		$data['pageToLoad']='eresidence/confirmList';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -571,27 +564,24 @@ class Residents extends CI_Controller {
 		$this->load->view('ini',$data);
 
 
-
-
-
-
-
-}
+	}
+	
 public function OwnersDetails($property_id = 0)
 {
 	$search=array();
     $search['property_id']=$property_id;
 	$search['property_id1']=$property_id;
 	$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+
 	//var_dump($data['user_addinfor']);
 
-	$data['pageToLoad']='eresidence/OwnersDetails';
-	$data['pageActive']='eresidence';
+		$data['pageToLoad']='eresidence/OwnersDetails';
+		$data['pageActive']='eresidence';
 
-	$this->load->helper('form');
-	$this->load->library('form_validation');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
-      $config_validation=array(
+		$config_validation=array(
 			array('field'=>'name',
 				'label'=>'name',
 				'rules'=>array('required',
@@ -660,22 +650,17 @@ public function OwnersDetails($property_id = 0)
 		$this->load->library('form_validation');
 		$id =  $_SESSION['id'];
 
-
 		$search['user_id']= $_SESSION['id'];	
 		$search['mysearch']= $this->input->post('mysearch');	
 
 	//$data['user_addinfor']= $this->request_model->getUser($search);
 		
 
-
 		$data['property_addinfor']= $this->owners_property_model->getProperty($search);
 		$data['mysearch']= $this->owners_property_model->getProperty($search);
 		//var_dump($data['property_addinfor']);
 	//$this->ownerProperty($data['user_addinfor']);
 		$this->load->view('ini',$data);
-
-
-
 
 	}
 /*public function ownerProperty($user_addinfor=array())
@@ -720,26 +705,25 @@ public function OwnersDetails($property_id = 0)
 }*/
 
 
-	public function approve()
-	{
+public function approve()
+{
 
-		$search=array();
+	$search=array();
 
-		$search['user_id']= $_SESSION['id'];
+	$search['user_id']= $_SESSION['id'];
 
-		$data['user_addinfor']= $this->approval_model->getAddress($search);
+	$data['user_addinfor']= $this->approval_model->getAddress($search);
 	//var_dump($data['user_addinfor']);
-		$data['pageToLoad']='eresidence/approve';
-		$data['pageActive']='eresidence';
+	$data['pageToLoad']='eresidence/approve';
+	$data['pageActive']='eresidence';
 
 // loading the form and files for file uoload		
-		$this->load->helper(array('form','file','url'));
+	$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
 
-	}
-
+}
 
 
 }
