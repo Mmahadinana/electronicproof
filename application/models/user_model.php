@@ -155,9 +155,9 @@ class User_model extends CI_MODEL{
 		->where("id",$user_id);
 		$testemail=$this->db->get()->row();
 		if ($testemail->email != $email) {
-			return false;
-		}else{
 			return true;
+		}else{
+			return false;
 
 		} 
 
@@ -204,7 +204,7 @@ class User_model extends CI_MODEL{
 
 		if (empty($username) || empty($password)) {
 			//no values go out
-			return false;
+			return true;
 		}
 //will retrieve the password from the user
 		$hash =$this->getPasswordHashFromUser($username);

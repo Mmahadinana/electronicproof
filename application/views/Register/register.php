@@ -229,12 +229,18 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 							<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 						</div>
 						<!-- suburb end-->
+						<div class="form-group" id="zip_code_input" style="display:none">
+					       <label for="zip_code">Zip Code</label>
 
+
+					         <?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+
+				        </div>
 						<!-- address start-->
 						<div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
 							<label for="address">Street Address</label>
 
-							<select class="form-control" name="street_name" id="address">
+							<select class="form-control" name="address" id="address">
 								<option  selected="true" disabled="disabled">Please select</option>
 
 
@@ -245,9 +251,6 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 						</div>
 						<!-- address end-->
 
-						<!-- street_name start-->
-
-						<!-- street_name end-->
 
 						<!-- door_number start-->			
 						<div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>

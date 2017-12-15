@@ -247,15 +247,10 @@ class Publiczone extends CI_Controller {
 		$config_validation = array(
 			array('field'=>'email',
 				'label'=>'email',
-				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
-
-					) 					
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')						
 				),
+
 			array(
 				'field'=>'password',
 				'label'=>'Password',
@@ -281,25 +276,14 @@ class Publiczone extends CI_Controller {
 
 
 
-			array(
+				array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',
-					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
-					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',
-					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
-				
+				'rules'=>'required',
+				'errors'=>array('required'=>'you should insert %s for the user')
 				),
-			
 			array(
-				'field'=>'gender',
+				'field'=>'dateofbirth',
 				'label'=>'Date of Birth',
 				'rules'=>'required',
 				'errors'=>array('required'=>'you should insert %s for the user')
@@ -362,14 +346,14 @@ class Publiczone extends CI_Controller {
 
 
 
-			array(
+			/*array(
 				'field'=>'zip_code',
-				'label'=>'zip code',
+				'label'=>'Zip Code',
 				'rules'=>
 				'required',	
 				'errors'=>array('required'=>'you should insert %s for the user')),
 
-
+*/
 
 			array(
 				'field'=>'manucipality',
