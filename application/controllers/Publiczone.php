@@ -194,6 +194,11 @@ class Publiczone extends CI_Controller {
 			$tempdata['address'][$add->id]=$this->address_model->getAddress($add->id);
 			
 		}
+		$tempdata['towns']=$this->suburb_model->getSuburbs();
+		foreach ($tempdata['towns'] as $add) {
+			$tempdata['zip_code'][$add->id]=$this->address_model->getAddress($add->id);
+			
+		}
 
 		return $tempdata;		
 
@@ -224,6 +229,7 @@ class Publiczone extends CI_Controller {
 		$data['towns']=$selDistrict['town'];	
 		$data['suburbs']=$selDistrict['suburb'];	
 		$data['address']=$selDistrict['address'];	
+		$data['zip_code']=$selDistrict['zip_code'];	
 			//var_dump($data['manucipality']);	
 		/*****end */		
 		
@@ -276,7 +282,7 @@ class Publiczone extends CI_Controller {
 
 
 
-				array(
+			array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
 				'rules'=>'required',
@@ -353,17 +359,17 @@ class Publiczone extends CI_Controller {
 				'required',	
 				'errors'=>array('required'=>'you should insert %s for the user')),
 
-*/
+            */
 
-			array(
-				'field'=>'manucipality',
-				'label'=>'manucipality',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user'
+array(
+	'field'=>'manucipality',
+	'label'=>'manucipality',
+	'rules'=>'required',
+	'errors'=>array('required'=>'you should insert one %s for the user'
 
-					)
-				)
-			);
+		)
+	)
+);
 
 
 
@@ -383,52 +389,52 @@ if($this->form_validation->run()===FALSE){
 
 }
 public function user()
-	{
+{
 
-		$data['pageToLoad'] = 'eresidence/listOfResidents';
-		$data['pageActive']='listOfResidents';
+	$data['pageToLoad'] = 'eresidence/listOfResidents';
+	$data['pageActive']='listOfResidents';
 
 			//from helper and library
-		 $this->load->helper('form');
-		
-		$this->load->library('form_validation');
-		$id_remove = $this->input->post('user_id');
+	$this->load->helper('form');
+	
+	$this->load->library('form_validation');
+	$id_remove = $this->input->post('user_id');
 
 	
-		if(null!=$this->input->get('statusEdit'))
-		{
-			$data['statusEdit'] = $this->input->get('statusEdit');
-		}
-		if(null!=$this->input->get('statusInsert'))
-		{
-			$data['statusInsert']=$this->input->get('statusInsert');
-		}
-		
-		$search=array();
-		
-			$search['search']= $this->input->get('search') ?? '';
-			$search['page']= $this->input->get('page') ?? 0;
-			$search['inputsearch']= $this->input->get('inputsearch') ?? '';
+	if(null!=$this->input->get('statusEdit'))
+	{
+		$data['statusEdit'] = $this->input->get('statusEdit');
+	}
+	if(null!=$this->input->get('statusInsert'))
+	{
+		$data['statusInsert']=$this->input->get('statusInsert');
+	}
+	
+	$search=array();
+	
+	$search['search']= $this->input->get('search') ?? '';
+	$search['page']= $this->input->get('page') ?? 0;
+	$search['inputsearch']= $this->input->get('inputsearch') ?? '';
 //db communication 
 
 
-$config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
+	$config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
 
 
 	  	//$data['authors'] = $authors;
 	  	//$data['editor'] = $editor;
 
-	  	$data['db'] = $this->user_model->getuser($search);
-	  	$data['userCount'] = $this->user_model->countuser($search);
+	$data['db'] = $this->user_model->getuser($search);
+	$data['userCount'] = $this->user_model->countuser($search);
 	  	//$data['models']=$this->Model_model->getModels();
 	  	//$data['colors']=$this->Color_model->getColors();
 	  	//var_dump($search);
 	  	//pagination for the books
 
 	  	//To re-write the links
-	  	 $config['enable_query_string'] = TRUE;
+	$config['enable_query_string'] = TRUE;
 	  	 //To  show the actual page number
-	  	 $config['page_query_string'] = TRUE;
+	$config['page_query_string'] = TRUE;
           //url that will use the pagination
 	  	 //$config['base_url'] = base_url('publiczone/fleet?models='.$search['models'].'&licence_plate='.$search['licence_plate'].'&manufactures='.$search['manufactures'].'&colors='.$search['colors'].'&available='.$search['available']);
 	  	 //$config['total_rows'] = $data['vehiclesCount'];
@@ -440,37 +446,37 @@ $config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inpu
 	  	 //$data['search_pagination']=$this->pagination->create_links();
 
 
-       
-	  	$this->load->view('ini',$data);
+	
+	$this->load->view('ini',$data);
 
 
-	}
+}
 
 public function editUser($id=0)
+{
+	
+	if($id!=0 and is_numeric($id))
 	{
-		
-		if($id!=0 and is_numeric($id))
-		{
-			$data['user_id'] = $id;
-		}else{
-			redirect("publiczone/user");
-		}
+		$data['user_id'] = $id;
+	}else{
+		redirect("publiczone/user");
+	}
 
-		$data['pageToLoad'] = 'register/register';
-		$data['pageActive']='register';
-		$data['pageTitle']='Edit User';
+	$data['pageToLoad'] = 'register/register';
+	$data['pageActive']='register';
+	$data['pageTitle']='Edit User';
 	
 		//data from db
-		$search=array();
-		
-		$search['user_id']= $data['user_id'];
-		
-		$data['email']=$this->user_model->getUser();
-		$data['name']=$this->user_model->getUser();
-		$data['identitynumber']=$this->user_model->getUser();
-		$data['dateOfbirth']=$this->user_model->getUser();
-		$data['date_registration']=$this->user_model->getUser();
-		$data['phone']=$this->user_model->getUser();
+	$search=array();
+	
+	$search['user_id']= $data['user_id'];
+	
+	$data['email']=$this->user_model->getUser();
+	$data['name']=$this->user_model->getUser();
+	$data['identitynumber']=$this->user_model->getUser();
+	$data['dateOfbirth']=$this->user_model->getUser();
+	$data['date_registration']=$this->user_model->getUser();
+	$data['phone']=$this->user_model->getUser();
 		/*$data['province']=$this->province_model->getProvince();
 		$data['districts']=$this->district_model->getDistricts();
     	$data['manucipalities']=$this->manucipality_model->getManucipalities();
@@ -480,181 +486,183 @@ public function editUser($id=0)
     	$data['door_numbers']=$this->address_model->getAddresses();*/
     	
     	$selDistrict = $this->getProvinceDistrict();
-		$data['province'] = $selDistrict['province'];
-		$data['districts']     = $selDistrict['district'];
-		$data['manucipalities']=$selDistrict['manucipality'];	
-		$data['towns']=$selDistrict['town'];	
-		$data['suburbs']=$selDistrict['suburb'];	
-		$data['address']=$selDistrict['address'];
+    	$data['province'] = $selDistrict['province'];
+    	$data['districts']     = $selDistrict['district'];
+    	$data['manucipalities']=$selDistrict['manucipality'];	
+    	$data['towns']=$selDistrict['town'];	
+    	$data['suburbs']=$selDistrict['suburb'];	
+    	$data['address']=$selDistrict['address'];
+    	
+
 
 
     	//$data['zip_code']=$this->zip_code_model->getZip_code();
 
-		$data['userInfo']= $this->user_model->getUser($search);
-		
-		foreach ($data['userInfo'] as $key => $value) {
-			$data['user_data']=$value;
-			
+    	$data['userInfo']= $this->user_model->getUser($search);
+    	
+    	foreach ($data['userInfo'] as $key => $value) {
+    		$data['user_data']=$value;
+    		
 
-}
-		
-		foreach ($data['userInfo'] as $value) {
+    	}
+    	
+    	foreach ($data['userInfo'] as $value) {
 
-			$data['userEdit'] = $value->user_id;
-			$data['emailEdit'] = $value->email;
-			$data['nameEdit'] = $value->name;
-			$data['identitynumberEdit'] = $value->identityNumber;
-			$data['dateofbirthEdit'] = $value->dateOfBirth;
-			$data['dateOfRegistrationEdit'] = $value->date_registration;
-			$data['phoneEdit'] = $value->phone;
-			$data['provinceEdit'] = $value->province;
-			$data['districtEdit'] = $value->district;
-			$data['manucipalityEdit'] = $value->manucipality;
-			$data['townEdit'] = $value->town;
-			$data['suburbEdit'] = $value->suburb;
-			$data['streetNameEdit'] = $value->street_name;
-			$data['doorNoEdit'] = $value->door_number;
+    		$data['userEdit'] = $value->user_id;
+    		$data['emailEdit'] = $value->email;
+    		$data['nameEdit'] = $value->name;
+    		$data['identitynumberEdit'] = $value->identityNumber;
+    		$data['dateofbirthEdit'] = $value->dateOfBirth;
+    		$data['dateOfRegistrationEdit'] = $value->date_registration;
+    		$data['phoneEdit'] = $value->phone;
+    		$data['provinceEdit'] = $value->province;
+    		$data['districtEdit'] = $value->district;
+    		$data['manucipalityEdit'] = $value->manucipality;
+    		$data['townEdit'] = $value->town;
+    		$data['suburbEdit'] = $value->suburb;
+    		$data['streetNameEdit'] = $value->street_name;
+    		$data['doorNoEdit'] = $value->door_number;
 			//$data['zip-codeEdit'] = $value->zip_code;
-			
-		}
+    		
+    	}
 		//from helper and library
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+    	$this->load->helper('form');
+    	$this->load->library('form_validation');
 
-		
-		
+    	
+    	
 
-		
+    	
 //Including validation library
-		
+    	
 
 
-		$config_validation = array(
-			array('field'=>'email',
-				'label'=>'email',
-				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkEmail'))),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
+    	$config_validation = array(
+    		array('field'=>'email',
+    			'label'=>'email',
+    			'rules'=>array('required','valid_email',
+    				array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+    			'errors'=>array(
+    				'required'=>'%s is required',
+    				'valid_email'=>'invalid email',
+    				'checkEmail'=>'%s does not exist, please enter the correct email'
 
-					) 					
-				),
+    				) 					
+    			),
 
-			array('field'=>'dateofbirth',
-				'label'=>'Date of Birth',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')						
-				),
+    		array('field'=>'dateofbirth',
+    			'label'=>'Date of Birth',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert %s for the user')						
+    			),
 
-				array('field'=>'date_registration',
-				'label'=>'Date of Registration',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')						
-				),
-				array('field'=>'name',
-				'label'=>'Full Name',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')						
-				),
-
-
-			array(
-				'field'=>'identitynumber',
-				'label'=>'Identity Number',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',
-					array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
-					),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',
-					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
-				
-				),
-			
-			
-
-			array(
-				'field'=>'phone',
-				'label'=>'Phone number',
-				'rules'=>array(
-					'required',
-					'exact_length[10]',						
-
-					'regex_match[/^[0-9]+$/]',
-					),
+    		array('field'=>'date_registration',
+    			'label'=>'Date of Registration',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert %s for the user')						
+    			),
+    		array('field'=>'name',
+    			'label'=>'Full Name',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert %s for the user')						
+    			),
 
 
+    		array(
+    			'field'=>'identitynumber',
+    			'label'=>'Identity Number',
+    			'rules'=>array(
+    				'required',
+    				'exact_length[13]',
+    				'numeric',
+    				array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+    				),
+    			'errors'=>array(
+    				'required'=>' %s is required',
+    				'exact_length'=>'the %s must have 13 numbers',
+    				'numeric'=>'the %s must have only numbers',
+    				'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+    			
+    			),
+    		
+    		
 
-				'errors'=>array('required'=>'you should insert one %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',									
-					)	 					
-				),
-			
-			array(
-				'field'=>'gender',
-				'label'=>'Gender',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert %s for the user')
-				),
-			array(
-				'field'=>'suburb',
-				'label'=>'Suburb',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user')
-				),
+    		array(
+    			'field'=>'phone',
+    			'label'=>'Phone number',
+    			'rules'=>array(
+    				'required',
+    				'exact_length[10]',						
 
-			array(
-				'field'=>'town',
-				'label'=>'town',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user')
-				),
-
-			array(
-				'field'=>'district',
-				'label'=>'District',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user'
-
-					)
-				),
-
-			array(
-				'field'=>'province',
-				'label'=>'Province',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user'
-
-					)
-				),
+    				'regex_match[/^[0-9]+$/]',
+    				),
 
 
 
-			array(
-				'field'=>'zip_code',
-				'label'=>'zip code',
-				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user')),
+    			'errors'=>array('required'=>'you should insert one %s ',
+    				'exact_length'=>'the %s must have at least length of 10 ',						
+    				'regex_match'=>'the %s must be numbers only',									
+    				)	 					
+    			),
+    		
+    		array(
+    			'field'=>'gender',
+    			'label'=>'Gender',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert %s for the user')
+    			),
+    		array(
+    			'field'=>'suburb',
+    			'label'=>'Suburb',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			),
+
+    		array(
+    			'field'=>'town',
+    			'label'=>'town',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			),
+
+    		array(
+    			'field'=>'district',
+    			'label'=>'District',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert one %s for the user'
+
+    				)
+    			),
+
+    		array(
+    			'field'=>'province',
+    			'label'=>'Province',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert one %s for the user'
+
+    				)
+    			),
 
 
 
-			array(
-				'field'=>'manucipality',
-				'label'=>'Manucipality',
-				'rules'=>'required',
-				'errors'=>array('required'=>'you should insert one %s for the user'
+    		array(
+    			'field'=>'zip_code',
+    			'label'=>'zip code',
+    			'rules'=>
+    			'required',	
+    			'errors'=>array('required'=>'you should insert %s for the user')),
 
-					)
-				)
-			);
+
+
+    		array(
+    			'field'=>'manucipality',
+    			'label'=>'Manucipality',
+    			'rules'=>'required',
+    			'errors'=>array('required'=>'you should insert one %s for the user'
+
+    				)
+    			)
+    		);
 
 
 
@@ -671,12 +679,12 @@ if($this->form_validation->run()===FALSE){
 
 }
 public function askdelete($id_remove=0)
-	{
-		
+{
+	
 
-		if($id_remove!=0 and is_numeric($id_remove))
-		{
-			$data['id_user']=$id_remove;
+	if($id_remove!=0 and is_numeric($id_remove))
+	{
+		$data['id_user']=$id_remove;
 			//$this->Vehicle_model->deleteVehicle($id_remove);
 		}/*else{
 			redirect("publiczone/fleet");
@@ -684,12 +692,12 @@ public function askdelete($id_remove=0)
 
 		$data['pageToLoad'] = 'eResidence/askdelete';
 		$data['pageActive']='eResidence';
-	     $this->load->helper('form');
+		$this->load->helper('form');
 		$this->load->library('form_validation');
 
 		//Launch the view to check delete
 		$this->load->view('ini',$data);
-	
+		
 	}
 	
 

@@ -104,7 +104,7 @@ class User_model extends CI_MODEL{
 			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
-			var_dump($data['date_registration']),
+			//var_dump($data['date_registration']),
 
 		    		//'minetype'=>$minetype
 			);

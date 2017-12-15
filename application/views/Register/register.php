@@ -229,48 +229,57 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 							<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 						</div>
 						<!-- suburb end-->
+
+						<!-- zip code start-->
 						<div class="form-group" id="zip_code_input" style="display:none">
-					       <label for="zip_code">Zip Code</label>
+							<label for="zip_code">Zip Code</label>
+							<select class="form-control" name="zip_code "id="zip_code "onchange="update_address()">
 
-
-					         <?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
-
-				        </div>
-						<!-- address start-->
-						<div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-							<label for="address">Street Address</label>
-
-							<select class="form-control" name="address" id="address">
 								<option  selected="true" disabled="disabled">Please select</option>
-
-
 							</select>
-							<?php 
-							echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
-
 						</div>
-						<!-- address end-->
 
+						<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 
-						<!-- door_number start-->			
-						<div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-							<label for="door_number">Door Number</label>
-
-							<input type="number" id="door" value="" name="door" min="1" max="1000">
-							<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
-
-						</div>
-						<!-- door_number end-->
-						<button class="btn btn-success btn-lg pull-right" type="submit" >Submit</button>
 					</div>
+					<!--zip code end-->
 
+
+					<!-- address start-->
+					<div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+						<label for="address">Street Address</label>
+
+						<select class="form-control" name="street_name" id="street_name" onchange="update_address()">
+							<option  selected="true" disabled="disabled">Please select</option>
+
+
+						</select>
+						<?php 
+						echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
+
+					</div>
+					<!-- address end-->
+
+
+					<!-- door_number start-->			
+					<div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
+						<label for="door_number">Door Number</label>
+
+						<input type="number" id="door" value="" name="door" min="1" max="1000">
+						<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
+
+					</div>
+					<!-- door_number end-->
+					<button class="btn btn-success btn-lg pull-right" type="submit" >Submit</button>
 				</div>
 
 			</div>
 
-		</form>
+		</div>
 
-	</div>
+	</form>
+
+</div>
 
 </div>
 
@@ -441,7 +450,7 @@ function update_manucipality(){
 	
 	
 //select box from the ditrict
-		let manucipality_id =$("#manucipality");
+let manucipality_id =$("#manucipality");
 		//province id from the select box of the provinces
 		let selected  		= $("#district").val();
 		
@@ -449,17 +458,17 @@ function update_manucipality(){
 	manucipality_id.empty();
 	//write new options
 	manucipality_id.append($('<option>', { 
-	value: 0,
-	text : "select manucipality" 
-}));
-$("#manucipality select option[value='0']").attr("disabled","disabled");
-$.each(manucipality[selected], function (i, item) {
-
-	manucipality_id.append($('<option>', { 
-		value: item.id,
-		text : item.name 
+		value: 0,
+		text : "select manucipality" 
 	}));
-});
+	$("#manucipality select option[value='0']").attr("disabled","disabled");
+	$.each(manucipality[selected], function (i, item) {
+
+		manucipality_id.append($('<option>', { 
+			value: item.id,
+			text : item.name 
+		}));
+	});
 //select the option of the edit mode
 if(id_manucipality){
 	$("#select_manucipality select").val(id_manucipality);
@@ -596,11 +605,11 @@ $.each(address[selected], function (i, item) {
 
 
 });
-if(id_suburb){
-		$("#select_address select").val(id_address);
-	}else{
-		$("#select_address select").val(0);
-	}
+if(id_address){
+	$("#select_address select").val(id_address);
+}else{
+	$("#select_address select").val(0);
+}
 	//dispaly the select box
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
