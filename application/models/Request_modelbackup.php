@@ -1,9 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
  
-class Request_model extends CI_MODEL{
+class Request_model extends CI_MODEL
+{
 var $file_uploadpath;
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 		$this->load->helper(array('file','form','url'));
@@ -12,11 +14,13 @@ var $file_uploadpath;
 		
 	}
 
-public function requestquery($search ){
+public function requestquery($search )
+{
 
 $user_id = $search['user_id'] ?? FALSE;
 
-if('$user_id'){
+if('$user_id')
+{
 		$this->db->where('user.id','100');
 	}
 return $this->db->select("user.id,user.name,role.role as role,
@@ -45,7 +49,8 @@ return $this->db->select("user.id,user.name,role.role as role,
 
 
 
-public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
@@ -57,7 +62,8 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function addIdUpload($data){
+public function addIdUpload($data)
+{
 $requests = array(
 		     		'original_name'=>$data['file_name'],
 		     		'file_path'=>$data['file_path'],
@@ -176,11 +182,13 @@ $this->upload->do_upload();
 $id_upload =$this->upload->data();
 
 }*/
-public function callback_checkFile($dir){
+public function callback_checkFile($dir)
+{
 $result = array(); 	
 
 $result = scandir($uploads_dir,1);
-foreach ($result as $file) {
+foreach ($result as $file) 
+{
      $files[$file] = filemtime($uploads_dir . '/' . $file);	
 }
 arsort($result);

@@ -1,14 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Request_model extends CI_MODEL{
+class Request_model extends CI_MODEL
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 	}
 
-public function booksquery($search){
+public function booksquery($search)
+{
 	return $this->db->select(", GROUP_CONCAT(aut.name) as author")
 	->from("user")
 	->join("","editor.id = books.id_editor")

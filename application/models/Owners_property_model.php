@@ -1,19 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
  
-class Owners_property_model extends CI_MODEL{
+class Owners_property_model extends CI_MODEL
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 		
 		
 	}
-public function requestquery($search ){
+public function requestquery($search )
+{
 
 $pOwner = $search['$pOwner'] ?? FALSE;
 
-if('$pOwner'){
+if('$pOwner')
+{
 		$this->db->where('owners_property.property_id',$pOwner );
 	}
 return $this->db
@@ -36,19 +40,23 @@ return $this->db
 	->order_by('user.id');
 
 }
-public function propertyquery($search ){
+public function propertyquery($search )
+{
 //var_dump($search);
 		$user_idprofile = $search['user_idprofile'] ?? FALSE; 
 		$user_id = $search['user_id'] ?? FALSE; 
 		$mysearch = $search['mysearch'] ?? FALSE; 
 
-		if($user_idprofile){
+		if($user_idprofile)
+		{
 			$this->db->where('lives_on.user_id',$user_idprofile); 
 		}
-		if($user_id){
+		if($user_id)
+		{
 			$this->db->where('lives_on.user_id',$user_id); 
 		}
-		if($mysearch && $user_id){
+		if($mysearch && $user_id)
+		{
 			$this->db->where('lives_on.user_id',$user_id)
 					->where('address.door_number',$mysearch); 
 		}
@@ -79,7 +87,8 @@ public function propertyquery($search ){
 		
 
 	}
-public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
@@ -91,7 +100,8 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;

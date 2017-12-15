@@ -14,7 +14,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 	<h1 ><?php echo $pageTitle;
 
-		if(isset($statusEdit)){
+		if(isset($statusEdit))
+		{
 			echo alertMsg($statusEdit,'User Added','User Not Added');
 		}
 		?></h1>
@@ -156,7 +157,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 								<?php 
 
-								foreach ($province as $province){?>
+								foreach ($province as $province)
+								{?>
 								<option <?php 
 								if(isset($user_id)  && $provinceEdit){
 
@@ -164,7 +166,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 
 								}else{
-									if(set_value('province')){
+									if(set_value('province'))
+									{
 										echo (set_value('province') == $province->id)? 'selected':'';
 									}
 
@@ -285,7 +288,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 
 <script type="text/javascript">
-	$(document).ready(function () {
+	$(document).ready(function ()
+	 {
 		var navListItems = $('div.setup-panel div a'),
 		allWells = $('.setup-content'),
 		allNextBtn = $('.nextBtn');
@@ -306,7 +310,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 			}
 		});
 
-		allNextBtn.click(function(){
+		allNextBtn.click(function()
+		{
 			var curStep = $(this).closest(".setup-content"),
 			curStepBtn = curStep.attr("id"),
 			nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
@@ -334,7 +339,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
      * checks if the input name has only letterrs
      * 
      */
-     $('#name').on('input',function(){
+     $('#name').on('input',function()
+     {
         //the input that called the function
         var input = $(this);
        //gets the value of the input
@@ -344,7 +350,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
        //check the parent of the input to change the class latter
        var parent = input.parent();
        //check if the input has only letters if has
-       if (regex.test(current_name)){
+       if (regex.test(current_name))
+       {
         //removes the class has errors from the input parent
         parent.removeClass('has-error'); 
          //adds the class has success to the input parent
@@ -363,7 +370,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 
  */
- $("#email").on('input',function () {
+ $("#email").on('input',function () 
+ {
         //the input that called the function
         var input =$(this);
        //the value of the email input
@@ -375,7 +383,8 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
        //check the parent of the input to change the class latter
        var parent = input.parent();
        //checks if the email corresponds with the regex and diferent of email_registed
-       if (regex.test(current_email) && ($.inArray(current_email, email_registed))!=0) {
+       if (regex.test(current_email) && ($.inArray(current_email, email_registed))!=0)
+        {
         //removes the class has errors from the input parent
         parent.removeClass('has-error');  
          //adds the class has success to the input parent
@@ -443,7 +452,8 @@ $( document ).ready(function() {
 
 
 /*get municipali by distric id*/	
-function update_manucipality(){
+function update_manucipality()
+{
 	//bring all the districts from php to javascript
 	let manucipality 		= <?php echo json_encode($manucipalities);?>;
 	let id_manucipality		= <?php echo $id_manucipality ? $id_manucipality : 'false' ?>; 
@@ -470,7 +480,8 @@ let manucipality_id =$("#manucipality");
 		}));
 	});
 //select the option of the edit mode
-if(id_manucipality){
+if(id_manucipality)
+{
 	$("#select_manucipality select").val(id_manucipality);
 }else{
 	$("#select_manucipality select").val(0);
@@ -485,7 +496,8 @@ $( document ).ready(function() {
 
 /**get town by municipality id**/
 
-function update_town(){
+function update_town()
+{
 	//bring all the districts from php to javascript
 	let town 		= <?php echo json_encode($towns);?>;
 	let id_town		= <?php echo $id_town ? $id_town : 'false'; ?>; 
@@ -499,7 +511,8 @@ let town_id =$("#town");
 	//clear prev options
 	town_id.empty();
 //write new options
-town_id.append($('<option>', { 
+town_id.append($('<option>', 
+{ 
 	value: 0,
 	text : "select town" 
 }));
@@ -526,7 +539,8 @@ $( document ).ready(function() {
 
 /**get town by municipality id**/
 
-function update_suburb(){
+function update_suburb()
+{
 	//bring all the districts from php to javascript
 	let suburb 		= <?php echo json_encode($suburbs);?>;
 	let id_suburb		= <?php echo $id_suburb ? $id_suburb : 'false'; ?>; 
@@ -572,12 +586,14 @@ $("#zip_code_input").attr('style','display:block');
 $("#select_suburb").attr('style','display:block');
 
 }
-$( document ).ready(function() {
+$( document ).ready(function() 
+{
 	update_suburb();
 });
 
 
-function update_address(){
+function update_address()
+{
 	//bring all the districts from php to javascript
 	let address 		= <?php echo json_encode($address);?>;
 	let id_address		= <?php echo $id_address ? $id_address : 'false'; ?>; 
@@ -591,7 +607,8 @@ let address_id =$("#address");
 	//clear prev options
 	address_id.empty();
 //write new options
-address_id.append($('<option>', { 
+address_id.append($('<option>', 
+{ 
 	value: 0,
 	text : "select address" 
 }));
@@ -605,7 +622,8 @@ $.each(address[selected], function (i, item) {
 
 
 });
-if(id_address){
+if(id_address)
+{
 	$("#select_address select").val(id_address);
 }else{
 	$("#select_address select").val(0);
@@ -614,7 +632,8 @@ if(id_address){
 	$("#select_address").attr('style','display:block');
 	$("#select_Number").attr('style','display:block');
 }
-$( document ).ready(function() {
+$( document ).ready(function()
+ {
 	update_address();
 });
 </script>
@@ -626,10 +645,12 @@ $( document ).ready(function() {
 	var password = document.getElementById("password")
 	, confirm = document.getElementById("confirm");
 
-	function validatePassword(){
+	function validatePassword()
+	{
 		if(password.value != confirm.value) {
 			confirm.setCustomValidity("Passwords Don't Match");
-		} else {
+		} else 
+		{
 			confirm.setCustomValidity('');
 		}
 	}

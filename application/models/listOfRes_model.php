@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class ListOfRes_model extends CI_MODEL{
+class ListOfRes_model extends CI_MODEL
+{
 
 
 	public function __construct()
@@ -44,7 +45,8 @@ return $this->db
 	->order_by('user.id');
 
 }
-public function addressquery($search ){
+public function addressquery($search )
+{
 
 
 
@@ -53,7 +55,8 @@ public function addressquery($search ){
 		
 
 
-		if($property_id){
+		if($property_id)
+		{
 			$this->db->where('property.id',$property_id);
 		}	
 		
@@ -78,7 +81,8 @@ public function addressquery($search ){
 
 	}
 
-public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
@@ -90,7 +94,8 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
 			//get data from bd
 	return $this->db->get()->result();
 }
-public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;

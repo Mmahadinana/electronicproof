@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Passwords extends CI_Controller {
+class Passwords extends CI_Controller 
+{
 	
 	
 	public function __construct()
@@ -37,12 +38,16 @@ class Passwords extends CI_Controller {
 	/*******************************this function checks the email for reset*******************************/
 	public function reset()
 	{
-		if(null!=$this->input->get('statusUsername')){
+		if(null!=$this->input->get('statusUsername'))
+		{
 			$data['statusUsername']= $this->input->get('statusUsername');
 		}
-		if(null!=$this->input->get('statusToken')){
+		if(null!=$this->input->get('statusToken'))
+		{
 			$data['statusToken']= $this->input->get('statusToken');
-		}if(null!=$this->input->get('statusDate')){
+		}
+		if(null!=$this->input->get('statusDate'))
+		{
 			$data['statusDate']= $this->input->get('statusDate');
 		}
 		$data['pageToLoad']='login/reset';
@@ -60,14 +65,16 @@ class Passwords extends CI_Controller {
 					'valid_email'=>'invalid email',
 					'checkEmail'=>'%s does not exist, please enter the correct email'
 
-				) 					
+			) 					
 			),				
 		);
 		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE) {
+		if ($this->form_validation->run()===FALSE)
+		 {
 
 			$this->load->view('ini',$data);
-		}else{
+		}else
+		{
 
 			$data['db']=$this->login_model->get_user($this->input->post('username'));
 			
@@ -121,18 +128,21 @@ class Passwords extends CI_Controller {
 		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
 		
 	
-		if ($data['db'] == null ) {
+		if ($data['db'] == null ) 
+		{
 
 		$statusUsername=false;
 			redirect('passwords/reset?statusUsername=$statusUsername');			
 			
 		}
-		if ($mailtoken != $data['db']->emailtoken && $user_id != $data['db']->user_id) {
+		if ($mailtoken != $data['db']->emailtoken && $user_id != $data['db']->user_id) 
+		{
 			$statusToken=true;
 				redirect('passwords/reset?statusToken=$statusToken');
 				
 		}
-		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) {
+		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) 
+		{
 			$statusDate=true;
 			redirect('passwords/reset?statusDate=$statusDate');
 		}
@@ -173,11 +183,13 @@ class Passwords extends CI_Controller {
 			
 		);
 			$this->form_validation->set_rules($config_validation);
-		if($this->form_validation->run()===FALSE){
+		if($this->form_validation->run()===FALSE)
+		{
 
 			$this->load->view('ini',$data);
 
-		}else
+		}
+		else
 		{
 			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
 

@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Messages_model extends CI_MODEL{
+class Messages_model extends CI_MODEL
+{
 
 
 		public function __construct(){

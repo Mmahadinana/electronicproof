@@ -1,13 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class OwnersDetails_model extends CI_MODEL{
+class OwnersDetails_model extends CI_MODEL
+{
 
 	public function __construct(){
 		parent::__construct();
 		$this->load->database();
 	}
-	public function userQuery($searchterm){
+	public function userQuery($searchterm)
+	{
 		
 
 		$user_id = $searchterm['user_id'] ?? FALSE;
@@ -46,7 +48,8 @@ class OwnersDetails_model extends CI_MODEL{
 		->order_by('user.id');
 	}
 
-	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE){
+	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $searchterm['page'] ?? 0;
@@ -59,7 +62,8 @@ class OwnersDetails_model extends CI_MODEL{
 		return $this->db->get()->result() ;
 	}
 
-	public function addUser($data){
+	public function addUser($data)
+	{
 		
 
 		$add = array(
@@ -82,7 +86,8 @@ class OwnersDetails_model extends CI_MODEL{
 		
 		
 	}
-	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;

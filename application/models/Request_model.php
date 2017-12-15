@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Request_model extends CI_MODEL{
+class Request_model extends CI_MODEL
+{
 	var $file_uploadpath;
 	public function __construct(){
 		parent::__construct();
@@ -12,7 +13,8 @@ class Request_model extends CI_MODEL{
 		
 	}
 	/**************This query get user address through the lives_on table***************/
-	public function requestquery($search ){
+	public function requestquery($search )
+	{
 
 		$property_id = $search['property_id'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
@@ -21,7 +23,8 @@ class Request_model extends CI_MODEL{
 			$this->db->where('user.id',$user_id); 
 		}*/
 
-		if($property_id && $user_id){
+		if($property_id && $user_id)
+		{
 			$this->db->where('lives_on.property_id',$property_id)
 			->where('user.id',$user_id); 
 		}
@@ -54,16 +57,19 @@ class Request_model extends CI_MODEL{
 
 	}
 	/**************This query get user address through the owners table to get the owner***************/
-	public function ownerquery($search ){
+	public function ownerquery($search )
+	{
 
 		$property_id = $search['property_id'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		
 
-		if($property_id){
+		if($property_id)
+		{
 			$this->db->where('property.id',$property_id); 
 		}
-		if($user_id){
+		if($user_id)
+		{
 			$this->db->where('owners.user_id',$user_id); 
 		}
 
@@ -99,7 +105,8 @@ class Request_model extends CI_MODEL{
 		->order_by('user.id');
 
 	}
-	public function userquery($search ){
+	public function userquery($search )
+	{
 
 		$user_idprofile = $search['user_idprofile'] ?? FALSE;
 		
@@ -122,7 +129,8 @@ class Request_model extends CI_MODEL{
 
 	}
 	/********this function returs the query that will list all the residents who needs to be approved*********/
-	public function getListToComfirmQuery($search ){
+	public function getListToComfirmQuery($search )
+	{
 
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
@@ -130,14 +138,17 @@ class Request_model extends CI_MODEL{
 			
 		
 
-		if($user_id){
+		if($user_id)
+		{
 			$this->db->where('request_docs.user_id',$user_id); 
 		}
-		if($request_id){
+		if($request_id)
+		{
 			$this->db->where('request_docs.id',$request_id); 
 		}
 
-		if($owner_confirmation_states){
+		if($owner_confirmation_states)
+		{
 			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
 		}
 		return	$this->db->select("user.name,
@@ -165,7 +176,8 @@ class Request_model extends CI_MODEL{
 
 	/***********************function get the address of the residents from the database**************************/
 
-	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
@@ -177,7 +189,8 @@ class Request_model extends CI_MODEL{
 			//get data from bd
 		return $this->db->get()->result();
 	}
-	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
@@ -194,7 +207,8 @@ class Request_model extends CI_MODEL{
 
 	/***********************function get the onwner of the residents from the database**************************/
 
-	public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
@@ -208,7 +222,8 @@ class Request_model extends CI_MODEL{
 	}
 
 	/***********************function to insert the files into data**************************/
-	public function insertFileData($data =array(),$minetype=''){
+	public function insertFileData($data =array(),$minetype='')
+	{
 
 		$requests = array(
 			'original_name'=>$data['file_name'],
@@ -227,7 +242,8 @@ class Request_model extends CI_MODEL{
 
 	}
 	/***********************function to insert the files into data**************************/
-	public function cancelRequest($request_id=0){
+	public function cancelRequest($request_id=0)
+	{
 		$this->db->trans_start();
 				$this->db->delete("request_docs",array('id'=>$request_id));
 
@@ -254,10 +270,13 @@ class Request_model extends CI_MODEL{
 
 		     }*/
 		     /***********************function to insert the multiple files into data**************************/
-		     public function insertMultipleFileData($data=array()){
+		     public function insertMultipleFileData($data=array())
+		     {
 
-		     	foreach ($data as $value) {
-		     		foreach ($value as $file) {
+		     	foreach ($data as $value) 
+		     	{
+		     		foreach ($value as $file) 
+		     		{
 
 		     		}
 		     		$minetype='PD';
@@ -273,7 +292,8 @@ class Request_model extends CI_MODEL{
 
 
 }
-public function insertRequest($user_id=0,$owner_id=0,$property_id=0){
+public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
+{
 	$requestdata = array(
 		'property_id'=>$property_id,
 		'user_id'=>$user_id,
@@ -287,7 +307,8 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0){
 
 /***********************function get the address of the residents from the database**************************/
 
-public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;

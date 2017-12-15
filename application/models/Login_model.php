@@ -1,9 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login_model extends CI_MODEL{
+class Login_model extends CI_MODEL
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 		$this->load->library('session');
@@ -16,7 +18,8 @@ class Login_model extends CI_MODEL{
 
 		$username = $search['username'] ?? FALSE;
 
-		if('$username'){
+		if('$username')
+		{
 			$this->db->where('user.email','$username');
 		}						
 		return $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,role.id as roleid,role.role,login.id as loginid,login.password,
@@ -50,7 +53,8 @@ class Login_model extends CI_MODEL{
 		$rememberme = 'rememberme';
 		
 
-		if (empty($username) || empty($password)) {
+		if (empty($username) || empty($password))
+		 {
 			//no values go out
 			return false;
 		}
@@ -59,7 +63,8 @@ class Login_model extends CI_MODEL{
 
 
 //lets you varify the password
-		if(!empty($hash) && password_verify($password,$hash)){
+		if(!empty($hash) && password_verify($password,$hash))
+		{
 	//valid
 
 			$this->startUserSession($username);
@@ -76,7 +81,8 @@ class Login_model extends CI_MODEL{
  * @param  [type] $username [description]
  * @return [type]           [description]
  */
-public function getPasswordHashFromUser($username){
+public function getPasswordHashFromUser($username)
+{
 
 
 	//bring the data from the user to the database
@@ -97,7 +103,8 @@ public function getPasswordHashFromUser($username){
  * @return [type]           [description]
  */
 //checks if the hash exists and if the hash matches with the password using the function password_varify
-public function startUserSession($username){
+public function startUserSession($username)
+{
 	
 
 	//build the session temporary cache by the username 
@@ -107,13 +114,15 @@ public function startUserSession($username){
 		$expireDate= strtotime($session_data['expireTime']);
 		$compare_Date= strtotime(date('Y-m-d H:i:s'));
 
-		if($expireDate-($compare_Date) < 0){
+		if($expireDate-($compare_Date) < 0)
+		{
 
 			$backpass=$this->input->post('password');
 
 			redirect('login/changepass/');
 
-		}else {
+		}
+		else {
 			$session_data['is_logged_in'] = true;
 
 			$this->session->set_userdata($session_data);
@@ -125,7 +134,8 @@ public function startUserSession($username){
  * @param  [type] $username [description]
  * @return [user data]           [description]
  */
-public function get_user($username){	
+public function get_user($username)
+{	
 
 	//return the username
 	$user_data = $this->db->select("user.name,user.id,user.email,user.phone,user.identitynumber,

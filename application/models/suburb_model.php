@@ -1,9 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Suburb_model extends CI_MODEL{
+class Suburb_model extends CI_MODEL
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 	}

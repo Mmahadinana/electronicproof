@@ -1,14 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class OwnersProperty_model extends CI_MODEL{
+class OwnersProperty_model extends CI_MODEL
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->database();
 	}
 
-	public function propertyquery($search ){
+	public function propertyquery($search )
+	{
 
 		$user_addinfor = $search['user_idprofile'] ?? FALSE;
 		$name=	$search['name'] ?? FALSE;
@@ -19,36 +22,43 @@ class OwnersProperty_model extends CI_MODEL{
 		$province=	$search['province'] ?? FALSE;
 
 
-		if($user_addinfor){
+		if($user_addinfor)
+		{
 			$this->db->where('owners.user_id',$user_addinfor);
 		}
 
 		
-		if ($name)  {
+		if ($name)  
+		{
 			$where='(user.name LIKE "%'.$name.'%")';
 			$this->db->where($where);
 
 		}
-		if($property_id){
+		if($property_id)
+		{
 			$this->db->where('property.id',$property_id);
 		}	
-		if ($town)  {
+		if ($town) 
+		 {
 			$where='(town.name LIKE "%'.$town.'%")';
 			$this->db->where($where);
 
 		}
 
-		if ($municipality)  {
+		if ($municipality)  
+		{
 			$where='(manucipality.name LIKE "%'.$municipality.'%")';
 			$this->db->where($where);
 
 		}
-		if ($district)  {
+		if ($district)  
+		{
 			$where='(district.name LIKE "%'.$district.'%")';
 			$this->db->where($where);
 
 		}
-		if ($province)  {
+		if ($province)  
+		{
 			$where='(province.name LIKE "%'.$province.'%")';
 			$this->db->where($where);
 
@@ -81,14 +91,16 @@ class OwnersProperty_model extends CI_MODEL{
 		->group_by("property.id")	
 		->order_by("property.id");	
 
-	}public function addressquery($search ){
+	}public function addressquery($search )
+	{
 
 		$property_id=	$search['property_id'] ?? FALSE;
 	
 		
 
 
-		if($property_id){
+		if($property_id)
+		{
 			$this->db->where('property.id',$property_id);
 		}	
 		
@@ -115,7 +127,8 @@ class OwnersProperty_model extends CI_MODEL{
 
 
 
-	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page']??0;
@@ -128,7 +141,8 @@ class OwnersProperty_model extends CI_MODEL{
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
-	public function getProperty_Address(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getProperty_Address(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 		$offset = $search['page']??0;
@@ -143,13 +157,15 @@ class OwnersProperty_model extends CI_MODEL{
 	}
 	
 	
-	public function countProperties(array $search=array()){
+	public function countProperties(array $search=array())
+	{
 		$this->propertyquery($search);
 
 		return $this->db->count_all_results();
 	}
 
-	public function addAddress($data){
+	public function addAddress($data)
+	{
 	//var_dump($minetype);
 		$address = array(
 			'owners_id'=>$data['owners_id'],
@@ -166,7 +182,8 @@ class OwnersProperty_model extends CI_MODEL{
 
 
 
-	public function addUser($data){
+	public function addUser($data)
+	{
 		
 
 		$add = array(

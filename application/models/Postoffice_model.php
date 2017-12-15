@@ -5,13 +5,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
 * Model to manage the email messages to send
 */
-class Postoffice_model extends CI_Model {
+class Postoffice_model extends CI_Model
+ {
 
 	private $template;
 	private $email_body;
 
 
-	public function __constructor(){
+	public function __constructor()
+	{
 		parent::__constructor();
 	}
 
@@ -20,7 +22,8 @@ class Postoffice_model extends CI_Model {
 	 *
 	 * @param      string  $template  The template
 	 */
-	public function setTemplate(string $template){
+	public function setTemplate(string $template)
+	{
 		$this->template = $template;
 	}
 
@@ -29,10 +32,12 @@ class Postoffice_model extends CI_Model {
 *
 * @param      array  $data   The data
 */
-public function setDataToTemplate(array $data){
+public function setDataToTemplate(array $data)
+{
 
 	$aux = $this->template;
-	foreach ($data as $key => $value) {
+	foreach ($data as $key => $value) 
+	{
 		$aux = str_replace("{".$key."}",$value, $aux);
 	}
 	$this->email_body = $aux;
@@ -46,7 +51,8 @@ public function setDataToTemplate(array $data){
  *
  * @return     <type>  ( description_of_the_return_value )
  */
-public function sendEmail(string $subject,string $email_to){
+public function sendEmail(string $subject,string $email_to)
+{
 
 	$email_from = $this->config->item('email_from');
 

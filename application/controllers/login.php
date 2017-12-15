@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends CI_Controller {
+class Login extends CI_Controller 
+{
 	public function __construct()
 	{
 		parent::__construct();  
@@ -27,13 +28,17 @@ class Login extends CI_Controller {
 	public function login_()
 	{
 		
-		if(null!=$this->input->get('statusResetPass')){
+		if(null!=$this->input->get('statusResetPass'))
+		{
 			$data['statusResetPass']= $this->input->get('statusResetPass');
 		}
 		//save the first referrrer to this page
-	    if (NULL == $this->input->get('frompage')) {
+	    if (NULL == $this->input->get('frompage')) 
+	    {
 	    $data['referrer'] =$this->input->post('referrer') ?? $this->agent->referrer();
-	    }else{
+	    }
+	    else
+	    {
 	     $data['referrer'] =base_url('residents/eresidence');
 	    }
 

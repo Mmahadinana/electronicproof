@@ -12,11 +12,13 @@ class Approval_model extends CI_MODEL{
 		$this->load->database();
 	}
 
-public function approvalquery($search ){
+public function approvalquery($search )
+{
 
 $user_id = $search['user_id'] ?? FALSE;
 
-if($user_id){
+if($user_id)
+{
 		$this->db->where('user.id',$user_id);
 	}
 return $this->db
