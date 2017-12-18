@@ -147,7 +147,7 @@ class Residents extends CI_Controller {
 		$search=array();
 		$search['user_id']=$user_id;
 		$data['getListToComfirm']=$this->request_model->getListToConfirm($search);
-//var_dump($data['getListToComfirm']);
+
 		$data['pageToLoad']='eresidence/viewRequestMade';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -194,8 +194,7 @@ class Residents extends CI_Controller {
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 
 			$data['db']= $this->request_model->getOwner($search);
-		//$data['bd']=$this->request_model->getAddress();
-		//var_dump($data['db']);
+
 			$data['pageToLoad']='eresidence/request';
 			$data['pageActive']='eresidence';
 
@@ -413,7 +412,7 @@ class Residents extends CI_Controller {
 		foreach($user_addinfor as $userdata)
 		{
 			$search['property_id']=$userdata->property;
-			//var_dump($userdata);
+			
 		}
 		
 		$data['residentInfor']=$user_addinfor;
@@ -443,7 +442,7 @@ class Residents extends CI_Controller {
 		$data['user_addinfor']= $this->request_model->getUser($search);
 		$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
 		$data['add_addinfor']= $this->owners_property_model->getProperty($search);
-		//var_dump($data['property_addinfor']);
+
 		$data['pageToLoad']='userprofile/userprofile';
 		$data['pageActive']='userprofile';
 		
@@ -472,7 +471,7 @@ class Residents extends CI_Controller {
 
 
 		$data['user_addinfor']= $this->request_model->getAddress($search);
-		//var_dump($search['user_addinfor']);
+
 
 		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/waitingForApproval';
@@ -567,15 +566,69 @@ class Residents extends CI_Controller {
 		}
 
 	}
-	public function confirmList()
-	{
-		$search=array();
-		$search['user_id']=$_SESSION['id'];
-		//$search['property_id']=$this->input->post('property_id');
 
-		//var_dump($search['property_id']);
-		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
-		$data['owner']=$this->request_model->getOwner($search);
+	public function getOwnerOfProperty($user_id){
+		
+		$search=array();
+		$confirmlist=array();
+		$search['user_id']=$user_id;
+
+		
+		
+		return $data['owner']=$this->request_model->getOwner($search);
+
+	}
+	public function confirmList() 
+	{
+		$search=array();		
+		$requestPropertyID=array();		
+		//$data['getOwnerListToComfirm']=array();		
+		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+		
+		//$count=count($data['owner']);
+		$data['getListToComfirm']=$this->request_model->getListToComfirm();
+		/*foreach ($data['owner'] as $owner) {
+		
+			foreach ($data['getListToComfirm'] as $confirm) {
+				if ($confirm->property_id==$owner->property) {
+					
+					$requestPropertyID[$confirm->property_id]=$confirm->property_id;
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm($requestPropertyID);
+				}					
+			}		
+
+			//$ownerPropertyID[$owner->property]=$owner->property;
+
+		}
+		var_dump($requestPropertyID);*/		
+		
+		
+		
+		/*foreach ($data['getListToComfirm'] as $confirm) {
+			$requestPropertyID[$confirm->property_id]=$confirm->property_id;
+		}
+		if (expr) {
+			
+		}*/
+		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+
+	}
+	public function listOfApproval() 
+	{
+		$search=array();		
+		
+		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+		
+		foreach ($data['owner'] as $owner) {
+			$search['property']=$owner->property;			
+		}		
+		
+		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
 
 		$data['pageToLoad']='eresidence/confirmList';
 		$data['pageActive']='eresidence';
@@ -586,13 +639,14 @@ class Residents extends CI_Controller {
 
 	}
 	
-public function OwnersDetails()
-	{ 
-		$search=array();
-		$properties=array();
-		$search['user_id']= $_SESSION['id'];
 
-		//$search[23]= $this->input->get('user_id') ?? '0';
+	public function OwnersDetails($property_id = 0)
+	{
+		$search=array();
+		$search['property_id']=$property_id;
+		$search['property_id1']=$property_id;
+		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+
 
 
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);

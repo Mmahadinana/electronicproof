@@ -11,10 +11,17 @@ class OwnersDetails_model extends CI_MODEL
 	public function userQuery($searchterm)
 	{
 		
-
+		$property_id = $searchterm['property'] ?? FALSE;
 		$user_id = $searchterm['user_id'] ?? FALSE;
 //var_dump($user_id);
-		if('$user_id')
+		if($property_id)
+		{
+			$this->db->where('owners_property.property_id',$property_id);
+
+		}	
+
+//var_dump($user_id);
+		if($user_id)
 		{
 			$this->db->where('town.manucipality_id',$user_id);
 
@@ -86,9 +93,10 @@ class OwnersDetails_model extends CI_MODEL
 		
 		
 	}
-	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE)
-	{
-//public function getAddress(){
+
+	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
+
+
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
