@@ -66,7 +66,7 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="password">Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="text" class="form-control" name="password"  onblur="validatePassword()"   id="password" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+								<input type="text" class="form-control" name="password"   id="password" placeholder="Password" onblur="validatePassword" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 							</div>
 							<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
@@ -74,11 +74,11 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="confirm">Confirm Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-								<input type="text" class="form-control" name="confirm"   onblur="validatePassword()"  id="confirm" placeholder="Confirm Password" required>
+								<input type="text" class="form-control" name="confirm" onblur="validatePassword"  id="confirm" placeholder="Confirm Password" required>
 							</div>
 							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 						</div>
-						<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" type="submit" >Next</button>
+						<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" onclick="validatePassword" type="submit" >Next</button>
 					</div>
 				</div>
 			</div>

@@ -19,12 +19,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="row tablereq">
       <div class="col-md-10">
         <table class="table text-left romtbl_borders">
-   <table class="table text-left romtbl_borders">
+         <table class="table text-left romtbl_borders">
 
           <tbody>
             <tr>
               <td>Date</td>
-              <td>2017/11/02</td>
+           <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
             </tr>
             <tr>

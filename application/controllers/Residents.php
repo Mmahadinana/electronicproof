@@ -586,80 +586,27 @@ class Residents extends CI_Controller {
 
 	}
 	
-public function OwnersDetails($property_id = 0)
-{
-	$search=array();
-    $search['property_id']=$property_id;
-	$search['property_id1']=$property_id;
-	$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+public function OwnersDetails()
+	{ 
+		$search=array();
+		$properties=array();
+		$search['user_id']= $_SESSION['id'];
 
-	//var_dump($data['user_addinfor']);
+		//$search[23]= $this->input->get('user_id') ?? '0';
 
+
+		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+		$data['add_addinfor']= $this->owners_property_model->getProperty($search);
+		//var_dump($data['property_addinfor']);
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';
+		
+// loading the form and files for file uoload		
+		$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+		$this->load->library('form_validation');		
 
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
-		$config_validation=array(
-			array('field'=>'name',
-				'label'=>'name',
-				'rules'=>array('required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]'),
-
-
-				'errors'=>array('required'=>'you should insert a %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',					
-			)	 					
-			),		
-			array(
-				'field'=>'address',
-				'label'=>'address.',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',				
-				),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',)
-
-			),
-
-			array('field'=>'date',
-				'label'=>'date',
-				'rules'=>array('required','valid_email'),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-			) 					
-			),
-			array('field'=>'edit',
-				'label'=>'edit',
-				'rules'=>array('required','valid_email'),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-			) 					
-			),			
-		);		
-
-
-
-		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE)
-		{
-
-			$this->load->view('ini',$data);
-		}else{
-
-
-		}
+		$this->load->view('ini',$data);
 
 	}
 	

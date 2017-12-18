@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1>Owner's Details</h1>
 
   <?php
-
+//var_dump($user_addinfor);
 //echo $_SESSION['id'];
   $action="residents/details/";
 
@@ -19,58 +19,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="col-md-10">
       <table class="table text-left romtbl_borders">
 
-        <tbody>
-          <tr>
-            <td>Date</td>
-           <td class="text-primary"><?php  echo date('Y / m / d')?></td>
-
-          </tr>
-          <tr>
-            <td>Resident Full Names</td>
-            <td>
-              <?php    
-
-              foreach ($user_addinfor as $key ) {
-                echo $key->name;
-                ?>
-                
-
-              </td>
-            </tr>
+       
+          <tbody>
             <tr>
-              <td rowspan="7">Address</td>               
-              <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
-            </tr>
-
-
-            <tr>
-              <td><?php  echo $key->street_name?></td>
-
-            </tr> 
-            <tr>
-              <td><?php  echo $key->town?></td>
+              <td>Date</td>
+              <td class="text-primary"><?php  echo date('Y / m / d')?></td>
 
             </tr>
             <tr>
-              <td><?php  echo $key->zip_code?></td>
+              <td>Resident Full Names</td>
+              <td class="text-danger">
+                <?php    
+                 foreach ($user_addinfor as $key ) {
+                  echo $key->name;
 
-            </tr>
-            <tr>
-              <td><?php  echo $key->manucipality?></td>
+                  ?>
 
-            </tr>
-            <tr>
-              <td><?php  echo $key->district?></td>
+                </td>
+              </tr>
+              <tr>
+                <td >Email</td>               
+                <td class="text-danger"><?php  echo $key->email ?></td>      
+              </tr>
 
-            </tr>
-            <tr>
-              <td><?php  echo $key->province?></td>            
-              </tr><?php
-            }
-            ?>
-            
-          </tbody>
+
+              <tr>
+                <td >Identification Number</td>
+                <td class="text-danger"><?php  echo $key->identityNumber?></td>
+
+              </tr> 
+              <tr>
+                <td >Phone Numbers</td>
+                <td class="text-danger"><?php  echo $key->phone?></td>
+
+              </tr>
+              <tr>
+                <td >Date of Birth</td>
+                <td class="text-danger"><?php  echo $key->dateOfBirth?></td>
+
+              </tr>            
+              <tr>
+                <td >Date of Registration</td>
+                <td class="text-danger"><?php  echo $key->date_registration?></td>
+
+              </tr>
+              <!--tr>
+                <td >Gender</td>
+                <td class="text-danger"><?php  echo ($key->gender==0) ? "Male" : "Female"?></td>            
+                </tr--><?php
+              }
+              ?>
+
+            </tbody>
         </table>
+         <div class="col-lg-3">
+          <button class="btn btn-lg btn-primary form-control" name="approve"  type="submit">Confirm</button>     
+        </div>
+
+        <div class="col-lg-3">
+          <a class="btn btn-lg btn-warning form-control" type="text">Edit</a>
+        </div>
       </div>
     </div>
     </div>
