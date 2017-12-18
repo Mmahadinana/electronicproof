@@ -55,9 +55,10 @@ class Request_model extends CI_MODEL{
 	}
 	/**************This query get user address through the owners table to get the owner***************/
 	public function ownerquery($search ){
-
+//var_dump($search['user_id']);
 		$property_id = $search['property_id'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
+		//$userid = $search['userid'] ?? FALSE;
 		
 
 		if($property_id){
@@ -66,6 +67,9 @@ class Request_model extends CI_MODEL{
 		if($user_id){
 			$this->db->where('owners.user_id',$user_id); 
 		}
+		/*if($userid){
+			$this->db->where('owners_property.owners_id',$userid); 
+		}*/
 
 
 		
@@ -95,8 +99,8 @@ class Request_model extends CI_MODEL{
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
 
-		->group_by('user.id')
-		->order_by('user.id');
+		->group_by('owners_property.id')
+		->order_by('owners_property.id');
 
 	}
 	public function userquery($search ){
@@ -127,11 +131,19 @@ class Request_model extends CI_MODEL{
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$request_id = $search['request_id'] ?? FALSE;
+		$property = $search['property'] ?? FALSE;
+		$property_id = $search['property_id'] ?? FALSE;
 			
 		
 
 		if($user_id){
 			$this->db->where('request_docs.user_id',$user_id); 
+		}
+		if($property){
+			$this->db->where('request_docs.property_id',$property); 
+		}
+		if($property_id){
+			$this->db->where('request_docs.property_id',$property_id); 
 		}
 		if($request_id){
 			$this->db->where('request_docs.id',$request_id); 
@@ -158,8 +170,8 @@ class Request_model extends CI_MODEL{
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
 
-		->group_by('request_docs.user_id')
-		->order_by('user.name');
+		->group_by('request_docs.id')
+		->order_by('user.id');
 
 	}
 
@@ -288,7 +300,7 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0){
 /***********************function get the address of the residents from the database**************************/
 
 public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE){
-//public function getAddress(){
+
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
@@ -300,7 +312,19 @@ public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_
 			//get data from bd
 	return $this->db->get()->result();
 }
+public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->getListToComfirmQuery($search)			
+
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+	->limit($limit,$offset);
+			//get data from bd
+	return $this->db->get()->result();
+}
 
 
 }

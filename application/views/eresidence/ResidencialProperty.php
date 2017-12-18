@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	$action="residents/ResidencialProperty/";
 
-	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+	echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'GET'));?>
 	
 	<div class="row tablereq">
 		<div class="col-lg-7 ">
