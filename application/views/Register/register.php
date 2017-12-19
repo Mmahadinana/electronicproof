@@ -8,6 +8,7 @@ $id_town		= $user_data->town_id 		?? $this->input->post('town') 		?? false;
 
 $id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
 $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
+$streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? false;
 
 ?>
 <div class="container form-area">
@@ -225,7 +226,7 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 							<label for="suburb">Suburb</label>
 							<select class="form-control" name="suburb" id="suburb" onchange="update_address()">
-								<option  selected="true" disabled="disabled">Please select</option>
+								<!--option  selected="true" disabled="disabled">Please select</option-->
 
 
 							</select>
@@ -235,11 +236,11 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 						<!-- zip code start-->
 						<div class="form-group" id="zip_code_input" style="display:none">
-							<label for="zip_code">Zip Code</label>
-							<select class="form-control" name="zip_code "id="zip_code "onchange="update_address()">
+							<!--label for="zip_code">Zip Code</label>
+								<select class="form-control" name="zip_code" id="zip_code" onchange="update_address()">
 
 								<option  selected="true" disabled="disabled">Please select</option>
-							</select>
+							</select-->
 						</div>
 
 						<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
@@ -249,10 +250,11 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 
 
 					<!-- address start-->
+					<!--div class="form-group" id="select_address" <?php //echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>-->
 					<div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-						<label for="address">Street Address</label>
+						<label for="street_name">Street Address</label>
 
-						<select class="form-control" name="street_name" id="street_name" onchange="update_address()">
+						<select class="form-control" name="street_name" id="street_name">
 							<option  selected="true" disabled="disabled">Please select</option>
 
 
@@ -268,7 +270,7 @@ $id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
 					<div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
 						<label for="door_number">Door Number</label>
 
-						<input type="number" id="door" value="" name="door" min="1" max="1000">
+						<input type="number" id="door" value="<?php echo isset($user_id)? $doorNoEdit: set_value('door')?>" name="door" min="1" max="1000">
 						<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
 
 					</div>
@@ -597,10 +599,9 @@ function update_address()
 	//bring all the districts from php to javascript
 	let address 		= <?php echo json_encode($address);?>;
 	let id_address		= <?php echo $id_address ? $id_address : 'false'; ?>; 
-	console.log(id_address);
-	
+
 //select box from the ditrict
-let address_id =$("#address");
+let address_id =$("#street_name");
 		//province id from the select box of the provinces
 		let selected  		= $("#suburb").val();
 
@@ -610,22 +611,24 @@ let address_id =$("#address");
 address_id.append($('<option>', 
 { 
 	value: 0,
-	text : "select address" 
+	text : "select street_name" 
 }));
-$("#address select option[value='0']").attr("disabled","disabled");
+console.log(address);
+$("#street_name select option[value='0']").attr("disabled","disabled");
 $.each(address[selected], function (i, item) {
 	address_id.append($('<option>', { 
 		value: item.id,
 		text : item.street_name 
-
 	}));
 
 
 });
 if(id_address)
-{
+{	
 	$("#select_address select").val(id_address);
-}else{
+}
+else{
+	
 	$("#select_address select").val(0);
 }
 	//dispaly the select box
@@ -636,7 +639,13 @@ $( document ).ready(function()
  {
 	update_address();
 });
+
+
 </script>
+
+
+
+
 
 
 <!-- validatin for password-->
