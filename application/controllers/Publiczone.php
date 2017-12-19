@@ -370,14 +370,14 @@ class Publiczone extends CI_Controller
 
 					)
 				),array(
-	'field'=>'manucipality',
-	'label'=>'manucipality',
-	'rules'=>'required',
-	'errors'=>array
-	('required'=>'you should insert one %s for the user'
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array
+				('required'=>'you should insert one %s for the user'
 
-		)
-	)
+					)
+				)
 			/*array(
 				'field'=>'zip_code',
 				'label'=>'Zip Code',

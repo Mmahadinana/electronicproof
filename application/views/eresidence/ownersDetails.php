@@ -63,6 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td class="text-danger"><?php  echo $key->date_registration?></td>
 
               </tr>
+              
               <!--tr>
                 <td >Gender</td>
                 <td class="text-danger"><?php  echo ($key->gender==0) ? "Male" : "Female"?></td>            
