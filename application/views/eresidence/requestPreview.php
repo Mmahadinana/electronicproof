@@ -105,11 +105,15 @@ foreach ($residentInfor as $key ){
 <div class="form-group">
 
   <div class="col-lg-4 col-md-12  ">
-
-   <a href="<?php echo base_url('residents/confirmRequestInsert/'.$userid.'/'.$owner_id.'/'.$property_id) ?>" class="btn btn-lg btn-primary ">CONFIRM</a>
+<input type="hidden" name='user_id' value="<?php echo $userid ?>" >
+<input type="hidden" name='owner_id' value="<?php echo $owner_id ?>" >
+<input type="hidden" name='property_id' value="<?php echo $property_id ?>" >
+   <button class="btn btn-lg btn-primary ">CONFIRM</button>
+   
  </div>
  <div class="col-lg-4 col-md-12">
   <a href="<?php echo base_url() ?>" class="btn btn-lg btn-warning ">CANCEL</a>
+</form>
 </div>
 </div>
 </div>

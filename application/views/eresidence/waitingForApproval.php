@@ -16,17 +16,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="col-md-10 ">
      <?php 
 //var_dump($user_addinfor);
-     echo form_open_multipart('upload/do_upload');
-     //echo $_POST['user_id'];
+    
+     $action="residents/viewRequestMade/";
+
+  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));
+
      foreach ($user_addinfor as $key ) {?>
 
-     <input type="hidden" name="user_id" <?php echo isset($user_id)? "value='echo $key->id'":"value='0'" ?> />
+     <input type="hidden" name="user_id" <?php echo isset($user_id)? "value='$key->id'":"value='0'" ?> />
 
      <br /><br />
-
-
-
-   </form>
 
       <table class="table text-left romtbl_borders">
 
@@ -96,13 +95,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 </div>
 <div>      
-
+<!--input type="hidden" value="<?php $user_id ?>"--> 
 <div class="form-group text-center">
   <div class="col-lg-12">
-    <button class="btn btn-lg btn-default " disabled="disabled" name="submit" id="submit" type="submit">APPROVED</button>
-    <a class="h4" href="<?php echo base_url('residents/viewRequestMade/'.$user_id)?>"><span class="glyphicon glyphicon-eye-open"></span> <span class="text-primary"> View the list of your requests</span></a>
-  </div>
+    
+    <button class="h4" id="btn" type="submit"><span class="glyphicon glyphicon-eye-open"></span> <span class="text-primary"> View the list of your requests</span></button>
 
+  </div>
+</form>
 </div>
 </div>
 

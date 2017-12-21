@@ -1,84 +1,13 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-?>
-
-<div class="container ">
-
-<h1 > Request Form </h1>
-<div class="form-area">
-<?php
+ <?php
+ defined('BASEPATH') OR exit('No direct script access allowed');
+ 
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
-$action="residents/request/";
+$action="residents/makerequest/";
 
 echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 
   <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
-  <input type="hidden"  name="property_id" value="<?php echo $property_id; ?>">
-  <div class="row tablereq">
-    <div class="col-md-10"><span class="text-warning h4"> Owner :<?php //foreach ($db as $value) {
-     // echo ', '.$value->name;
-    //} ?> </span>
-      <table class="table text-left romtbl_borders">
-
-        <tbody>
-          <tr>
-            <td>Date</td>
-           <td class="text-primary"><?php  echo date('Y / m / d')?></td>
-
-          </tr>
-          <tr>
-            <td>Resident Full Names</td>
-            <td>
-              <?php   
-
-              foreach ($user_addinfor as $key ) {
-                echo $key->name;
-                ?>
-
-              </td>
-            </tr>
-            <tr>
-              <td rowspan="7">Address</td>               
-              <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
-            </tr>
-
-
-            <tr>
-              <td><?php  echo $key->street_name?></td>
-
-            </tr> 
-            <tr>
-              <td><?php  echo $key->town?></td>
-
-            </tr>
-            <tr>
-              <td><?php  echo $key->zip_code?></td>
-
-            </tr>
-            <tr>
-              <td><?php  echo $key->manucipality?></td>
-
-            </tr>
-            <tr>
-              <td><?php  echo $key->district?></td>
-
-            </tr>
-            <tr>
-              <td><?php  echo $key->province?></td>            
-              </tr><?php
-            }
-            ?>
-            
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
-
-    <!-- Old Password-->	
-
 
 
     <div class="form-group  ">
@@ -146,18 +75,3 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 
 
 </form><!-- /form -->
-</div>
-</div>
-<!-- /div></card-container -->
-<!-- /container --><!-- /.container -->
-
-<script>
-
-  /*$("#fileToUpload").change(function (){
-
- var val = $('#fileToUpload').val();
- $.post('data.php', {value: val}, function (data) {
-   $('#result').html(data);
- }
-}*/
-</script>

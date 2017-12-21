@@ -17,6 +17,7 @@ class Request_model extends CI_MODEL
 	{
 
 		$property_id = $search['property_id'] ?? FALSE;
+
 		$user_id = $search['user_id'] ?? FALSE;
 
 		/*if($user_id){
@@ -138,6 +139,7 @@ class Request_model extends CI_MODEL
 	public function getListToComfirmQuery($search )
 	{
 
+
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$request_id = $search['request_id'] ?? FALSE;
@@ -194,7 +196,7 @@ class Request_model extends CI_MODEL
 
 	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
-//public function getAddress(){
+
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
@@ -260,6 +262,7 @@ class Request_model extends CI_MODEL
 	/***********************function to insert the files into data**************************/
 	public function cancelRequest($request_id=0)
 	{
+		var_dump($request_id);
 		$this->db->trans_start();
 				$this->db->delete("request_docs",array('id'=>$request_id));
 

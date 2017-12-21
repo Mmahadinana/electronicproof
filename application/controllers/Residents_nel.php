@@ -138,12 +138,11 @@ class Residents extends CI_Controller {
 	}
 
 	//////////**************** this function enable the user who has made a request to view the request they maderesidence************///////////
-	public function viewRequestMade()
-	{ 
+	public function viewRequestMade($user_id=0)
+	{
 		$search=array();
-		$search['user_id']=$_SESSION['id'];
-		
-		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+		$search['user_id']=$user_id;
+		$data['getListToComfirm']=$this->request_model->getListToConfirm($search);
 
 		$data['pageToLoad']='eresidence/viewRequestMade';
 		$data['pageActive']='eresidence';
@@ -155,17 +154,14 @@ class Residents extends CI_Controller {
 		
 	}
 	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
-	public function cancelRequest()
+	public function cancelRequest($request_id=0)
 	{
-		
+		//var_dump($request_id);
 		$search=array();
-		//$search['request_id']=$this->input->post('user_id');
-		$request_id=$search['request_id'];
+		$search['request_id']=$request_id;
 		$data['db']=$this->request_model->getListToComfirm($search);
-		var_dump($data['db']);
 
 		$data['message']=$this->request_model->cancelRequest($request_id);
-
 		$data['pageToLoad']='eresidence/cancelRequest';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -175,15 +171,26 @@ class Residents extends CI_Controller {
 		redirect('residents/viewRequestMade');
 		
 	}
+	//////////**************** this function enable the user to make a request for proof of residence************///////////
+	/*public function makerequest()
+	{
+		$property_id=$this->input->post('property_id');
+		//redirect('residents/request/'.$property_id);
+		$this->request($property_id);
 
+		$data['pageToLoad']='eresidence/makerequest';
+		$data['pageActive']='eresidence';
+
+		$this->load->helper(array('form'));	
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+	}*/
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
 	public function request()
-	{ 
+	{
+			$property_id=$this->input->post('property_id');		
 
-		$property_id=$this->input->post('property_id');
-		//var_dump($property_id);	
-		$data['property_id']=$property_id;	
-		if ($property_id != null) {
 			$search=array();
 
 			$search['property_id']= $property_id;
@@ -196,59 +203,59 @@ class Residents extends CI_Controller {
 
 			$data['pageToLoad']='eresidence/request';
 			$data['pageActive']='eresidence';
-			if(!$this->input->post('usercheck')){
-
+if(!$this->input->post('usercheck')){
+	
 // loading the form and files for file uoload		
-				$this->load->helper(array('form','file','url'));
-
-				$this->load->library('form_validation');
+			$this->load->helper(array('form','file','url'));
+	
+			$this->load->library('form_validation');
 // this is for validation 
-				$minetypes='';
-				$config_validation=array(
-					array('field'=>'phone',
-						'label'=>'Phone',
-						'rules'=>array('required',
-							'exact_length[10]',						
-							'regex_match[/^[0-9]+$/]',
-							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
+			$minetypes='';
+			$config_validation=array(
+				array('field'=>'phone',
+					'label'=>'Phone',
+					'rules'=>array('required',
+						'exact_length[10]',						
+						'regex_match[/^[0-9]+$/]',
+						array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
 
-						'errors'=>array('required'=>'you should insert a %s ',
-							'exact_length'=>'the %s must have at least length of 10 ',						
-							'regex_match'=>'the %s must be numbers only',	
-							'checkPhone'=>'%s does not exist, please enter the correct email',				
-						)	 					
-					),		
-					array(
-						'field'=>'idnumber',
-						'label'=>'ID No.',
-						'rules'=>array(
-							'required',
-							'exact_length[13]',
-							'numeric',
-							array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
-						),
-						'errors'=>array(
-							'required'=>' %s is required',
-							'exact_length'=>'the %s must have 13 numbers',
-							'numeric'=>'the %s must have only numbers',
-							'checkIdnumber'=>'%s does not exist, please enter the correct email',)
-
+					'errors'=>array('required'=>'you should insert a %s ',
+						'exact_length'=>'the %s must have at least length of 10 ',						
+						'regex_match'=>'the %s must be numbers only',	
+						'checkPhone'=>'%s does not exist, please enter the correct email',				
+					)	 					
+				),		
+				array(
+					'field'=>'idnumber',
+					'label'=>'ID No.',
+					'rules'=>array(
+						'required',
+						'exact_length[13]',
+						'numeric',
+						array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
 					),
+					'errors'=>array(
+						'required'=>' %s is required',
+						'exact_length'=>'the %s must have 13 numbers',
+						'numeric'=>'the %s must have only numbers',
+						'checkIdnumber'=>'%s does not exist, please enter the correct email',)
 
-					array('field'=>'email',
-						'label'=>'E-mail',
-						'rules'=>array('required','valid_email',
-							array('checkEmail',array($this->login_model,'callback_checkEmail'))),
-						'errors'=>array(
-							'required'=>'%s is required',
-							'valid_email'=>'invalid email',
-							'checkEmail'=>'%s does not exist, please enter the correct email'
+				),
 
-						) 					
-					),
-					array('field'=>'idUpload',
-						'label'=>'idUpload',
+				array('field'=>'email',
+					'label'=>'E-mail',
+					'rules'=>array('required','valid_email',
+						array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+					'errors'=>array(
+						'required'=>'%s is required',
+						'valid_email'=>'invalid email',
+						'checkEmail'=>'%s does not exist, please enter the correct email'
+
+					) 					
+				),
+				array('field'=>'idUpload',
+					'label'=>'idUpload',
 				'rules'=>array(//'required',					
 					'callback_id_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
@@ -261,8 +268,8 @@ class Residents extends CI_Controller {
 
 				)
 			),
-					array('field'=>'fileToUpload',
-						'label'=>'fileToUpload',
+				array('field'=>'fileToUpload',
+					'label'=>'fileToUpload',
 				'rules'=>array(//'required',					
 					'callback_file_upload'),
 					//array('checkFile',array($this->request_model,'callback_checkFile'))
@@ -276,15 +283,15 @@ class Residents extends CI_Controller {
 				)
 			),
 
-				);		
+			);		
 
 
 		//Validating the form
-				$this->form_validation->set_rules($config_validation);
-				if ($this->form_validation->run()===FALSE) {
+			$this->form_validation->set_rules($config_validation);
+			if ($this->form_validation->run()===FALSE) {
 
-					$this->load->view('ini',$data);
-				}else{
+				$this->load->view('ini',$data);
+			}else{
 			/*
 			//send data to the database
 			$proofOfRecData=array();
@@ -312,89 +319,84 @@ class Residents extends CI_Controller {
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
-			}else{
-				$this->load->view('ini',$data);
+		}else{
+			$this->load->view('ini',$data);
+	
 
-
-			}
-			
-		}else {
-			redirect('residents/userprofile');
 		}
-		
 
-	}
-
-
-	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-	public function file_upload() { 
-		$statusFileToUpload ='';
-		$pdarray=array();
-		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-		$config['upload_path']   ='./file_upload/';
-		$config['encrypt_name']   =true;			
-		$config['overwrite']     = false;
-		$config['max_size']	 = '599120';
-		if ($_FILES['fileToUpload']['name'] != '') {
+		}
 
 
-			$minetype='PD';
+		/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
+		public function file_upload() { 
+			$statusFileToUpload ='';
+			$pdarray=array();
+			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config['upload_path']   ='./file_upload/';
+			$config['encrypt_name']   =true;			
+			$config['overwrite']     = false;
+			$config['max_size']	 = '599120';
+			if ($_FILES['fileToUpload']['name'] != '') {
+
+
+				$minetype='PD';
 //upload file
 
-			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
-			for($i=0; $i<$number_of_files_uploaded; $i++){
-				$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
-				$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
-				$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
-				$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
-				$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
+				$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
+				for($i=0; $i<$number_of_files_uploaded; $i++){
+					$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
+					$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
+					$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
+					$_FILES['filetoUpload']['error']	= $_FILES['fileToUpload']['error'][$i];
+					$_FILES['filetoUpload']['size']		= $_FILES['fileToUpload']['size'][$i];  
 
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
-				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+					$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 
 
-				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
-					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
-					return false;
-				}elseif($statusFileToUpload){
+					if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
+						$this->form_validation->set_message('file_upload', $this->upload->display_errors());
+						return false;
+					}elseif($statusFileToUpload){
 
-					$this->upload_data1[]['file'] = $this->upload->data();
+						$this->upload_data1[]['file'] = $this->upload->data();
 
 
 				//$this->request_model->addIdUpload($this->upload_data['file']);
+					}
 				}
-			}
 			//var_dump($this->upload_data1 );
+			}
 		}
-	}
 
 
 	// *****************************************************************upload for the identity document************************************/
 
-	public function id_upload(){
+		public function id_upload(){
 // upload file uptions
-		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-		$config['upload_path']   ='./id_upload/';
-		$config['encrypt_name']   =true;			
-		$config['overwrite']     = false;
-		$config['max_size']	 = '5120';
-		$minetype='ID' ;
+			$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+			$config['upload_path']   ='./id_upload/';
+			$config['encrypt_name']   =true;			
+			$config['overwrite']     = false;
+			$config['max_size']	 = '5120';
+			$minetype='ID' ;
 //upload file for ID
-		if($_FILES['idUpload']['size'] != 0){
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			$statusIdUpload =$this->upload->do_upload('idUpload');
+			if($_FILES['idUpload']['size'] != 0){
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$statusIdUpload =$this->upload->do_upload('idUpload');
 
-			if (!$statusIdUpload){
-				$this->form_validation->set_message('id_upload', $this->upload->display_errors());
-				return false;
-			}elseif($statusIdUpload){
-				$this->upload_data['file'] = $this->upload->data();
+				if (!$statusIdUpload){
+					$this->form_validation->set_message('id_upload', $this->upload->display_errors());
+					return false;
+				}elseif($statusIdUpload){
+					$this->upload_data['file'] = $this->upload->data();
 			//send data to the database	
 				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
 
-			}
+				}
 
 		}//error if there in no file to upload
 		else{
@@ -454,29 +456,21 @@ class Residents extends CI_Controller {
 	}
 //end of request preview
 
-	public function confirmRequestInsert()
+	public function confirmRequestInsert($user_id=0,$owner_id=0,$property_id=0)
 	{
-		$property_id=$this->input->post('property_id');
-		$owner_id=$this->input->post('owner_id');
-		$user_id=$this->input->post('user_id');
 		$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-		//redirect('residents/waitingForApproval/'.$user_id);
-		$this->waitingForApproval($user_id,$property_id);
+		redirect('residents/waitingForApproval/'.$user_id);
 	}
-	public function waitingForApproval($user_id=0,$property_id=0)
+	public function waitingForApproval($user_id=0)
 	{ 
-	
+
 		$search=array();
 
 		$search['user_id']= $user_id;
-		$search['property_id']= $property_id;
 		//$search[23]= $this->input->get('user_id') ?? '0';
 
 
 		$data['user_addinfor']= $this->request_model->getAddress($search);
-		$data['user_id']= $search['user_id'];
-
-	
 
 
 		//$data['user_id']= $this->request_model->getAddress($search);
@@ -749,7 +743,7 @@ class Residents extends CI_Controller {
 		//number of results to be divided on the pagination
 		$config['total_rows'] =$data['addressCount'];
 		//load the pagination library
-
+	
 		//initialise the pagination with config
 		$this->pagination->initialize($config);
 		//create links to be send to the view
@@ -838,10 +832,9 @@ public function approve()
 	
 	$search=array();
 
-	//$search['owner_id']= $this->input->post('owner_id');
-	$search['user_id']= $_SESSION['id'];
-	//$search['user_id']= $this->input->post('user_id');
-	//$search['property_id']= $this->input->post('property_id');
+	$search['owner_id']= $this->input->post('owner_id');
+	$search['user_id']= $this->input->post('user_id');
+	$search['property_id']= $this->input->post('property_id');
 	
 
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
