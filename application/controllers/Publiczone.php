@@ -77,7 +77,7 @@ class Publiczone extends CI_Controller
 				'label'=>'name',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-					)
+				)
 				),
 
 			
@@ -86,7 +86,7 @@ class Publiczone extends CI_Controller
 				'label'=>'email',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-					)
+				)
 				),
 
 			array(
@@ -94,7 +94,7 @@ class Publiczone extends CI_Controller
 				'label'=>'message',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should type a %s </b>'
-					)
+				)
 				),
 			
 			array(
@@ -228,10 +228,10 @@ class Publiczone extends CI_Controller
 		}
 
 
-		/***get the provice and distric by provice id*******/
-		$selDistrict = $this->getProvinceDistrict();
-		$data['province'] = $selDistrict['province'];
-		$data['districts']     = $selDistrict['district'];
+		/***get the provice and distric by province id*******/
+		$selDistrict= $this->getProvinceDistrict();
+		$data['province']= $selDistrict['province'];
+		$data['districts']= $selDistrict['district'];
 		$data['manucipalities']=$selDistrict['manucipality'];	
 		$data['towns']=$selDistrict['town'];	
 		$data['suburbs']=$selDistrict['suburb'];	
@@ -267,8 +267,7 @@ class Publiczone extends CI_Controller
 			array(
 				'field'=>'password',
 				'label'=>'Password',
-				'rules'=>
-				'required',
+				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
 
@@ -277,8 +276,7 @@ class Publiczone extends CI_Controller
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',
-				'rules'=>
-				'required',
+				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
 
@@ -553,7 +551,7 @@ public function editUser($id=0)
     		array('field'=>'email',
     			'label'=>'email',
     			'rules'=>array('required','valid_email',
-    				array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+    				array('checkEmail',array($this->user_model,'callback_checkEmail'))),
     			'errors'=>array(
     				'required'=>'%s is required',
     				'valid_email'=>'invalid email',
@@ -588,7 +586,7 @@ public function editUser($id=0)
     				'required',
     				'exact_length[13]',
     				'numeric',
-    				array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+    				array('checkIdnumber',array($this->user_model,'callback_checkIdnumber'))				
     				),
 
     			'errors'=>array(
@@ -616,7 +614,7 @@ public function editUser($id=0)
     			'errors'=>array('required'=>'you should insert one %s ',
     				'exact_length'=>'the %s must have at least length of 10 ',						
     				'regex_match'=>'the %s must be numbers only',									
-    			)	 					
+    				)	 					
     			),
 
     		array(
@@ -646,7 +644,7 @@ public function editUser($id=0)
     			'rules'=>'required',
     			'errors'=>array('required'=>'you should insert one %s for the user'
 
-    			)
+    				)
     			),
 
     		array(
@@ -655,7 +653,7 @@ public function editUser($id=0)
     			'rules'=>'required',
     			'errors'=>array('required'=>'you should insert one %s for the user'
 
-    			)
+    				)
     			),
 
 
@@ -675,7 +673,7 @@ public function editUser($id=0)
     			'rules'=>'required',
     			'errors'=>array('required'=>'you should insert one %s for the user'
 
-    			)
+    				)
     			)
     		);
 
