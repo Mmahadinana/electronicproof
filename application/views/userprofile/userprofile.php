@@ -5,11 +5,9 @@
  <div class="form-area">
 <h1>User Profile</h1>
 
- 	<?php $action="residents/userprofile/";
-//ar_dump($user_addinfor);
- 	echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
+ 	
  	<div class="container">
- 		<input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
+ 		
  		<div class="row tablereq">
  			<div class="col-xm-12 col-sm-8 col-md-12">
  				<table class="table text-left romtbl_borders">
@@ -118,7 +116,20 @@
  								<td><?php echo $value->property ?></td>
  								<td><?php echo $value->door_number. ' '.$value->street_name?></td>
  								<td><?php echo $value->town ?></td>
- 								<td>  <a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a></td>
+ 								<td>  
+ 									<?php
+
+          $action="residents/request";
+//var_dump($getListToComfirm);
+          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+          <input type="hidden" name="property_id" value=<?php echo $value->property ?>>
+          <input type="hidden" name="usercheck" value="true">
+          <button type="submit" title="request">
+            <i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i>
+          </button>
+        </form>
+
+ 									<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
  								<td>  <a href="#">&nbsp;&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a></td>
 
  							</tr><?php	} ?>
@@ -127,5 +138,5 @@
  				</div>
  			</div>
  		</div> 		 		
- 	</form>
+ 	
  </div>
