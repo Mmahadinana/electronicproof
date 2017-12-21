@@ -89,5 +89,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |--------------------------------------------------------------------------
 |*/
 defined('ITEMS_PER_PAGE')      OR define('ITEMS_PER_PAGE', 10); // items in the pagination
+defined('ITEMS_PAGE')      OR define('ITEMS_PAGE', 2); // items in the pagination
 defined('COOKIE_TOKEN')      OR define('COOKIE_TOKEN', '_CID'); // login cookie name
 //defined('LAST_ACTIVITY')      OR define('LAST_ACTIVITY', '_LAC'); // login cookie name

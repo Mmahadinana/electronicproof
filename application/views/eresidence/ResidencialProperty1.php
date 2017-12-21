@@ -57,14 +57,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
-									//$action="residents/makerequest/";
 									$action="residents/request/";
 
-									echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+									echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 
 
 									<input type="hidden" name="property_id" value=<?php echo $key->property; ?>>
-									<input type="hidden" name="usercheck" value="true">
 									<button type="submit" name="confirm" class="btn-success btn-md btn-radius"><span class="text-success">Make a Proof of resident request</span></button>
 								</form>
 

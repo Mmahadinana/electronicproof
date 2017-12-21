@@ -5,7 +5,7 @@
  <div class="form-area ">
 <h1>List of Properties</h1>
 
-  <?php $action="residents/listOfResidents/";
+  <?php $action="residents/eresidence/";
 //var_dump($db);
   echo form_open($action,array('class'=>'form-horizontal','method'=>'GET','enctype'=>'multipart/form-data'));?>
   
@@ -78,8 +78,12 @@
           </table--> 
           
         </div>
-        <div class="align-center">
+        <div class="">
+          <ul class="pagination">
+            <li>
           <?php echo $search_pagination; ?>
+        </li>
+        </ul>
         </div>
         
       </div>
