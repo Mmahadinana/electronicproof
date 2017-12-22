@@ -292,10 +292,23 @@ class Publiczone extends CI_Controller
 			array(
 				'field'=>'identitynumber',
 				'label'=>'Identity Number',
-				'rules'=>'required',
+				'rules'=>array
+				(
+					'required',
+					'exact_length[13]',						
+
+					'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
+					),
+
+
+
 				'errors'=>array
-				('required'=>'you should insert %s for the user')
+				('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 13 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
 				),
+			
 
 			array(
 				'field'=>'dateofbirth',
