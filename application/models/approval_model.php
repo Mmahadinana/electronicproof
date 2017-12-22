@@ -47,7 +47,8 @@ return $this->db
 
 }
 
-public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;

@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $action="residents/approve/";
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
-  <div class="form-area">
+  <div class="form-area" >
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
-    <div class="row tablereq">
+    <div class="row tablereq" id="approval">
       <div class="col-md-10">
         <table class="table text-left romtbl_borders">
 
@@ -77,11 +77,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
         </div>
         <div class="col-lg-3">
-          <button class="btn btn-lg btn-primary form-control" name="approve"  type="submit">Approve</button>     
+          <button class="btn btn-lg btn-primary form-control" name="approve" id="approve"  type="submit">Approve</button>     
         </div>
 
         <div class="col-lg-3">
-          <a class="btn btn-lg btn-warning form-control" type="text">Decline</a>
+          <a class="btn btn-lg btn-warning form-control" id="decline" type="text">Decline</a>
         </div>
 
       </div>

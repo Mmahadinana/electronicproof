@@ -77,7 +77,7 @@ class Publiczone extends CI_Controller
 				'label'=>'name',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-				)
+					)
 				),
 
 			
@@ -86,7 +86,7 @@ class Publiczone extends CI_Controller
 				'label'=>'email',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-				)
+					)
 				),
 
 			array(
@@ -94,7 +94,7 @@ class Publiczone extends CI_Controller
 				'label'=>'message',
 				'rules'=>'required',
 				'errors'=>array('required'=>'<b>You should type a %s </b>'
-				)
+					)
 				),
 			
 			array(
@@ -605,13 +605,13 @@ public function editUser($id=0)
     			'rules'=>array(
     				'required',
     				'exact_length[10]',						
-
     				'regex_match[/^[0-9]+$/]',
     				),
 
 
 
-    			'errors'=>array('required'=>'you should insert one %s ',
+    			'errors'=>array(
+    				'required'=>'you should insert one %s ',
     				'exact_length'=>'the %s must have at least length of 10 ',						
     				'regex_match'=>'the %s must be numbers only',									
     				)	 					
@@ -621,39 +621,40 @@ public function editUser($id=0)
     			'field'=>'gender',
     			'label'=>'Gender',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert %s for the user')
     			),
 
     		array(
     			'field'=>'suburb',
     			'label'=>'Suburb',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'town',
     			'label'=>'town',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'district',
     			'label'=>'District',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
-
-    				)
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'province',
     			'label'=>'Province',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
-
-    				)
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
 
@@ -663,7 +664,9 @@ public function editUser($id=0)
     			'label'=>'zip code',
     			'rules'=>
     			'required',	
-    			'errors'=>array('required'=>'you should insert %s for the user')),
+    			'errors'=>array(
+    				'required'=>'you should insert %s for the user')
+    			),
 
 
 
@@ -671,7 +674,8 @@ public function editUser($id=0)
     			'field'=>'manucipality',
     			'label'=>'Manucipality',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user'
 
     				)
     			)
