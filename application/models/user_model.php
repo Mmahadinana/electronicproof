@@ -196,28 +196,7 @@ class User_model extends CI_MODEL
 		} 
 
 	}
-	public function callback_checkIdnumber($identitynumber)
-	{
-	//var_dump($this->input->post('user_id'));
-		//$user_id = $this->input->post('user_id');
-		$this->db->select("user.identitynumber,user.phone")
-		->from("user")
-		->where("user.id",$user_id);
-		     	     //var_dump($this->db->get()->row() );
-		$identity=$this->db->get()->row();
-		//var_dump($identity);
-		//foreach ($identity as $value) {
-		if ($identity->identitynumber != $identitynumber) 
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
-
-	}
+	
 	public function checkPassword($password)
 	{
 		//insert the username and password
@@ -295,5 +274,60 @@ public function insertAddress($data=array(), $user_id)
 	
 	$this->db->insert("login",$addressAdd);	
 }
+public function callback_checkIdnumber($identitynumber){
+		$search['user_id'] = $this->input->post('user_id');
+		if (is_numeric($search['user_id']) && $search['user_id'] !=0) {
+			// I am on the edit mode
+			$user=$this->getUser($search);
+			foreach ($user as $value) {
+				if ($identitynumber == $value->identitynumber) {
+					// isbn did not change
+					return true;
+				}else{
+					// isbn changed
+					return $this->identitynumberDontExist($identitynumber);
+				}
+			}
+		}
+		//isbn does not exist and id is on create mode
+		return $this->identitynumberDontExist($identitynumber);
+	}
+	/**
+	 * [isbnDontExist description]
+	 * @param  [type] $isbn [description]
+	 * @return [type]       [description]
+	 */
+	public function identitynumberDontExist($identitynumber){
+		$this->db->select("user.identitynumber")
+		->from("user")
+		->where("identitynumber",$identitynumber);
+		if($this->db->get()->row()){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	/*public function callback_checkIdnumber($identitynumber)
+	{
+	//var_dump($this->input->post('user_id'));
+		//$user_id = $this->input->post('user_id');
+		$this->db->select("user.identitynumber,user.phone")
+		->from("user")
+		->where("user.id",$user_id);
+		     	     //var_dump($this->db->get()->row() );
+		$identity=$this->db->get()->row();
+		//var_dump($identity);
+		//foreach ($identity as $value) {
+		if ($identity->identitynumber != $identitynumber) 
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+
+
+	}*/
 }
 ?>

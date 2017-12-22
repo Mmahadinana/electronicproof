@@ -30,7 +30,7 @@ $property_id=0;
 
           $action="residents/request";
 //var_dump($getListToComfirm);
-          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
           <input type="hidden" name="property_id" value=<?php echo $property_id ?>>
           <input type="hidden" name="usercheck" value="true">
           <button type="submit"  class='btn btn-primary btn-xs' title="edit">
@@ -43,7 +43,7 @@ $property_id=0;
 
           $action="residents/cancelRequest";
 //var_dump($getListToComfirm);
-          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
           <input type="hidden" name="user_id" value=<?php echo $_SESSION['id'] ?>>
           
           <button type="submit"  class='btn btn-warning btn-xs' title="cancel">

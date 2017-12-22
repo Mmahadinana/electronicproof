@@ -51,6 +51,10 @@ class Residents extends CI_Controller {
 	 */
 
 	// This function list all the properties and enable search for property
+
+	 /**
+	  * [Eresidence description]
+	  */
 	public function Eresidence()
 	{
 		//var_dump($_SESSION);
@@ -138,6 +142,10 @@ class Residents extends CI_Controller {
 	}
 
 	//////////**************** this function enable the user who has made a request to view the request they maderesidence************///////////
+	/**
+	 * [viewRequestMade description]
+	 * @return [type] [description]
+	 */
 	public function viewRequestMade()
 	{ 
 		$search=array();
@@ -155,6 +163,10 @@ class Residents extends CI_Controller {
 		
 	}
 	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
+	/**
+	 * [cancelRequest description]
+	 * @return [type] [description]
+	 */
 	public function cancelRequest()
 	{
 		
@@ -177,7 +189,158 @@ class Residents extends CI_Controller {
 	}
 
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
+	/**
+	 * [request description]
+	 * @return [type] [description]
+	 */
 	public function request()
+	{ 
+
+		$property_id=$this->input->post('property_id');
+		//var_dump($property_id);	
+		$data['property_id']=$property_id;	
+		if ($property_id != null) {
+			$search=array();
+
+			$search['property_id']= $property_id;
+			$search["user_id"]= $_SESSION['id'];
+
+
+			$data['user_addinfor']= $this->request_model->getAddress($search);
+
+			$data['db']= $this->request_model->getOwner($search);
+
+			$data['pageToLoad']='eresidence/request';
+			$data['pageActive']='eresidence';
+			if(!$this->input->post('usercheck')){
+
+// loading the form and files for file uoload		
+				$this->load->helper(array('form','file','url'));
+
+				$this->load->library('form_validation');
+// this is for validation 
+				$minetypes='';
+				$config_validation=array(
+					array('field'=>'phone',
+						'label'=>'Phone',
+						'rules'=>array('required',
+							'exact_length[10]',						
+							'regex_match[/^[0-9]+$/]',
+							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
+
+
+						'errors'=>array('required'=>'you should insert a %s ',
+							'exact_length'=>'the %s must have at least length of 10 ',						
+							'regex_match'=>'the %s must be numbers only',	
+							'checkPhone'=>'%s does not exist, please enter the correct email',				
+						)	 					
+					),		
+					array(
+						'field'=>'idnumber',
+						'label'=>'ID No.',
+						'rules'=>array(
+							'required',
+							'exact_length[13]',
+							'numeric',
+							array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+						),
+						'errors'=>array(
+							'required'=>' %s is required',
+							'exact_length'=>'the %s must have 13 numbers',
+							'numeric'=>'the %s must have only numbers',
+							'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+
+					),
+
+					array('field'=>'email',
+						'label'=>'E-mail',
+						'rules'=>array('required','valid_email',
+							array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+						'errors'=>array(
+							'required'=>'%s is required',
+							'valid_email'=>'invalid email',
+							'checkEmail'=>'%s does not exist, please enter the correct email'
+
+						) 					
+					),
+					array('field'=>'idUpload',
+						'label'=>'idUpload',
+				'rules'=>array(//'required',					
+					'callback_id_upload'),
+					//array('checkFile',array($this->request_model,'callback_checkFile'))
+				
+
+				'errors'=>array(
+			//'callback_file_upload'=>'%s is required',
+			//'checkFile'=>'type for %s exist'
+
+
+				)
+			),
+					array('field'=>'fileToUpload',
+						'label'=>'fileToUpload',
+				'rules'=>array(//'required',					
+					'callback_file_upload'),
+					//array('checkFile',array($this->request_model,'callback_checkFile'))
+				
+
+				'errors'=>array(
+			//'callback_do_upload1'=>'%s is required',
+			//'checkFile'=>'type for %s exist'
+
+
+				)
+			),
+
+				);		
+
+
+		//Validating the form
+				$this->form_validation->set_rules($config_validation);
+				if ($this->form_validation->run()===FALSE) {
+
+					$this->load->view('ini',$data);
+				}else{
+			/*
+			//send data to the database
+			$proofOfRecData=array();
+			foreach($data['user_addinfor'] as $property){
+				$proofOfRecData['property']= $property->property;
+
+			}
+			//$property_id=
+			$proofOfRecData['user_id']=$_SESSION['id'];
+					$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+					//var_dump($this->upload_data1['file']);
+					$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+			//$this->load->view('ini',$data); 
+					$this->requestPreview($data['user_addinfor']);
+			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
+
+			*/
+			//send data to the database
+					//$this->request_model->insertFileData($this->upload_data['file'],'ID');
+					//var_dump($this->upload_data1['file']);
+					//$this->request_model->insertMultipleFileData($this->upload_data1);
+			//$this->load->view('ini',$data); 
+
+					$this->requestPreview($data['user_addinfor']);
+			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
+				}
+
+			}else{
+				$this->load->view('ini',$data);
+
+
+			}
+			
+		}else {
+			redirect('residents/userprofile');
+		}
+		
+
+	}
+	public function EditRequest()
 	{ 
 
 		$property_id=$this->input->post('property_id');
@@ -327,6 +490,10 @@ class Residents extends CI_Controller {
 
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
+	/**
+	 * [file_upload description]
+	 * @return [type] [description]
+	 */
 	public function file_upload() { 
 		$statusFileToUpload ='';
 		$pdarray=array();
@@ -371,7 +538,10 @@ class Residents extends CI_Controller {
 
 
 	// *****************************************************************upload for the identity document************************************/
-
+/**
+ * [id_upload description]
+ * @return [type] [description]
+ */
 	public function id_upload(){
 // upload file uptions
 		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
@@ -405,6 +575,11 @@ class Residents extends CI_Controller {
 		return true;
 	}
 // **********************************************the success page of the request*******************************************************************************************//
+/**
+ * [requestPreview description]
+ * @param  array  $user_addinfor [description]
+ * @return [type]                [description]
+ */
 	public function requestPreview($user_addinfor=array())
 	{ 
 		$search=array();
@@ -428,6 +603,10 @@ class Residents extends CI_Controller {
 		$this->load->view('ini',$data);
 
 	}
+	/**
+	 * [userprofile description]
+	 * @return [type] [description]
+	 */
 	public function userprofile()
 	{ 
 		$search=array();
@@ -453,7 +632,10 @@ class Residents extends CI_Controller {
 
 	}
 //end of request preview
-
+/**
+ * [confirmRequestInsert description]
+ * @return [type] [description]
+ */
 	public function confirmRequestInsert()
 	{
 		$property_id=$this->input->post('property_id');
@@ -463,6 +645,12 @@ class Residents extends CI_Controller {
 		//redirect('residents/waitingForApproval/'.$user_id);
 		$this->waitingForApproval($user_id,$property_id);
 	}
+	/**
+	 * [waitingForApproval description]
+	 * @param  integer $user_id     [description]
+	 * @param  integer $property_id [description]
+	 * @return [type]               [description]
+	 */
 	public function waitingForApproval($user_id=0,$property_id=0)
 	{ 
 	
@@ -489,16 +677,30 @@ class Residents extends CI_Controller {
 		$this->load->view('ini',$data);
 
 	}
-
-	public function listOfResidents($property_id = 0)
+/**
+ * [listOfResidents description]
+ * @param  integer $property_id [description]
+ * @return [type]               [description]
+ */
+	public function listOfResidents()
 	{
 		$search=array();
-
+		$property_id=$this->input->post('property_id');
+		
 		$search['property_id']=$property_id;
 		$search['property_id1']=$property_id;
-
-	//$search['user_id']= $_SESSION['id'];
-
+		//$data['property_id']=$_SESSION['property_id'];
+      
+	    if ($property_id != null) {
+	  
+	    $this->session->set_userdata('property_id',$property_id);
+	    }
+		else {
+			
+			$search['property_id']=$_SESSION['property_id'];
+			$search['property_id1']=$_SESSION['property_id'];
+			
+		}
 		$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
 		//var_dump($data['user_addinfor']);
 		$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
@@ -510,67 +712,16 @@ class Residents extends CI_Controller {
 	//$this->load->helper(array('form','url'));
 		$this->load->library('form_validation');
 	//$this->load->view('ini',$data);
-
-		$config_validation=array(
-			array('field'=>'name',
-				'label'=>'name',
-				'rules'=>array('required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]'),
-
-
-				'errors'=>array('required'=>'you should insert a %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-			array(
-				'field'=>'address',
-				'label'=>'address.',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',				
-				),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',)
-
-			),
-
-			array('field'=>'date',
-				'label'=>'date',
-				'rules'=>array('required','valid_email'),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),
-			array('field'=>'edit',
-				'label'=>'edit',
-				'rules'=>array('required','valid_email'),
-				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
-
-
-		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE) {
-
-			$this->load->view('ini',$data);
-		}else{
-
-
-		}
+		$this->load->view('ini',$data);
+		
+		
 
 	}
-
+/**
+ * [getOwnerOfProperty description]
+ * @param  [type] $user_id [description]
+ * @return [type]          [description]
+ */
 	public function getOwnerOfProperty($user_id){
 		
 		$search=array();
@@ -582,6 +733,10 @@ class Residents extends CI_Controller {
 		return $data['owner']=$this->request_model->getOwner($search);
 
 	}
+	/**
+	 * [confirmList description]
+	 * @return [type] [description]
+	 */
 	public function confirmList() 
 	{
 		$search=array();		
@@ -622,6 +777,10 @@ class Residents extends CI_Controller {
 
 
 	}
+	/**
+	 * [listOfApproval description]
+	 * @return [type] [description]
+	 */
 	public function listOfApproval() 
 	{
 		$search=array();		
@@ -642,7 +801,10 @@ class Residents extends CI_Controller {
 
 
 	}
-	
+	/**
+	 * [OwnersDetails description]
+	 * @param integer $property_id [description]
+	 */
 	public function OwnersDetails($property_id = 0)
 	{
 		$search=array();
@@ -718,7 +880,9 @@ class Residents extends CI_Controller {
 		}
 
 	}
-	
+	/**
+	 * [ResidencialProperty description]
+	 */
 	public function ResidencialProperty()
 	{
 		$data['pageToLoad']='eresidence/ResidencialProperty';
@@ -832,7 +996,10 @@ class Residents extends CI_Controller {
 
 }*/
 
-
+/**
+ * [approve description]
+ * @return [type] [description]
+ */
 public function approve()
 {
 	

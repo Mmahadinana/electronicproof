@@ -13,6 +13,11 @@ class Request_model extends CI_MODEL
 		
 	}
 	/**************This query get user address through the lives_on table***************/
+	/**
+	 * [requestquery description]
+	 * @param  [type] $search [description]
+	 * @return [type]         [description]
+	 */
 	public function requestquery($search )
 	{
 
@@ -58,7 +63,11 @@ class Request_model extends CI_MODEL
 
 	}
 	/**************This query get user address through the owners table to get the owner***************/
-
+/**
+ * [ownerquery description]
+ * @param  [type] $search [description]
+ * @return [type]         [description]
+ */
 	public function ownerquery($search )
 	{
 
@@ -112,6 +121,11 @@ class Request_model extends CI_MODEL
 		->order_by('owners_property.id');
 
 	}
+	/**
+	 * [userquery description]
+	 * @param  [type] $search [description]
+	 * @return [type]         [description]
+	 */
 	public function userquery($search )
 	{
 
@@ -136,6 +150,11 @@ class Request_model extends CI_MODEL
 
 	}
 	/********this function returs the query that will list all the residents who needs to be approved*********/
+	/**
+	 * [getListToComfirmQuery description]
+	 * @param  [type] $search [description]
+	 * @return [type]         [description]
+	 */
 	public function getListToComfirmQuery($search )
 	{
 
@@ -193,7 +212,9 @@ class Request_model extends CI_MODEL
 	}
 
 	/***********************function get the address of the residents from the database**************************/
-
+/**
+ * 
+ */
 	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
 
@@ -207,6 +228,9 @@ class Request_model extends CI_MODEL
 			//get data from bd
 		return $this->db->get()->result();
 	}
+	/**
+	 * 
+	 */
 	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
 //public function getAddress(){
@@ -240,6 +264,12 @@ class Request_model extends CI_MODEL
 	}
 
 	/***********************function to insert the files into data**************************/
+	/**
+	 * [insertFileData description]
+	 * @param  array  $data     [description]
+	 * @param  string $minetype [description]
+	 * @return [type]           [description]
+	 */
 	public function insertFileData($data =array(),$minetype='')
 	{
 
@@ -260,6 +290,11 @@ class Request_model extends CI_MODEL
 
 	}
 	/***********************function to insert the files into data**************************/
+	/**
+	 * [cancelRequest description]
+	 * @param  integer $request_id [description]
+	 * @return [type]              [description]
+	 */
 	public function cancelRequest($request_id=0)
 	{
 		var_dump($request_id);
@@ -289,6 +324,11 @@ class Request_model extends CI_MODEL
 
 		     }*/
 		     /***********************function to insert the multiple files into data**************************/
+		     /**
+		      * [insertMultipleFileData description]
+		      * @param  array  $data [description]
+		      * @return [type]       [description]
+		      */
 		     public function insertMultipleFileData($data=array())
 		     {
 
@@ -311,6 +351,13 @@ class Request_model extends CI_MODEL
 
 
 }
+/**
+ * [insertRequest description]
+ * @param  integer $user_id     [description]
+ * @param  integer $owner_id    [description]
+ * @param  integer $property_id [description]
+ * @return [type]               [description]
+ */
 public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 {
 	$requestdata = array(
@@ -325,7 +372,9 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 }
 
 /***********************function get the address of the residents from the database**************************/
-
+/**
+ * 
+ */
 
 public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {

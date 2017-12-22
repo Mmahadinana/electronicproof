@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tr>
 							
 							<tr>
+								
 								<td rowspan="7">Address</td>               
 								<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
 								<td rowspan="7" class="col-md-4 text-left">

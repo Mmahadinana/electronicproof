@@ -485,14 +485,12 @@ public function user()
 public function editUser()
 {
 	$id=$this->input->post('userid');
-	
+
 	if($id!=0 and is_numeric($id))
 	{
 		$data['user_id'] = $id;
-		 //unset($_SESSION['userid']);
-	    $this->session->set_userdata('userid',$id);
 	}else{
-		 $id=$data['user_id'] =$_SESSION['userid'];
+		redirect("publiczone/user");
 	}
 
 	$data['pageToLoad'] = 'register/register';
@@ -501,7 +499,7 @@ public function editUser()
 	
 		//data from db
 	$search=array();
-    $data['user_id'] =$_SESSION['userid'];
+
 	$search['user_id']= $data['user_id'];
 
 	$data['email']=$this->user_model->getUser();

@@ -11,7 +11,11 @@ class Login_model extends CI_MODEL
 		$this->load->library('session');
 		$this->load->helper('cookie');
 	}
-
+/**
+ * [query description]
+ * @param  [type] $search [description]
+ * @return [type]         [description]
+ */
 	public function query($search){
 
 		;
@@ -33,6 +37,9 @@ class Login_model extends CI_MODEL
 		->order_by('user.id');
 
 	}
+	/**
+	 * get all the users from the user table in the database
+	 */
 	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE){
 //public function getAddress(){
 	//where to start bringing the rows for the pagination 
@@ -45,6 +52,9 @@ class Login_model extends CI_MODEL
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
+	/**
+	 * check the password from the the input in the login, changepassword pages to validate it in login table 
+	 */
 
 	public function checkPassword($password) 
 	{
@@ -261,7 +271,11 @@ public function deleteExpiredToken(){
 	->delete("tokens");
 
 }//end deleteExpiredToken */
-
+/**
+ * [callback_checkEmail from request page for that session user]
+ * @param  [type] $email [description]
+ * @return [type]        [description]
+ */
 public function callback_checkEmail($email){
 	
 	$user_id = $_SESSION['id'];
@@ -279,6 +293,11 @@ public function callback_checkEmail($email){
 	} 
 
 }
+/**
+ * [callback_checkUsername for username in login, reset pages for valid email in user table]
+ * @param  [type] $email [description]
+ * @return [type]        [description]
+ */
 public function callback_checkUsername($email){	
 
 	$this->db->select("user.email")
@@ -294,6 +313,11 @@ public function callback_checkUsername($email){
 		} 
 	}
 }
+/**
+ * [callback_checkPhone for phone in user table from request table if it is valid]
+ * @param  [type] $phone [description]
+ * @return [type]        [description]
+ */
 public function callback_checkPhone($phone){
 
 	$user_id = $_SESSION['id'];
@@ -311,6 +335,11 @@ public function callback_checkPhone($phone){
 	} 
 
 }
+/**
+ * [callback_checkIdnumber for identity number in user table from request table if it is valid]
+ * @param  [type] $identitynumber [description]
+ * @return [type]                 [description]
+ */
 public function callback_checkIdnumber($identitynumber){
 	
 	$user_id = $_SESSION['id'];
@@ -334,6 +363,12 @@ public function callback_checkIdnumber($identitynumber){
 	}
 
 }
+/**
+ * [inserEmailToken insert temporary token in that will match with the one from user email when user reset password]
+ * @param  [type] $id    [description]
+ * @param  [type] $token [description]
+ * @return [type]        [description]
+ */
 public function inserEmailToken($id,$token){
 	$this->deleteEmailtoken($id);
 	$expireTime = 1*24*3600;
@@ -349,6 +384,12 @@ public function inserEmailToken($id,$token){
 	return $this->db->trans_complete();
 
 }
+/**
+ * [get_mailToken description]
+ * @param  [type] $mailtoken [description]
+ * @param  [type] $user_id   [description]
+ * @return [type]            [description]
+ */
 public function get_mailToken($mailtoken,$user_id){
 
 	$this->db->select("*")
@@ -359,6 +400,11 @@ public function get_mailToken($mailtoken,$user_id){
 	return $this->db->get()->row();
 
 }
+/**
+ * [deleteEmailtoken description]
+ * @param  int    $user_id [description]
+ * @return [type]          [description]
+ */
 public function deleteEmailtoken(int $user_id){
 	
 		//begin the transaction
@@ -369,6 +415,12 @@ public function deleteEmailtoken(int $user_id){
 	return $this->db->trans_complete();
 
 }
+/**
+ * [updatePassword update the password after change password]
+ * @param  array  $data    [description]
+ * @param  [type] $user_id [description]
+ * @return [type]          [description]
+ */
 public function updatePassword($data=array(), $user_id){
 	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;
 	$passwordData = array(

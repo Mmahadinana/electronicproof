@@ -124,8 +124,8 @@
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
           <input type="hidden" name="property_id" value=<?php echo $value->property ?>>
           <input type="hidden" name="usercheck" value="true">
-          <button type="submit" title="request">
-            <i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i>
+          <button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
+            <!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
           </button>
         </form>
 
