@@ -229,10 +229,10 @@ class Publiczone extends CI_Controller
 		}
 
 
-		/***get the provice and distric by provice id*******/
-		$selDistrict = $this->getProvinceDistrict();
-		$data['province'] = $selDistrict['province'];
-		$data['districts']     = $selDistrict['district'];
+		/***get the provice and distric by province id*******/
+		$selDistrict= $this->getProvinceDistrict();
+		$data['province']= $selDistrict['province'];
+		$data['districts']= $selDistrict['district'];
 		$data['manucipalities']=$selDistrict['manucipality'];	
 		$data['towns']=$selDistrict['town'];	
 		$data['suburbs']=$selDistrict['suburb'];	
@@ -268,8 +268,7 @@ class Publiczone extends CI_Controller
 			array(
 				'field'=>'password',
 				'label'=>'Password',
-				'rules'=>
-				'required',
+				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
 
@@ -278,8 +277,7 @@ class Publiczone extends CI_Controller
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',
-				'rules'=>
-				'required',
+				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
 
@@ -294,6 +292,26 @@ class Publiczone extends CI_Controller
 
 			array(
 				'field'=>'identitynumber',
+
+				'label'=>'Identity Number',
+				'rules'=>array
+				(
+					'required',
+					'exact_length[13]',						
+
+					'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
+					),
+
+
+
+				'errors'=>array
+				('required'=>'you should insert one %s ',
+					'exact_length'=>'the %s must have at least length of 13 ',						
+					'regex_match'=>'the %s must be numbers only',									
+					)	 					
+				),
+			
+			 /*array('field' => 'identitynumber',
     			'label'=>'Identity Number',
     			'rules'=>array(
     				'required',
@@ -308,7 +326,8 @@ class Publiczone extends CI_Controller
     				'numeric'=>'the %s must have only numbers',
     				'checkIdnumber'=>'%s exist, please enter the correct email',)
 
-    			),
+    			),*/
+
 
 			array(
 				'field'=>'dateofbirth',
@@ -381,14 +400,14 @@ class Publiczone extends CI_Controller
 
 					)
 				),array(
-	'field'=>'manucipality',
-	'label'=>'manucipality',
-	'rules'=>'required',
-	'errors'=>array
-	('required'=>'you should insert one %s for the user'
+				'field'=>'manucipality',
+				'label'=>'manucipality',
+				'rules'=>'required',
+				'errors'=>array
+				('required'=>'you should insert one %s for the user'
 
-		)
-	)
+					)
+				)
 			/*array(
 				'field'=>'zip_code',
 				'label'=>'Zip Code',
@@ -568,7 +587,7 @@ if(!$this->input->post('usercheck')){
     		array('field'=>'email',
     			'label'=>'email',
     			'rules'=>array('required','valid_email',
-    				array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+    				array('checkEmail',array($this->user_model,'callback_checkEmail'))),
     			'errors'=>array(
     				'required'=>'%s is required',
     				'valid_email'=>'invalid email',
@@ -603,7 +622,7 @@ if(!$this->input->post('usercheck')){
     				'required',
     				'exact_length[13]',
     				'numeric',
-    				array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+    				array('checkIdnumber',array($this->user_model,'callback_checkIdnumber'))				
     				),
 
     			'errors'=>array(
@@ -622,55 +641,56 @@ if(!$this->input->post('usercheck')){
     			'rules'=>array(
     				'required',
     				'exact_length[10]',						
-
     				'regex_match[/^[0-9]+$/]',
     				),
 
 
 
-    			'errors'=>array('required'=>'you should insert one %s ',
+    			'errors'=>array(
+    				'required'=>'you should insert one %s ',
     				'exact_length'=>'the %s must have at least length of 10 ',						
     				'regex_match'=>'the %s must be numbers only',									
-    			)	 					
+    				)	 					
     			),
 
     		array(
     			'field'=>'gender',
     			'label'=>'Gender',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert %s for the user')
     			),
 
     		array(
     			'field'=>'suburb',
     			'label'=>'Suburb',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'town',
     			'label'=>'town',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user')
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'district',
     			'label'=>'District',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
-
-    			)
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
     		array(
     			'field'=>'province',
     			'label'=>'Province',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
-
-    			)
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user')
     			),
 
 
@@ -680,7 +700,9 @@ if(!$this->input->post('usercheck')){
     			'label'=>'zip code',
     			'rules'=>
     			'required',	
-    			'errors'=>array('required'=>'you should insert %s for the user')),
+    			'errors'=>array(
+    				'required'=>'you should insert %s for the user')
+    			),
 
 
 
@@ -688,9 +710,10 @@ if(!$this->input->post('usercheck')){
     			'field'=>'manucipality',
     			'label'=>'Manucipality',
     			'rules'=>'required',
-    			'errors'=>array('required'=>'you should insert one %s for the user'
+    			'errors'=>array(
+    				'required'=>'you should insert one %s for the user'
 
-    			)
+    				)
     			)
     		);
 

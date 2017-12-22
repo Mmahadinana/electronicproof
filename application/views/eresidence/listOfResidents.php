@@ -103,8 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
           </td>
           
-          <td>  <a href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
-            <span class="glyphicon glyphicon-trash text-danger"></span></a></td>
+          <td>  <button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
+            <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
             
 
           </tr>

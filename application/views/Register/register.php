@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
    // $automovel_id 	= $user_data['automovel_id'] 		?? false; 
-$id_province 	= $user_data->province_id 	?? $this->input->post('province') 	?? false;
-$id_district		= $user_data->district_id 		?? $this->input->post('district') 		?? false;
-$id_manucipality 		= $user_data->manucipality_id 			?? $this->input->post('manucipality') ?? false;
-$id_town		= $user_data->town_id 		?? $this->input->post('town') 		?? false;
+$id_province = $user_data->province_id ?? $this->input->post('province') ?? false;
+$id_district= $user_data->district_id ?? $this->input->post('district') ?? false;
+$id_manucipality = $user_data->manucipality_id ?? $this->input->post('manucipality') ?? false;
+$id_town= $user_data->town_id ?? $this->input->post('town')?? false;
 
-$id_suburb 	= $user_data->suburb_id 	?? $this->input->post('suburb') 	?? false;
-$id_address 	= $user_data->id 	?? $this->input->post('street_name') 	?? false;
-$streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? false;
+$id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
+$id_address = $user_data->id ?? $this->input->post('street_name')?? false;
+$streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
 
 ?>
 <div class="container form-area">
@@ -28,7 +28,6 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 		$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
 		
 		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
-
 		?>
 
 		<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
@@ -161,12 +160,14 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 								foreach ($province as $province)
 								{?>
 								<option <?php 
-								if(isset($user_id)  && $provinceEdit){
+								if(isset($user_id)  && $provinceEdit)
+								{
 
 									echo ($provinceEdit == $province->name)? 'selected':'';
 
 
-								}else{
+								}
+								else{
 									if(set_value('province'))
 									{
 										echo (set_value('province') == $province->id)? 'selected':'';
@@ -298,12 +299,14 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 
 		allWells.hide();
 
-		navListItems.click(function (e) {
+		navListItems.click(function (e) 
+		{
 			e.preventDefault();
 			var $target = $($(this).attr('href')),
 			$item = $(this);
 
-			if (!$item.hasClass('disabled')) {
+			if (!$item.hasClass('disabled')) 
+			{
 				navListItems.removeClass('btn-primary').addClass('btn-default');
 				$item.addClass('btn-primary');
 				allWells.hide();
@@ -321,8 +324,10 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 			isValid = true;
 
 			$(".form-group").removeClass("has-error");
-			for(var i=0; i<curInputs.length; i++){
-				if (!curInputs[i].validity.valid){
+			for(var i=0; i<curInputs.length; i++)
+			{
+				if (!curInputs[i].validity.valid)
+				{
 					isValid = false;
 					$(curInputs[i]).closest(".form-group").addClass("has-error");
 				}
@@ -334,6 +339,7 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 
 		$('div.setup-panel div a.btn-primary').trigger('click');
 	});
+
 </script>
 <script> 
 	var errors = false;
@@ -359,7 +365,8 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
          //adds the class has success to the input parent
          parent.addClass('has-success');
          errors = false;  
-       } else {//if not
+       } 
+       else {//if not
        	var parent = input.parent();
          //removes the class has success from the input parent
          parent.removeClass('has-success');
@@ -392,7 +399,8 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
          //adds the class has success to the input parent
          parent.addClass('has-success');  
          errors = false;
-     } else {
+     } 
+     else {
      	var parent = input.parent();
          //removes the class has success from the input parent
          parent.removeClass('has-success');
@@ -410,7 +418,8 @@ $streetName=$user_data->street_name 	?? $this->input->post('street_name') 	?? fa
 
 
 	/************************ getting the district through the provinve id********************/
-	function update_distric() {
+	function update_distric() 
+	{
 	//bring all the districts from php to javascript
 	let district 		= <?php echo json_encode($districts);?>;
 	console.log(district);
@@ -426,13 +435,16 @@ console.log(id_district	);
 	//clear prev options
 	district_id.empty();
 //write new options
-district_id.append($('<option>', { 
+district_id.append($('<option>',
+ { 
 	value: 0,
 	text : "select district" 
 }));
 $("#district select option[value='0']").attr("disabled","disabled");
-$.each(district[selected], function (i, item) {
-	district_id.append($('<option>', { 
+$.each(district[selected], function (i, item) 
+{
+	district_id.append($('<option>', 
+	{ 
 		value: item.id,
 		text : item.name 
 
@@ -440,15 +452,18 @@ $.each(district[selected], function (i, item) {
 
 });
 //select the option of the edit mode
-if(id_district){
+if(id_district)
+{
 	$("#select_district select").val(id_district);
-}else{
+}
+else{
 	$("#select_district select").val(0);
 }
 	//dispaly the select box
 	$("#select_district").attr('style','display:block');
 }
-$( document ).ready(function() {
+$( document ).ready(function() 
+{
 	update_distric() ;
 });
 
@@ -469,14 +484,17 @@ let manucipality_id =$("#manucipality");
 	//clear prev options
 	manucipality_id.empty();
 	//write new options
-	manucipality_id.append($('<option>', { 
+	manucipality_id.append($('<option>', 
+	{ 
 		value: 0,
 		text : "select manucipality" 
 	}));
 	$("#manucipality select option[value='0']").attr("disabled","disabled");
-	$.each(manucipality[selected], function (i, item) {
+	$.each(manucipality[selected], function (i, item)
+	 {
 
-		manucipality_id.append($('<option>', { 
+		manucipality_id.append($('<option>', 
+		{ 
 			value: item.id,
 			text : item.name 
 		}));
@@ -485,13 +503,15 @@ let manucipality_id =$("#manucipality");
 if(id_manucipality)
 {
 	$("#select_manucipality select").val(id_manucipality);
-}else{
+}
+else{
 	$("#select_manucipality select").val(0);
 }
 	//dispaly the select box
 	$("#select_manucipality").attr('style','display:block');
 }
-$( document ).ready(function() {
+$( document ).ready(function()
+ {
 	update_manucipality() ;
 
 });
@@ -501,14 +521,14 @@ $( document ).ready(function() {
 function update_town()
 {
 	//bring all the districts from php to javascript
-	let town 		= <?php echo json_encode($towns);?>;
-	let id_town		= <?php echo $id_town ? $id_town : 'false'; ?>; 
+	let town= <?php echo json_encode($towns);?>;
+	let id_town= <?php echo $id_town ? $id_town : 'false'; ?>; 
 	console.log(town);
 	
 //select box from the ditrict
 let town_id =$("#town");
 		//province id from the select box of the provinces
-		let selected  		= $("#manucipality").val();
+		let selected= $("#manucipality").val();
 		
 	//clear prev options
 	town_id.empty();
@@ -519,23 +539,27 @@ town_id.append($('<option>',
 	text : "select town" 
 }));
 $("#town select option[value='0']").attr("disabled","disabled");
-$.each(town[selected], function (i, item) {
+$.each(town[selected], function (i, item) 
+{
 	
-	town_id.append($('<option>', { 
+	town_id.append($('<option>', 
+	{ 
 		value: item.id,
 		text : item.name 
 	}));
 });
 if(id_town){
 	$("#select_town select").val(id_town);
-}else{
+}
+else{
 	$("#select_town select").val(0);
 }
 	//dispaly the select box
 	$("#select_town").attr('style','display:block');
 
 }
-$( document ).ready(function() {
+$( document ).ready(function() 
+{
 	update_town();
 });
 
@@ -544,27 +568,30 @@ $( document ).ready(function() {
 function update_suburb()
 {
 	//bring all the districts from php to javascript
-	let suburb 		= <?php echo json_encode($suburbs);?>;
-	let id_suburb		= <?php echo $id_suburb ? $id_suburb : 'false'; ?>; 
+	let suburb= <?php echo json_encode($suburbs);?>;
+	let id_suburb= <?php echo $id_suburb ? $id_suburb : 'false'; ?>; 
 	console.log(suburb);
 	
 //select box from the ditrict
 let suburb_id =$("#suburb");
 
 		//province id from the select box of the provinces
-		let selected  		= $("#town").val();
+		let selected= $("#town").val();
 		
 	//clear prev options
 	suburb_id.empty();
 //write new options
-suburb_id.append($('<option>', { 
+suburb_id.append($('<option>', 
+{ 
 	value: 0,
 	text : "select suburb" 
 }));
 $("#suburb select option[value='0']").attr("disabled","disabled");
-$.each(suburb[selected], function (i, item) {
+$.each(suburb[selected], function (i, item) 
+{
 	$("#zip_code_input").empty();
-	$("#zip_code_input").append($('<input>', { 
+	$("#zip_code_input").append($('<input>', 
+	{ 
 
 		placeholder: item.zip_code,
 
@@ -577,9 +604,11 @@ $.each(suburb[selected], function (i, item) {
 	
 });
 	//select the option of the edit mode
-	if(id_suburb){
+	if(id_suburb)
+	{
 		$("#select_suburb select").val(id_suburb);
-	}else{
+	}
+	else{
 		$("#select_suburb select").val(0);
 	}
 	//dispaly the select box
@@ -597,13 +626,13 @@ $( document ).ready(function()
 function update_address()
 {
 	//bring all the districts from php to javascript
-	let address 		= <?php echo json_encode($address);?>;
-	let id_address		= <?php echo $id_address ? $id_address : 'false'; ?>; 
+	let address= <?php echo json_encode($address);?>;
+	let id_address= <?php echo $id_address ? $id_address : 'false'; ?>; 
 
 //select box from the ditrict
 let address_id =$("#street_name");
 		//province id from the select box of the provinces
-		let selected  		= $("#suburb").val();
+		let selected= $("#suburb").val();
 
 	//clear prev options
 	address_id.empty();
@@ -615,8 +644,10 @@ address_id.append($('<option>',
 }));
 console.log(address);
 $("#street_name select option[value='0']").attr("disabled","disabled");
-$.each(address[selected], function (i, item) {
-	address_id.append($('<option>', { 
+$.each(address[selected], function (i, item) 
+{
+	address_id.append($('<option>', 
+	{ 
 		value: item.id,
 		text : item.street_name 
 	}));
@@ -656,9 +687,11 @@ $( document ).ready(function()
 
 	function validatePassword()
 	{
-		if(password.value != confirm.value) {
+		if(password.value != confirm.value) 
+		{
 			confirm.setCustomValidity("Passwords Don't Match");
-		} else 
+		}
+		 else 
 		{
 			confirm.setCustomValidity('');
 		}

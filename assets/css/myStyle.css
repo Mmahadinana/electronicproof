@@ -296,7 +296,27 @@ h3 {
 #para
 {
   margin-top: 60px;
-  margin-left: 60px;
+  margin-left: -5px;
+}
+#pari
+{
+  margin-left: -5px;
+}
+#approve
+{
+  margin-left: 50px;
+  margin-top: 80px;
+  padding-bottom: 30px;
+}
+#decline
+{
+  margin-left: 50px;
+  margin-top: 80px;
+  padding-bottom: 30px;
+}
+#approval
+{
+  margin-left: 130px;
 }
 /*.row 
 {

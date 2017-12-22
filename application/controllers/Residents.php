@@ -18,11 +18,14 @@ class Residents extends CI_Controller {
 		$this->load->model("user_model");
 		$this->load->model("login_model");
 		$this->load->model("owners_property_model");
+	
+
 		$this->load->model("listOfRes_model");
 		$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if (!$is_logged_in) {
+		if (!$is_logged_in)
+		 {
 			//no login check the cookie
 			if (!$this->login_model->CheckLoginWithCookie()) {
 				//no login go out
@@ -59,13 +62,17 @@ class Residents extends CI_Controller {
 	{
 		//var_dump($_SESSION);
 		$id_remove=$this->input->post('id_Property');
-		if ($id_remove!=0 and is_numeric($id_remove)) {
+		if ($id_remove!=0 and is_numeric($id_remove))
+		{
 			$data['statusRemove']= $this->ownersProperty_model->deleteProperty($id_remove);
 
 		}
-		if(null!=$this->input->get('statusEdit')){
+		if(null!=$this->input->get('statusEdit'))
+		{
 			$data['statusEdit']= $this->input->get('statusEdit');
-		}if(null!=$this->input->get('statusInsert')){
+		}
+		if(null!=$this->input->get('statusInsert'))
+		{
 			$data['statusInsert']= $this->input->get('statusInsert');
 		}	
 
@@ -85,24 +92,30 @@ class Residents extends CI_Controller {
 		$search['district'] = '';
 		$search['province'] = '';
 
-		if ($data['inputForSearch']==1) {
+		if ($data['inputForSearch']==1) 
+		{
 
 			$search['name']=$this->input->get('mysearch') ?? '';
 		}
-		elseif ($data['inputForSearch']== 2) {
+		elseif ($data['inputForSearch']== 2) 
+		{
 			$search['property_id']=$this->input->get('mysearch') ?? 0;
 
 		}
-		elseif($data['inputForSearch']== 3){
+		elseif($data['inputForSearch']== 3)
+		{
 			$search['town']=$this->input->get('mysearch') ?? '';
 		}
-		elseif($data['inputForSearch']== 4){
+		elseif($data['inputForSearch']== 4)
+		{
 			$search['municipality']=$this->input->get('mysearch') ?? '';
 		}
-		elseif($data['inputForSearch']== 5){
+		elseif($data['inputForSearch']== 5)
+		{
 			$search['district']=$this->input->get('mysearch') ?? '';
 		}
-		elseif($data['inputForSearch']== 6){
+		elseif($data['inputForSearch']== 6)
+		{
 			$search['province']=$this->input->get('mysearch') ?? '';
 		}
 
@@ -199,7 +212,8 @@ class Residents extends CI_Controller {
 		$property_id=$this->input->post('property_id');
 		//var_dump($property_id);	
 		$data['property_id']=$property_id;	
-		if ($property_id != null) {
+		if ($property_id != null)
+		 {
 			$search=array();
 
 			$search['property_id']= $property_id;
@@ -212,7 +226,9 @@ class Residents extends CI_Controller {
 
 			$data['pageToLoad']='eresidence/request';
 			$data['pageActive']='eresidence';
-			if(!$this->input->post('usercheck')){
+			if(!$this->input->post('usercheck'))
+
+	{
 
 // loading the form and files for file uoload		
 				$this->load->helper(array('form','file','url'));
@@ -223,13 +239,15 @@ class Residents extends CI_Controller {
 				$config_validation=array(
 					array('field'=>'phone',
 						'label'=>'Phone',
-						'rules'=>array('required',
+						'rules'=>array(
+							'required',
 							'exact_length[10]',						
 							'regex_match[/^[0-9]+$/]',
 							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
 
-						'errors'=>array('required'=>'you should insert a %s ',
+						'errors'=>array(
+							'required'=>'you should insert a %s ',
 							'exact_length'=>'the %s must have at least length of 10 ',						
 							'regex_match'=>'the %s must be numbers only',	
 							'checkPhone'=>'%s does not exist, please enter the correct email',				
@@ -254,7 +272,8 @@ class Residents extends CI_Controller {
 
 					array('field'=>'email',
 						'label'=>'E-mail',
-						'rules'=>array('required','valid_email',
+						'rules'=>array(
+							'required','valid_email',
 							array('checkEmail',array($this->login_model,'callback_checkEmail'))),
 						'errors'=>array(
 							'required'=>'%s is required',
@@ -297,10 +316,12 @@ class Residents extends CI_Controller {
 
 		//Validating the form
 				$this->form_validation->set_rules($config_validation);
-				if ($this->form_validation->run()===FALSE) {
+				if ($this->form_validation->run()===FALSE) 
+				{
 
 					$this->load->view('ini',$data);
-				}else{
+				}
+				else{
 			/*
 			//send data to the database
 			$proofOfRecData=array();
@@ -328,13 +349,15 @@ class Residents extends CI_Controller {
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
-			}else{
+			}
+			else{
 				$this->load->view('ini',$data);
 
 
 			}
 			
-		}else {
+		}
+		else {
 			redirect('residents/userprofile');
 		}
 		
@@ -490,11 +513,15 @@ class Residents extends CI_Controller {
 
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
+
+	
+
 	/**
 	 * [file_upload description]
 	 * @return [type] [description]
 	 */
 	public function file_upload() { 
+
 		$statusFileToUpload ='';
 		$pdarray=array();
 		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
@@ -502,14 +529,16 @@ class Residents extends CI_Controller {
 		$config['encrypt_name']   =true;			
 		$config['overwrite']     = false;
 		$config['max_size']	 = '599120';
-		if ($_FILES['fileToUpload']['name'] != '') {
+		if ($_FILES['fileToUpload']['name'] != '') 
+		{
 
 
 			$minetype='PD';
 //upload file
 
 			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
-			for($i=0; $i<$number_of_files_uploaded; $i++){
+			for($i=0; $i<$number_of_files_uploaded; $i++)
+			{
 				$_FILES['filetoUpload']['name']		= $_FILES['fileToUpload']['name'][$i];
 				$_FILES['filetoUpload']['type']		= $_FILES['fileToUpload']['type'][$i];
 				$_FILES['filetoUpload']['tmp_name']	= $_FILES['fileToUpload']['tmp_name'][$i];
@@ -521,10 +550,13 @@ class Residents extends CI_Controller {
 				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 
 
-				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '') {
+				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '')
+				 {
 					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
 					return false;
-				}elseif($statusFileToUpload){
+				}
+				elseif($statusFileToUpload)
+				{
 
 					$this->upload_data1[]['file'] = $this->upload->data();
 
@@ -559,7 +591,9 @@ class Residents extends CI_Controller {
 			if (!$statusIdUpload){
 				$this->form_validation->set_message('id_upload', $this->upload->display_errors());
 				return false;
-			}elseif($statusIdUpload){
+			}
+			elseif($statusIdUpload)
+			{
 				$this->upload_data['file'] = $this->upload->data();
 			//send data to the database	
 				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
@@ -567,7 +601,8 @@ class Residents extends CI_Controller {
 			}
 
 		}//error if there in no file to upload
-		else{
+		else
+		{
 			$this->form_validation->set_message('id_upload', "Identity document must be uploaded ");
 			return false;
 			
@@ -583,7 +618,8 @@ class Residents extends CI_Controller {
 	public function requestPreview($user_addinfor=array())
 	{ 
 		$search=array();
-		foreach($user_addinfor as $userdata){
+		foreach($user_addinfor as $userdata)
+		{
 			$search['property_id']=$userdata->property;
 			
 		}
@@ -733,8 +769,12 @@ class Residents extends CI_Controller {
 	//$this->load->helper(array('form','url'));
 		$this->load->library('form_validation');
 	//$this->load->view('ini',$data);
+
 		$this->load->view('ini',$data);		
 
+
+
+		
 	}
 /**
  * [getOwnerOfProperty description]
@@ -820,11 +860,13 @@ class Residents extends CI_Controller {
 
 
 	}
+
 	/**
 	 * [OwnersDetails description]
 	 * @param integer $property_id [description]
 	 */
 	public function OwnersDetails($property_id = 0)
+
 	{
 		$search=array();
 		$search['property_id']=$property_id;
@@ -837,7 +879,10 @@ class Residents extends CI_Controller {
 		$data['pageActive']='eresidence';
 
 		$this->load->helper('form');
+
 		$this->load->view('ini',$data);
+
+		
 
 	}
 	/**
