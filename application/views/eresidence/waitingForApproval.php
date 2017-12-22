@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
      $action="residents/viewRequestMade/";
 
-  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));
+  echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST','autocomplete'=>'off'));
 
      foreach ($user_addinfor as $key ) {?>
 

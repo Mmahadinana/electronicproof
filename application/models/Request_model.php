@@ -169,7 +169,8 @@ class Request_model extends CI_MODEL
 
 		if($user_id)
 		{
-			$this->db->where('request_docs.user_id',$user_id); 
+			$this->db->where('request_docs.user_id',$user_id)
+					->where('request_docs.b_deleted',0); 
 		}
 
 		
@@ -297,9 +298,13 @@ class Request_model extends CI_MODEL
 	 */
 	public function cancelRequest($request_id=0)
 	{
-		var_dump($request_id);
+		//var_dump($request_id);
+		$request=array(
+			'b_deleted'=>'1'
+		);
 		$this->db->trans_start();
-				$this->db->delete("request_docs",array('id'=>$request_id));
+				$this->db->where('id',$request_id) 
+						->update("request_docs",$request);
 
 			return $this->db->trans_complete();
 	}

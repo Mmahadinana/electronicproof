@@ -133,6 +133,11 @@
  								<td>  <a href="#">&nbsp;&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a></td>
 
  							</tr><?php	} ?>
+ 							<tr class="warning">
+ 								<td  colspan="5" headers="list"class="col-lg-12">
+ 									<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View RequestMade</a>
+ 								</td>
+ 							</tr>
  						</tbody>
  					</table>
  				</div>

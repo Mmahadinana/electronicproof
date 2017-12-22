@@ -17,9 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
       <div class="row tablereq">
     <div class="col-md-10">
-      <table class="table text-left romtbl_borders">
-
-       
+      <table class="table text-left romtbl_borders">       
           <tbody>
             <tr>
               <td>Date</td>

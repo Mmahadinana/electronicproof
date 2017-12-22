@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
               <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
               <input type="hidden" name="usercheck" value="true">
-              <button type="submit" name="confirm" class="glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
+              <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
             </form>
           </td>
           

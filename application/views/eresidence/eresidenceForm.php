@@ -84,7 +84,7 @@
                     <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
                   </form>
                 </div>
-                <div class="col-lg-6 ">
+                <div class="col-lg-6">
                   <?php
 
                   $action="residents/listOfResidents";
@@ -94,7 +94,8 @@
 
                   <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
 
-                  <button type="submit" name="delete" class="fa fa-trash text-danger"></button>
+                  
+                 <input type="image" src="<?php echo base_url('assets/icons/Icons8-Windows-8-Users-Edit-User.png') ?>" alt="Submit" class=" resize_usericon">
                 </form>
               </div>
 
