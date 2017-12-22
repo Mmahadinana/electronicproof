@@ -17,7 +17,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		if(isset($statusEdit))
 		{
-			echo alertMsg($statusEdit,'User Added','User Not Added');
+			echo alertMsg($statusEdit,'User Added','User Not Added'); 
 		}
 		?></h1>
 
@@ -27,8 +27,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
 		
-		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8'));
-
+		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
 		?>
 
 		<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
@@ -340,6 +339,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		$('div.setup-panel div a.btn-primary').trigger('click');
 	});
+
 </script>
 <script> 
 	var errors = false;

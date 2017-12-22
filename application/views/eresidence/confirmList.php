@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      
     } 
 //*****************************************print name of owner*************************************************************/
-    echo $owners;
+    //echo $owners;
     ?></span><i>Confirm Request</b></i></h4>
       
 <!--*****************************************print name of owner*************************************************************/-->

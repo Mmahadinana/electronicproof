@@ -257,5 +257,28 @@ public function insertAddress($data=array(), $user_id)
 	
 	$this->db->insert("login",$addressAdd);	
 }
+
+	/*public function callback_checkIdnumber($identitynumber)
+	{
+	//var_dump($this->input->post('user_id'));
+		//$user_id = $this->input->post('user_id');
+		$this->db->select("user.identitynumber,user.phone")
+		->from("user")
+		->where("user.id",$user_id);
+		     	     //var_dump($this->db->get()->row() );
+		$identity=$this->db->get()->row();
+		//var_dump($identity);
+		//foreach ($identity as $value) {
+		if ($identity->identitynumber != $identitynumber) 
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+
+
+	}*/
 }
 ?>

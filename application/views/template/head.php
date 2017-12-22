@@ -23,7 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   'mystyle.css'];
 
   foreach ($Css_Files as $css_file) {?>
-    <link href="<?php echo base_url('assets/css/'.$css_file);?>" rel="stylesheet"><?php
+    <link href="<?php echo base_url('assets/css/'.$css_file);?>" rel="stylesheet">
+    
+    
+    <?php
+    
+
   }
   ?>
   <!--script src="js/ie-emulation-modes-warning.js"></script>

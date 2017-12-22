@@ -36,6 +36,10 @@ class Passwords extends CI_Controller
 	 */
 
 	/*******************************this function checks the email for reset*******************************/
+	/**
+	 * [reset description]
+	 * @return [type] [description]
+	 */
 	public function reset()
 	{
 		if(null!=$this->input->get('statusUsername'))
@@ -110,6 +114,10 @@ class Passwords extends CI_Controller
 				}
 	}//end of reset function
 	/***********************************this function load the notification that email has been send ****************/ 
+	/**
+	 * [resetmessage description]
+	 * @return [type] [description]
+	 */
 	public function resetmessage()
 	{
 		$data['pageToLoad']='login/resetmessage';
@@ -122,6 +130,12 @@ class Passwords extends CI_Controller
 	}//end of resetmassage function
 	
 		/************************************This function load from the email link to enter new password***************/
+		/**
+		 * [resetpassword description]
+		 * @param  integer $mailtoken [from email]
+		 * @param  integer $user_id   [user id]
+		 * @return [type]             [description]
+		 */
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
 		//var_dump($mailtoken);
