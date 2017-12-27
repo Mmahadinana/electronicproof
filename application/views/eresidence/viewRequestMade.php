@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $property_id=0;
+//var_dump($getListToComfirm); 
 ?> 
 
 <div class="container form-area">
@@ -18,6 +19,7 @@ $property_id=0;
   </tr>
   <?php foreach ($getListToComfirm as $user) { 
     $property_id=$user->property_id;
+    $request_id=$user->id;
     ?>
 
 
@@ -28,9 +30,9 @@ $property_id=0;
         <div class="col-lg-6">
           <?php
 
-          $action="residents/request";
+          $action="residents/EditRequest";
 //var_dump($getListToComfirm);
-          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
+          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST','autocomplete'=>'off'));?>
           <input type="hidden" name="property_id" value=<?php echo $property_id ?>>
           <input type="hidden" name="usercheck" value="true">
           <button type="submit"  class='btn btn-primary btn-xs' title="edit">
@@ -44,7 +46,7 @@ $property_id=0;
           $action="residents/cancelRequest";
 //var_dump($getListToComfirm);
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
-          <input type="hidden" name="user_id" value=<?php echo $_SESSION['id'] ?>>
+          <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
           
           <button type="submit"  class='btn btn-warning btn-xs' title="cancel">
             <span class='glyphicon glyphicon-minus'></span> 

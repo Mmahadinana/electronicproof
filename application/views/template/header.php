@@ -1,30 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-  
-
- /*function sessionX(){ 
-    $logLength = 10; # time in seconds :: 1800 = 30 minutes 
-    $ctime = strtotime("now"); # Create a time from a string 
-    # If no session time is created, create one 
-    if(!isset($_SESSION['user_time'])){  
-        # create session time 
-        $_SESSION['user_time'] = $ctime;  
-    }else{ 
-        # Check if they have exceded the time limit of inactivity 
-        if(((strtotime("now") - $_SESSION['user_time']) > $logLength)){ 
-            # If exceded the time, log the user out 
-             
-            # Redirect to login page to log back in 
-            Redirect('Publiczone/logout'); 
-            exit; 
-        }else{ 
-            # If they have not exceded the time limit of inactivity, keep them logged in 
-            $_SESSION['user_time'] = $ctime; 
-        } 
-    } 
-} 
-echo sessionX();
-//var_dump($_SESSION['user_time']);*/
+//var_dump($_SESSION);*/
 
 ?>
 

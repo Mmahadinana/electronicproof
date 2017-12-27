@@ -487,4 +487,8 @@ border: 2px solid pink;
 i .fa .fa-archive {
     overflow: hidden ;
 }
-
+.resize_usericon{
+    width: 20px;
+    height: 20px;
+     background-color: lightblue;
+}

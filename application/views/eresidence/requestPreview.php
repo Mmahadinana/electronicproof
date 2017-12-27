@@ -81,7 +81,9 @@ foreach ($residentInfor as $key ){
                 //storing the data of the owner where resident lives
         $owner_id=$valowner ->owner;
         $property_id=$valowner ->property;
-
+        $owner_name=$valowner->name;
+        $owner_housetype=$valowner->house_type;
+      }
         ?>
 
       </tbody>
@@ -90,7 +92,7 @@ foreach ($residentInfor as $key ){
   </div>
 </div>
 <div class="text-left">
- <p>This is to confirm that  <strong class="text-warning"><?php echo $key->name;?> </strong>ID number <strong class="text-warning"><?php echo $key->identitynumber;?> </strong> stays at the above mentioned address since (date) until today. The <strong class="text-warning"><?php  echo $valowner->house_type;?></strong> owned by <strong class="text-warning"><?php  echo $valowner->name;  }}?></strong>.</p>
+ <p>This is to confirm that  <strong class="text-warning"><?php echo $key->name;?> </strong>ID number <strong class="text-warning"><?php echo $key->identitynumber;  }?> </strong> stays at the above mentioned address since (date) until today. The <strong class="text-warning"><?php  echo $owner_housetype;?></strong> owned by <strong class="text-warning"><?php  echo $owner_name; ?></strong>.</p>
  <br>
  <p> This letter will be valid for only three months, starting from the date issued.</p>
 

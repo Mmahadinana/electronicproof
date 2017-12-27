@@ -184,10 +184,10 @@ class Residents extends CI_Controller {
 	{
 		
 		$search=array();
-		//$search['request_id']=$this->input->post('user_id');
+		$search['request_id']=$this->input->post('request_id');
 		$request_id=$search['request_id'];
-		$data['db']=$this->request_model->getListToComfirm($search);
-		var_dump($data['db']);
+		//$data['db']=$this->request_model->getListToComfirm($search);
+		//var_dump($search['request_id']);
 
 		$data['message']=$this->request_model->cancelRequest($request_id);
 
@@ -377,7 +377,7 @@ class Residents extends CI_Controller {
 
 
 			$data['user_addinfor']= $this->request_model->getAddress($search);
-
+			//var_dump($data['user_addinfor']);
 			$data['db']= $this->request_model->getOwner($search);
 
 			$data['pageToLoad']='eresidence/request';
@@ -514,8 +514,7 @@ class Residents extends CI_Controller {
 
 	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
 
-	public function file_upload()
-	 	{ 
+	
 
 	/**
 	 * [file_upload description]
@@ -627,8 +626,6 @@ class Residents extends CI_Controller {
 		
 		$data['residentInfor']=$user_addinfor;
 		$data['owner_addinfor']=$this->request_model->getOwner($search);
-		
-		
 
 		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/requestPreview';
@@ -678,6 +675,19 @@ class Residents extends CI_Controller {
 		$property_id=$this->input->post('property_id');
 		$owner_id=$this->input->post('owner_id');
 		$user_id=$this->input->post('user_id');
+		
+		if ($property_id != null) {
+	     $listvar=array('property_id'=>$property_id,'owner_id'=>$owner_id,'user_id'=>$user_id);
+
+	    $this->session->set_userdata($listvar);
+	    }
+		else {
+			
+			$property_id=$_SESSION['property_id'];
+			$owner_id=$_SESSION['owner_id'];
+			$user_id=$_SESSION['user_id'];
+			
+		}
 		$this->request_model->insertRequest($user_id,$owner_id,$property_id);
 		//redirect('residents/waitingForApproval/'.$user_id);
 		$this->waitingForApproval($user_id,$property_id);
@@ -696,7 +706,17 @@ class Residents extends CI_Controller {
 		$search['user_id']= $user_id;
 		$search['property_id']= $property_id;
 		//$search[23]= $this->input->get('user_id') ?? '0';
+		if ($property_id != null) {
+	     $listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
 
+	    $this->session->set_userdata($listvar);
+	    }
+		else {
+			
+			$property_id=$_SESSION['property_id'];			
+			$user_id=$_SESSION['user_id'];
+			
+		}
 
 		$data['user_addinfor']= $this->request_model->getAddress($search);
 		$data['user_id']= $search['user_id'];
@@ -750,69 +770,11 @@ class Residents extends CI_Controller {
 		$this->load->library('form_validation');
 	//$this->load->view('ini',$data);
 
-
-		$config_validation=array(
-			array('field'=>'name',
-				'label'=>'name',
-				'rules'=>array(
-					'required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]'),
+		$this->load->view('ini',$data);		
 
 
-				'errors'=>array(
-					'required'=>'you should insert a %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-			array(
-				'field'=>'address',
-				'label'=>'address.',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',				
-				),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',)
 
-			),
-
-			array('field'=>'date',
-				'label'=>'date',
-				'rules'=>array(
-					'required','valid_email'),
-					'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),
-			array('field'=>'edit',
-				'label'=>'edit',
-				'rules'=>array(
-					'required','valid_email'),
-				    'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
-
-
-		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE) {
-
-			$this->load->view('ini',$data);
-		}else{
-
-
-		}
-
+		
 	}
 /**
  * [getOwnerOfProperty description]
@@ -917,72 +879,10 @@ class Residents extends CI_Controller {
 		$data['pageActive']='eresidence';
 
 		$this->load->helper('form');
-		$this->load->library('form_validation');
 
-		$config_validation=array(
-			array('field'=>'name',
-				'label'=>'name',
-				'rules'=>array(
-					'required',
-					'exact_length[10]',						
-					'regex_match[/^[0-9]+$/]'),
+		$this->load->view('ini',$data);
 
-
-				'errors'=>array(
-					'required'=>'you should insert a %s ',
-					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',					
-				)	 					
-			),		
-			array(
-				'field'=>'address',
-				'label'=>'address.',
-				'rules'=>array(
-					'required',
-					'exact_length[13]',
-					'numeric',				
-				),
-				'errors'=>array(
-					'required'=>' %s is required',
-					'exact_length'=>'the %s must have 13 numbers',
-					'numeric'=>'the %s must have only numbers',)
-
-			),
-
-			array('field'=>'date',
-				'label'=>'date',
-				'rules'=>array(
-					'required','valid_email'),
-					'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),
-			array('field'=>'edit',
-				'label'=>'edit',
-				'rules'=>array(
-					'required','valid_email'),
-					'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-
-				) 					
-			),			
-		);		
-
-
-
-		$this->form_validation->set_rules($config_validation);
-		if ($this->form_validation->run()===FALSE) 
-		{
-
-			$this->load->view('ini',$data);
-		}
-		else{
-
-
-		}
+		
 
 	}
 	/**
@@ -1060,46 +960,7 @@ class Residents extends CI_Controller {
 
 
 
-/*public function ownerProperty($user_addinfor=array())
-{
-		
-	$search=array();
-	$properties=array();
-	$search['user_idprofile']= $_SESSION['id'];
-
-	//$data['user_addinfor']=$user_addinfor;
-
-	$data['user_addinfor']= $this->request_model->getUser($search);
-	$data['property_addinfor']= $this->ownersProperty_model->getProperty($search);
-//var_dump($data['user_addinfor']);
-		//$data['user_id']= $this->request_model->getAddress($search);
-	$data['pageToLoad']='eresidence/ownersProperty';
-	$data['pageActive']='eresidence';
-	$this->load->helper('form');
-		// this is for validation 
-
-	$this->load->library('form_validation');
-		//$this->load->view('ini',$data);
-
-	
-		//to re-write the links
-	$config['enable_query_string'] = TRUE;
-		//to show the actual page number
-	$config['page_query_string'] = TRUE;
-		//config base_url that use pagination
-		//$config['base_url'] = base_url('residents/ownerProperty?search='.$search['search'].'&id='.$search['id']);
-		//number of results to be divided on the pagination
-		//$config['total_rows'] =$data['addressCount'];
-		//load the pagination library
-	$this->load->library('pagination');
-		//initialise the pagination with config
-	$this->pagination->initialize($config);
-		//create links to be send to the view
-	$data['search_pagination']=$this->pagination->create_links();
-		//view load page
-	
-
-}*/
+/*
 
 /**
  * [approve description]
