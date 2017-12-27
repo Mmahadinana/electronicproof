@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   foreach ($Css_Files as $css_file) {?>
     <link href="<?php echo base_url('assets/css/'.$css_file);?>" rel="stylesheet">
-    
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     
     <?php
     
