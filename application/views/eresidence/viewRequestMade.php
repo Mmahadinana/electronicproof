@@ -35,6 +35,7 @@ $property_id=0;
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST','autocomplete'=>'off'));?>
           <input type="hidden" name="property_id" value=<?php echo $property_id ?>>
           <input type="hidden" name="usercheck" value="true">
+          <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
           <button type="submit"  class='btn btn-primary btn-xs' title="edit">
             <span class='glyphicon glyphicon-pencil'></span> 
           </button>

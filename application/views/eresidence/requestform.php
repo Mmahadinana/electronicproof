@@ -16,6 +16,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 
   <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
   <input type="hidden"  name="property_id" value="<?php echo $property_id; ?>">
+  
   <div class="row tablereq">
     <div class="col-md-10"><span class="text-warning h4"> Owner :<?php //foreach ($db as $value) {
      // echo ', '.$value->name;
@@ -67,9 +68,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
             </tr>
             <tr>
               <td><?php  echo $key->province?></td>            
-              </tr><?php
-            }
-            ?>
+              </tr>
             
           </tbody>
         </table>
@@ -86,7 +85,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
         <label for="idnumber" class="control-label label-primary passlabels"><span class="footPadRight"> ID No.</span></label>				
       </div>
       <div class="col-md-6">
-        <input type="text" id="idnumber" name="idnumber" class="form-control" placeholder="ID No." value="<?php echo set_value('idnumber') ;?>">
+        <input type="text" id="idnumber" name="idnumber" class="form-control" placeholder="ID No." value="<?php echo isset($request_id)? $key->identitynumber :set_value('idnumber') ;?>">
       </div>
       <p><?php echo form_error('idnumber') ? alertMsg(false,'idnumber',form_error('idnumber')) : ''; ?></p>
     </div>
@@ -96,7 +95,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
         <label for="email" class="control-label label-primary passlabels "><span class="footPadRight"> E-mail</span></label>
       </div>
       <div class="col-md-6">					
-       <input type="text" id="email" name="email" class="form-control" placeholder="E-mail" value="<?php echo set_value('email') ;?>">
+       <input type="text" id="email" name="email" class="form-control" placeholder="E-mail" value="<?php echo isset($request_id)? $key->email : set_value('email') ;?>">
      </div>
      <p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
    </div>
@@ -109,7 +108,7 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
       <label for="phone" class="control-label  "><span class="footPadRight"> Phone</span></label>
     </div>				
     <div class="col-md-6">
-      <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo set_value('phone') ;?>">
+      <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo isset($request_id)? $key->phone : set_value('phone') ;?>">
     </div>
     <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
   </div>
@@ -129,7 +128,9 @@ echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctyp
 
  </div>
  <p><?php echo form_error('fileToUpload') ? alertMsg(false,'fileToUpload',form_error('fileToUpload')) : ''; ?></p>
-
+<?php
+            }
+            ?>
 
  <input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
  

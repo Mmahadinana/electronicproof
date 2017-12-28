@@ -492,3 +492,6 @@ i .fa .fa-archive {
     height: 20px;
      background-color: lightblue;
 }
+.noborders{
+    border:none;
+}
