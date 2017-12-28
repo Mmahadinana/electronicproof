@@ -39,11 +39,11 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<p>Step 1</p>
 				</div>
 				<div class="stepwizard-step">
-					<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
+					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Step 2</p>
 				</div>
 				<div class="stepwizard-step">
-					<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Step 3</p>
 				</div>
 
@@ -289,7 +289,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 </div>
 
-
+<!--script for validating stepwizard -->
 <script type="text/javascript">
 	$(document).ready(function ()
 	 {
@@ -341,6 +341,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 	});
 
 </script>
+
+
 <script> 
 	var errors = false;
     /**

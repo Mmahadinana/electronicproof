@@ -363,6 +363,7 @@ class Publiczone extends CI_Controller
 				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
+				
 				),
 
 			array(
