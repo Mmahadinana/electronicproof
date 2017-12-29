@@ -29,7 +29,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
-            <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
           </ul>
         </li>
           <li <?php echo (isset($_SESSION['email']) && $_SESSION['role'] != "admin")? "class=' '" : "class='hidden'"?> >             
@@ -41,7 +40,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             
             <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
-            <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
 
           </ul>
         </li>
