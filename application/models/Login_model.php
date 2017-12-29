@@ -119,6 +119,9 @@ public function startUserSession($username)
 
 	//build the session temporary cache by the username 
 	$session_data = (array)$this->get_user($username);
+
+	$session_data['owner']=$this->getOwner($session_data['id']);
+	
 	if(!empty($session_data)){	
 
 		$expireDate= strtotime($session_data['expireTime']);
@@ -138,6 +141,19 @@ public function startUserSession($username)
 			$this->session->set_userdata($session_data);
 		}
 	}
+}
+public function getOwner($user_id){
+
+	$this->db->select("owners.id,owners.user_id")
+	->from("owners")
+	->where("owners.user_id",$user_id);
+		   	 
+	if ($this->db->get()->row() != null) {
+		return true;
+	}else {
+		return false;
+	}
+
 }
 /**
  * [get_user description]

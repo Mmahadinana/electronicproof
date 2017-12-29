@@ -218,10 +218,7 @@ position: relative;*/
 .upload{
     margin: 3px
 }
-.fileToUpload{
-    margin: 0px;
-    padding: 0px;
-}
+
 .fileinput-button {
   position: relative;
   overflow: hidden;
@@ -494,4 +491,27 @@ i .fa .fa-archive {
 }
 .noborders{
     border:none;
+}
+.idUpload{
+    background: #64aaca;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 3px;
+  
+}
+.idupload input[type="file"] {
+    display: none; 
+}
+.fileToUpload{
+    background: #64aaca;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 3px; 
+}
+.fileToUpload input[type="file"] {
+     display: none; 
 }

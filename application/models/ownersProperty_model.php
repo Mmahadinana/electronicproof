@@ -139,6 +139,7 @@ class OwnersProperty_model extends CI_MODEL
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
+			
 		return $this->db->get()->result() ;
 	}
 	public function getProperty_Address(array $search = array(),int $limit = ITEMS_PER_PAGE)

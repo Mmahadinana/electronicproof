@@ -100,9 +100,9 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 	return $this->db->get()->result() ;
 }
-public function getProperty(array $search = array(),int $limit = ITEMS_PAGE)
+public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
-//public function getAddress(){
+
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
@@ -111,6 +111,7 @@ public function getProperty(array $search = array(),int $limit = ITEMS_PAGE)
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
+		
 	return $this->db->get()->result() ;
 }
 }
