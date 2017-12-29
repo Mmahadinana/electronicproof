@@ -69,6 +69,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
         </tbody>
       </table>
+          <h5 id="pari">(<a href ="<?php echo base_url("residents/OwnersDetails/") ?>">Edit Owner's Details</a>)</h5>
+
       <table class="table table-bordered">
         <thead>
           <tr>

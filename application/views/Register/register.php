@@ -113,7 +113,10 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 						<div class="form-group">
 							<label class="control-label" for="date_registration">Date of Registration</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
+								<input type="date" class="form-control" name="date_registration" <?php
+                             $currentDate = date('Y-m-d');
+                                    echo $currentDate;
+                           ?>  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
 							</div>
 							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 							
