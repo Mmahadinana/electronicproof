@@ -53,10 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div><!--.carousel-inner-->
               <a data-slide="prev" href="#Carousel" class="leftCarosel carousel-control"><span class="glyphicon glyphicon-chevron-left"></span>
               <span class="sr-only">Previous</span></a>
-              <div class="text-left">
               <a data-slide="next" href="#Carousel" class="rightCarosel carousel-control"><span class="glyphicon glyphicon-chevron-right"></span>
               <span class="sr-only">Next</span></a>
-            </div>
             </div><!--.Carousel-->
             
         </div>
