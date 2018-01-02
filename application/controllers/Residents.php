@@ -899,7 +899,7 @@ class Residents extends CI_Controller {
 		
 		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
 
-		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageToLoad']='eresidence/listOfApproval';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		$this->load->library('form_validation');

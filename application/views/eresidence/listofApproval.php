@@ -27,7 +27,7 @@ $property=0;
     <th>Edit</th>
   </tr>
   
-  <?php foreach ($getListToApprove as $user) {      
+  <?php foreach ($getListToComfirm as $user) {      
     ?>
     <tr><td><?php echo $user->name; ?> </td>
     <td><?php echo $user->door_number.' '.$user->street_name; ?></td>
