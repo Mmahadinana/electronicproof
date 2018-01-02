@@ -15,15 +15,16 @@ class Approval_model extends CI_MODEL{
 public function approvalquery($search )
 {
 
+$property_id = $search['property_id'] ?? FALSE;
 $user_id = $search['user_id'] ?? FALSE;
 
-if($user_id)
+if($property_id)
 {
-		$this->db->where('user.id',$user_id);
+		$this->db->where('property.id',$property_id)
+					->where('lives_on.user_id',$user_id);
 	}
 return $this->db
-->select("user.id,user.name,user.identitynumber,user.date_registration,
-		owners.id as owner,owners.user_id,owners.house_type,
+->select("user.id,user.name,user.identitynumber,user.date_registration,		
 		property.id as property,property.address_id,
 		address.id as addressid, address.door_number, address.street_name, address.suburb_id,
 		suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
@@ -32,9 +33,8 @@ return $this->db
 		district.name as district,
 		province.name as province ")
 	->from("user")
-	->join("owners","owners.user_id = user.id")	
-	->join("owners_property","owners_property.owners_id = owners.id")	
-	->join("property"," property.id= owners_property.property_id")
+	->join("lives_on","lives_on.user_id = user.id")			
+	->join("property"," property.id= lives_on.property_id")
 	->join("address"," address.id= property.address_id")
 	->join("suburb"," suburb.id = address.suburb_id")
 	->join("town","town.id = suburb.town_id")
@@ -60,53 +60,4 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 	return $this->db->get()->result();
 }
-
-public function approval_listquery($search )
-{
-
-$user_id = $search['user_id'] ?? FALSE;
-
-if($user_id)
-{
-		$this->db->where('user.id',$user_id);
-	}
-return $this->db
-->select("user.id,user.name,user.identitynumber,user.date_registration,
-		owners.id as owner,owners.user_id,owners.house_type,
-		property.id as property,property.address_id,
-		address.id as addressid, address.door_number, address.street_name, address.suburb_id,
-		suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
-		town.name as town,town.zip_code,
-		manucipality.name as manucipality,
-		district.name as district,
-		province.name as province ")
-	->from("user")
-	->join("owners","owners.user_id = user.id")	
-	->join("owners_property","owners_property.owners_id = owners.id")	
-	->join("property"," property.id= owners_property.property_id")
-	->join("address"," address.id= property.address_id")
-	->join("suburb"," suburb.id = address.suburb_id")
-	->join("town","town.id = suburb.town_id")
-	->join("manucipality","manucipality.id = town.manucipality_id")
-	->join("district","district.id = manucipality.district_id")
-	->join("province","province.id = district.province_id")
-	
-	->group_by('user.id')
-	->order_by('user.id');
-
-}
-
-public function getAddressThree(array $search = array(),int $limit = ITEMS_PER_PAGE)
-{
-	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
-//call the query to bring the residence
-	$this->approval_listquery($search)
-	//$this->requestquery();
-		//establish the limit and start to bring the owner address
-	->limit($limit,$offset);
-			//get data from bd
-	return $this->db->get()->result();
-}
-
 }

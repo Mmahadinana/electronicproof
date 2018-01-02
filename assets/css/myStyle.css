@@ -166,20 +166,23 @@ h3 {
   .carousel {
     margin-bottom: 0;
     padding: 0 40px 30px 40px;
-    
   }
   /* The controlsy */
   .carousel-control {
-    left: -3px;
+    left: -12px;
     height: 40px;
     width: 40px;
-    /*background: none repeat scroll 0 0 #222222;
-    border: 4px solid #FFFFFF;*/
-   
+    background: none repeat scroll 0 0 #222222;
+    border: 4px solid #FFFFFF;
+    border-radius: 23px 23px 23px 23px;
     margin-top: 90px;
   }
   .carousel-control.right {
+<<<<<<< HEAD
     right: -3px;
+=======
+    right: -12px;
+>>>>>>> 519c36059020d3f0487b2638b0c7b1491803a115
   }
 
   /* The indicators */
