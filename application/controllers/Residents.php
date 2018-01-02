@@ -6,12 +6,6 @@ class Residents extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		header('Last-Modified:'.gmdate('D, d M Y H:i:s').'GMT');
-		header('Cache-Control: no-cache,must-revalidate, max-age=0');
-		header('Cache-Control:post-check=0, pre-check=0', false);
-		header('Pragma:no-cache');
-
 		//library to access the session
 		$this->load->library("session");
 		$this->load->model("request_model");
@@ -23,7 +17,8 @@ class Residents extends CI_Controller {
 		$this->load->model("province_model");
 		$this->load->model("user_model");
 		$this->load->model("login_model");
-		$this->load->model("owners_property_model");	
+		$this->load->model("owners_property_model");
+	
 
 		$this->load->model("listOfRes_model");
 		$this->load->library('pagination');
@@ -669,7 +664,7 @@ class Residents extends CI_Controller {
 	 * @return [type] [description]
 	 */
 	public function userprofile()
-	{
+	{ 
 		$search=array();
 		$properties=array();
 		$search['user_idprofile']= $_SESSION['id'];
@@ -839,7 +834,7 @@ class Residents extends CI_Controller {
 	 */
 	public function confirmList() 
 	{
-
+		
   //user that does is not owner have no access to this view
   if ($_SESSION['owner'] != true) {
     redirect(base_url());
@@ -1045,27 +1040,14 @@ public function confirmResident()
 	
 	$search=array();
 
-	$search['owner_id']= $this->input->post('owner_id');
-	//$search['user_id']= $_SESSION['id'];
-	$search['user_id']= $this->input->post('user_id');
-	$search['property_id']= $this->input->post('property_id');
+	//$search['owner_id']= $this->input->post('owner_id');
+	$search['user_id']= $_SESSION['id'];
+	//$search['user_id']= $this->input->post('user_id');
+	//$search['property_id']= $this->input->post('property_id');
 	
 
-		if ($search['property_id'] != null) {
-	     $listvar=array('property_id'=>$search['property_id'],'owner_id'=>$search['owner_id'],'user_id'=>$search['user_id']);
-
-	    $this->session->set_userdata($listvar);
-	    }
-		else {
-			
-			$search['property_id']=$_SESSION['property_id'];
-			$search['owner_id']=$_SESSION['owner_id'];
-			$search['user_id']=$_SESSION['user_id'];
-			
-		}
-	///
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
-
+	
 	$data['pageToLoad']='eresidence/confirmResident';
 	$data['pageActive']='eresidence';
 
@@ -1075,24 +1057,6 @@ public function confirmResident()
 	$this->load->library('form_validation');
 	$this->load->view('ini',$data);
 
-}
-public function confirm()
-{
-	$search=array();
-
-	$search['owner_id']= $this->input->post('owner_id');
-	//$search['user_id']= $_SESSION['id'];
-	$search['user_id']= $this->input->post('user_id');
-	$search['property_id']= $this->input->post('property_id');
-
-	if($this->input->post('confirm')){
-		$this->request_model->confirm_status(1);
-		redirect('residents/confirmList');
-	}
-	else {
-		$this->request_model->confirm_status(2);
-		redirect('residents/confirmList');
-	}
 }
 
 

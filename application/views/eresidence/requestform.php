@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //echo $_SESSION['id'];
     $action="residents/request/";
 
-    echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'off'));?>
+    echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data', 'autocomplete'=>'off'));?>
 
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
     <input type="hidden"  name="property_id" value="<?php echo $property_id; ?>">

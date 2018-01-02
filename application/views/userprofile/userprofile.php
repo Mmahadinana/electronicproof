@@ -1,6 +1,6 @@
  <?php
  defined('BASEPATH') OR exit('No direct script access allowed');
-
+ var_dump($_SESSION);
  ?>
 
  <div class="form-area">
@@ -71,7 +71,7 @@
  				<div class="col-sm-8 col-lg-8 pfTbl_padding">
  					<?php
  									$action="publiczone/editUser";
- 									echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data','autocomplete'=>'off'));?>
+ 									echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
  									<input type="hidden" name="userid" value=<?php echo($_SESSION['id']) ?>>
  									<input type="hidden" name="usercheck" value="true">
  									<div class="col-lg-6">

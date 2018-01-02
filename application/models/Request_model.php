@@ -530,20 +530,11 @@ public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PA
 			//get data from bd
 	return $this->db->get()->result();
 }
-public function confirm_status($status){
 
-$request_status=array(
-			'owner_confirmation_states'=>$status,
-			'owner_confirmation_date'=>date('Y-m-d H:i:s')
-		);
-$this->db->trans_start();
-
-$this->db->where('id',$request_id)
- 		->update('request_docs',$request_status);
- return $this->db->trans_complete();
-}
 
 }
+
+
 
 
 ?>
