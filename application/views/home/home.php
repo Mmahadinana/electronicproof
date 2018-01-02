@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                         <div class="item active">
                             <div class="row">
-                              <div class="col-md-6"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width:100%;"></a></div>
+                              <div class="col-md-12"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/mangaung_m.png') ?>" alt="Image" style="max-width%;"></a></div>
 
                              
                           </div><!--.row-->
@@ -31,24 +31,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       
                       <div class="item">
                         <div class="row">
-                        <div class="col-md-6"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Bushbuckridge_CoA.png')?>" alt="Image" style="max-width:100%;"></a></div>
+                        <div class="col-md-12"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/Bushbuckridge_CoA.png')?>" alt="Image" style="max-width%;"></a></div>
                             
                         </div><!--.row-->
                     </div><!--.item-->
                     
                     <div class="item">
                         <div class="row">
-                            <div class="col-md-6"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/jobe-municipal.png')?>" alt="Image" style="max-width:100%;"></a></div>
+                            <div class="col-md-12"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/jobe-municipal.png')?>" alt="Image" style="max-width%;"></a></div>
                              
                         </div><!--.row-->
                     </div><!--.item-->
 
                     <div class="item">
                             <div class="row">
-                              <div class="col-md-6"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/kopanong.jpg')?>" alt="Image" style="max-width:100%;"></a></div>                            
+                              <div class="col-md-12"><a href="#" class="thumbnail"><img src="<?php echo base_url('assets/logos/kopanong.jpg')?>" alt="Image" style="max-width%;"></a></div>                            
                              
                           </div><!--.row-->
                       </div><!--.item-->
+                     
                     
 
 
