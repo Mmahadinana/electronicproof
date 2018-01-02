@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1> Approval Form </h1>
+  <h1 > Approval Form </h1>
 
   <?php
  //var_dump($user_id) ;
