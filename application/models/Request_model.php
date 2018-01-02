@@ -154,40 +154,18 @@ class Request_model extends CI_MODEL
 	 * @return [type]         [description]
 	 */
 	public function getListToComfirmQuery($search )
-	{
+	{		
+		$user_id = $search['user_id'] ?? FALSE;		
 
-
-		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
-		$user_id = $search['user_id'] ?? FALSE;
-		$request_id = $search['request_id'] ?? FALSE;
-		$property = $search['property'] ?? FALSE;
-		$property_id = $search['property_id'] ?? FALSE;		
 		// Get the list of users for the owner to confirm
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
 					->where('request_docs.b_deleted',0); 
-		}
-
-		
-		if($property){
-			$this->db->where('request_docs.property_id',$property); 
-		}
-		if($property_id){
-			$this->db->where('request_docs.property_id',$property_id); 
 		}		
-
-		if($request_id){
-
-			$this->db->where('request_docs.id',$request_id); 
-		}
-
-		if($owner_confirmation_states)
-		{
-			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
-		}
+		
 		return	$this->db->select("user.name,
-			request_docs.id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+			request_docs.id,request_docs.user_id,request_docs.property_id,request_docs.date_request,request_docs.owner_confirmation_states,request_docs.administrator_confirmation_states,			
 			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
 			suburb.name as suburbname,suburb.town_id,
 			town.name as town,town.zip_code,
@@ -204,6 +182,7 @@ class Request_model extends CI_MODEL
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
 
+	
 		->group_by('request_docs.id')
 		->order_by('user.id');
 
@@ -212,20 +191,15 @@ class Request_model extends CI_MODEL
 	{
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
-		$owner = $search['owner'] ?? FALSE;
-		
+		$owner = $search['owner'] ?? FALSE;		
 		$property_id = $search['property_id'] ?? FALSE;		
 
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
-					->where('request_docs.b_deleted',0); 
-		}
-
-		/*if($property_id){
-			$this->db->where('request_docs.property_id',$property_id)
-					->where('request_docs.user_id',$user_id); 
-		}*/
+					->where('request_docs.b_deleted',0)
+					; 
+		}		
 		
 		if($property_id){
 			$this->db->where('request_docs.property_id',$property_id); 
@@ -260,7 +234,7 @@ class Request_model extends CI_MODEL
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
 		
-
+		->where('request_docs.owner_confirmation_states',0)
 		->group_by('request_docs.id')
 		->order_by('user.id');
 
@@ -546,8 +520,9 @@ public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PA
 			//get data from bd
 	return $this->db->get()->result();
 }
-public function confirm_status($status,$request_id=0){
+public function confirm_status($status,$search){
 
+$request_id=$search['request_id'];
 $request_status=array(
 			'owner_confirmation_states'=>$status,
 			'owner_confirmation_date'=>date('Y-m-d H:i:s')

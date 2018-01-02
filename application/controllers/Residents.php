@@ -857,8 +857,10 @@ class Residents extends CI_Controller {
 			foreach ($data['getListToComfirm'] as $confirm) {
 				if ($confirm->property_id==$owner->property) {
 					
-					$requestPropertyID[$confirm->property_id]=$confirm->property_id;
-					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm($requestPropertyID);
+					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
+					//get the list that owner should complete
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
+					
 				}					
 			}		
 
@@ -875,6 +877,7 @@ class Residents extends CI_Controller {
 		if (expr) {
 			
 		}*/
+
 		$data['pageToLoad']='eresidence/confirmList';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -1095,12 +1098,13 @@ public function confirm()
 	
 
 	if($this->input->post('confirm')){
-		//$this->request_model->confirm_status(1);
+		//$this->request_model->confirm_status(1,$search);
 	
 		redirect('residents/confirmList');
 	}
 	else {
-		$this->request_model->confirm_status(2);
+
+		$this->request_model->confirm_status(2,$search);
 		redirect('residents/confirmList');
 	}
 }
