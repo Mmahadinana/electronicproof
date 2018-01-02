@@ -5,12 +5,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1> Approval Form </h1>
+  <h1> Approval List </h1>
 
   <?php
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
-  $action="residents/approve/";
+  $action="residents/approval_list/";
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
   <div class="form-area" >
@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
         </div>
         <div class="col-lg-3">
-          <button class="btn btn-lg btn-primary form-control" name="approve" id="approve"  type="submit">Approve</button>     
+          <button class="btn btn-lg btn-primary form-control" name="approval_list" id="approval_list"  type="submit">Approval</button>     
         </div>
 
         <div class="col-lg-3">

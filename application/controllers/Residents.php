@@ -165,6 +165,7 @@ class Residents extends CI_Controller {
 		$search['user_id']=$_SESSION['id'];
 		
 		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
+		$data['getListToApproval']=$this->request_model->getListToApproval($search);
 
 		$data['pageToLoad']='eresidence/viewRequestMade';
 		$data['pageActive']='eresidence';
@@ -837,6 +838,53 @@ class Residents extends CI_Controller {
 
 	}
 	/**
+	 * Appro
+	 */
+
+	public function approval_list() 
+	{
+		$search=array();		
+		$requestPropertyID=array();		
+		//$data['approvalListForRequest']=array();		
+		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+		
+		//$count=count($data['owner']);
+		$data['getListToApproval']=$this->request_model->getListToApproval();
+		
+		$data['pageToLoad']='eresidence/approval_list';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+
+	}
+
+public function aprroval_list()
+{
+	
+	$search=array();
+
+	//$search['owner_id']= $this->input->post('owner_id');
+	$search['user_id']= $_SESSION['id'];
+	//$search['user_id']= $this->input->post('user_id');
+	//$search['property_id']= $this->input->post('property_id');
+	
+
+	$data['user_addinfor']= $this->approval_model->getAddressThree($search);
+	
+	$data['pageToLoad']='eresidence/aprroval_list';
+	$data['pageActive']='eresidence';
+
+// loading the form and files for file uoload		
+	$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
+
+}
+
+	/**
 	 * [listOfApproval description]
 	 * @return [type] [description]
 	 */
@@ -851,8 +899,34 @@ class Residents extends CI_Controller {
 		}		
 		
 		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
+		$data['getListToApproval']=$this->request_model->getApprovalListToComfirm($search);
 
 		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
+
+	}
+	/**
+	 * list of approval
+	 */
+
+		public function listOfApprovaltwo() 
+	{
+		$search=array();		
+		
+		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+		
+		foreach ($data['owner'] as $owner) {
+			$search['property']=$owner->property;			
+		}		
+		
+		//$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
+		$data['getListToApproval']=$this->request_model->getApprovalListToComfirm($search);
+
+		$data['pageToLoad']='eresidence/approval_list';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		$this->load->library('form_validation');

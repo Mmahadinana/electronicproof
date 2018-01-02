@@ -27,6 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <li <?php echo setMenuActiveItem ($pageActive == "approve")?>><a href="<?php echo base_url('residents/approve')?>">Approval</a></li>      
             <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li>
+             <li <?php echo setMenuActiveItem ($pageActive == "approval_list")?>><a href="<?php echo base_url('residents/approval_list')?>">Approval List</a></li>
             <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
             <li <?php echo setMenuActiveItem ($pageActive == "ownersDetails")?>><a href="<?php echo base_url('residents/ownersDetails') ?>">Owners Details</a></li>
@@ -37,7 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <ul class="dropdown-menu dropdownmenu " >
             <li <?php echo setMenuActiveItem ($pageActive == "Request")?>><a href="<?php echo base_url('residents/request') ?>">Request</a></li>
            
-            <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li>    
+            <li <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('residents/confirmList')?>">Confirm List</a></li> 
+            <li <?php echo setMenuActiveItem ($pageActive == "approval_list")?>><a href="<?php echo base_url('residents/approval_list')?>">Approval List</a></li>    
             
             <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
