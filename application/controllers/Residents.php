@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed'); 
 
 class Residents extends CI_Controller {
 
@@ -1065,6 +1065,7 @@ public function confirmResident()
 		}
 	///
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
+	
 
 	$data['pageToLoad']='eresidence/confirmResident';
 	$data['pageActive']='eresidence';
