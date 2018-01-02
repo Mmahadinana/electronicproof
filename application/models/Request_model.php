@@ -20,7 +20,7 @@ class Request_model extends CI_MODEL
 	 */
 	public function requestquery($search )
 	{
-
+		
 		$property_id = $search['property_id'] ?? FALSE;
 
 		$user_id = $search['user_id'] ?? FALSE;
