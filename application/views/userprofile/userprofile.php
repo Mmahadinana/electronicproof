@@ -1,9 +1,10 @@
  <?php
  defined('BASEPATH') OR exit('No direct script access allowed');
+ //var_dump($_SESSION);
  ?>
 
  <div class="form-area">
-<h1>User Profile</h1>
+ 	<h1>User Profile</h1>
 
  	
  	<div class="container">
@@ -68,9 +69,21 @@
  			</div>
  			<div class="row">
  				<div class="col-sm-8 col-lg-8 pfTbl_padding">
- 					<table class="table ">
+ 					<?php
+ 									$action="publiczone/editUser";
+ 									echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+ 									<input type="hidden" name="userid" value=<?php echo($_SESSION['id']) ?>>
+ 									<input type="hidden" name="usercheck" value="true">
+ 									<div class="col-lg-6">
+ 										<button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="Edit"><i class="fa fa-list-alt " aria-hidden="true">&nbsp;&nbsp;Edit My Information</i></button>
+ 									</div>
+ 								</form>
+ 					<table <?php echo $_SESSION['owner'] != false ? "class=' '" : "class='hidden'"?> class="table ">
+
  						<caption class="h3 text-center">List of your properties</caption>
+
  						<thead>
+
  							<tr class="warning text-danger">
  								<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
  								<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
@@ -81,6 +94,7 @@
  							</tr>
  						</thead>
  						<tbody>
+
  							<?php foreach ($property_addinfor as $value) {?>
 
  							<tr>
@@ -119,23 +133,23 @@
  								<td>  
  									<?php
 
-          $action="residents/request";
-//var_dump($getListToComfirm);
-          echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
-          <input type="hidden" name="property_id" value=<?php echo $value->property ?>>
-          <input type="hidden" name="usercheck" value="true">
-          <button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
-            <!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
-          </button>
-        </form>
+ 									$action="residents/request";
 
- 									<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
+ 									echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+ 									<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
+ 									<input type="hidden" name="usercheck" value="true">
+ 									<button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
+ 										<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
+ 									</button>
+ 								</form>
+
+ 								<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
  								<td>  <a href="#">&nbsp;&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a></td>
 
  							</tr><?php	} ?>
  							<tr class="warning">
  								<td  colspan="5" headers="list"class="col-lg-12">
- 									<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View RequestMade</a>
+ 									<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
  								</td>
  							</tr>
  						</tbody>
@@ -143,5 +157,5 @@
  				</div>
  			</div>
  		</div> 		 		
- 	
- </div>
+
+ 	</div>

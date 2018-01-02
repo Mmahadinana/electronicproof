@@ -35,7 +35,7 @@ class Request_model extends CI_MODEL
 			->where('user.id',$user_id); 
 		}
 		return $this->db
-		->select("user.id,user.name,user.identitynumber,
+		->select("user.id,user.name,user.identitynumber,user.email,user.phone,
 			role.role,role.id as roleid,
 			login.id as login id,		
 			property.id as property,property.address_id,
@@ -135,8 +135,6 @@ class Request_model extends CI_MODEL
 		if($user_idprofile){
 			$this->db->where('user.id',$user_idprofile); 
 		}
-
-
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
@@ -157,15 +155,13 @@ class Request_model extends CI_MODEL
 	 */
 	public function getListToComfirmQuery($search )
 	{
-
+//var_dump($search);
 
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$request_id = $search['request_id'] ?? FALSE;
 		$property = $search['property'] ?? FALSE;
-		$property_id = $search['property_id'] ?? FALSE;
-			
-		
+		$property_id = $search['property_id'] ?? FALSE;		
 
 		if($user_id)
 		{
@@ -208,6 +204,96 @@ class Request_model extends CI_MODEL
 		->join("province","province.id = district.province_id")
 
 		->group_by('request_docs.id')
+		->order_by('user.id');
+
+	}
+	public function getListToComfirmRequestQuery($search )
+	{
+
+		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
+		$user_id = $search['user_id'] ?? FALSE;
+		$owner = $search['owner'] ?? FALSE;
+		
+		$property_id = $search['property_id'] ?? FALSE;		
+
+		if($user_id)
+		{
+			$this->db->where('request_docs.user_id',$user_id)
+					->where('request_docs.b_deleted',0); 
+		}
+
+		
+		
+		if($property_id){
+			$this->db->where('request_docs.property_id',$property_id); 
+		}
+		if($owner){
+
+			$this->db->where('owners.user_id',$owner); 
+		}
+
+		if($owner_confirmation_states)
+		{
+			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
+		}
+		return	$this->db->select("user.name,
+			request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+			owners.user_id as owner,
+			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+			suburb.name as suburbname,suburb.town_id,
+			town.name as town,town.zip_code,
+			manucipality.name as manucipality,
+			district.name as district,
+			province.name as province")
+		->from("user")	
+		->join("request_docs","request_docs.user_id = user.id")	
+		->join("property","property.id =request_docs.property_id ")	
+		->join("owners_property"," owners_property.property_id= property.id")
+		->join("owners"," owners.id = owners_property.owners_id")
+		->join("address"," address.id= property.address_id")
+		->join("suburb"," suburb.id = address.suburb_id")
+		->join("town","town.id = suburb.town_id")
+		->join("manucipality","manucipality.id = town.manucipality_id")
+		->join("district","district.id = manucipality.district_id")
+		->join("province","province.id = district.province_id")
+		
+
+		->group_by('request_docs.id')
+		->order_by('user.id');
+
+	}
+	public function getAttachmentQuery($search=array() )
+	{
+		//var_dump($search);
+			$request_id = $search['request_id'] ?? FALSE;
+			$user_id = $search['user_id'] ?? FALSE;
+			$idUpload = $search['idUpload'] ?? FALSE;
+			$fileToUpload = $search['fileToUpload'] ?? FALSE;
+		
+		if($idUpload && $user_id){
+
+			$this->db->where('attachments.minetype',$idUpload); 
+		}
+		if($fileToUpload){
+
+			$this->db->where('attachments.minetype',$fileToUpload)
+					->where('user.id',$user_id); 
+		}
+		if($request_id){
+
+			$this->db->where('request_docs.id',$request_id); 
+		}
+
+	return	$this->db->select("user.name,
+			proof_of_res_doc.id,proof_of_res_doc.user_id,proof_of_res_doc.property_id,proof_of_res_doc.attachment_id,
+			attachments.minetype,attachments.original_name,		
+			 ")
+		->from("user")	
+		->join("proof_of_res_doc","proof_of_res_doc.user_id = user.id")		
+		->join("attachments"," attachments.id = proof_of_res_doc.attachment_id")
+		
+
+		->group_by('proof_of_res_doc.id')
 		->order_by('user.id');
 
 	}
@@ -292,6 +378,19 @@ class Request_model extends CI_MODEL
 			//get data from bd
 		return $this->db->get()->result();
 	}
+	public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
+
+	//where to start bringing the rows for the pagination
+		$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+		$this->getAttachmentquery($search)
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+			//get data from bd
+		return $this->db->get()->result();
+	}
 	/**
 	 * 
 	 */
@@ -334,7 +433,7 @@ class Request_model extends CI_MODEL
 	 * @param  string $minetype [description]
 	 * @return [type]           [description]
 	 */
-	public function insertFileData($data =array(),$minetype='')
+	public function insertFileData($data =array(),$minetype='',$proofOfRecData=0)
 	{
 
 		$requests = array(
@@ -345,11 +444,11 @@ class Request_model extends CI_MODEL
 			'newname'=>$data['raw_name'],
 			'minetype'=>$minetype,
 		);
-		$this->db->trans_start();
+		//$this->db->trans_start();
 		$this->db->insert("attachments",$requests);
-		     	//$attachments_id = $this->db->insert_id();
-		     	//$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
-		return $this->db->trans_complete();
+		     	$attachments_id = $this->db->insert_id();
+		     	$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
+		return $attachments_id;
 
 
 	}
@@ -373,7 +472,7 @@ class Request_model extends CI_MODEL
 	}
 
 	/***********************function to insert the data into proof_of_res_doc table**************************/
-	/*public function insertInProodOfResDoc($proofOfRecData,$attachments_id){
+	public function insertInProodOfResDoc($proofOfRecData,$attachments_id){
 
 		$tabledata = array(
 			'property_id'=>$proofOfRecData['property'],
@@ -384,20 +483,20 @@ class Request_model extends CI_MODEL
 		$this->db->insert("proof_of_res_doc",$tabledata);
 		     	/*$attachments_id = $this->db->insert_id();
 		     	$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);*/
-		     	/*$this->insertInRequest_docs($proofOfRecData,$attachments_id);
+		     	/*$this->insertInRequest_docs($proofOfRecData,$attachments_id);*/
 
 		     	return $this->db->trans_complete();
 		     	
 
 
-		     }*/
+		     }
 		     /***********************function to insert the multiple files into data**************************/
 		     /**
 		      * [insertMultipleFileData description]
 		      * @param  array  $data [description]
 		      * @return [type]       [description]
 		      */
-		     public function insertMultipleFileData($data=array())
+		     public function insertMultipleFileData($data=array(),$proofOfRecData = 0)
 		     {
 
 		     	foreach ($data as $value) 
@@ -408,7 +507,7 @@ class Request_model extends CI_MODEL
 		     		}
 		     		$minetype='PD';
 	//$status = $this->addIdUpload($file);
-		     		$this->insertFileData($file,$minetype);
+		     		return $this->insertFileData($file,$minetype,$proofOfRecData);
 
 	/*if(!$status){
 
@@ -418,6 +517,14 @@ class Request_model extends CI_MODEL
 //return $status;
 
 
+}
+public function cancelRequestAtta($file_id=0){
+	return $this->db->delete('attachments',array('attachments.id'=>$file_id));
+
+}
+public function cancelReques($file_id =0){
+	$this->db->delete('proof_of_res_doc',array('proof_of_res_doc.id'=>$file_id));
+ return $this->cancelRequestAtta($file_id );
 }
 /**
  * [insertRequest description]
@@ -446,9 +553,6 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 
 public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
-//public function getAddress(){
-
-
 
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
@@ -459,6 +563,21 @@ public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
+	
+	return $this->db->get()->result();
+}
+public function getListToComfirmRequest(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->getListToComfirmRequestQuery($search)			
+
+	//$this->requestquery();
+		//establish the limit and start to bring the owner address
+	->limit($limit,$offset);
+			//get data from bd
+			
 	return $this->db->get()->result();
 }
 

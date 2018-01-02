@@ -60,7 +60,10 @@ class Residents extends CI_Controller {
 	  */
 	public function Eresidence()
 	{
-		//var_dump($_SESSION);
+		if($_SESSION['role']!="admin")
+		{
+		    redirect('login/login_');
+		}
 		$id_remove=$this->input->post('id_Property');
 		if ($id_remove!=0 and is_numeric($id_remove))
 		{
@@ -152,9 +155,9 @@ class Residents extends CI_Controller {
 		$this->load->view('ini',$data);
 
 
-	}
+}
 
-	//////////**************** this function enable the user who has made a request to view the request they maderesidence************///////////
+/************* this function enable the user who has made a request to view the request they maderesidence*************/
 	/**
 	 * [viewRequestMade description]
 	 * @return [type] [description]
@@ -323,30 +326,29 @@ class Residents extends CI_Controller {
 					$this->load->view('ini',$data);
 				}
 				else{
-			/*
+			
 			//send data to the database
 			$proofOfRecData=array();
 			foreach($data['user_addinfor'] as $property){
 				$proofOfRecData['property']= $property->property;
-
 			}
-			//$property_id=
+			
 			$proofOfRecData['user_id']=$_SESSION['id'];
-					$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
-					//var_dump($this->upload_data1['file']);
-					$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
-			//$this->load->view('ini',$data); 
+					$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+					
+					$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+					
+			/*/$this->load->view('ini',$data); 
 					$this->requestPreview($data['user_addinfor']);
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 
-			*/
 			//send data to the database
-					//$this->request_model->insertFileData($this->upload_data['file'],'ID');
-					//var_dump($this->upload_data1['file']);
-					//$this->request_model->insertMultipleFileData($this->upload_data1);
-			//$this->load->view('ini',$data); 
+					$this->request_model->insertFileData($this->upload_data['file'],'ID');
+					
+					$this->request_model->insertMultipleFileData($this->upload_data1);
+			//$this->load->view('ini',$data); */
 
-					$this->requestPreview($data['user_addinfor']);
+					$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
@@ -366,20 +368,34 @@ class Residents extends CI_Controller {
 	}
 	public function EditRequest()
 	{ 
-
+		$search=array();
+		
 		$property_id=$this->input->post('property_id');
-		//var_dump($property_id);	
+		$data['request_id']=$this->input->post('request_id');
+		$request_id=$data['request_id'];
+	
+		//$search['request_id']=$request_id;
+		$search['user_id']=$_SESSION['id'];
+		$search['idUpload']='ID';
+		
+		$data['fileToUpload']=$this->request_model->getAttachment($search);
+		
+		$search['fileToUpload']='PD';
+		$search['idUpload']='';
+		$data['idUpload']=$this->request_model->getAttachment($search);
+
 		$data['property_id']=$property_id;	
 		if ($property_id != null) {
-			$search=array();
+			
 
 			$search['property_id']= $property_id;
 			$search["user_id"]= $_SESSION['id'];
 
 
 			$data['user_addinfor']= $this->request_model->getAddress($search);
-			//var_dump($data['user_addinfor']);
+			
 			$data['db']= $this->request_model->getOwner($search);
+			
 
 			$data['pageToLoad']='eresidence/request';
 			$data['pageActive']='eresidence';
@@ -616,18 +632,24 @@ class Residents extends CI_Controller {
  * @param  array  $user_addinfor [description]
  * @return [type]                [description]
  */
-	public function requestPreview($user_addinfor=array())
+	public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	{ 
+
 		$search=array();
 		foreach($user_addinfor as $userdata)
 		{
 			$search['property_id']=$userdata->property;
 			
 		}
+		$data['multipleFile']=$multipleFile;
+		$data['fileID']=$fileID;
+
 		
 		$data['residentInfor']=$user_addinfor;
 		$data['owner_addinfor']=$this->request_model->getOwner($search);
-
+		/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
+		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
+		var_dump($data['fileAttament1']);*/
 		//$data['user_id']= $this->request_model->getAddress($search);
 		$data['pageToLoad']='eresidence/requestPreview';
 		$data['pageActive']='eresidence';
@@ -693,6 +715,16 @@ class Residents extends CI_Controller {
 		//redirect('residents/waitingForApproval/'.$user_id);
 		$this->waitingForApproval($user_id,$property_id);
 	}
+	public function askDelete()
+	{
+		$attament=$this->input->post('fileID');
+		//var_dump($attament);
+		$data['pageToLoad']='eresidence/askDelete';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');	
+		
+		$this->load->view('ini',$data);
+	}
 	/**
 	 * [waitingForApproval description]
 	 * @param  integer $user_id     [description]
@@ -742,6 +774,10 @@ class Residents extends CI_Controller {
  */
 	public function listOfResidents()
 	{
+		if($_SESSION['role']!="admin")
+		{
+		    redirect('login/login_');
+		}
 		$search=array();
 		$property_id=$this->input->post('property_id');
 		
@@ -799,14 +835,20 @@ class Residents extends CI_Controller {
 	 */
 	public function confirmList() 
 	{
+		
+  //user that does is not owner have no access to this view
+  if ($_SESSION['owner'] != true) {
+    redirect(base_url());
+  }
 		$search=array();		
 		$requestPropertyID=array();		
 		//$data['getOwnerListToComfirm']=array();		
 		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
-		
+		$search['owner']=$_SESSION['id'];
 		//$count=count($data['owner']);
-		$data['getListToComfirm']=$this->request_model->getListToComfirm();
-		/*foreach ($data['owner'] as $owner) {
+		$data['getListToComfirm']=$this->request_model->getListToComfirmRequest($search);
+		//var_dump($data['owner']);
+		foreach ($data['owner'] as $owner) {
 		
 			foreach ($data['getListToComfirm'] as $confirm) {
 				if ($confirm->property_id==$owner->property) {
@@ -817,9 +859,9 @@ class Residents extends CI_Controller {
 			}		
 
 			//$ownerPropertyID[$owner->property]=$owner->property;
-
+			
 		}
-		var_dump($requestPropertyID);*/		
+				
 		
 		
 		
@@ -970,7 +1012,8 @@ public function aprroval_list()
 		$id =  $_SESSION['id'];
 
 		$search['user_id']= $_SESSION['id'];	
-		$search['mysearch']= $this->input->get('mysearch')??'';
+		$search['mysearch']= $this->input->post('mysearch')??'';
+
 		$search['page']=$this->input->get('per_page')??0;
 		
 		$data['search']=$search;
@@ -1042,7 +1085,10 @@ public function aprroval_list()
  */
 public function approve()
 {
-	
+	if($_SESSION['role']!="admin")
+		{
+		    redirect('login/login_');
+		}
 	$search=array();
 
 	//$search['owner_id']= $this->input->post('owner_id');
@@ -1054,6 +1100,29 @@ public function approve()
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
 	
 	$data['pageToLoad']='eresidence/approve';
+	$data['pageActive']='eresidence';
+
+// loading the form and files for file uoload		
+	$this->load->helper(array('form','file','url'));
+		//$this->load->helper(array('form','url'));
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
+
+}
+public function confirmResident()
+{
+	
+	$search=array();
+
+	//$search['owner_id']= $this->input->post('owner_id');
+	$search['user_id']= $_SESSION['id'];
+	//$search['user_id']= $this->input->post('user_id');
+	//$search['property_id']= $this->input->post('property_id');
+	
+
+	$data['user_addinfor']= $this->approval_model->getAddress($search);
+	
+	$data['pageToLoad']='eresidence/confirmResident';
 	$data['pageActive']='eresidence';
 
 // loading the form and files for file uoload		

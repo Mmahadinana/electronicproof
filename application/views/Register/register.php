@@ -39,11 +39,11 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<p>Step 1</p>
 				</div>
 				<div class="stepwizard-step">
-					<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user" aria-hidden="true"></i></a>
+					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Step 2</p>
 				</div>
 				<div class="stepwizard-step">
-					<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Step 3</p>
 				</div>
 
@@ -113,7 +113,10 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 						<div class="form-group">
 							<label class="control-label" for="date_registration">Date of Registration</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
+								<input type="date" class="form-control" name="date_registration" <?php
+                             $currentDate = date('Y-m-d');
+                                    echo $currentDate;
+                           ?>  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
 							</div>
 							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 							
@@ -289,7 +292,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 </div>
 
-
+<!--script for validating stepwizard -->
 <script type="text/javascript">
 	$(document).ready(function ()
 	 {
@@ -341,6 +344,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 	});
 
 </script>
+
+
 <script> 
 	var errors = false;
     /**

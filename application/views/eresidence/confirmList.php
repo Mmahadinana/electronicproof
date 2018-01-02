@@ -43,13 +43,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <?php
 
-   
  //*****************************************print name of list of users that made requests******************************/   
 foreach ($getOwnerListToComfirm as $user) {
-  
+ 
 
 
-      $user_id=  $user->id;    
+      $user_id=  $user->request_docs_id;    
       ?>
 
 
@@ -60,7 +59,7 @@ foreach ($getOwnerListToComfirm as $user) {
           <?php
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
-          $action="residents/approve/";
+          $action="residents/confirmResident/";
 
           echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 

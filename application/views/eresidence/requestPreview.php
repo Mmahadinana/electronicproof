@@ -113,9 +113,18 @@ foreach ($residentInfor as $key ){
    <button class="btn btn-lg btn-primary ">CONFIRM</button>
    
  </div>
- <div class="col-lg-4 col-md-12">
-  <a href="<?php echo base_url() ?>" class="btn btn-lg btn-warning ">CANCEL</a>
 </form>
+ <div class="col-lg-4 col-md-12">
+ 
+<?php
+                  $action="residents/askdelete";
+                  echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+                  <input type="hidden" name="multipleFile[]" value=<?php  echo($_SESSION['id']) ?>>
+                  <input type="hidden" name="fileID" value=<?php echo $fileID ?>>
+                  <div class="col-lg-6">
+                    <button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="cancel">CANCEL</button>
+                  </div>
+                </form>
 </div>
 </div>
 </div>
