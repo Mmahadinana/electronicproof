@@ -1046,13 +1046,17 @@ public function confirmResident()
 	$search=array();
 
 	$search['owner_id']= $this->input->post('owner_id');
-	//$search['user_id']= $_SESSION['id'];
+	$search['request_id']= $this->input->post('request_id');
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
 	
 
 		if ($search['property_id'] != null) {
-	     $listvar=array('property_id'=>$search['property_id'],'owner_id'=>$search['owner_id'],'user_id'=>$search['user_id']);
+	     $listvar=array('property_id'=>$search['property_id'],
+	     	'owner_id'=>$search['owner_id'],
+	     	'user_id'=>$search['user_id'],
+	     	'request_id'=>$search['request_id'],
+	     );
 
 	    $this->session->set_userdata($listvar);
 	    }
@@ -1061,6 +1065,7 @@ public function confirmResident()
 			$search['property_id']=$_SESSION['property_id'];
 			$search['owner_id']=$_SESSION['owner_id'];
 			$search['user_id']=$_SESSION['user_id'];
+			$search['request_id']=$_SESSION['request_id'];
 			
 		}
 	///
@@ -1081,13 +1086,17 @@ public function confirm()
 {
 	$search=array();
 
-	$search['owner_id']= $this->input->post('owner_id');
+	
 	//$search['user_id']= $_SESSION['id'];
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
+	$search['request_id']= $this->input->post('request_id');
+	$data['user_request']=$this->request_model->getUserRequest($search);
+	
 
 	if($this->input->post('confirm')){
-		$this->request_model->confirm_status(1);
+		//$this->request_model->confirm_status(1);
+	
 		redirect('residents/confirmList');
 	}
 	else {

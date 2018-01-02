@@ -14,8 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'on'));?>
   <div class="form-area" >
-    <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
+    <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['user_id']; ?>>
     <input type="hidden" id="property_id" name="property_id" value=<?php echo $_SESSION['property_id']; ?>>
+    <input type="hidden" id="request_id" name="request_id" value=<?php echo $_SESSION['request_id']; ?>>
     <div class="row tablereq" id="approval">
       <div class="col-md-10">
         <table class="table text-left romtbl_borders">
