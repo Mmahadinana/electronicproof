@@ -47,7 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 foreach ($getOwnerListToComfirm as $user) {
  
 $property_id=$user->property_id;
-      $user_id=  $user->request_docs_id;    
+      $request_id=  $user->request_docs_id;    
+      $user_id=  $user->user_id;    
+
       ?>
 
 
@@ -56,7 +58,7 @@ $property_id=$user->property_id;
         <td><?php echo $user->date_request; ?></td>
         <td class='text-center'>
           <?php
- //var_dump($user_id) ;
+ 
 //echo $_SESSION['id'];
           $action="residents/confirmResident/";
 
@@ -64,6 +66,7 @@ $property_id=$user->property_id;
 
           <input type="hidden" name="owner_id" value=<?php echo $owner_id; ?>>
           <input type="hidden" name="user_id" value=<?php echo $user_id; ?>>
+          <input type="hidden" name="request_id" value=<?php echo $request_id; ?>>
           <input type="hidden" name="property_id" value=<?php echo $property_id; ?>>
           <button type="submit" name="confirm" class="btn-success btn-md btn-radius"><span class='glyphicon glyphicon-pencil'></span> </button>
         </form>

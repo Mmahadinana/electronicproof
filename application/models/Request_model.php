@@ -155,14 +155,14 @@ class Request_model extends CI_MODEL
 	 */
 	public function getListToComfirmQuery($search )
 	{
-//var_dump($search);
+
 
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$request_id = $search['request_id'] ?? FALSE;
 		$property = $search['property'] ?? FALSE;
 		$property_id = $search['property_id'] ?? FALSE;		
-
+		// Get the list of users for the owner to confirm
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
@@ -175,7 +175,8 @@ class Request_model extends CI_MODEL
 		}
 		if($property_id){
 			$this->db->where('request_docs.property_id',$property_id); 
-		}
+		}		
+
 		if($request_id){
 
 			$this->db->where('request_docs.id',$request_id); 
@@ -209,7 +210,6 @@ class Request_model extends CI_MODEL
 	}
 	public function getListToComfirmRequestQuery($search )
 	{
-
 		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 		$user_id = $search['user_id'] ?? FALSE;
 		$owner = $search['owner'] ?? FALSE;
@@ -222,7 +222,10 @@ class Request_model extends CI_MODEL
 					->where('request_docs.b_deleted',0); 
 		}
 
-		
+		/*if($property_id){
+			$this->db->where('request_docs.property_id',$property_id)
+					->where('request_docs.user_id',$user_id); 
+		}*/
 		
 		if($property_id){
 			$this->db->where('request_docs.property_id',$property_id); 
@@ -264,7 +267,7 @@ class Request_model extends CI_MODEL
 	}
 	public function getAttachmentQuery($search=array() )
 	{
-		//var_dump($search);
+		
 			$request_id = $search['request_id'] ?? FALSE;
 			$user_id = $search['user_id'] ?? FALSE;
 			$idUpload = $search['idUpload'] ?? FALSE;
@@ -333,12 +336,25 @@ class Request_model extends CI_MODEL
 	 */
 	public function getUser(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
-//public function getAddress(){
+
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 		$this->userquery($search)
-	//$this->requestquery();
+	
+		//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+			//get data from bd
+		return $this->db->get()->result();
+	}
+public function getUserRequest(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
+
+	//where to start bringing the rows for the pagination
+		$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+		$this->getListToComfirmRequestQuery($search)
+	
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
@@ -530,7 +546,7 @@ public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PA
 			//get data from bd
 	return $this->db->get()->result();
 }
-public function confirm_status($status){
+public function confirm_status($status,$request_id=0){
 
 $request_status=array(
 			'owner_confirmation_states'=>$status,
