@@ -68,23 +68,23 @@ class Request_model extends CI_MODEL
  * @param  [type] $search [description]
  * @return [type]         [description]
  */
-	public function ownerquery($search )
-	{
+public function ownerquery($search )
+{
 
 
-		$property_id = $search['property_id'] ?? FALSE;
-		$user_id = $search['user_id'] ?? FALSE;
+	$property_id = $search['property_id'] ?? FALSE;
+	$user_id = $search['user_id'] ?? FALSE;
 		//$userid = $search['userid'] ?? FALSE;
-		
 
-		if($property_id)
-		{
-			$this->db->where('property.id',$property_id); 
-		}
-		if($user_id)
-		{
-			$this->db->where('owners.user_id',$user_id); 
-		}
+
+	if($property_id)
+	{
+		$this->db->where('property.id',$property_id); 
+	}
+	if($user_id)
+	{
+		$this->db->where('owners.user_id',$user_id); 
+	}
 		/*if($userid){
 			$this->db->where('owners_property.owners_id',$userid); 
 		}*/
@@ -166,7 +166,7 @@ class Request_model extends CI_MODEL
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
-					->where('request_docs.b_deleted',0); 
+			->where('request_docs.b_deleted',0); 
 		}
 
 		
@@ -219,176 +219,176 @@ class Request_model extends CI_MODEL
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
-					->where('request_docs.b_deleted',0); 
+			->where('request_docs.b_deleted',0); 
 		}
 
 		/*if($property_id){
 			$this->db->where('request_docs.property_id',$property_id)
 					->where('request_docs.user_id',$user_id); 
-		}*/
-		
-		if($property_id){
-			$this->db->where('request_docs.property_id',$property_id); 
-		}
-		if($owner){
+				}*/
 
-			$this->db->where('owners.user_id',$owner); 
-		}
+				if($property_id){
+					$this->db->where('request_docs.property_id',$property_id); 
+				}
+				if($owner){
 
-		if($owner_confirmation_states)
-		{
-			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
-		}
-		return	$this->db->select("user.name,
-			request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
-			owners.user_id as owner,
-			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
-			suburb.name as suburbname,suburb.town_id,
-			town.name as town,town.zip_code,
-			manucipality.name as manucipality,
-			district.name as district,
-			province.name as province")
-		->from("user")	
-		->join("request_docs","request_docs.user_id = user.id")	
-		->join("property","property.id =request_docs.property_id ")	
-		->join("owners_property"," owners_property.property_id= property.id")
-		->join("owners"," owners.id = owners_property.owners_id")
-		->join("address"," address.id= property.address_id")
-		->join("suburb"," suburb.id = address.suburb_id")
-		->join("town","town.id = suburb.town_id")
-		->join("manucipality","manucipality.id = town.manucipality_id")
-		->join("district","district.id = manucipality.district_id")
-		->join("province","province.id = district.province_id")
-		
+					$this->db->where('owners.user_id',$owner); 
+				}
 
-		->group_by('request_docs.id')
-		->order_by('user.id');
-
-	}
+				if($owner_confirmation_states)
+				{
+					$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
+				}
+				return	$this->db->select("user.name,
+					request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+					owners.user_id as owner,
+					address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+					suburb.name as suburbname,suburb.town_id,
+					town.name as town,town.zip_code,
+					manucipality.name as manucipality,
+					district.name as district,
+					province.name as province")
+				->from("user")	
+				->join("request_docs","request_docs.user_id = user.id")	
+				->join("property","property.id =request_docs.property_id ")	
+				->join("owners_property"," owners_property.property_id= property.id")
+				->join("owners"," owners.id = owners_property.owners_id")
+				->join("address"," address.id= property.address_id")
+				->join("suburb"," suburb.id = address.suburb_id")
+				->join("town","town.id = suburb.town_id")
+				->join("manucipality","manucipality.id = town.manucipality_id")
+				->join("district","district.id = manucipality.district_id")
+				->join("province","province.id = district.province_id")
 
 
-public function getApproveToComfirmQuery($search )
-	{
+				->group_by('request_docs.id')
+				->order_by('user.id');
 
-		$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
-		$user_id = $search['user_id'] ?? FALSE;
-		$owner = $search['owner'] ?? FALSE;
-		
-		$property_id = $search['property_id'] ?? FALSE;		
+			}
 
-		if($user_id)
-		{
-			$this->db->where('request_docs.user_id',$user_id)
+
+			public function getApproveToComfirmQuery($search )
+			{
+
+				$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
+				$user_id = $search['user_id'] ?? FALSE;
+				$owner = $search['owner'] ?? FALSE;
+
+				$property_id = $search['property_id'] ?? FALSE;		
+
+				if($user_id)
+				{
+					$this->db->where('request_docs.user_id',$user_id)
 					->where('request_docs.b_deleted',0); 
-		}
+				}
 
-		
-		
-		if($property_id){
-			$this->db->where('request_docs.property_id',$property_id); 
-		}
-		if($owner){
 
-			$this->db->where('owners.user_id',$owner); 
-		}
 
-		if($owner_confirmation_states)
-		{
-			$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
-		}
-		return	$this->db->select("user.name,
-			request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
-			owners.user_id as owner,
-			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
-			suburb.name as suburbname,suburb.town_id,
-			town.name as town,town.zip_code,
-			manucipality.name as manucipality,
-			district.name as district,
-			province.name as province")
-		->from("user")	
-		->join("request_docs","request_docs.user_id = user.id")	
-		->join("property","property.id =request_docs.property_id ")	
-		->join("owners_property"," owners_property.property_id= property.id")
-		->join("owners"," owners.id = owners_property.owners_id")
-		->join("address"," address.id= property.address_id")
-		->join("suburb"," suburb.id = address.suburb_id")
-		->join("town","town.id = suburb.town_id")
-		->join("manucipality","manucipality.id = town.manucipality_id")
-		->join("district","district.id = manucipality.district_id")
-		->join("province","province.id = district.province_id")
-		
+				if($property_id){
+					$this->db->where('request_docs.property_id',$property_id); 
+				}
+				if($owner){
 
-		->group_by('request_docs.id')
-		->order_by('user.id');
+					$this->db->where('owners.user_id',$owner); 
+				}
 
-	}
-	
-	public function getAttachmentQuery($search=array() )
-	{
-		
-			$request_id = $search['request_id'] ?? FALSE;
-			$user_id = $search['user_id'] ?? FALSE;
-			$idUpload = $search['idUpload'] ?? FALSE;
-			$fileToUpload = $search['fileToUpload'] ?? FALSE;
-		
-		if($idUpload && $user_id){
+				if($owner_confirmation_states)
+				{
+					$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
+				}
+				return	$this->db->select("user.name,
+					request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+					owners.user_id as owner,
+					address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+					suburb.name as suburbname,suburb.town_id,
+					town.name as town,town.zip_code,
+					manucipality.name as manucipality,
+					district.name as district,
+					province.name as province")
+				->from("user")	
+				->join("request_docs","request_docs.user_id = user.id")	
+				->join("property","property.id =request_docs.property_id ")	
+				->join("owners_property"," owners_property.property_id= property.id")
+				->join("owners"," owners.id = owners_property.owners_id")
+				->join("address"," address.id= property.address_id")
+				->join("suburb"," suburb.id = address.suburb_id")
+				->join("town","town.id = suburb.town_id")
+				->join("manucipality","manucipality.id = town.manucipality_id")
+				->join("district","district.id = manucipality.district_id")
+				->join("province","province.id = district.province_id")
 
-			$this->db->where('attachments.minetype',$idUpload); 
-		}
-		if($fileToUpload){
 
-			$this->db->where('attachments.minetype',$fileToUpload)
+				->group_by('request_docs.id')
+				->order_by('user.id');
+
+			}
+
+			public function getAttachmentQuery($search=array() )
+			{
+
+				$request_id = $search['request_id'] ?? FALSE;
+				$user_id = $search['user_id'] ?? FALSE;
+				$idUpload = $search['idUpload'] ?? FALSE;
+				$fileToUpload = $search['fileToUpload'] ?? FALSE;
+
+				if($idUpload && $user_id){
+
+					$this->db->where('attachments.minetype',$idUpload); 
+				}
+				if($fileToUpload){
+
+					$this->db->where('attachments.minetype',$fileToUpload)
 					->where('user.id',$user_id); 
-		}
-		if($request_id){
+				}
+				if($request_id){
 
-			$this->db->where('request_docs.id',$request_id); 
-		}
+					$this->db->where('request_docs.id',$request_id); 
+				}
 
-	return	$this->db->select("user.name,
-			proof_of_res_doc.id,proof_of_res_doc.user_id,proof_of_res_doc.property_id,proof_of_res_doc.attachment_id,
-			attachments.minetype,attachments.original_name,		
-			 ")
-		->from("user")	
-		->join("proof_of_res_doc","proof_of_res_doc.user_id = user.id")		
-		->join("attachments"," attachments.id = proof_of_res_doc.attachment_id")
-		
+				return	$this->db->select("user.name,
+					proof_of_res_doc.id,proof_of_res_doc.user_id,proof_of_res_doc.property_id,proof_of_res_doc.attachment_id,
+					attachments.minetype,attachments.original_name,		
+					")
+				->from("user")	
+				->join("proof_of_res_doc","proof_of_res_doc.user_id = user.id")		
+				->join("attachments"," attachments.id = proof_of_res_doc.attachment_id")
 
-		->group_by('proof_of_res_doc.id')
-		->order_by('user.id');
 
-	}
+				->group_by('proof_of_res_doc.id')
+				->order_by('user.id');
 
-	/***********************function get the address of the residents from the database**************************/
+			}
+
+			/***********************function get the address of the residents from the database**************************/
 /**
  * 
  */
-	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
-	{
+public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 
 	//where to start bringing the rows for the pagination
-		$offset = $search['page'] ?? 0;
+	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-		$this->requestquery($search)
+	$this->requestquery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
-		->limit($limit,$offset);
+	->limit($limit,$offset);
 			//get data from bd
-		return $this->db->get()->result();
-	}
-	public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
-	{
+	return $this->db->get()->result();
+}
+public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
 
 	//where to start bringing the rows for the pagination
-		$offset = $search['page'] ?? 0;
+	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-		$this->getAttachmentquery($search)
+	$this->getAttachmentquery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
-		->limit($limit,$offset);
+	->limit($limit,$offset);
 			//get data from bd
-		return $this->db->get()->result();
-	}
+	return $this->db->get()->result();
+}
 	/**
 	 * 
 	 */
@@ -399,20 +399,20 @@ public function getApproveToComfirmQuery($search )
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 		$this->userquery($search)
-	
+
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
 		return $this->db->get()->result();
 	}
-public function getUserRequest(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	public function getUserRequest(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
 
 	//where to start bringing the rows for the pagination
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 		$this->getListToComfirmRequestQuery($search)
-	
+
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
@@ -457,8 +457,8 @@ public function getUserRequest(array $search = array(),int $limit = ITEMS_PER_PA
 		);
 		//$this->db->trans_start();
 		$this->db->insert("attachments",$requests);
-		     	$attachments_id = $this->db->insert_id();
-		     	$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
+		$attachments_id = $this->db->insert_id();
+		$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
 		return $attachments_id;
 
 
@@ -476,10 +476,10 @@ public function getUserRequest(array $search = array(),int $limit = ITEMS_PER_PA
 			'b_deleted'=>'1'
 		);
 		$this->db->trans_start();
-				$this->db->where('id',$request_id) 
-						->update("request_docs",$request);
+		$this->db->where('id',$request_id) 
+		->update("request_docs",$request);
 
-			return $this->db->trans_complete();
+		return $this->db->trans_complete();
 	}
 
 	/***********************function to insert the data into proof_of_res_doc table**************************/
@@ -535,7 +535,7 @@ public function cancelRequestAtta($file_id=0){
 }
 public function cancelReques($file_id =0){
 	$this->db->delete('proof_of_res_doc',array('proof_of_res_doc.id'=>$file_id));
- return $this->cancelRequestAtta($file_id );
+	return $this->cancelRequestAtta($file_id );
 }
 /**
  * [insertRequest description]
@@ -588,13 +588,14 @@ public function getListToComfirmRequest(array $search = array(),int $limit = ITE
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
-			
+
 	return $this->db->get()->result();
 }
 public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
+	$offset = $search['page'] ?? 1;
+	$config['property_id']  = 1;
 //call the query to bring the residence
 	$this->getListToComfirmQuery($search)			
 
@@ -624,15 +625,15 @@ public function getApproveToComfirm(array $search = array(),int $limit = ITEMS_P
 
 public function confirm_status($status,$request_id=0){
 
-$request_status=array(
-			'owner_confirmation_states'=>$status,
-			'owner_confirmation_date'=>date('Y-m-d H:i:s')
-		);
-$this->db->trans_start();
+	$request_status=array(
+		'owner_confirmation_states'=>$status,
+		'owner_confirmation_date'=>date('Y-m-d H:i:s')
+	);
+	$this->db->trans_start();
 
-$this->db->where('id',$request_id)
- 		->update('request_docs',$request_status);
- return $this->db->trans_complete();
+	$this->db->where('id',$request_id)
+	->update('request_docs',$request_status);
+	return $this->db->trans_complete();
 }
 
 }
