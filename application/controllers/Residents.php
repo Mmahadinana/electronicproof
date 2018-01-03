@@ -338,9 +338,20 @@ class Residents extends CI_Controller {
 			}
 			
 			$proofOfRecData['user_id']=$_SESSION['id'];
+
+			
+
+			if($_FILES['fileToUpload']['name'][0] != '') {
+			
 					$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
-					
 					$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+					
+					$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
+				}else {
+					$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+
+					$this->requestPreview($data['user_addinfor'],$fileID);
+				}
 					
 			/*/$this->load->view('ini',$data); 
 					$this->requestPreview($data['user_addinfor']);
@@ -352,7 +363,7 @@ class Residents extends CI_Controller {
 					$this->request_model->insertMultipleFileData($this->upload_data1);
 			//$this->load->view('ini',$data); */
 
-					$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
+					
 			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
@@ -365,7 +376,7 @@ class Residents extends CI_Controller {
 			
 		}
 		else {
-			redirect('residents/userprofile');
+			redirect('residents/ResidencialProperty');
 		}
 		
 
@@ -526,7 +537,7 @@ class Residents extends CI_Controller {
 			}
 			
 		}else {
-			redirect('residents/userprofile');
+			redirect('residents/ResidencialProperty');
 		}
 		
 
@@ -762,8 +773,8 @@ class Residents extends CI_Controller {
 
 
 		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='requestrequest/waitingForApproval';
-		$data['pageActive']='requestrequest';
+		$data['pageToLoad']='request/waitingForApproval';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -1098,7 +1109,7 @@ public function confirm()
 	
 
 	if($this->input->post('confirm')){
-		//$this->request_model->confirm_status(1,$search);
+		$this->request_model->confirm_status(1,$search);
 	
 		redirect('residents/confirmList');
 	}
