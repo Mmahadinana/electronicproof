@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed'); 
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Residents extends CI_Controller {
 
@@ -174,8 +174,8 @@ class Residents extends CI_Controller {
 		
 		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
 
-		$data['pageToLoad']='request/viewRequestMade';
-		$data['pageActive']='request';
+		$data['pageToLoad']='eresidence/viewRequestMade';
+		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -199,8 +199,8 @@ class Residents extends CI_Controller {
 
 		$data['message']=$this->request_model->cancelRequest($request_id);
 
-		$data['pageToLoad']='request/cancelRequest';
-		$data['pageActive']='request';
+		$data['pageToLoad']='eresidence/cancelRequest';
+		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -232,8 +232,8 @@ class Residents extends CI_Controller {
 
 			$data['db']= $this->request_model->getOwner($search);
 
-			$data['pageToLoad']='request/request';
-			$data['pageActive']='request';
+			$data['pageToLoad']='eresidence/request';
+			$data['pageActive']='eresidence';
 			if(!$this->input->post('usercheck'))
 
 	{
@@ -401,8 +401,8 @@ class Residents extends CI_Controller {
 			$data['db']= $this->request_model->getOwner($search);
 			
 
-			$data['pageToLoad']='request/request';
-			$data['pageActive']='request';
+			$data['pageToLoad']='eresidence/request';
+			$data['pageActive']='eresidence';
 			if(!$this->input->post('usercheck')){
 
 // loading the form and files for file uoload		
@@ -655,8 +655,8 @@ class Residents extends CI_Controller {
 		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
 		var_dump($data['fileAttament1']);*/
 		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='request/requestPreview';
-		$data['pageActive']='request';
+		$data['pageToLoad']='eresidence/requestPreview';
+		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		
 		
@@ -762,8 +762,8 @@ class Residents extends CI_Controller {
 
 
 		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='requestrequest/waitingForApproval';
-		$data['pageActive']='requestrequest';
+		$data['pageToLoad']='eresidence/waitingForApproval';
+		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -857,10 +857,8 @@ class Residents extends CI_Controller {
 			foreach ($data['getListToComfirm'] as $confirm) {
 				if ($confirm->property_id==$owner->property) {
 					
-					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
-					//get the list that owner should complete
-					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
-					
+					$requestPropertyID[$confirm->property_id]=$confirm->property_id;
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm($requestPropertyID);
 				}					
 			}		
 
@@ -877,9 +875,8 @@ class Residents extends CI_Controller {
 		if (expr) {
 			
 		}*/
-
-		$data['pageToLoad']='request/confirmList';
-		$data['pageActive']='request';
+		$data['pageToLoad']='eresidence/confirmList';
+		$data['pageActive']='eresidence';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
@@ -900,7 +897,7 @@ class Residents extends CI_Controller {
 			$search['property']=$owner->property;			
 		}		
 		
-		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
+		$data['getListToApprove']=$this->request_model->getListToComfirmQuery($requestPropertyID);
 
 		$data['pageToLoad']='eresidence/listOfApproval';
 		$data['pageActive']='eresidence';
@@ -1049,17 +1046,13 @@ public function confirmResident()
 	$search=array();
 
 	$search['owner_id']= $this->input->post('owner_id');
-	$search['request_id']= $this->input->post('request_id');
+	//$search['user_id']= $_SESSION['id'];
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
 	
 
 		if ($search['property_id'] != null) {
-	     $listvar=array('property_id'=>$search['property_id'],
-	     	'owner_id'=>$search['owner_id'],
-	     	'user_id'=>$search['user_id'],
-	     	'request_id'=>$search['request_id'],
-	     );
+	     $listvar=array('property_id'=>$search['property_id'],'owner_id'=>$search['owner_id'],'user_id'=>$search['user_id']);
 
 	    $this->session->set_userdata($listvar);
 	    }
@@ -1068,15 +1061,13 @@ public function confirmResident()
 			$search['property_id']=$_SESSION['property_id'];
 			$search['owner_id']=$_SESSION['owner_id'];
 			$search['user_id']=$_SESSION['user_id'];
-			$search['request_id']=$_SESSION['request_id'];
 			
 		}
 	///
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
-	
 
-	$data['pageToLoad']='request/confirmResident';
-	$data['pageActive']='request';
+	$data['pageToLoad']='eresidence/confirmResident';
+	$data['pageActive']='eresidence';
 
 // loading the form and files for file uoload		
 	$this->load->helper(array('form','file','url'));
@@ -1089,22 +1080,17 @@ public function confirm()
 {
 	$search=array();
 
-	
+	$search['owner_id']= $this->input->post('owner_id');
 	//$search['user_id']= $_SESSION['id'];
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
-	$search['request_id']= $this->input->post('request_id');
-	$data['user_request']=$this->request_model->getUserRequest($search);
-	
 
 	if($this->input->post('confirm')){
-		//$this->request_model->confirm_status(1,$search);
-	
+		$this->request_model->confirm_status(1);
 		redirect('residents/confirmList');
 	}
 	else {
-
-		$this->request_model->confirm_status(2,$search);
+		$this->request_model->confirm_status(2);
 		redirect('residents/confirmList');
 	}
 }

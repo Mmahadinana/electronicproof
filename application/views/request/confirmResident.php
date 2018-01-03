@@ -6,7 +6,7 @@
 
  
  <?php
- $this->load->view('eresidence/confirmResidentForm');
+ $this->load->view('request/confirmResidentForm');
 
 
  //$this->load->view($pageToLoad);

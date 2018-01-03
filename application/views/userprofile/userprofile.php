@@ -77,6 +77,9 @@
  									<div class="col-lg-6">
  										<button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="Edit"><i class="fa fa-list-alt " aria-hidden="true">&nbsp;&nbsp;Edit My Information</i></button>
  									</div>
+ 									<div class="col-lg-3">
+ 										<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a>
+ 									</div>
  								</form>
  					<table <?php echo $_SESSION['owner'] != false ? "class=' '" : "class='hidden'"?> class="table ">
 
