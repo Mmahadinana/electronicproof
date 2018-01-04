@@ -515,3 +515,6 @@ i .fa .fa-archive {
 .fileToUpload input[type="file"] {
      display: none; 
 }
+.fa .fa-pencil{
+    overflow: hidden;
+}

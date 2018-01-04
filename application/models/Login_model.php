@@ -125,6 +125,9 @@ public function startUserSession($username)
 	$session_data = (array)$this->get_user($username);
 
 	$session_data['owner']=$this->getOwner($session_data['id']);
+	if ($session_data['owner'] && $session_data['role']!='admin') {
+		$session_data['role']='owner';
+	}
 	
 	if(!empty($session_data)){	
 
@@ -188,116 +191,17 @@ public function get_user($username)
 
 	return $user_data ?? null; 
 }//end get_user
-/**
- * [remember_cookie saves the user session and sets the cookie]
- * @param  [type] $rememberme [description]
- * @return [type]             [description]
- */
-/*public function remember_cookie($rememberme , $method = 'login'){
-	if($rememberme){
-		if ($method == 'login') {
-			$this->deleteCookieByToken();
-		}
-		//3days
-		//$expireTime = 3*24*3600;
-		$expireTime = 3*24*3600;
-		//expire date to be sent to the db
-		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
-		//new token generated randomly
-		$token = $this->generateToken();
-		//data of the cookie to be writen on the database 
-		$newCookieData = array(
-			'login_id'=>$_SESSION['id'],
-			'token'=>$token,
-			'expireDate'=>$expireDate);
-		if ($method == 'login') {
-			//insert the data on the database
-			$this->db->insert('tokens',$newCookieData);
-		}
 
-		if ($method == 'cookie') {
-		//by cookie update the data on the database
-			$tokenOld = $_COOKIE[COOKIE_TOKEN] ?? '';
-
-			$this->db->where('tokens',$tokenOld)
-			->update("tokens",$newCookieData);
-		}
-		
-		//create the cookie
-		set_cookie(COOKIE_TOKEN,$token,$expireTime);
-	}
-}//end remember_cookie
-public function deleteCookieByToken(){
-	//checks if the cookie exists and take token value
-	$token = $_COOKIE[COOKIE_TOKEN] ?? '';
-	//check if we have a token
-	if (!empty($token)) {
-	//cookie exist
-		$this->db->delete("tokens",array('token' => $token ));
-	}
-}//end deleteCookieByToken
 /**
- * [generateToken description]
- * @return [type] [description]
+ * [generate Token ]
+ * @return [string] token [description]
  */
 
 public function generateToken(){
 	return bin2hex(random_bytes($length=32));
 
 }
-/**
- * [CheckLoginWithCookieif cookie exists check the data and try to enable the login]
 
-public function CheckLoginWithCookie(){
-	//checks if the cookie exists and take token value
-	$token = $_COOKIE[COOKIE_TOKEN] ?? '';
-//check if we have a token
-	if (!empty($token)) {
-
-	//cookie exist
-		$username =$this->getUserFromCookie($token);
-		$this->startUserSession($username);
-		$this->remember_cookie(true,'cookie');
-		return true;
-	}
-	return false;
-}//end CheckLoginWithCookie
-public function getUserFromCookie($token){
-
-	$username = (array)$this->db->select('user.username')
-	->from('user')
-	->join('tokens','user.id = tokens.userid')
-	->where('token',$token)
-	->get()->row();
-	if (isset($username['username'])) {
-		return $username['username'];                
-	}	 
-	return '';                           
-}//end getUserFromCookie */
-/**
- * [validateCookie description]
- * @param  [type] $token [description]
- * @return [type]        [description]
-
-public function validateCookie($token){
-	$this->deleteExpiredToken();
-	$resultDb = (array)$this->db->select('tokens.token')
-	->from('tokens')
-	->where('token',$token)
-	->get()->row();
-//check if i recieved the token from the database
-//and is equal to the one provided from the cookie	                     
-	if (isset($resultDb['token']) && $resultDb['token'] == $token) {
-		return true;        
-	}	
-	return false;                     
-}// end validateCookie
-public function deleteExpiredToken(){
-	$today = date('Y-m-d H:i:s');
-	$this->db->where('date <', $today)
-	->delete("tokens");
-
-}//end deleteExpiredToken */
 /**
  * [callback_checkEmail from request page for that session user]
  * @param  [type] $email [description]
@@ -364,8 +268,8 @@ public function callback_checkPhone($phone){
 }
 /**
  * [callback_checkIdnumber for identity number in user table from request table if it is valid]
- * @param  [type] $identitynumber [description]
- * @return [type]                 [description]
+ * @param  [type] true [if identitynumber is correct]
+ * @return [type] false [if identitynumber is correct]
  */
 public function callback_checkIdnumber($identitynumber){
 	

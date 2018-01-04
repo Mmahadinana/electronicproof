@@ -14,7 +14,7 @@ class Address_model extends CI_MODEL{
 	public function getAddress($suburb_id=0)
 	{
 
-		$this->db->select("address.id,address.door_number,address.street_name")
+		$this->db->select("address.id,address.door_number,address.street_name,address.suburb_id")
 		->from("address")
 		->where("suburb_id",$suburb_id);
 		return $this->db->get()->result();

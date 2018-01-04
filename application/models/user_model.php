@@ -32,20 +32,19 @@ class User_model extends CI_MODEL
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
-			owners.user_id,owners.id as ownerid,
+			lives_on.user_id,
 			property.id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
-			owners_property.property_id,owners_property.owners_id,town.id as townid,
+			town.id as townid,
 			town.name as town,town.zip_code,town.manucipality_id,,manucipality.id as manucipalityid,
 			manucipality.name as manucipality,manucipality.district_id,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
 		->from("user")
 		->join("gender","gender.id = user.gender_id")
-		->join("owners","owners.user_id = user.id")
-		->join("owners_property","owners_property.owners_id =owners.id ")
-		->join("property","property.id= owners_property.property_id")
+		->join("lives_on","lives_on.user_id = user.id")		
+		->join("property"," property.id= lives_on.property_id")
 		->join("address","address.id = property.address_id")
 		->join("suburb","suburb.id = address.suburb_id")
 		->join("town","town.id = suburb.town_id")
@@ -90,7 +89,7 @@ class User_model extends CI_MODEL
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
 
 		     		//'minetype'=>$minetype
-			);
+		);
 		
 		$this->db->trans_start();
 //var_dump($add);
@@ -124,7 +123,7 @@ class User_model extends CI_MODEL
 			//var_dump($data['date_registration']),
 
 		    		//'minetype'=>$minetype
-			);
+		);
 		$this->db->trans_start();
 		$this->db->where('user.id',$data['iduser'])
 		->update('user',$user);
@@ -270,7 +269,7 @@ public function insertPassword($data=array(), $user_id)
 		'expireTime'=>$expireDate,
 		'role_id'=>$role_id,
 		
-		);
+	);
 		//var_dump($loginadd);
 		//$this->db->trans_start();
 	
@@ -297,7 +296,7 @@ public function insertAddress($data=array(), $user_id)
 		'street_name'=>$street_name,
 		'suburb_id'=>$suburb_id,
 		
-		);
+	);
 		//var_dump($addressAdd);
 		//$this->db->trans_start(); 
 	
@@ -326,5 +325,38 @@ public function insertAddress($data=array(), $user_id)
 
 
 	}*/
+	public function updateUserAddress($addifor){
+		//Get the address id of the address to be inserted
+		
+		$userAddress=0;
+		$this->db->select('address.id')
+		->where('address.suburb_id',$addifor['suburb'])
+		->where('address.street_name',$addifor['street_name'])
+		->where('address.door_number',$addifor['door_number'])
+		->from('address');
+		$address=$this->db->get()->result();
+		foreach ($address as $value) {
+			$userAddress=$value->id;
+		}
+//get the property id for the address 
+
+		$this->db->select('property.id')
+		->where('property.address_id',$userAddress)			
+		->from('property');
+		$property=$this->db->get()->result();
+		
+		
+		foreach ($property as $value) {
+			$userProperty=$value->id;
+		}
+		
+//storing the data that will be inserted into lives_on table for user
+		$address=array(
+			'user_id'=>$addifor['userid'],
+			'property_id'=>$userProperty,
+		);
+	//insert the address for the user
+		$this->db->insert('lives_on',$address);
+	}
 }
 ?>

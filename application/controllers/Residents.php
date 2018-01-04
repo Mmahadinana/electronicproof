@@ -29,16 +29,7 @@ class Residents extends CI_Controller {
 		$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if (!$is_logged_in)
-		{
-			//no login check the cookie
-			if (!$this->login_model->CheckLoginWithCookie()) {
-				//no login go out
-				redirect(base_url('login/login_?frompage=eresidence'));
-			}   
-
-		}
-
+	
 
 	}
 
@@ -894,6 +885,7 @@ public function getOwnerOfProperty($user_id){
 		if (expr) {
 			
 		}*/
+		
 		$data['pageToLoad']='eresidence/confirmList';
 		$data['pageActive']='eresidence';
 		$this->load->helper('form');
@@ -1121,7 +1113,6 @@ public function confirm()
 {
 	$search=array();
 
-	
 	//$search['user_id']= $_SESSION['id'];
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
