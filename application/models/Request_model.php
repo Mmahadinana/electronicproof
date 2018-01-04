@@ -154,15 +154,24 @@ class Request_model extends CI_MODEL
 	 * @return [type]         [description]
 	 */
 	public function getListToComfirmQuery($search )
-	{		
+	{	
 		$user_id = $search['user_id'] ?? FALSE;		
+		$property_id = $search['property_id'] ?? FALSE;		
+		$date_request = $search['date_request'] ?? FALSE;		
 
 		// Get the list of users for the owner to confirm
 		if($user_id)
 		{
 			$this->db->where('request_docs.user_id',$user_id)
 					->where('request_docs.b_deleted',0); 
-		}		
+		}
+		// Check if the user has already made  request
+	//var_dump(strtotime($date_request));
+		/*if($date_request < )
+		{
+			$this->db->where('request_docs.user_id',$user_id)
+					->where('request_docs.b_deleted',0); 
+		}	*/	
 		
 		return	$this->db->select("user.name,
 			request_docs.id,request_docs.user_id,request_docs.property_id,request_docs.date_request,request_docs.owner_confirmation_states,request_docs.administrator_confirmation_states,			
@@ -525,8 +534,10 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 		'user_id'=>$user_id,
 		'date_request'=>date('Y-m-d H:i:s'),		     		
 	);
-
-	$this->db->insert("request_docs",$requestdata);
+	$this->getListToComfirmQuery($requestdata);
+	$result=$this->db->get()->result();
+	var_dump($result);
+	//$this->db->insert("request_docs",$requestdata);
 	//var_dump($this->db->insert_id());
 	
 }

@@ -29,16 +29,6 @@ class Residents extends CI_Controller {
 		$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if (!$is_logged_in)
-		 {
-			//no login check the cookie
-			if (!$this->login_model->CheckLoginWithCookie()) {
-				//no login go out
-				redirect(base_url('login/login_?frompage=eresidence'));
-			}   
-
-		}
-
 
 	}
 
