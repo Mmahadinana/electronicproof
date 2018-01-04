@@ -983,37 +983,6 @@ class Residents extends CI_Controller {
 
 	}
 
-/*$search['page']=$this->input->get('per_page')??0;
-
-
-		$data['search']=$search;		
-		$data['db']=$this->ownersProperty_model->getProperty($search);
-		
-		$data['countProperties']=$this->ownersProperty_model->countProperties($search);
-
-		//pagination for the Properties
-		
-		$config['enable_query_string']=true;
-		//this is the one to show the actual page number,?page=someInt
-		$config['page_query_string']=true;
-		//url that will use the link
-		$config['base_url']=base_url('residents/eresidence?inputForSearch='.$data["inputForSearch"].'&mysearch='.$this->input->get('mysearch'));
-
-		//number of results to be devided on the pagintion
-		$config['total_rows']=$data['countProperties'];
-		//load the pagination library		
-		
-		// atribute for the class assigned to the pagination
-		
-		$config['uri_segment']  = 3;
-		//intialize the pagination with our config
-		$this->pagination->initialize($config);
-		$data['search_pagination']=$this->pagination->create_links();*/
-
-
-
-
-/*
 
 /**
  * [approve description]
