@@ -77,7 +77,9 @@
  					<div class="col-lg-6">
  						<button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="Edit"><i class="fa fa-list-alt " aria-hidden="true">&nbsp;&nbsp;Edit My Information</i></button>
  					</div>
- 					
+ 					<!--div class="col-lg-3">
+ 						<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a>
+ 					</div-->
  				</form>
  				<table <?php echo $_SESSION['owner'] != false ? "class=' '" : "class='hidden'"?> class="table ">
 
@@ -89,7 +91,7 @@
  							<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
  							<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
  							<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
- 							
+
  							<th>Edit Address</th>
 
  						</tr>
@@ -102,49 +104,7 @@
  							<td><?php echo $value->property ?></td>
  							<td><?php echo $value->door_number. ' '.$value->street_name?></td>
  							<td><?php echo $value->town ?></td>
- 							
- 							<td>  <a href="#">&nbsp;&nbsp;<i class="fa fa-pencil fa-2x text-primary" aria-hidden="true"></i></a></td>
 
- 						</tr><?php	} ?>
- 					</tbody>
- 				</table>
- 			</div>
- 		</div>
- 		<div class="row">
- 			<div class="col-sm-8 col-lg-8 pfTbl_padding">
- 				<table class="table ">
- 					<caption class="h3 text-center">Lives at:</caption>
- 					<thead>
- 						<tr class="warning text-danger">
- 							<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
- 							<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
- 							<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
- 							<th>Make a Request</th>
- 							<th>Edit Address</th>
-
- 						</tr>
- 					</thead>
- 					<tbody>
- 						<?php foreach ($add_addinfor as $value) {?>
-
- 						<tr>
- 							<td><?php echo $value->property ?></td>
- 							<td><?php echo $value->door_number. ' '.$value->street_name?></td>
- 							<td><?php echo $value->town ?></td>
- 							<td>  
- 								<?php
-
- 								$action="residents/request";
-
- 								echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
- 								<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
- 								<input type="hidden" name="usercheck" value="true">
- 								<button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
- 									<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
- 								</button>
- 							</form>
-
- 							<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
  							<td>  <div class="col-lg-6">
  								<?php
 
@@ -155,22 +115,78 @@
 
  								<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
 
- 								
+
  								<button type="Submit" class=" fa fa-pencil fa-2x text-primary"></button>
  							</form>
  						</div>
  					</td>
 
  				</tr><?php	} ?>
- 				<tr class="warning">
- 					<td  colspan="5" headers="list"class="col-lg-12">
- 						<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
- 					</td>
- 				</tr>
  			</tbody>
  		</table>
  	</div>
  </div>
+ <div class="row">
+ 	<div class="col-sm-8 col-lg-8 pfTbl_padding">
+ 		<table class="table ">
+ 			<caption class="h3 text-center">Lives at:</caption>
+ 			<thead>
+ 				<tr class="warning text-danger">
+ 					<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
+ 					<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
+ 					<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
+ 					<th>Make a Request</th>
+ 					<th>Edit Address</th>
+
+ 				</tr>
+ 			</thead>
+ 			<tbody>
+ 				<?php foreach ($add_addinfor as $value) {?>
+
+ 				<tr>
+ 					<td><?php echo $value->property ?></td>
+ 					<td><?php echo $value->door_number. ' '.$value->street_name?></td>
+ 					<td><?php echo $value->town ?></td>
+ 					<td>  
+ 						<?php
+
+ 						$action="residents/request";
+
+ 						echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+ 						<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
+ 						<input type="hidden" name="usercheck" value="true">
+ 						<button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
+ 							<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
+ 						</button>
+ 					</form>
+
+ 					<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
+ 					<td>  <div class="col-lg-6">
+ 						<?php
+
+ 						$action="residents/listOfResidents";
+
+ 						echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+ 						<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+
+ 						<button type="Submit" ><span class=" fa fa-pencil fa-2x text-primary"></span></button>
+ 					</form>
+ 				</div>
+ 			</td>
+
+ 		</tr><?php	} ?>
+ 		<tr class="warning">
+ 			<td  colspan="5" headers="list"class="col-lg-12">
+ 				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
+ 			</td>
+ 		</tr>
+ 	</tbody>
+ </table>
+</div>
+</div>
 </div> 		 		
 
 </div>
