@@ -64,8 +64,8 @@ class Publiczone extends CI_Controller
 	}
 
 	/**
-	 * [contact description]
-	 * @return [true] [description]
+	 * [contact form which allow the user to get information with regarding the app]
+	 * @return [true] [respond that it works well]
 	 */
 	public function contact()
 	{
@@ -142,8 +142,8 @@ class Publiczone extends CI_Controller
 	}
 
 	/**
-	 * [eResidence description]
-	 * @return [type] [description]
+	 * [eResidence loads the project pages]
+	 * @return [true] [description]
 	 */
 	public function eResidence()
 	{
