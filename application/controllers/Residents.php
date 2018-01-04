@@ -366,6 +366,7 @@ class Residents extends CI_Controller {
 			
 		}
 		else {
+			//redirect to residential property
 			redirect('residents/ResidencialProperty');
 		}
 		
