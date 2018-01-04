@@ -957,6 +957,7 @@ class Residents extends CI_Controller {
 		//$config['per_page'] = 3;
 
 		$data['property_addinfor']= $this->owners_property_model->getProperty($search);
+		
 		//$data['mysearch']= $this->owners_property_model->getProperty($search);
 		$data['addressCount']=$this->ownersProperty_model->countProperties($search);
 

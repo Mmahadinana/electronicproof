@@ -82,7 +82,7 @@ class User_model extends CI_MODEL
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
 
 		     		//'minetype'=>$minetype
-			);
+		);
 		
 		$this->db->trans_start();
 //var_dump($add);
@@ -111,7 +111,7 @@ class User_model extends CI_MODEL
 			//var_dump($data['date_registration']),
 
 		    		//'minetype'=>$minetype
-			);
+		);
 		$this->db->trans_start();
 		$this->db->where('user.id',$data['iduser'])
 		->update('user',$user);
@@ -229,7 +229,7 @@ public function insertPassword($data=array(), $user_id)
 		'expireTime'=>$expireDate,
 		'role_id'=>$role_id,
 		
-		);
+	);
 		//var_dump($loginadd);
 		//$this->db->trans_start();
 	
@@ -250,7 +250,7 @@ public function insertAddress($data=array(), $user_id)
 		'street_name'=>$street_name,
 		'suburb_id'=>$suburb_id,
 		
-		);
+	);
 		//var_dump($addressAdd);
 		//$this->db->trans_start(); 
 	
@@ -279,5 +279,38 @@ public function insertAddress($data=array(), $user_id)
 
 
 	}*/
+	public function updateUserAddress($addifor){
+		//Get the address id of the address to be inserted
+		
+		$userAddress=0;
+		$this->db->select('address.id')
+		->where('address.suburb_id',$addifor['suburb'])
+		->where('address.street_name',$addifor['street_name'])
+		->where('address.door_number',$addifor['door_number'])
+		->from('address');
+		$address=$this->db->get()->result();
+		foreach ($address as $value) {
+			$userAddress=$value->id;
+		}
+//get the property id for the address 
+
+		$this->db->select('property.id')
+		->where('property.address_id',$userAddress)			
+		->from('property');
+		$property=$this->db->get()->result();
+		
+		
+		foreach ($property as $value) {
+			$userProperty=$value->id;
+		}
+		
+//storing the data that will be inserted into lives_on table for user
+		$address=array(
+			'user_id'=>$addifor['userid'],
+			'property_id'=>$userProperty,
+		);
+	//insert the address for the user
+		$this->db->insert('lives_on',$address);
+	}
 }
 ?>

@@ -5,9 +5,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container form-area">
 
 	<h2 class="whtColor"><i>LIVE'S AT</i></h2>
-
-
 	<?php
+	if ($property_addinfor == null) {
+		echo '<h4>You do not have address registered, <a class="text-success" href=" '. (base_url("publiczone/change_add")).'">Register address </a></h4>';
+	}
+
+	else {
+		
+	
 
 	$action="residents/ResidencialProperty/";
 
@@ -25,89 +30,89 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			</div>
 		</form>
-			<br>
-			<br>
-			<br>
-			<div class="col-md-10"><span class="text-warning">Residencial :</span> 
-				<table class="table tably text-left">
-					<tbody>
-						<tr>
-							<td>Date						
-							</td>
-							<td class="text-primary"><?php  echo date('Y / m / d')?></td>						
+		<br>
+		<br>
+		<br>
+		<div class="col-md-10"><span class="text-warning">Residencial :</span> 
+			<table class="table tably text-left">
+				<tbody>
+					<tr>
+						<td>Date						
+						</td>
+						<td class="text-primary"><?php  echo date('Y / m / d')?></td>						
 
+					</tr>
+
+					<tr>
+						<td>Resident Full Names</td>
+						<td>
+							<?php    
+
+							foreach ($property_addinfor as $key ) {
+								echo $key->name;
+								?>
+
+							</td>
 						</tr>
 
 						<tr>
-							<td>Resident Full Names</td>
-							<td>
-								<?php    
 
-								foreach ($property_addinfor as $key ) {
-									echo $key->name;
-									?>
-
-								</td>
-							</tr>
-							
-							<tr>
-								
-								<td rowspan="7">Address</td>               
-								<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
-								<td rowspan="7" class="col-md-4 text-left">
-									<?php
+							<td rowspan="7">Address</td>               
+							<td ><?php  echo $key->door_number. ' '.$key->street_name?></td>  
+							<td rowspan="7" class="col-md-4 text-left">
+								<?php
  //var_dump($user_id) ;
 //echo $_SESSION['id'];
 									//$action="residents/makerequest/";
-									$action="residents/request/";
+								$action="residents/request/";
 
-									echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
-									<input type="hidden" name="property_id" value=<?php echo $key->property; ?>>
-									<input type="hidden" name="usercheck" value="true">
-									<button type="submit" name="confirm" class="btn-success btn-md btn-radius"><span class="text-success">Make a Proof of resident request</span></button>
-								</form>
-
-							</td>
-
-						</tr>
+								echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
-						<tr>
-							<td><?php  echo $key->street_name?></td>
+								<input type="hidden" name="property_id" value=<?php echo $key->property; ?>>
+								<input type="hidden" name="usercheck" value="true">
+								<button type="submit" name="confirm" class="btn-success btn-md btn-radius"><span class="text-success">Make a Proof of resident request</span></button>
+							</form>
 
-						</tr> 
-						<tr>
-							<td><?php  echo $key->town?></td>
+						</td>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->zip_code?></td>
+					</tr>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->manucipality?></td>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->district?></td>
+					<tr>
+						<td><?php  echo $key->street_name?></td>
 
-						</tr>
-						<tr>
-							<td><?php  echo $key->province?></td>            
-							</tr><?php
-						}
-						?>
+					</tr> 
+					<tr>
+						<td><?php  echo $key->town?></td>
 
-					</tbody>
-				</table>
-			</div>
+					</tr>
+					<tr>
+						<td><?php  echo $key->zip_code?></td>
+
+					</tr>
+					<tr>
+						<td><?php  echo $key->manucipality?></td>
+
+					</tr>
+					<tr>
+						<td><?php  echo $key->district?></td>
+
+					</tr>
+					<tr>
+						<td><?php  echo $key->province?></td>            
+						</tr><?php
+					}
+					?>
+
+				</tbody>
+			</table>
 		</div>
+	</div>
 
-		<div class="pag">
-			<div class="bs-example">
-				<ul class="pagination col-lg-12">
+	<div class="pag">
+		<div class="bs-example">
+			<ul class="pagination col-lg-12">
 						<!--li><a href="#">&laquo;</a></li>
 						<li><a href="#">1</a></li>
 						<li><a href="#">2</a></li>
@@ -122,6 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</form>
 
 			</div>
+			<?php } ?>
 
 		</div>
 
