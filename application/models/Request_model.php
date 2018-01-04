@@ -87,10 +87,11 @@ public function ownerquery($search )
 	}
 		/*if($userid){
 			$this->db->where('owners_property.owners_id',$userid); 
-		}*/
+		}*/ 
 
 
-		
+		//Data of the user of that specified property which will be stored on the database for the administrator to access.
+
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
 			role.role,role.id as roleid,
@@ -124,8 +125,10 @@ public function ownerquery($search )
 	/**
 	 * [userquery description]
 	 * @param  [type] $search [description]
+	 * This query is for the userprofile to be accessed by the owner and the administrator.
 	 * @return [type]         [description]
 	 */
+	
 	public function userquery($search )
 	{
 

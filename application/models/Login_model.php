@@ -14,6 +14,7 @@ class Login_model extends CI_MODEL
 /**
  * [query description]
  * @param  [type] $search [description]
+ * The query retrieves the user's details.
  * @return [type]         [description]
  */
 	public function query($search){
@@ -52,10 +53,13 @@ class Login_model extends CI_MODEL
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
-	/**
-	 * check the password from the the input in the login, changepassword pages to validate it in login table 
-	 */
-
+	
+/**
+ * [checkPassword description]
+ * @param  [type] $password [description]
+ * check the password from the the input in the login, changepassword pages to validate it in login table
+ * @return [true]           [checkPassword]
+ */
 	public function checkPassword($password) 
 	{
 		//insert the username and password
@@ -89,7 +93,7 @@ class Login_model extends CI_MODEL
 /**
  * [getPasswordHashFromUser description]
  * @param  [type] $username [description]
- * @return [type]           [description]
+ * @return [true]           [is for whn th owner getPasswordHashFromUser]
  */
 public function getPasswordHashFromUser($username)
 {
@@ -142,6 +146,12 @@ public function startUserSession($username)
 		}
 	}
 }
+/**
+ * [getOwner description]
+ * @param  [type] $user_id [description]
+ * This function retrieves the information for the owner´s details.
+ * @return [true]          [getOwner]
+ */
 public function getOwner($user_id){
 
 	$this->db->select("owners.id,owners.user_id")
@@ -158,7 +168,8 @@ public function getOwner($user_id){
 /**
  * [get_user description]
  * @param  [type] $username [description]
- * @return [user data]           [description]
+ * This function retrieves the information for the user details.
+ * @return [user data]           [get_user]
  */
 public function get_user($username)
 {	

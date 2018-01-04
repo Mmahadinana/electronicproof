@@ -13,8 +13,12 @@ class User_model extends CI_MODEL
 		$this->load->database();
 	}
 
-
-	public function userQuery($searchterm)
+	/**
+	 * [userQuery description]
+	 * @param  [type] $searchterm [description]
+	 * @return [true]             [retrieves owner's manucipality]
+	 */
+	public function manucipality($searchterm)
 	{
 		
 
@@ -67,7 +71,10 @@ class User_model extends CI_MODEL
 		return $this->db->get()->result() ;
 	}
 	
-
+/**
+ * [addUser description]
+ * @param [type] $data [description]
+ */
 	public function addUser($data)
 	{
 		
@@ -96,6 +103,11 @@ class User_model extends CI_MODEL
 		
 		
 	}
+	/**
+	 * [updateUser description]
+	 * @param  [type] $data [description]
+	 * @return [type]       [description]
+	 */
 	public function updateUser($data)
 	{
 		//prepare the data to insert
@@ -119,6 +131,12 @@ class User_model extends CI_MODEL
 		         //update 
 		return $this->db->trans_complete();
 	}
+	/**
+	 * [updateUser_models description]
+	 * @param  [type] $user_id [description]
+	 * @param  array  $users   [description]
+	 * @return [type]          [description]
+	 */
 	public function updateUser_models($user_id,$users=array())
 	{
 		
@@ -135,12 +153,21 @@ class User_model extends CI_MODEL
 		//insert the new relations
 		return	$this->db->insert_batch('user_model',$batch);
 	}
-
+/**
+ * [countUser description]
+ * @param  array  $search [description]
+ * @return [type]         [description]
+ */
 	public function countUser(array $search=array())
 	{
 		$this->userQuery($search);
 		return $this->db->count_all_results();
 	}
+	/**
+	 * [deleteUser description]
+	 * @param  int    $user_id [description]
+	 * @return [type]          [description]
+	 */
 	public function deleteUser(int $user_id)
 	{
 		
@@ -153,11 +180,20 @@ class User_model extends CI_MODEL
 			//close the transaction
 		return $this->db->trans_complete();
 	}
+	/**
+	 * [removeFromUser description]
+	 * @param  int    $user_id [description]
+	 * @return [type]          [description]
+	 */
 	public function removeFromUser(int $user_id)
 	{
 		$this->db->delete("user",array("id"=>$user_id));
 	}
-
+/**
+ * [callback_checkPhone description]
+ * @param  [type] $phone [description]
+ * @return [type]        [description]
+ */
 	public function callback_checkPhone($phone)
 	{
 		$user_id = $this->input->post('phone');
@@ -179,7 +215,11 @@ class User_model extends CI_MODEL
 		} 
 
 	}
-
+/**
+ * [checkPassword description]
+ * @param  [type] $password [description]
+ * @return [type]           [description]
+ */
 	public function checkPassword($password)
 	{
 		//insert the username and password
@@ -211,7 +251,7 @@ class User_model extends CI_MODEL
 /**
  * [getPasswordHashFromUser description]
  * @param  [type] $username [description]
- * @return [type]           [description]
+ * @return [true]           [correct password that appear in the database]
  */
 
 public function insertPassword($data=array(), $user_id)
@@ -236,6 +276,12 @@ public function insertPassword($data=array(), $user_id)
 	
 	$this->db->insert("login",$loginadd);	
 }
+/**
+ * [insertAddress description]
+ * @param  array  $data    [description]
+ * @param  [type] $user_id [description]
+ * @return [true]          [retrieves correct information while insertAddress]
+ */
 public function insertAddress($data=array(), $user_id)
 {	
 		//var_dump($data);

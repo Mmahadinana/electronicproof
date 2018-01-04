@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+//This page shows the list approved for the request//
 ?> 
+
 
 <div class="container form-area">
 

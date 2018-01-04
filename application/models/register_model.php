@@ -11,8 +11,11 @@ class Register_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
-
-
+	/**
+	 * [createUser description]
+	 * @param  [type] $data [description]
+	 * @return [true]       [when the owner createUser]
+	 */
 	public function createUser($data)
 	{
 
@@ -31,7 +34,11 @@ class Register_model extends CI_MODEL
 		return $this->db->trans_complete();
 
 	}
-
+	/**
+	 * [addUser_models description]
+	 * @param [true] $user_id        [description]
+	 * @param array  $manucipalities [addUser_models]
+	 */
 	public function addUser_models($user_id,$manucipalities=array())
 	{
 		$batch=array();	

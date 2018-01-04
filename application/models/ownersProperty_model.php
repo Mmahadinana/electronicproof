@@ -9,7 +9,11 @@ class OwnersProperty_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
-
+	/**
+	 * [propertyquery description]
+	 * @param  [true] $search [when the information is correct]
+	 * @return [false]         [This query hold the data for the propert]
+	 */
 	public function propertyquery($search )
 	{
 
@@ -63,6 +67,7 @@ class OwnersProperty_model extends CI_MODEL
 			$this->db->where($where);
 
 		}
+		//Data for the user's details
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
 			role.role,role.id as roleid,
@@ -91,7 +96,14 @@ class OwnersProperty_model extends CI_MODEL
 		->group_by("property.id")	
 		->order_by("property.id");	
 
-	}public function addressquery($search )
+	}
+	//
+	/**
+	 * [addressquery description]
+	 * @param  [type] $search [description]
+	 * @return [true]         [This query holds the address data.]
+	 */
+	public function addressquery($search )
 	{
 
 		$property_id=	$search['property_id'] ?? FALSE;
@@ -125,7 +137,9 @@ class OwnersProperty_model extends CI_MODEL
 
 	}
 
-
+/**
+ * this function is hold the information for property of the owners
+ */
 
 	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
@@ -142,6 +156,9 @@ class OwnersProperty_model extends CI_MODEL
 			
 		return $this->db->get()->result() ;
 	}
+	/**
+	 * this function is for the property address that owner has
+	 */
 	public function getProperty_Address(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
 //public function getAddress(){
@@ -182,7 +199,10 @@ class OwnersProperty_model extends CI_MODEL
 	}
 
 
-
+/**
+ * [addUser description]
+ * @param [type] $data [is the onwer add the residents]
+ */
 	public function addUser($data)
 	{
 		

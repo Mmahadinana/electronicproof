@@ -39,7 +39,7 @@ class Publiczone extends CI_Controller
 	 */
 /**
  * [index description]
- * @return [type] [description]
+ * @return [true] [its hold all the navigation]
  */
 	public function index()
 	{
@@ -65,7 +65,7 @@ class Publiczone extends CI_Controller
 
 	/**
 	 * [contact description]
-	 * @return [type] [description]
+	 * @return [true] [description]
 	 */
 	public function contact()
 	{
@@ -165,7 +165,8 @@ class Publiczone extends CI_Controller
 	}
 	/**
 	 * [login description]
-	 * @return [type] [description]
+	 * @return [type] [login]
+	 * this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login
 	 */
 	public function login()
 	{
@@ -192,7 +193,7 @@ class Publiczone extends CI_Controller
 
 	/**
 	 * [getProvinceDistrict description]
-	 * @return [type] [description]
+	 * @return [true] [this retrieves the correct information of getProvinceDistrict]
 	 */
 	public function getProvinceDistrict():array
 	{
@@ -240,7 +241,7 @@ class Publiczone extends CI_Controller
 	}
 	/**
 	 * [registerUser description]
-	 * @return [type] [description]
+	 * @return [true] [this retrieves the correct information for registerUser]
 	 */
 	public function registerUser() 
 	{
@@ -471,7 +472,7 @@ class Publiczone extends CI_Controller
 	}
 	/**
 	 * [user description]
-	 * @return [type] [description]
+	 * @return [true] [this retrieves the correct information of user]
 	 */
 	public function user()
 	{
@@ -540,7 +541,7 @@ class Publiczone extends CI_Controller
 //public function editUser($id=0)
 /**
  * [editUser description]
- * @return [type] [description]
+ * @return [true] [this retrieves the correct information when editUser]
  */
 	public function editUser()
 	{
@@ -780,7 +781,7 @@ class Publiczone extends CI_Controller
     /**
      * [askdelete description]
      * @param  integer $id_remove [description]
-     * @return [type]             [description]
+     * @return [true]             [this retrieves when the user has been removed/deleted by owner when the user has been deceased]
      */
     public function askdelete($id_remove=0)
     {

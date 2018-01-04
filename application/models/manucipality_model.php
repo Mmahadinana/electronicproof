@@ -9,7 +9,7 @@ class Manucipality_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
-	
+	//This function retrieves the list of manucipalities
 	public function getManucipality($manucipality_id=0)
 	{
 

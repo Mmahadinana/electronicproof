@@ -9,7 +9,7 @@ $id_town= $user_data->town_id ?? $this->input->post('town')?? false;
 $id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
 $id_address = $user_data->id ?? $this->input->post('street_name')?? false;
 $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
-
+//**This is the registration page whereby the owner will access to register for the proof of address on the webpage**
 ?>
 <div class="container form-area">
 

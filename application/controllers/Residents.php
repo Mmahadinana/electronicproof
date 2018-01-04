@@ -165,7 +165,7 @@ class Residents extends CI_Controller {
 	 /************* this function enable the user who has made a request to view the request they maderesidence*************/
 	/**
 	 * [viewRequestMade description]
-	 * @return [type] [description]
+	 * @return [true] [will be able to viewRequestMade]
 	 */
 	public function viewRequestMade()
 	{ 
@@ -186,7 +186,7 @@ class Residents extends CI_Controller {
 	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
 	/**
 	 * [cancelRequest description]
-	 * @return [type] [description]
+	 * @return [true] [wil be able to cancelRequest]
 	 */
 	public function cancelRequest()
 	{
@@ -212,7 +212,7 @@ class Residents extends CI_Controller {
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
 	/**
 	 * [request description]
-	 * @return [type] [description]
+	 * @return [true] [will be able to accept request]
 	 */
 	public function request()
 	{ 
@@ -373,6 +373,7 @@ class Residents extends CI_Controller {
 
 	/**
 	 * [EditRequest description]
+	 * This page enables the user to edit their request for the proof of res document.
 	 */
 	public function EditRequest()
 	{ 
@@ -543,7 +544,8 @@ class Residents extends CI_Controller {
 
 	/**
 	 * [file_upload description]
-	 * @return [type] [description]
+	 * This specifies which files need to be upload in order for the request to be successful.
+	 * @return [true] [will be able to file_upload]
 	 */
 	public function file_upload() { 
 
@@ -597,7 +599,8 @@ class Residents extends CI_Controller {
 	// *****************************************************************upload for the identity document************************************/
 /**
  * [id_upload description]
- * @return [type] [description]
+ * It is for the files or documents thats need to be uploaded and what size is accepted for them to fit.
+ * @return [true] [will be able to view id_upload]
  */
 public function id_upload(){
 // upload file uptions
@@ -637,8 +640,9 @@ public function id_upload(){
 // **********************************************the success page of the request*******************************************************************************************//
 /**
  * [requestPreview description]
+ * User/Owner uses to complete the request and upload neccesary docments needed to complete the request of proof of res
  * @param  array  $user_addinfor [description]
- * @return [type]                [description]
+ * @return [true]                [will be able to view requestPreview]
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
@@ -670,7 +674,8 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	}
 	/**
 	 * [userprofile description]
-	 * @return [type] [description]
+	 * Enables one to see the profile of the user logged in
+	 * @return [true] [will be able to view userprofile]
 	 */
 	public function userprofile()
 	{
@@ -699,7 +704,8 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 //end of request preview
 /**
  * [confirmRequestInsert description]
- * @return [type] [description]
+ * This confirms the request done.
+ * @return [true] [will be able confirmRequestInsert]
  */
 public function confirmRequestInsert()
 {
@@ -723,6 +729,10 @@ public function confirmRequestInsert()
 		//redirect('residents/waitingForApproval/'.$user_id);
 	$this->waitingForApproval($user_id,$property_id);
 }
+/**
+ * [askDelete description]
+ * @return [type] [description]
+ */
 public function askDelete()
 {
 	$attament=$this->input->post('fileID');
@@ -736,9 +746,11 @@ public function askDelete()
 	/**
 	 * [waitingForApproval description]
 	 * @param  integer $user_id     [description]
+	 * This page shows list of users waiting for approval.
 	 * @param  integer $property_id [description]
 	 * @return [type]               [description]
 	 */
+	
 	public function waitingForApproval($user_id=0,$property_id=0)
 	{ 
 
@@ -778,6 +790,7 @@ public function askDelete()
 /**
  * [listOfResidents description]
  * @param  integer $property_id [description]
+ * This retrieves the list of residents accessed by the administrator.
  * @return [type]               [description]
  */
 public function listOfResidents()
@@ -824,6 +837,7 @@ public function listOfResidents()
 /**
  * [getOwnerOfProperty description]
  * @param  [type] $user_id [description]
+ * Retrieves the details of the owner of that specified property.
  * @return [type]          [description]
  */
 public function getOwnerOfProperty($user_id){
@@ -839,6 +853,7 @@ public function getOwnerOfProperty($user_id){
 }
 	/**
 	 * [confirmList description]
+	 * This page retrieves the list that is confirmed that they live in that specified area.
 	 * @return [type] [description]
 	 */
 	public function confirmList() 
@@ -889,6 +904,7 @@ public function getOwnerOfProperty($user_id){
 	}
 	/**
 	 * [listOfApproval description]
+	 * This retrieve the list of users or owners approved to get the proof of residence.
 	 * @return [type] [description]
 	 */
 	public function listOfApproval() 
@@ -915,6 +931,7 @@ public function getOwnerOfProperty($user_id){
 
 	/**
 	 * [OwnersDetails description]
+	 * This page retrieves the information of the owner.
 	 * @param integer $property_id [description]
 	 */
 	public function OwnersDetails($property_id = 0)
@@ -939,6 +956,7 @@ public function getOwnerOfProperty($user_id){
 	}
 	/**
 	 * [ResidencialProperty description]
+	 * this retrieves the ResidencialProperty information
 	 */
 	public function ResidencialProperty()
 	{
@@ -1017,6 +1035,7 @@ public function getOwnerOfProperty($user_id){
 
 /**
  * [approve description]
+ * This page will be accessed once the request has been approved.
  * @return [type] [description]
  */
 public function approve()
@@ -1048,6 +1067,7 @@ public function approve()
 
 /**
  * [confirmResident description]
+ * This page is accessed to confirm the residents living in that specific area.
  * @return [type] [description]
  */
 public function confirmResident()
@@ -1095,7 +1115,7 @@ public function confirmResident()
 
 /**
  * [confirm description]
- * @return [type] [description]
+ * @return [true] [only when the information is correct thats when it will be confirm]
  */
 public function confirm()
 {

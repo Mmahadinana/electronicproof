@@ -11,7 +11,7 @@ class Approval_model extends CI_MODEL{
 
 		$this->load->database();
 	}
-
+//Function for the approval which shows the details of that user
 public function approvalquery($search )
 {
 

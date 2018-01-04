@@ -7,6 +7,9 @@ class Address_model extends CI_MODEL{
 		parent::__construct();
 		$this->load->database();
 	}
+	/**
+	 * Enables the user to retrieve the address from the database.
+	 */
 	
 	public function getAddress($suburb_id=0)
 	{

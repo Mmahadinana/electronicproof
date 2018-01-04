@@ -38,7 +38,7 @@ class Passwords extends CI_Controller
 	/*******************************this function checks the email for reset*******************************/
 	/**
 	 * [reset description]
-	 * @return [type] [description]
+	 * @return [true] [this retrieves the correct information when the owner want to reset his/her password]
 	 */
 	public function reset()
 	{
@@ -116,7 +116,7 @@ class Passwords extends CI_Controller
 	/***********************************this function load the notification that email has been send ****************/ 
 	/**
 	 * [resetmessage description]
-	 * @return [type] [description]
+	 * @return [true] [thats where the owner will get a resetmessage for new password]
 	 */
 	public function resetmessage()
 	{
@@ -134,7 +134,7 @@ class Passwords extends CI_Controller
 		 * [resetpassword description]
 		 * @param  integer $mailtoken [from email]
 		 * @param  integer $user_id   [user id]
-		 * @return [type]             [description]
+		 * @return [true]             [thats where the owner will get a resetpassword for new password]
 		 */
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
