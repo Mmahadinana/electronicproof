@@ -7,11 +7,7 @@ class Residents extends CI_Controller {
 	{
 		parent::__construct();
 
-		header('Last-Modified:'.gmdate('D, d M Y H:i:s').'GMT');
-		header('Cache-Control: no-cache,must-revalidate, max-age=0');
-		header('Cache-Control:post-check=0, pre-check=0', false);
-		header('Pragma:no-cache');
-
+		
 		//library to access the session
 		$this->load->library("session");
 		$this->load->model("request_model");
@@ -356,7 +352,10 @@ class Residents extends CI_Controller {
 			
 		}
 		else {
-			redirect('residents/userprofile');
+
+			//redirect to residential property
+			redirect('residents/ResidencialProperty');
+
 		}
 		
 
