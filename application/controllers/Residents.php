@@ -228,7 +228,7 @@ class Residents extends CI_Controller {
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 
 			$data['db']= $this->request_model->getOwner($search);
-
+			//loading the request page 
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
 			if(!$this->input->post('usercheck'))
