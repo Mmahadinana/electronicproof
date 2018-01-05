@@ -22,6 +22,7 @@ class Request_model extends CI_MODEL
 	{
 		
 		$property_id = $search['property_id'] ?? FALSE;
+		$primary_add = $search['primary_add'] ?? FALSE;
 
 		$user_id = $search['user_id'] ?? FALSE;
 
@@ -33,6 +34,11 @@ class Request_model extends CI_MODEL
 		{
 			$this->db->where('lives_on.property_id',$property_id)
 			->where('user.id',$user_id); 
+		}
+		if($primary_add && $user_id)
+		{
+			$this->db->where('lives_on.primary_prop',$primary_add)
+					->where('lives_on.user_id',$user_id); 
 		}
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,user.email,user.phone,

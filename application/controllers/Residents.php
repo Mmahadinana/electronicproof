@@ -205,8 +205,19 @@ class Residents extends CI_Controller {
 	{ 
 
 		$property_id=$this->input->post('property_id');
-		//var_dump($property_id);	
+		if ($property_id == null) {
+			//Get the primary address of where the user lives
+			$search['primary_add']=1;
+			$search['user_id']=$_SESSION['id'];
+
+			$property=$this->request_model->getAddress($search);
+			foreach ($property as $value) {
+				$property_id=$value->property;				
+			}
+		}
+
 		$data['property_id']=$property_id;	
+		//get the property id of the selected property
 		if ($property_id != null)
 		{
 			$search=array();
@@ -318,6 +329,7 @@ class Residents extends CI_Controller {
 				}
 				else{
 
+
 			//send data to the database
 					$proofOfRecData=array();
 					foreach($data['user_addinfor'] as $property){
@@ -325,9 +337,21 @@ class Residents extends CI_Controller {
 					}
 
 					$proofOfRecData['user_id']=$_SESSION['id'];
-					$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
-					
-					$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+
+
+
+					if($_FILES['fileToUpload']['name'][0] != '') {
+
+						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+						$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
+
+						$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
+					}else {
+						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+
+						$this->requestPreview($data['user_addinfor'],$fileID);
+					}
+
 					
 			/*/$this->load->view('ini',$data); 
 					$this->requestPreview($data['user_addinfor']);
@@ -353,7 +377,12 @@ class Residents extends CI_Controller {
 		}
 		else {
 
-			//redirect to residential property
+
+
+
+			//user does not have address they should register their address		
+			
+
 			redirect('residents/ResidencialProperty');
 
 		}
@@ -719,10 +748,12 @@ public function confirmRequestInsert()
 		//redirect('residents/waitingForApproval/'.$user_id);
 	$this->waitingForApproval($user_id,$property_id);
 }
+
 /**
  * [askDelete description]
  * @return [type] [description]
  */
+
 public function askDelete()
 {
 	$attament=$this->input->post('fileID');
@@ -1089,7 +1120,11 @@ public function confirm()
 	
 
 	if($this->input->post('confirm')){
+
 		//$this->request_model->confirm_status(1);
+
+		$this->request_model->confirm_status(1,$search);
+
 
 		redirect('residents/confirmList');
 	}
