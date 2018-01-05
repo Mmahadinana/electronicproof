@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1 > Request Form </h1>
   <div class="form-area">
     <?php
- //var_dump($user_id) ;
+ 
 //echo $_SESSION['id'];
     $action="residents/request/";
 
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <label for="idnumber" class="control-label label-primary passlabels"><span class="footPadRight"> ID No.</span></label>				
     </div>
     <div class="col-md-6">
-      <input type="text" id="idnumber" name="idnumber" class="form-control" placeholder="ID No." value="<?php echo isset($request_id)? $key->identitynumber :set_value('idnumber') ;?>">
+      <input type="text" id="idnumber" name="idnumber" class="form-control" placeholder="ID No." value="<?php echo isset($userid)? $key->identitynumber : set_value('idnumber') ;?>">
     </div>
     <p><?php echo form_error('idnumber') ? alertMsg(false,'idnumber',form_error('idnumber')) : ''; ?></p>
   </div>
@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <label for="email" class="control-label label-primary passlabels "><span class="footPadRight"> E-mail</span></label>
     </div>
     <div class="col-md-6">					
-     <input type="text" id="email" name="email" class="form-control" placeholder="E-mail" value="<?php echo isset($request_id)? $key->email : set_value('email') ;?>">
+     <input type="text" id="email" name="email" class="form-control" placeholder="E-mail" value="<?php echo isset($userid)? $key->email : set_value('email') ;?>">
    </div>
    <p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
  </div>
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <label for="phone" class="control-label  "><span class="footPadRight"> Phone</span></label>
   </div>				
   <div class="col-md-6">
-    <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo isset($request_id)? $key->phone : set_value('phone') ;?>">
+    <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="<?php echo isset($userid)? $key->phone : set_value('phone') ;?>">
   </div>
   <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
 </div>
@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="form-group col-lg-12 ">
   <div class="col-lg-5 ">
-    <input type="text" class="idinput_path form-control text-success " disabled>
+    <input type="text" class="idinput_path form-control text-success " value="<?php echo isset($userid)? $idFiles: set_value('idFiles') ;?>" disabled>
   </div>
   <div class="col-lg-4">
     <label class="idUpload ">
@@ -131,11 +131,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="form-group col-lg-12 ">
   <div class="col-lg-5 ">
-    <input type="text" class="pdinput_path form-control text-success" disabled>
+    <input type="text" class="pdinput_path form-control text-success" value="<?php echo isset($userid)? $propFiles : set_value('fileToUpload[]') ;?>" disabled>
   </div>
   <div class="col-lg-4">
     <label class="fileToUpload ">
-     <input type="file"  class="hidden" name="fileToUpload[]" multiple>
+     <input type="file"  class="hidden" name="fileToUpload[]"  multiple>
      <span> Choose Property Doc.</span>  
      <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
    </label>

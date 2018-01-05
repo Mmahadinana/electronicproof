@@ -202,6 +202,11 @@ class Residents extends CI_Controller {
 	 */
 	public function request()
 	{ 
+
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+
+		}
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
 		if ($property_id == null) {
@@ -387,18 +392,26 @@ class Residents extends CI_Controller {
 		
 		$property_id=$this->input->post('property_id');
 		$data['request_id']=$this->input->post('request_id');
+		$data['userid']=$this->input->post('user_id');
+
 		$request_id=$data['request_id'];
 
 		//$search['request_id']=$request_id;
 		$search['user_id']=$_SESSION['id'];
+		$search['property_id']=$property_id;
 		$search['idUpload']='ID';
-		
+		// getting the data in attachment for filetoupload
 		$data['fileToUpload']=$this->request_model->getAttachment($search);
-		
+		foreach($data['fileToUpload'] as $files){
+		$data['propFiles']=$files->original_name;
+		}
 		$search['fileToUpload']='PD';
 		$search['idUpload']='';
 		$data['idUpload']=$this->request_model->getAttachment($search);
-
+		
+		foreach($data['idUpload'] as $files){
+		$data['idFiles']=$files->original_name;
+		}
 		$data['property_id']=$property_id;	
 		if ($property_id != null) {
 			
@@ -726,9 +739,17 @@ public function confirmRequestInsert()
 		$user_id=$_SESSION['user_id'];
 
 	}
-	$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-		//redirect('residents/waitingForApproval/'.$user_id);
-	$this->waitingForApproval($user_id,$property_id);
+	$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+	if($results){
+			//redirecting to the other page
+	$this->waitingForApproval($user_id,$property_id,$status=1);
+	}else {
+		$statusInsert=0;
+
+			redirect("residents/request?statusInsert=$statusInsert");
+	
+	}
+	
 }
 public function askDelete()
 {
@@ -746,8 +767,10 @@ public function askDelete()
 	 * @param  integer $property_id [description]
 	 * @return [type]               [description]
 	 */
-	public function waitingForApproval($user_id=0,$property_id=0)
+	public function waitingForApproval($user_id=0,$property_id=0,$status)
 	{ 
+		//status for the inserted request
+		$data['statusInsert']= $status;
 
 		$search=array();
 
@@ -839,8 +862,6 @@ public function getOwnerOfProperty($user_id){
 	$confirmlist=array();
 	$search['user_id']=$user_id;
 
-
-
 	return $data['owner']=$this->request_model->getOwner($search);
 
 }
@@ -874,13 +895,10 @@ public function getOwnerOfProperty($user_id){
 					
 				}					
 			}		
-
+			//var_dump($data['getOwnerListToComfirm']);
 			//$ownerPropertyID[$owner->property]=$owner->property;
 			
-		}
-
-		
-		
+		}		
 		
 		/*foreach ($data['getListToComfirm'] as $confirm) {
 			$requestPropertyID[$confirm->property_id]=$confirm->property_id;
@@ -894,11 +912,9 @@ public function getOwnerOfProperty($user_id){
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
-
-
 	}
 	/**
-	 * [listOfApproval description]
+	 * [listOfApproval page]
 	 * @return [type] [description]
 	 */
 	public function listOfApproval() 
@@ -918,12 +934,10 @@ public function getOwnerOfProperty($user_id){
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
-
-
 	}
 
 	/**
-	 * [OwnersDetails description]
+	 * [OwnersDetails page for owner and admin]
 	 * @param integer $property_id [description]
 	 */
 	public function OwnersDetails($property_id = 0)
@@ -941,13 +955,11 @@ public function getOwnerOfProperty($user_id){
 
 		$this->load->helper('form');
 
-		$this->load->view('ini',$data);
-
-		
+		$this->load->view('ini',$data);	
 
 	}
 	/**
-	 * [ResidencialProperty description]
+	 * [ResidencialProperty page]
 	 */
 	public function ResidencialProperty()
 	{
@@ -993,9 +1005,8 @@ public function getOwnerOfProperty($user_id){
 
 	}
 
-
 /**
- * [approve description]
+ * [load approve page for admin]
  * @return [type] [description]
  */
 public function approve()
@@ -1024,6 +1035,10 @@ public function approve()
 	$this->load->view('ini',$data);
 
 }
+/**
+ * [confirmResident page owner and the requester]
+ * @return [type] [description]
+ */
 public function confirmResident()
 {
 	
@@ -1066,6 +1081,10 @@ public function confirmResident()
 	$this->load->view('ini',$data);
 
 }
+/**
+ * [confirm page for the owner]
+ * @return [type] [description]
+ */
 public function confirm()
 {
 	$search=array();
