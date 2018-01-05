@@ -23,7 +23,7 @@
  							<td>Resident Full Names</td>
  							<td class="text-danger">
  								<?php    
-
+ 								// print the unfirmation of the user
  								foreach ($user_addinfor as $key ) {
  									echo $key->name;
  									?>
@@ -98,7 +98,9 @@
  					</thead>
  					<tbody>
 
- 						<?php foreach ($property_addinfor as $value) {?>
+ 						<?php 
+ 						//printing th properties of the user
+ 						foreach ($property_addinfor as $value) {?>
 
  						<tr>
  							<td><?php echo $value->property ?></td>
@@ -141,7 +143,9 @@
  				</tr>
  			</thead>
  			<tbody>
- 				<?php foreach ($add_addinfor as $value) {?>
+ 				<?php 
+ 				//printing the addresses of where the user lives
+ 				foreach ($add_addinfor as $value) {?>
 
  				<tr>
  					<td><?php echo $value->property ?></td>
