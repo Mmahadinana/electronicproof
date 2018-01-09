@@ -138,10 +138,28 @@ class Residents extends CI_Controller {
 
 	 	$config['uri_segment']  = 3;
 		//intialize the pagination with our config
-	 	$this->pagination->initialize($config);
+	 	
+	 /*************tags for pagination with config**************/
+		$config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'FIRST';
+        $config['last_link'] = 'LAST';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = 'Prev';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $this->pagination->initialize($config);
 	 	$data['search_pagination']=$this->pagination->create_links();
-
-
 
 	 	$this->load->view('ini',$data);
 
@@ -207,6 +225,7 @@ class Residents extends CI_Controller {
 			$data['statusInsert']= $this->input->get('statusInsert');
 
 		}
+
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
 		if ($property_id == null) {
@@ -632,11 +651,13 @@ public function id_upload(){
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
-
+	
 	$search=array();
 	foreach($user_addinfor as $userdata)
 	{
 		$search['property_id']=$userdata->property;
+		$search['userid']=$userdata->id;
+		
 
 	}
 	$data['multipleFile']=$multipleFile;
@@ -645,6 +666,14 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 
 	$data['residentInfor']=$user_addinfor;
 	$data['owner_addinfor']=$this->request_model->getOwner($search);
+	
+	//check if there is owner
+	if(empty($data['owner_addinfor'])){
+		//dedele user adddress of where there is no owner
+			$this->request_model->removeUserAddress($search);
+			redirect("residents/userprofile?statusRequest=0");
+		
+	}
 		/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
 		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
 		var_dump($data['fileAttament1']);*/
@@ -664,6 +693,14 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	 */
 	public function userprofile()
 	{
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+
+		}
+		if(null!=$this->input->get('statusRequest')){
+			$data['statusRequest']= $this->input->get('statusRequest');
+
+		}
 		$search=array();
 		$properties=array();
 		$search['user_idprofile']= $_SESSION['id'];

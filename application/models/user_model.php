@@ -202,7 +202,7 @@ public function callback_checkPhone($phone)
 	->where("id",$user_id);
 		//var_dump($this->db->get()->row());
 	$testphone=$this->db->get()->row();
-	var_dump($testphone);
+	//var_dump($testphone);
 	if ($testphone->phone != $phone) 
 	{
 		return false;
@@ -347,12 +347,9 @@ public function insertAddress($data=array(), $user_id)
 		//if no property that does not have that address_id insert a new property
 		if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
-			//get the last inserted id
-			$lastProperty_id=$this->db->insert_id();
-			
+			//get the last inserted id			
 			$property=$this->getProperty($userAddress);
 		}
-
 		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
@@ -365,14 +362,19 @@ public function insertAddress($data=array(), $user_id)
 		);
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);
-		
-		if (!empty($hasAddress)) {
+		//check if the address has owner
+		$hasOwner=$this->isThereOwnerInProperty($address);
+		if(empty($hasOwner)){
+				return 0;
+		}
+		if (!empty($hasAddress) && !empty($hasOwner)) {
 			
-				return false;
+				return 0;
 			}else {
 			//insert the address for the user
+			$this->db->trans_start();
 				$this->db->insert('lives_on',$address);
-			
+			return $this->db->trans_complete();
 		}
 
 	}
@@ -395,6 +397,13 @@ public function insertAddress($data=array(), $user_id)
 		->where('lives_on.user_id',$search['user_id'])			
 		->where('lives_on.property_id',$search['property_id'])			
 		->from('lives_on');
+		return $this->db->get()->result();
+	}
+	public function isThereOwnerInProperty($search=array()){
+		
+		$this->db->select('owners_property.id,owners_property.owners_id')				
+		->where('owners_property.property_id',$search['property_id'])			
+		->from('owners_property');
 		return $this->db->get()->result();
 	}
 }

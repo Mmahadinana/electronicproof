@@ -956,8 +956,10 @@ class Publiczone extends CI_Controller
 		{
 
 			$statusInsert=$this->user_model->updateUserAddress($this->input->post());
+				
 
-			redirect("residents/request");
+		redirect("residents/userprofile?statusInsert=$statusInsert");
+
 
 		}
 
