@@ -214,6 +214,7 @@ class Publiczone extends CI_Controller
 		//$search['user_id']= $this->input->get('user_id') ?? '0';
 		
 		//$data['user_id']= $this->user_model->getUser($search);
+		$data['user_add']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
@@ -296,7 +297,7 @@ class Publiczone extends CI_Controller
 					'required',
 					'exact_length[13]',						
 
-					'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
+					//'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
 				),
 
 
@@ -304,7 +305,7 @@ class Publiczone extends CI_Controller
 				'errors'=>array
 				('required'=>'you should insert one %s ',
 					'exact_length'=>'the %s must have at least length of 13 ',						
-					'regex_match'=>'the %s must be numbers only',									
+					//'regex_match'=>'the %s must be numbers only',									
 				)	 					
 			),
 			
@@ -397,7 +398,8 @@ class Publiczone extends CI_Controller
     				('required'=>'you should insert one %s for the user'
 
     			)
-    			),array(
+    			),
+    			array(
     				'field'=>'manucipality',
     				'label'=>'manucipality',
     				'rules'=>'required',

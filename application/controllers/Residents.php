@@ -801,6 +801,7 @@ class Residents extends CI_Controller {
 			
 		}
 		$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
+		$data['user_add']= $this->user_model->getUser($search);
 		//var_dump($data['user_addinfor']);
 		$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 		$data['pageToLoad']='eresidence/listOfResidents';
