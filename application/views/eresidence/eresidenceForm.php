@@ -107,12 +107,10 @@
             </table--> 
 
           </div>
-          <div class="">
-            <ul class="pagination">
-              <li>
+          <div class="cintainer">
+         
                 <?php echo $search_pagination; ?>
-              </li>
-            </ul>
+            
           </div>
 
         </div>
