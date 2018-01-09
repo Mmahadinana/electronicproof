@@ -203,6 +203,11 @@ class Residents extends CI_Controller {
 	 */
 	public function request()
 	{ 
+
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+
+		}
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
 		if ($property_id == null) {
@@ -232,8 +237,10 @@ class Residents extends CI_Controller {
 
 			//loading the request page 
 			$data['pageToLoad']='request/request';
-
 			$data['pageActive']='request';
+
+			/**load thi page title**/
+			$data['pageTitle']='Request Form ';
 
 			if(!$this->input->post('usercheck'))
 
@@ -356,18 +363,7 @@ class Residents extends CI_Controller {
 					}
 
 					
-			/*/$this->load->view('ini',$data); 
-					$this->requestPreview($data['user_addinfor']);
-			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 
-			//send data to the database
-					$this->request_model->insertFileData($this->upload_data['file'],'ID');
-					
-					$this->request_model->insertMultipleFileData($this->upload_data1);
-			//$this->load->view('ini',$data); */
-
-					$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
-			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
 				}
 
 			}
@@ -400,36 +396,72 @@ class Residents extends CI_Controller {
 	public function EditRequest()
 	{ 
 		$search=array();
-		
+		//variable will store the attachments id that will be deleted  when user updates
+		$attachment_id_id=0;
+		$attachment_id_pd=array();
+
 		$property_id=$this->input->post('property_id');
+		//data that will bw used in the form
 		$data['request_id']=$this->input->post('request_id');
+		$data['userid']=$this->input->post('user_id');
+		//var_dump($property_id,$data['request_id'],$data['userid']);
 		$request_id=$data['request_id'];
-
-		//$search['request_id']=$request_id;
+		// data that will be used for seach in getAttachment in the model
+		
 		$search['user_id']=$_SESSION['id'];
+		$search['property_id']=$property_id;
 		$search['idUpload']='ID';
-		
-		$data['fileToUpload']=$this->request_model->getAttachment($search);
-		
-		$search['fileToUpload']='PD';
-		$search['idUpload']='';
+		// getting the data in attachment for idUpload
 		$data['idUpload']=$this->request_model->getAttachment($search);
+		if(empty($data['idUpload'])){
+			$data['message']=alertMsg(false,'Something went wrong, Make a new request','');
+			redirect('residents/request');
+		}
+		
+		foreach($data['idUpload'] as $files){
+			$data['idFiles']=$files->original_name;
+			//storing identity id
+			$attachment_id_id=$files->attachment_id;
 
-		$data['property_id']=$property_id;	
-		if ($property_id != null) {
-			
+
+		}
+
+		
+		$search['idUpload']='';
+		$search['fileToUpload']='PD';
+		
+		// getting the data in attachment for filetoupload
+		$data['fileToUpload']=$this->request_model->getAttachment($search);
+		//count for attachment id if multiple files inserted in property 
+		$i=0;
+		foreach($data['fileToUpload'] as $files){
+			$data['propFiles']=$files->original_name;	
+
+			if($files->attachment_id != 0){
+				//storing id´s
+				$attachment_id_pd[$i]=$files->attachment_id;
+				$i +=1;
+			}
+
+		}
+		
+		$data['property_id']=$property_id;
+
+		if ($property_id != null) {			
 
 			$search['property_id']= $property_id;
 			$search["user_id"]= $_SESSION['id'];
 
-
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 			
-			$data['db']= $this->request_model->getOwner($search);
-			
+			$data['db']= $this->request_model->getOwner($search);			
 
-			$data['pageToLoad']='eresidence/request';
-			$data['pageActive']='eresidence';
+
+			$data['pageToLoad']='request/request';
+			$data['pageActive']='request';
+			/**load thi page title**/
+			$data['pageTitle']='Edit Request';
+
 			if(!$this->input->post('usercheck')){
 
 // loading the form and files for file uoload		
@@ -446,11 +478,10 @@ class Residents extends CI_Controller {
 							'regex_match[/^[0-9]+$/]',
 							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
 
-
 						'errors'=>array('required'=>'you should insert a %s ',
 							'exact_length'=>'the %s must have at least length of 10 ',						
 							'regex_match'=>'the %s must be numbers only',	
-							'checkPhone'=>'%s does not exist, please enter the correct email',				
+							'checkPhone'=>'%s does not exist, please enter the correct email',			
 						)	 					
 					),		
 					array(
@@ -481,34 +512,7 @@ class Residents extends CI_Controller {
 
 						) 					
 					),
-					array('field'=>'idUpload',
-						'label'=>'idUpload',
-				'rules'=>array(//'required',					
-					'callback_id_upload'),
-					//array('checkFile',array($this->request_model,'callback_checkFile'))
-				
-
-				'errors'=>array(
-			//'callback_file_upload'=>'%s is required',
-			//'checkFile'=>'type for %s exist'
-
-
-				)
-			),
-					array('field'=>'fileToUpload',
-						'label'=>'fileToUpload',
-				'rules'=>array(//'required',					
-					'callback_file_upload'),
-					//array('checkFile',array($this->request_model,'callback_checkFile'))
-				
-
-				'errors'=>array(
-			//'callback_do_upload1'=>'%s is required',
-			//'checkFile'=>'type for %s exist'
-
-
-				)
-			),
+					
 
 				);		
 
@@ -519,41 +523,30 @@ class Residents extends CI_Controller {
 
 					$this->load->view('ini',$data);
 				}else{
-			/*
 			//send data to the database
-			$proofOfRecData=array();
-			foreach($data['user_addinfor'] as $property){
-				$proofOfRecData['property']= $property->property;
+					$proofOfRecData=array();
+					foreach($data['user_addinfor'] as $property){
+						$proofOfRecData['property']= $property->property;
+					}
 
-			}
-			//$property_id=
-			$proofOfRecData['user_id']=$_SESSION['id'];
-					$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
-					//var_dump($this->upload_data1['file']);
-					$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
-			//$this->load->view('ini',$data); 
-					$this->requestPreview($data['user_addinfor']);
-			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
-
-			*/
-			//send data to the database
-					//$this->request_model->insertFileData($this->upload_data['file'],'ID');
-					//var_dump($this->upload_data1['file']);
-					//$this->request_model->insertMultipleFileData($this->upload_data1);
-			//$this->load->view('ini',$data); 
-
-					$this->requestPreview($data['user_addinfor']);
-			//redirect('residents/requestPreview/'.$this->input->get('user_id'));
+					$proofOfRecData['user_id']=$_SESSION['id'];					
+					$this->load->view('ini',$data);
 				}
 
-			}else{
+			}
+			else{
 				$this->load->view('ini',$data);
 
 
 			}
 			
-		}else {
-			redirect('residents/userprofile');
+
+		}
+		else {
+			//user does not have address they should register their address		
+			
+			redirect('residents/ResidencialProperty');
+
 		}
 		
 
@@ -651,12 +644,7 @@ public function id_upload(){
 		}
 
 		}//error if there in no file to upload
-		else
-		{
-			$this->form_validation->set_message('id_upload', "Identity document must be uploaded ");
-			return false;
-			
-		}		
+				
 		return true;
 	}
 // **********************************************the success page of the request*******************************************************************************************//
@@ -747,15 +735,53 @@ public function confirmRequestInsert()
 		$user_id=$_SESSION['user_id'];
 
 	}
-	$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-		//redirect('residents/waitingForApproval/'.$user_id);
-	$this->waitingForApproval($user_id,$property_id);
+	$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+	if($results){
+			//redirecting to the other page
+		$this->waitingForApproval($user_id,$property_id,$status=1);
+	}else {
+		$statusInsert=0;
+
+		redirect("residents/request?statusInsert=$statusInsert");
+
+	}
+	
 }
+
 
 /**
  * [askDelete description]
  * @return [type] [description]
  */
+
+
+/*public function updateRequest()
+{
+	$property_id=$this->input->post('property_id');
+	//$owner_id=$this->input->post('owner_id');
+	$user_id=$this->input->post('user_id');
+var_dump($property_id,$user_id);
+	if ($property_id != null) {
+		$listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
+
+		$this->session->set_userdata($listvar);
+	}
+	else {
+
+		$property_id=$_SESSION['property_id'];
+		//$owner_id=$_SESSION['owner_id'];
+		$user_id=$_SESSION['user_id'];
+
+	}
+	$statusUpdate=$this->request_model->updateRequest($user_id,$owner_id,$property_id);
+	
+			//redirecting to the other page
+	
+
+	redirect("residents/request?statusUpdate=$statusUpdate");
+	
+	
+}*/
 
 public function askDelete()
 {
@@ -774,9 +800,12 @@ public function askDelete()
 	 * @param  integer $property_id [description]
 	 * @return [type]               [description]
 	 */
-	
-	public function waitingForApproval($user_id=0,$property_id=0)
+
+	public function waitingForApproval($user_id=0,$property_id=0,$status)
+
 	{ 
+		//status for the inserted request
+		$data['statusInsert']= $status;
 
 		$search=array();
 
@@ -870,8 +899,6 @@ public function getOwnerOfProperty($user_id){
 	$confirmlist=array();
 	$search['user_id']=$user_id;
 
-
-
 	return $data['owner']=$this->request_model->getOwner($search);
 
 }
@@ -904,13 +931,10 @@ public function getOwnerOfProperty($user_id){
 					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm($requestPropertyID);
 				}					
 			}		
-
+			//var_dump($data['getOwnerListToComfirm']);
 			//$ownerPropertyID[$owner->property]=$owner->property;
 			
-		}
-
-		
-		
+		}		
 		
 		/*foreach ($data['getListToComfirm'] as $confirm) {
 			$requestPropertyID[$confirm->property_id]=$confirm->property_id;
@@ -924,12 +948,14 @@ public function getOwnerOfProperty($user_id){
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
-
-
 	}
 	/**
+<<<<<<< HEAD
 	 * [listOfApproval description]
 	 * This retrieve the list of users or owners approved to get the proof of residence.
+=======
+	 * [listOfApproval page]
+>>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 * @return [type] [description]
 	 */
 	public function listOfApproval() 
@@ -950,13 +976,15 @@ public function getOwnerOfProperty($user_id){
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
-
-
 	}
 
 	/**
+<<<<<<< HEAD
 	 * [OwnersDetails description]
 	 * This page retrieves the information of the owner.
+=======
+	 * [OwnersDetails page for owner and admin]
+>>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 * @param integer $property_id [description]
 	 */
 	public function OwnersDetails($property_id = 0)
@@ -974,14 +1002,16 @@ public function getOwnerOfProperty($user_id){
 
 		$this->load->helper('form');
 
-		$this->load->view('ini',$data);
-
-		
+		$this->load->view('ini',$data);	
 
 	}
 	/**
+<<<<<<< HEAD
 	 * [ResidencialProperty description]
 	 * this retrieves the ResidencialProperty information
+=======
+	 * [ResidencialProperty page]
+>>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 */
 	public function ResidencialProperty()
 	{
@@ -1026,10 +1056,13 @@ public function getOwnerOfProperty($user_id){
 
 	}
 
-
 /**
+<<<<<<< HEAD
  * [approve description]
  * This page will be accessed once the request has been approved.
+=======
+ * [load approve page for admin]
+>>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
  * @return [type] [description]
  */
 public function approve()
@@ -1059,10 +1092,10 @@ public function approve()
 
 }
 
+
 /**
  * [confirmResident description]
  * This page is accessed to confirm the residents living in that specific area.
- * @return [type] [description]
  */
 public function confirmResident()
 {
@@ -1107,9 +1140,11 @@ public function confirmResident()
 
 }
 
+
 /**
- * [confirm description]
+ *  [confirm page for the owner]
  * @return [true] [only when the information is correct thats when it will be confirm]
+
  */
 public function confirm()
 {

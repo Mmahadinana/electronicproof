@@ -17,9 +17,12 @@ $property_id=0;
     <th>Date</th>
     <th>Edit</th>
   </tr>
-  <?php foreach ($getListToComfirm as $user) { 
+  <?php 
+
+  foreach ($getListToComfirm as $user) { 
     $property_id=$user->property_id;
     $request_id=$user->id;
+    $user_id=$user->user_id;
     ?>
 
 
@@ -36,6 +39,7 @@ $property_id=0;
           <input type="hidden" name="property_id" value=<?php echo $property_id ?>>
           <input type="hidden" name="usercheck" value="true">
           <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
+          <input type="hidden" name="user_id" value=<?php echo $user_id ?>>
           <button type="submit"  class='btn btn-primary btn-xs' title="edit">
             <span class='glyphicon glyphicon-pencil'></span> 
           </button>
