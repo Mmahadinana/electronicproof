@@ -225,6 +225,7 @@ class Residents extends CI_Controller {
 			$data['statusInsert']= $this->input->get('statusInsert');
 
 		}
+
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
 		if ($property_id == null) {
@@ -650,11 +651,13 @@ public function id_upload(){
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
-
+	
 	$search=array();
 	foreach($user_addinfor as $userdata)
 	{
 		$search['property_id']=$userdata->property;
+		$search['userid']=$userdata->id;
+		
 
 	}
 	$data['multipleFile']=$multipleFile;
@@ -663,6 +666,14 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 
 	$data['residentInfor']=$user_addinfor;
 	$data['owner_addinfor']=$this->request_model->getOwner($search);
+	
+	//check if there is owner
+	if(empty($data['owner_addinfor'])){
+		//dedele user adddress of where there is no owner
+			$this->request_model->removeUserAddress($search);
+			redirect("residents/userprofile?statusRequest=0");
+		
+	}
 		/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
 		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
 		var_dump($data['fileAttament1']);*/
@@ -682,6 +693,14 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	 */
 	public function userprofile()
 	{
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+
+		}
+		if(null!=$this->input->get('statusRequest')){
+			$data['statusRequest']= $this->input->get('statusRequest');
+
+		}
 		$search=array();
 		$properties=array();
 		$search['user_idprofile']= $_SESSION['id'];

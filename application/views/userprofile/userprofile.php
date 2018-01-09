@@ -4,6 +4,16 @@
  ?>
 
  <div class="form-area">
+ 	  <?php
+
+  if (isset($statusInsert)) {
+   echo alertMsg($statusInsert,' Your request was made successfully','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+ } 
+ if (isset($statusRequest)) {
+   echo alertMsg($statusRequest,' Your request was made successfully',"Oops! something went wrong, registeraddress in order make arequest <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
+ }
+
+?>
  	<h1>User Profile</h1>
 
  	

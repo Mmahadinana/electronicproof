@@ -77,16 +77,16 @@ class Request_model extends CI_MODEL
 public function ownerquery($search )
 {
 
-
 	$property_id = $search['property_id'] ?? FALSE;
 	$user_id = $search['user_id'] ?? FALSE;
-		//$userid = $search['userid'] ?? FALSE;
+//$userid = $search['userid'] ?? FALSE;
 
-
+	//check for the requestPreview control
 	if($property_id)
 	{
-		$this->db->where('property.id',$property_id); 
+		$this->db->where('owners_property.property_id',$property_id); 
 	}
+	//check from getOwnerOfProperty control
 	if($user_id)
 	{
 		$this->db->where('owners.user_id',$user_id); 
@@ -731,12 +731,10 @@ public function confirm_status($status,$search){
  * @return [type]         [description]
  */
 public function removeUserAddress($search){
-	$removeUserData=array(
-		'user_id' => 'user_id' ,
-		'property_id' => 'property_id' 
-	);
+	
 	$this->db->trans_start();
-	$this->db->delete('lives_on',array('user_id'=>$removeUserData['user_id'],'property_id'=>$removeUserData['property_id']));
+	//delete in loves on table
+	$this->db->delete('lives_on',array('user_id'=>$search['user_id'],'property_id'=>$search['property_id']));
 	return $this->db->trans_complete();
 }
 
