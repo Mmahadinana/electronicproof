@@ -859,6 +859,7 @@ public function listOfResidents()
 	$search['property_id1']=$property_id;
 		//$data['property_id']=$_SESSION['property_id'];
 
+
 	if ($property_id != null) {
 
 		$this->session->set_userdata('property_id',$property_id);
@@ -870,6 +871,7 @@ public function listOfResidents()
 
 	}
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
+
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
