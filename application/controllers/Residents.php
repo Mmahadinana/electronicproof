@@ -203,7 +203,7 @@ class Residents extends CI_Controller {
 	 */
 	public function request()
 	{ 
-
+		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
 		if ($property_id == null) {
 			//Get the primary address of where the user lives
@@ -230,8 +230,11 @@ class Residents extends CI_Controller {
 
 			$data['db']= $this->request_model->getOwner($search);
 
-			$data['pageToLoad']='eresidence/request';
-			$data['pageActive']='eresidence';
+			//loading the request page 
+			$data['pageToLoad']='request/request';
+
+			$data['pageActive']='request';
+
 			if(!$this->input->post('usercheck'))
 
 			{
