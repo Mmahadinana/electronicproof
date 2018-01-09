@@ -577,6 +577,11 @@ public function cancelRequestAtta($file_id=0){
 	return $this->db->delete('attachments',array('attachments.id'=>$file_id));
 
 }
+public function deleteAttachment($attachments=array(),$attachments_id=0){
+	/*var_dump($attachments_id,$attachments);
+	$this->db->delete('proof_of_res_doc',array($attachments_id));
+	$this->db->delete('attachments',array($attachments_id));*/
+}
 /**
  * [cancel the Requess that the user made befor owner approves is]
  * @param  integer $file_id [description]

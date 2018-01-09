@@ -5,12 +5,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1 > Request Form </h1>
+  <h1 ><?php echo $pageTitle; ?></h1>
   <div class="form-area">
     <?php
- 
-//echo $_SESSION['id'];
-    $action="residents/request/";
+
+    (isset($userid) && !empty($fileToUpload))? $count=count($propFiles) : '';  
+    $action= isset($userid)? "residents/EditRequest/":"residents/request/";
 
     echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data', 'autocomplete'=>'off'));?>
 
@@ -18,9 +18,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <input type="hidden"  name="property_id" value="<?php echo $property_id; ?>">
 
     <div class="row tablereq">
-    <div class="col-md-10"><span class="text-warning h4"> Owner :<?php //foreach ($db as $value) {
-     // echo ', '.$value->name;
-    //} ?> </span>
+    <div class="col-md-10"><!--span class="text-warning h4"> Owner :<?php foreach ($db as $value) {
+      echo ', '.$value->name;
+    } ?> </span-->
     <table class="table text-left romtbl_borders">
 
       <tbody>
@@ -44,27 +44,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <td rowspan="7">Address</td>               
             <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
           </tr>
-
-
           <tr>
             <td><?php  echo $key->street_name?></td>
-
           </tr> 
           <tr>
             <td><?php  echo $key->town?></td>
-
           </tr>
           <tr>
             <td><?php  echo $key->zip_code?></td>
-
           </tr>
           <tr>
             <td><?php  echo $key->manucipality?></td>
-
           </tr>
           <tr>
             <td><?php  echo $key->district?></td>
-
           </tr>
           <tr>
             <td><?php  echo $key->province?></td>            
@@ -75,11 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
   </div>
 
-
-  <!-- Old Password-->	
-
-
-
+  <!-- enter information that will be verified-->	
   <div class="form-group  ">
     <div class="passlabels col-md-6">
       <label for="idnumber" class="control-label label-primary passlabels"><span class="footPadRight"> ID No.</span></label>				
@@ -100,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    <p><?php echo form_error('email') ? alertMsg(false,'email',form_error('email')) : ''; ?></p>
  </div>
 
- <!-- New Password--> 
+ <!-- Phone--> 
 
 
  <div class="form-group ">
@@ -116,30 +105,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="form-group col-lg-12 ">
   <div class="col-lg-5 ">
-    <input type="text" class="idinput_path form-control text-success " value="<?php echo isset($userid)? $idFiles: set_value('idFiles') ;?>" disabled>
+    <input type="text" class="idinput_path form-control text-success" name="identity_doc" value="<?php echo isset($userid) ? $idFiles: set_value('idFiles') ;?>" disabled>
   </div>
   <div class="col-lg-4">
-    <label class="idUpload ">
-      <input type="file" name="idUpload" class="hidden">
-      <span class="btn-idUpload">Choose Identity Doc.</span>
-    </label>
+    <?php echo isset($userid)? "<a href= 'request' class='btn btn-warning form-control text-success'><b>Change Files</b></a>":"<label class='idUpload '>
+    <input type='file' name='idUpload' class='hidden'>
+    <span class='btn-idUpload'>Choose Identity Doc.</span>
+  </label>"?>
 
 
-    <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
-    <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
-  </div>
+
+  <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
+  <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
 </div>
-<div class="form-group col-lg-12 ">
-  <div class="col-lg-5 ">
-    <input type="text" class="pdinput_path form-control text-success" value="<?php echo isset($userid)? $propFiles : set_value('fileToUpload[]') ;?>" disabled>
-  </div>
-  <div class="col-lg-4">
-    <label class="fileToUpload ">
-     <input type="file"  class="hidden" name="fileToUpload[]"  multiple>
-     <span> Choose Property Doc.</span>  
-     <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
-   </label>
+</div>
+<div class="form-group col-lg-12 "><?php
+if(isset($userid) && !empty($fileToUpload)) {
+  for($i = 0; $i <$count; $i++){
+    /*****************outpu in an edit mode*********************************************/
+    echo "<div class='col-lg-5'> <span class='btn-default form-control text-left'> $propFiles </span> </div><br>";
+  } 
+} elseif(isset($userid) && empty($fileToUpload)) {
+  /*************output nothing if the was no file uploaded*****************************/
+  echo '';
+}else{
+  /*****************outpu in an insert mode*********************************************/
+ echo "<div class='col-lg-5'>
+ <input type='text' class='pdinput_path form-control text-success' name='property_doc' 
+ value=''disabled>
  </div>
+
+ <div class='col-lg-4'>
+ <label class='fileToUpload '>
+ <input type='file'  class='hidden' name='fileToUpload[]'  multiple>
+ <span> Choose Property Doc.</span>  
+
+ </label>
+ </div>";
+}?>
+<!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="Uploadfile">Upload file</button-->
 </div>
 <p><?php echo form_error('fileToUpload') ? alertMsg(false,'fileToUpload',form_error('fileToUpload')) : ''; ?></p>
 <?php
@@ -148,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
-
+<?php echo isset($userid)? '':'
 <div class="form-group">
   <div class="col-lg-6">
     <button class="btn btn-lg btn-primary form-control" name="submit" id="submit" type="submit">Submit</button>
@@ -157,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="col-lg-6">
     <button class="btn btn-lg btn-warning form-control" name="reset" type="reset" value="upload">Reset</button>
   </div>
-</div>
+</div>'?>
 
 
 
@@ -168,32 +172,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- /container --><!-- /.container -->
 
 <script>
+
+  /****************query for the idetity document upload***********************/
+
   $('.idUpload input[type="file"]').on('change', function() {
 
     $('.idinput_path').val(this.value.replace('C:\\fakepath\\', ''));
     
-   
+
 
   });
-/*$('.fileToUpload input[type="file"]').on('change', function() {
+  /******************jquery for the multiple files for property*************/
+  $(".fileToUpload").on('change', function () {
 
-    $('.pdinput_path').val(this.value.replace('C:\\path\\', ''));
+    var fp = $('.fileToUpload input[type="file"]');
+    var lg = fp[0].files.length; // get length
+    var items = fp[0].files;
+    var fragment = "";
 
+    if (lg > 0) {
+      for (var i = 0; i < lg; i++) {
+            var fileName = items[i].name; // get file name          
+
+            // append li to UL tag to display File info
+            
+            fragment += fileName + " ,";
+          }
+
+      //display file in the an input
+      $('.pdinput_path').val(fragment);
+    }
   });
-  $(function () {
-    'use strict';
-    // Change this to the location of your server-side upload handler:
-    var url = window.location.hostname === 'localhost' ? 'electronicproof/residents/request' : 'server/php';
-    $('.fileToUpload').fileupload({
-      url: url,
-      dataType: 'json',
-      done: function (e, data) {
-        $.each(data.result.files, function (<?php echo base_url('residents/request'); ?>, file) {
-          $('<p/>').text(file.name).appendTo('.pdinput_path');
-        });
-      },
-      
-    }).prop('disabled', !$.support.fileInput)
-    .parent().addClass($.support.fileInput ? undefined : 'disabled');
-  });*/
 </script>
