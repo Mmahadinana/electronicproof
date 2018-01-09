@@ -74,34 +74,34 @@ class User_model extends CI_MODEL
  * [addUser description]
  * @param [type] $data [description]
  */
-	public function addUser($data)
-	{
-		
+public function addUser($data)
+{
 
-		$add = array(
-			'name'=>$data['name'],
-			'email'=>$data['email'],
+
+	$add = array(
+		'name'=>$data['name'],
+		'email'=>$data['email'],
 			//'address'=>$data['address'],
-			'identitynumber'=>$data['identitynumber'],
-			'phone'=>$data['phone'],
+		'identitynumber'=>$data['identitynumber'],
+		'phone'=>$data['phone'],
 			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
 
 		     		//'minetype'=>$minetype
 		);
-		
-		$this->db->trans_start();
+
+	$this->db->trans_start();
 //var_dump($add);
-		$this->db->insert("user",$add);
+	$this->db->insert("user",$add);
 
-		$user_id = $this->db->insert_id();
-		$this->insertPassword($data, $user_id);
+	$user_id = $this->db->insert_id();
+	$this->insertPassword($data, $user_id);
 
-		return $this->db->trans_complete();
-		
-		
-	}
+	return $this->db->trans_complete();
+
+
+}
 	/**
 	 * [updateUser description]
 	 * @param  [type] $data [description]
@@ -157,11 +157,11 @@ class User_model extends CI_MODEL
  * @param  array  $search [description]
  * @return [type]         [description]
  */
-	public function countUser(array $search=array())
-	{
-		$this->userQuery($search);
-		return $this->db->count_all_results();
-	}
+public function countUser(array $search=array())
+{
+	$this->userQuery($search);
+	return $this->db->count_all_results();
+}
 	/**
 	 * [deleteUser description]
 	 * @param  int    $user_id [description]
@@ -193,60 +193,60 @@ class User_model extends CI_MODEL
  * @param  [type] $phone [description]
  * @return [type]        [description]
  */
-	public function callback_checkPhone($phone)
-	{
-		$user_id = $this->input->post('phone');
+public function callback_checkPhone($phone)
+{
+	$user_id = $this->input->post('phone');
         //var_dump($phone);
-		$this->db->select("user.phone")
-		->from("user")
-		->where("id",$user_id);
+	$this->db->select("user.phone")
+	->from("user")
+	->where("id",$user_id);
 		//var_dump($this->db->get()->row());
-		$testphone=$this->db->get()->row();
-		var_dump($testphone);
-		if ($testphone->phone != $phone) 
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-
-		} 
-
+	$testphone=$this->db->get()->row();
+	var_dump($testphone);
+	if ($testphone->phone != $phone) 
+	{
+		return false;
 	}
+	else
+	{
+		return true;
+
+	} 
+
+}
 /**
  * [checkPassword description]
  * @param  [type] $password [description]
  * @return [type]           [description]
  */
-	public function checkPassword($password)
-	{
+public function checkPassword($password)
+{
 		//insert the username and password
-		$username = $this->input->post('username');
-		$rememberme = $this->input->post('rememberme');
+	$username = $this->input->post('username');
+	$rememberme = $this->input->post('rememberme');
 
-		if (empty($username) || empty($password)) 
-		{
+	if (empty($username) || empty($password)) 
+	{
 			//no values go out
-			return true;
-		}
+		return true;
+	}
 //will retrieve the password from the user
-		$hash =$this->getPasswordHashFromUser($username);
+	$hash =$this->getPasswordHashFromUser($username);
 
 
 //lets you varify the password
-		if(!empty($hash) && password_verify($password,$hash))
-		{
+	if(!empty($hash) && password_verify($password,$hash))
+	{
 	//valid
-			$this->startUserSession($username);
-			$this->remember_cookie($rememberme);
+		$this->startUserSession($username);
+		$this->remember_cookie($rememberme);
 	//checks if valid
-			return true;
-		}
-//return false if password is not correct
-		return false;
-
+		return true;
 	}
+//return false if password is not correct
+	return false;
+
+}
 
 /**
  * [getPasswordHashFromUser description]
@@ -330,6 +330,7 @@ public function insertAddress($data=array(), $user_id)
 		//Get the address id of the address to be inserted
 		$userProperty=0;
 		$userAddress=0;
+		
 		$this->db->select('address.id')
 		->where('address.suburb_id',$addifor['suburb'])
 		->where('address.street_name',$addifor['street_name'])
@@ -340,29 +341,62 @@ public function insertAddress($data=array(), $user_id)
 			$userAddress=$value->id;
 		}
 
-//get the property id for the address 
-
-		$this->db->select('property.id')
-		->where('property.address_id',$userAddress)			
-		->from('property');
-		$property=$this->db->get()->result();
+		//get the property id for the address
+		
+		$property=$this->getProperty($userAddress);
 		//if no property that does not have that address_id insert a new property
 		if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
-			$property=$this->db->get()->result();
+			//get the last inserted id
+			$lastProperty_id=$this->db->insert_id();
+			
+			$property=$this->getProperty($userAddress);
 		}
+
 		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
 		}
 		
-//storing the data that will be inserted into lives_on table for user
+		//storing the data that will be inserted into lives_on table for user
 		$address=array(
 			'user_id'=>$addifor['userid'],
 			'property_id'=>$userProperty,
 		);
-	//insert the address for the user
-		$this->db->insert('lives_on',$address);
+		//check if the address already exist
+		$hasAddress=$this->isUserLivingInProperty($address);
+		
+		if (!empty($hasAddress)) {
+			
+				return false;
+			}else {
+			//insert the address for the user
+				$this->db->insert('lives_on',$address);
+			
+		}
+
+	}
+	/**
+	 * [getProperty search the property table for the addrress_id]
+	 * @param  [type] $userAddress [address id search]
+	 * @return [type]              [array of the property where there is address id]
+	 */
+	public function getProperty($userAddress){
+		$this->db->select('property.id')
+		->where('property.address_id',$userAddress)			
+		->from('property');
+
+		return $this->db->get()->result();
+	}
+
+	public function isUserLivingInProperty($search=array()){
+		
+		$this->db->select('lives_on.id,lives_on.user_id')
+		->where('lives_on.user_id',$search['user_id'])			
+		->where('lives_on.property_id',$search['property_id'])			
+		->from('lives_on');
+		return $this->db->get()->result();
 	}
 }
+
 ?>

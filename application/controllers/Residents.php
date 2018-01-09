@@ -25,7 +25,6 @@ class Residents extends CI_Controller {
 		$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-	
 
 	}
 
@@ -152,7 +151,7 @@ class Residents extends CI_Controller {
 	 /************* this function enable the user who has made a request to view the request they maderesidence*************/
 	/**
 	 * [viewRequestMade description]
-	 * @return [true] [will be able to viewRequestMade]
+	 * @return [type] [description]
 	 */
 	public function viewRequestMade()
 	{ 
@@ -161,8 +160,8 @@ class Residents extends CI_Controller {
 		
 		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
 
-		$data['pageToLoad']='eresidence/viewRequestMade';
-		$data['pageActive']='eresidence';
+		$data['pageToLoad']='request/viewRequestMade';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -173,7 +172,7 @@ class Residents extends CI_Controller {
 	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
 	/**
 	 * [cancelRequest description]
-	 * @return [true] [wil be able to cancelRequest]
+	 * @return [type] [description]
 	 */
 	public function cancelRequest()
 	{
@@ -186,8 +185,8 @@ class Residents extends CI_Controller {
 
 		$data['message']=$this->request_model->cancelRequest($request_id);
 
-		$data['pageToLoad']='eresidence/cancelRequest';
-		$data['pageActive']='eresidence';
+		$data['pageToLoad']='request/cancelRequest';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -199,7 +198,7 @@ class Residents extends CI_Controller {
 	//////////**************** this function enable the user to make a request for proof of residence************///////////
 	/**
 	 * [request description]
-	 * @return [true] [will be able to accept request]
+	 * @return [type] [description]
 	 */
 	public function request()
 	{ 
@@ -234,14 +233,11 @@ class Residents extends CI_Controller {
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 
 			$data['db']= $this->request_model->getOwner($search);
-
 			//loading the request page 
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
-
 			/**load thi page title**/
 			$data['pageTitle']='Request Form ';
-
 			if(!$this->input->post('usercheck'))
 
 			{
@@ -339,7 +335,6 @@ class Residents extends CI_Controller {
 				}
 				else{
 
-
 			//send data to the database
 					$proofOfRecData=array();
 					foreach($data['user_addinfor'] as $property){
@@ -361,9 +356,8 @@ class Residents extends CI_Controller {
 
 						$this->requestPreview($data['user_addinfor'],$fileID);
 					}
-
 					
-
+			
 				}
 
 			}
@@ -375,24 +369,13 @@ class Residents extends CI_Controller {
 			
 		}
 		else {
-
-
-
-
 			//user does not have address they should register their address		
 			
-
 			redirect('residents/ResidencialProperty');
-
 		}
 		
 
 	}
-
-	/**
-	 * [EditRequest description]
-	 * This page enables the user to edit their request for the proof of res document.
-	 */
 	public function EditRequest()
 	{ 
 		$search=array();
@@ -456,12 +439,10 @@ class Residents extends CI_Controller {
 			
 			$data['db']= $this->request_model->getOwner($search);			
 
-
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
 			/**load thi page title**/
 			$data['pageTitle']='Edit Request';
-
 			if(!$this->input->post('usercheck')){
 
 // loading the form and files for file uoload		
@@ -540,13 +521,11 @@ class Residents extends CI_Controller {
 
 			}
 			
-
 		}
 		else {
 			//user does not have address they should register their address		
 			
 			redirect('residents/ResidencialProperty');
-
 		}
 		
 
@@ -559,8 +538,7 @@ class Residents extends CI_Controller {
 
 	/**
 	 * [file_upload description]
-	 * This specifies which files need to be upload in order for the request to be successful.
-	 * @return [true] [will be able to file_upload]
+	 * @return [type] [description]
 	 */
 	public function file_upload() { 
 
@@ -614,8 +592,7 @@ class Residents extends CI_Controller {
 	// *****************************************************************upload for the identity document************************************/
 /**
  * [id_upload description]
- * It is for the files or documents thats need to be uploaded and what size is accepted for them to fit.
- * @return [true] [will be able to view id_upload]
+ * @return [type] [description]
  */
 public function id_upload(){
 // upload file uptions
@@ -650,9 +627,8 @@ public function id_upload(){
 // **********************************************the success page of the request*******************************************************************************************//
 /**
  * [requestPreview description]
- * User/Owner uses to complete the request and upload neccesary docments needed to complete the request of proof of res
  * @param  array  $user_addinfor [description]
- * @return [true]                [will be able to view requestPreview]
+ * @return [type]                [description]
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
@@ -673,8 +649,8 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
 		var_dump($data['fileAttament1']);*/
 		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='eresidence/requestPreview';
-		$data['pageActive']='eresidence';
+		$data['pageToLoad']='request/requestPreview';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		
 		
@@ -684,8 +660,7 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	}
 	/**
 	 * [userprofile description]
-	 * Enables one to see the profile of the user logged in
-	 * @return [true] [will be able to view userprofile]
+	 * @return [type] [description]
 	 */
 	public function userprofile()
 	{
@@ -714,8 +689,7 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 //end of request preview
 /**
  * [confirmRequestInsert description]
- * This confirms the request done.
- * @return [true] [will be able confirmRequestInsert]
+ * @return [type] [description]
  */
 public function confirmRequestInsert()
 {
@@ -747,14 +721,6 @@ public function confirmRequestInsert()
 	}
 	
 }
-
-
-/**
- * [askDelete description]
- * @return [type] [description]
- */
-
-
 /*public function updateRequest()
 {
 	$property_id=$this->input->post('property_id');
@@ -782,7 +748,6 @@ var_dump($property_id,$user_id);
 	
 	
 }*/
-
 public function askDelete()
 {
 	$attament=$this->input->post('fileID');
@@ -796,13 +761,10 @@ public function askDelete()
 	/**
 	 * [waitingForApproval description]
 	 * @param  integer $user_id     [description]
-	 * This page shows list of users waiting for approval.
 	 * @param  integer $property_id [description]
 	 * @return [type]               [description]
 	 */
-
 	public function waitingForApproval($user_id=0,$property_id=0,$status)
-
 	{ 
 		//status for the inserted request
 		$data['statusInsert']= $status;
@@ -831,8 +793,8 @@ public function askDelete()
 
 
 		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='eresidence/waitingForApproval';
-		$data['pageActive']='eresidence';
+		$data['pageToLoad']='request/waitingForApproval';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		// this is for validation 
 		
@@ -843,7 +805,6 @@ public function askDelete()
 /**
  * [listOfResidents description]
  * @param  integer $property_id [description]
- * This retrieves the list of residents accessed by the administrator.
  * @return [type]               [description]
  */
 public function listOfResidents()
@@ -859,7 +820,6 @@ public function listOfResidents()
 	$search['property_id1']=$property_id;
 		//$data['property_id']=$_SESSION['property_id'];
 
-
 	if ($property_id != null) {
 
 		$this->session->set_userdata('property_id',$property_id);
@@ -871,7 +831,6 @@ public function listOfResidents()
 
 	}
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
-
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
@@ -892,7 +851,6 @@ public function listOfResidents()
 /**
  * [getOwnerOfProperty description]
  * @param  [type] $user_id [description]
- * Retrieves the details of the owner of that specified property.
  * @return [type]          [description]
  */
 public function getOwnerOfProperty($user_id){
@@ -906,7 +864,6 @@ public function getOwnerOfProperty($user_id){
 }
 	/**
 	 * [confirmList description]
-	 * This page retrieves the list that is confirmed that they live in that specified area.
 	 * @return [type] [description]
 	 */
 	public function confirmList() 
@@ -929,8 +886,10 @@ public function getOwnerOfProperty($user_id){
 			foreach ($data['getListToComfirm'] as $confirm) {
 				if ($confirm->property_id==$owner->property) {
 					
-					$requestPropertyID[$confirm->property_id]=$confirm->property_id;
-					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm($requestPropertyID);
+					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
+					//get the list that owner should complete
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
+					
 				}					
 			}		
 			//var_dump($data['getOwnerListToComfirm']);
@@ -944,27 +903,21 @@ public function getOwnerOfProperty($user_id){
 		if (expr) {
 			
 		}*/
-		
-		$data['pageToLoad']='eresidence/confirmList';
-		$data['pageActive']='eresidence';
+
+		$data['pageToLoad']='request/confirmList';
+		$data['pageActive']='request';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
 	}
 	/**
-<<<<<<< HEAD
-	 * [listOfApproval description]
-	 * This retrieve the list of users or owners approved to get the proof of residence.
-=======
 	 * [listOfApproval page]
->>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 * @return [type] [description]
 	 */
 	public function listOfApproval() 
 	{
-		
 		$search=array();		
-		$config['property_id']  = 1;
+		
 		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
 		
 		foreach ($data['owner'] as $owner) {
@@ -981,12 +934,7 @@ public function getOwnerOfProperty($user_id){
 	}
 
 	/**
-<<<<<<< HEAD
-	 * [OwnersDetails description]
-	 * This page retrieves the information of the owner.
-=======
 	 * [OwnersDetails page for owner and admin]
->>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 * @param integer $property_id [description]
 	 */
 	public function OwnersDetails($property_id = 0)
@@ -1008,12 +956,7 @@ public function getOwnerOfProperty($user_id){
 
 	}
 	/**
-<<<<<<< HEAD
-	 * [ResidencialProperty description]
-	 * this retrieves the ResidencialProperty information
-=======
 	 * [ResidencialProperty page]
->>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
 	 */
 	public function ResidencialProperty()
 	{
@@ -1033,6 +976,7 @@ public function getOwnerOfProperty($user_id){
 		//$config['per_page'] = 3;
 
 		$data['property_addinfor']= $this->owners_property_model->getProperty($search);
+		
 		//$data['mysearch']= $this->owners_property_model->getProperty($search);
 		$data['addressCount']=$this->ownersProperty_model->countProperties($search);
 
@@ -1059,12 +1003,7 @@ public function getOwnerOfProperty($user_id){
 	}
 
 /**
-<<<<<<< HEAD
- * [approve description]
- * This page will be accessed once the request has been approved.
-=======
  * [load approve page for admin]
->>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
  * @return [type] [description]
  */
 public function approve()
@@ -1093,11 +1032,9 @@ public function approve()
 	$this->load->view('ini',$data);
 
 }
-
-
 /**
- * [confirmResident description]
- * This page is accessed to confirm the residents living in that specific area.
+ * [confirmResident page owner and the requester]
+ * @return [type] [description]
  */
 public function confirmResident()
 {
@@ -1131,8 +1068,8 @@ public function confirmResident()
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
 	
 
-	$data['pageToLoad']='eresidence/confirmResident';
-	$data['pageActive']='eresidence';
+	$data['pageToLoad']='request/confirmResident';
+	$data['pageActive']='request';
 
 // loading the form and files for file uoload		
 	$this->load->helper(array('form','file','url'));
@@ -1141,17 +1078,15 @@ public function confirmResident()
 	$this->load->view('ini',$data);
 
 }
-
-
 /**
- *  [confirm page for the owner]
- * @return [true] [only when the information is correct thats when it will be confirm]
-
+ * [confirm page for the owner]
+ * @return [type] [description]
  */
 public function confirm()
 {
 	$search=array();
 
+	
 	//$search['user_id']= $_SESSION['id'];
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
@@ -1160,16 +1095,13 @@ public function confirm()
 	
 
 	if($this->input->post('confirm')){
-
-		//$this->request_model->confirm_status(1);
-
 		$this->request_model->confirm_status(1,$search);
-
 
 		redirect('residents/confirmList');
 	}
 	else {
-		$this->request_model->confirm_status(2);
+
+		$this->request_model->confirm_status(2,$search);
 		redirect('residents/confirmList');
 	}
 }

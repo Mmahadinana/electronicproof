@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </form>
   <div class="row tablereq">
     <div class="col-md-10">
-
+     
      <table class="table text-left romtbl_borders">
 
       <tbody>
@@ -63,92 +63,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </tr>
           <tr>
             <td><?php  echo $key->province?></td>            
-          </tr><?php
-        }
-        ?>
-
-      </tbody>
-    </table>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Owner</th>
-          <th></th>
-          <th></th>
-
-        </tr>
-      </thead>
-      <tbody>
-
-       <?php    
-       foreach ($user_addinfor as $key1) {
-
-
-        ?>
-        <tr class="warning text-danger">
-          <td><?php  echo $key1->name;?></td>
-
-          <td>
-            <?php
-
-            $action="publiczone/editUser";
-
-            echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+            </tr><?php
+          }
+          ?>
+          
+        </tbody>
+      </table>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>List Of Residents</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+         
+         <?php    
+ //var_dump($user_addinfor);
+         foreach ($user_addinfor as $key1) {
 
 
-            <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
-            <input type="hidden" name="usercheck" value="true">
-            <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
-          </form>
-        </td>
+          ?>
+          <tr class="warning text-danger">
+            <td><?php  echo $key1->name;?></td>
 
-        <td>  <button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-danger btn-md" title="Delete">
-          <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
+            <td>
+              <?php
+
+              $action="publiczone/editUser";
+
+              echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
-        </tr>
-         <tr>
-          <th>List Of Residents</th>
-          <th></th>
-          <th></th>
+              <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
+              <input type="hidden" name="usercheck" value="true">
+              <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
+            </form>
+          </td>
+          
+          <td>  <button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
+            <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
+            
 
-        </tr>
+          </tr>
+          
           <?php } ?>  
-          <?php    
-        
+          
+          
+        </tbody>
+      </table>
 
-       foreach ($user_add as $key2) {
-
-        ?>
-  
-       <tr class="warning text-danger">
-          <td><?php  echo $key2->name;?></td>
-
-          <td>
-            <?php
-
-            $action="publiczone/editUser";
-
-            echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
-            <input type="hidden" name="userid" value=<?php echo $key2->user_id; ?>>
-            <input type="hidden" name="usercheck" value="true">
-            <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
-          </form>
-        </td>
-        <td><button href ="<?php echo base_url("pub/listOfResidents/".$key2->user_id) ?>" class ="btn btn-danger btn-md" title="Delete">
-          <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
-        </tr>
-        <?php } ?>  
-
-      </tbody>
-    </table>
-  <button href ="<?php echo base_url("publiczone/home/") ?>" class ="btn btn-primary btn-md">Create</button>
+    </div>
 
   </div>
-
-</div>
 
 </div>
 <!-- /form -->
