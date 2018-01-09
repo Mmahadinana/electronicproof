@@ -207,6 +207,7 @@ class User_model extends CI_MODEL
 		return false;
 
 	}
+
 /**
  * [getPasswordHashFromUser description]
  * @param  [type] $username [description]
@@ -281,7 +282,7 @@ public function insertAddress($data=array(), $user_id)
 	}*/
 	public function updateUserAddress($addifor){
 		//Get the address id of the address to be inserted
-		
+		$userProperty=0;
 		$userAddress=0;
 		$this->db->select('address.id')
 		->where('address.suburb_id',$addifor['suburb'])
@@ -292,14 +293,19 @@ public function insertAddress($data=array(), $user_id)
 		foreach ($address as $value) {
 			$userAddress=$value->id;
 		}
+
 //get the property id for the address 
 
 		$this->db->select('property.id')
 		->where('property.address_id',$userAddress)			
 		->from('property');
 		$property=$this->db->get()->result();
-		
-		
+		//if no property that does not have that address_id insert a new property
+		if(empty($property)){
+			$this->db->insert('property',array('address_id'=>$userAddress,));
+			$property=$this->db->get()->result();
+		}
+		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
 		}
