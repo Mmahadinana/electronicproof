@@ -9,7 +9,11 @@ class Town_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
-
+	/**
+	 * [getTown description]
+	 * @param  [type] $manucipality_id [description]
+	 * @return [true]                  [retrieves owner/user towns]
+	 */
 	public function getTown($manucipality_id)
 	{
 		$this->db->select("town.id,town.name,town.zip_code,manucipality_id")

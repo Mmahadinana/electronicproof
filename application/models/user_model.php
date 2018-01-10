@@ -13,7 +13,11 @@ class User_model extends CI_MODEL
 		$this->load->database();
 	}
 
-
+	/**
+	 * [userQuery description]
+	 * @param  [type] $searchterm [description]
+	 * @return [true]             [retrieves owner's manucipality]
+	 */
 	public function userQuery($searchterm)
 	{
 		
@@ -28,19 +32,20 @@ class User_model extends CI_MODEL
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
-			lives_on.user_id,
+			owners.user_id,owners.id as ownerid,
 			property.id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
-			town.id as townid,
+			owners_property.property_id,owners_property.owners_id,town.id as townid,
 			town.name as town,town.zip_code,town.manucipality_id,,manucipality.id as manucipalityid,
 			manucipality.name as manucipality,manucipality.district_id,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
 		->from("user")
 		->join("gender","gender.id = user.gender_id")
-		->join("lives_on","lives_on.user_id = user.id")		
-		->join("property"," property.id= lives_on.property_id")
+		->join("owners","owners.user_id = user.id")
+		->join("owners_property","owners_property.owners_id =owners.id ")
+		->join("property","property.id= owners_property.property_id")
 		->join("address","address.id = property.address_id")
 		->join("suburb","suburb.id = address.suburb_id")
 		->join("town","town.id = suburb.town_id")
@@ -66,35 +71,43 @@ class User_model extends CI_MODEL
 		return $this->db->get()->result() ;
 	}
 	
+/**
+ * [addUser description]
+ * @param [type] $data [description]
+ */
+public function addUser($data)
+{
 
-	public function addUser($data)
-	{
-		
 
-		$add = array(
-			'name'=>$data['name'],
-			'email'=>$data['email'],
+	$add = array(
+		'name'=>$data['name'],
+		'email'=>$data['email'],
 			//'address'=>$data['address'],
-			'identitynumber'=>$data['identitynumber'],
-			'phone'=>$data['phone'],
+		'identitynumber'=>$data['identitynumber'],
+		'phone'=>$data['phone'],
 			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
 
 		     		//'minetype'=>$minetype
 		);
-		
-		$this->db->trans_start();
+
+	$this->db->trans_start();
 //var_dump($add);
-		$this->db->insert("user",$add);
+	$this->db->insert("user",$add);
 
-		$user_id = $this->db->insert_id();
-		$this->insertPassword($data, $user_id);
+	$user_id = $this->db->insert_id();
+	$this->insertPassword($data, $user_id);
 
-		return $this->db->trans_complete();
-		
-		
-	}
+	return $this->db->trans_complete();
+
+
+}
+	/**
+	 * [updateUser description]
+	 * @param  [type] $data [description]
+	 * @return [type]       [description]
+	 */
 	public function updateUser($data)
 	{
 		//prepare the data to insert
@@ -118,6 +131,12 @@ class User_model extends CI_MODEL
 		         //update 
 		return $this->db->trans_complete();
 	}
+	/**
+	 * [updateUser_models description]
+	 * @param  [type] $user_id [description]
+	 * @param  array  $users   [description]
+	 * @return [type]          [description]
+	 */
 	public function updateUser_models($user_id,$users=array())
 	{
 		
@@ -134,12 +153,21 @@ class User_model extends CI_MODEL
 		//insert the new relations
 		return	$this->db->insert_batch('user_model',$batch);
 	}
-
-	public function countUser(array $search=array())
-	{
-		$this->userQuery($search);
-		return $this->db->count_all_results();
-	}
+/**
+ * [countUser description]
+ * @param  array  $search [description]
+ * @return [type]         [description]
+ */
+public function countUser(array $search=array())
+{
+	$this->userQuery($search);
+	return $this->db->count_all_results();
+}
+	/**
+	 * [deleteUser description]
+	 * @param  int    $user_id [description]
+	 * @return [type]          [description]
+	 */
 	public function deleteUser(int $user_id)
 	{
 		
@@ -152,66 +180,79 @@ class User_model extends CI_MODEL
 			//close the transaction
 		return $this->db->trans_complete();
 	}
+	/**
+	 * [removeFromUser description]
+	 * @param  int    $user_id [description]
+	 * @return [type]          [description]
+	 */
 	public function removeFromUser(int $user_id)
 	{
 		$this->db->delete("user",array("id"=>$user_id));
 	}
-
-	public function callback_checkPhone($phone)
-	{
-		$user_id = $this->input->post('phone');
+/**
+ * [callback_checkPhone description]
+ * @param  [type] $phone [description]
+ * @return [type]        [description]
+ */
+public function callback_checkPhone($phone)
+{
+	$user_id = $this->input->post('phone');
         //var_dump($phone);
-		$this->db->select("user.phone")
-		->from("user")
-		->where("id",$user_id);
+	$this->db->select("user.phone")
+	->from("user")
+	->where("id",$user_id);
 		//var_dump($this->db->get()->row());
-		$testphone=$this->db->get()->row();
-		var_dump($testphone);
-		if ($testphone->phone != $phone) 
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-
-		} 
-
-	}
-
-	public function checkPassword($password)
+	$testphone=$this->db->get()->row();
+	//var_dump($testphone);
+	if ($testphone->phone != $phone) 
 	{
-		//insert the username and password
-		$username = $this->input->post('username');
-		$rememberme = $this->input->post('rememberme');
+		return false;
+	}
+	else
+	{
+		return true;
 
-		if (empty($username) || empty($password)) 
-		{
+	} 
+
+}
+/**
+ * [checkPassword description]
+ * @param  [type] $password [description]
+ * @return [type]           [description]
+ */
+public function checkPassword($password)
+{
+		//insert the username and password
+	$username = $this->input->post('username');
+	$rememberme = $this->input->post('rememberme');
+
+	if (empty($username) || empty($password)) 
+	{
 			//no values go out
-			return true;
-		}
+		return true;
+	}
 //will retrieve the password from the user
-		$hash =$this->getPasswordHashFromUser($username);
+	$hash =$this->getPasswordHashFromUser($username);
 
 
 //lets you varify the password
-		if(!empty($hash) && password_verify($password,$hash))
-		{
+	if(!empty($hash) && password_verify($password,$hash))
+	{
 	//valid
-			$this->startUserSession($username);
-			$this->remember_cookie($rememberme);
+		$this->startUserSession($username);
+		$this->remember_cookie($rememberme);
 	//checks if valid
-			return true;
-		}
-//return false if password is not correct
-		return false;
-
+		return true;
 	}
+//return false if password is not correct
+	return false;
+
+}
 
 /**
  * [getPasswordHashFromUser description]
  * @param  [type] $username [description]
- * @return [type]           [description]
+ * @return [true]           [correct password that appear in the database]
  */
 
 public function insertPassword($data=array(), $user_id)
@@ -236,6 +277,12 @@ public function insertPassword($data=array(), $user_id)
 	
 	$this->db->insert("login",$loginadd);	
 }
+/**
+ * [insertAddress description]
+ * @param  array  $data    [description]
+ * @param  [type] $user_id [description]
+ * @return [true]          [retrieves correct information while insertAddress]
+ */
 public function insertAddress($data=array(), $user_id)
 {	
 		//var_dump($data);
@@ -284,6 +331,7 @@ public function insertAddress($data=array(), $user_id)
 		//Get the address id of the address to be inserted
 		$userProperty=0;
 		$userAddress=0;
+		
 		$this->db->select('address.id')
 		->where('address.suburb_id',$addifor['suburb'])
 		->where('address.street_name',$addifor['street_name'])
@@ -294,29 +342,71 @@ public function insertAddress($data=array(), $user_id)
 			$userAddress=$value->id;
 		}
 
-//get the property id for the address 
-
-		$this->db->select('property.id')
-		->where('property.address_id',$userAddress)			
-		->from('property');
-		$property=$this->db->get()->result();
+		//get the property id for the address
+		
+		$property=$this->getProperty($userAddress);
 		//if no property that does not have that address_id insert a new property
 		if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
-			$property=$this->db->get()->result();
+			//get the last inserted id			
+			$property=$this->getProperty($userAddress);
 		}
 		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
 		}
 		
-//storing the data that will be inserted into lives_on table for user
+		//storing the data that will be inserted into lives_on table for user
 		$address=array(
 			'user_id'=>$addifor['userid'],
 			'property_id'=>$userProperty,
 		);
-	//insert the address for the user
-		$this->db->insert('lives_on',$address);
+		//check if the address already exist
+		$hasAddress=$this->isUserLivingInProperty($address);
+		//check if the address has owner
+		$hasOwner=$this->isThereOwnerInProperty($address);
+		if(empty($hasOwner)){
+				return 0;
+		}
+		if (!empty($hasAddress) && !empty($hasOwner)) {
+			
+				return 0;
+			}else {
+			//insert the address for the user
+			$this->db->trans_start();
+				$this->db->insert('lives_on',$address);
+			return $this->db->trans_complete();
+		}
+
+	}
+	/**
+	 * [getProperty search the property table for the addrress_id]
+	 * @param  [type] $userAddress [address id search]
+	 * @return [type]              [array of the property where there is address id]
+	 */
+	public function getProperty($userAddress){
+		$this->db->select('property.id')
+		->where('property.address_id',$userAddress)			
+		->from('property');
+
+		return $this->db->get()->result();
+	}
+
+	public function isUserLivingInProperty($search=array()){
+		
+		$this->db->select('lives_on.id,lives_on.user_id')
+		->where('lives_on.user_id',$search['user_id'])			
+		->where('lives_on.property_id',$search['property_id'])			
+		->from('lives_on');
+		return $this->db->get()->result();
+	}
+	public function isThereOwnerInProperty($search=array()){
+		
+		$this->db->select('owners_property.id,owners_property.owners_id')				
+		->where('owners_property.property_id',$search['property_id'])			
+		->from('owners_property');
+		return $this->db->get()->result();
 	}
 }
+
 ?>

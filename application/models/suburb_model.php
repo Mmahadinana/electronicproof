@@ -9,7 +9,11 @@ class Suburb_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
-	
+	/**
+	 * [getSuburb description]
+	 * @param  integer $manucipality_id [description]
+	 * @return [true]                   [getSuburb for all the manucipality]
+	 */
 	public function getSuburb($manucipality_id=0)
 	{
 

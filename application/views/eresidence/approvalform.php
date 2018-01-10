@@ -64,10 +64,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </tr>
               <tr>
                 <td><?php  echo $key->province?></td>            
-              </tr><?php
-            }
-            ?>
+                </tr><?php
+              }
+              ?>
 
+            </tbody>
+          </table>
+          <h5 id="para">This is to confirm <?php echo $key->name;?> Id numbers <?php echo $key->identitynumber;?> 
+            stays at the above mentioned address since (<?php echo $key->date_registration;?>)   until today. The house owned by <?php echo $key->name;?> </h5>
+            <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/registerUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
+
+            
+          </div>
+          <div class="col-lg-3">
+            <button class="btn btn-lg btn-primary form-control" name="approve" id="approve"  type="submit">Approve</button>     
+          </div>
+
+          <div class="col-lg-3">
+            <button class="btn btn-lg btn-warning form-control" name="decline" id="decline" type="submit">Decline</button>
+          </div>
+
+<<<<<<< HEAD
           </tbody>
         </table>
         <h5 id="para">This is to confirm <?php echo $key->name;?> Id numbers <?php echo $key->identitynumber;?> 
@@ -78,13 +95,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="col-lg-3">
           <button class="btn btn-lg btn-primary form-control" name="approve" id="approve"  type="submit">Approve</button>     
+=======
+>>>>>>> a0b4507d2dcb52ca63a521807113bebfcf084273
         </div>
-
-        <div class="col-lg-3">
-          <button class="btn btn-lg btn-warning form-control" name="decline" id="decline" type="submit">Decline</button>
-        </div>
-
       </div>
-    </div>
-  </form><!-- /form -->
-</div>
+    </form><!-- /form -->
+  </div>

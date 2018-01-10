@@ -25,6 +25,7 @@ class Login extends CI_Controller
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	//**This function enable the user to log onto the page
 	public function login_()
 	{
 		
@@ -106,7 +107,11 @@ class Login extends CI_Controller
 
 		
 	}
-
+/**
+ * [changepass this will enable the user or owner to change their password once it has expire.]
+ * 
+ * @return [true] [description]
+ */
 	public function changepass()
 	{
 		

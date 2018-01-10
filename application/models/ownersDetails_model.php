@@ -8,6 +8,13 @@ class OwnersDetails_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+	
+	/**
+	 * [userQuery description]
+	 * @param  [type] $searchterm [description]
+	 * this query is holds and retrieve the data for the user.
+	 * @return [type]             [description]
+	 */
 	public function userQuery($searchterm)
 	{
 		
@@ -54,7 +61,9 @@ class OwnersDetails_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
-
+	/**
+	 * this retrieves the information of getUser is correct or not
+	 */
 	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE)
 	{
 //public function getAddress(){
@@ -68,7 +77,11 @@ class OwnersDetails_model extends CI_MODEL
 			//get data from bd
 		return $this->db->get()->result() ;
 	}
-
+/**
+ * [addUser description]
+ * @param [type] $data [description]
+ * This function enables the owner and adminstrator to add the new user
+ */
 	public function addUser($data)
 	{
 		
@@ -93,7 +106,7 @@ class OwnersDetails_model extends CI_MODEL
 		
 		
 	}
-
+	
 	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 

@@ -16,6 +16,7 @@ class District_model extends CI_MODEL
 		         ->where('province_id',$search);
 		       return $this->db->get()->result();
 }
+//This function retrieves the list of districts**
 public function getDistricts()
 {
 	

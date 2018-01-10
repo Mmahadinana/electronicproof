@@ -37,7 +37,10 @@ class Publiczone extends CI_Controller
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-
+/**
+ * [index description]
+ * @return [true] [its hold all the navigation]
+ */
 	public function index()
 	{
 		$data['pageToLoad']='home/home';
@@ -59,6 +62,11 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 		
 	}
+
+	/**
+	 * [contact form which allow the user to get information with regarding the app]
+	 * @return [true] [respond that it works well]
+	 */
 	public function contact()
 	{
 		$data['pageToLoad']='Contact/contact';
@@ -132,6 +140,11 @@ class Publiczone extends CI_Controller
 
 		
 	}
+
+	/**
+	 * [eResidence loads the project pages]
+	 * @return [true] [description]
+	 */
 	public function eResidence()
 	{
 		$data['pageToLoad']='E-Residence/eResidence';
@@ -139,6 +152,10 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 		
 	}
+	/**
+	 * [listOfResidents description]
+	 * @return [type] [description]
+	 */
 	public function listOfResidents()
 	{
 		$data['pageToLoad']='E-Residence/listOfRes';
@@ -146,6 +163,11 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 		
 	}
+	/**
+	 * [login description]
+	 * @return [type] [login]
+	 * this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login
+	 */
 	public function login()
 	{
 		$data['pageToLoad']='login/loginForm';
@@ -153,6 +175,10 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 		
 	}
+	/**
+	 * [logout description]
+	 * @return [type] [description]
+	 */
 	public function logout()
 	{
 		//delete cookie data from db
@@ -165,7 +191,10 @@ class Publiczone extends CI_Controller
 
 	}
 
-	
+	/**
+	 * [getProvinceDistrict description]
+	 * @return [true] [this retrieves the correct information of getProvinceDistrict]
+	 */
 	public function getProvinceDistrict():array
 	{
 		$tempdata=array();
@@ -207,7 +236,11 @@ class Publiczone extends CI_Controller
 		return $tempdata;		
 
 	}
-	function registerUser() 
+	/**
+	 * [registerUser description]
+	 * @return [true] [this retrieves the correct information for registerUser]
+	 */
+	public function registerUser() 
 	{
 
 		$search=array();
@@ -355,13 +388,14 @@ class Publiczone extends CI_Controller
     				)	 					
     			),
 
+    			
     			array(
     				'field'=>'gender',
     				'label'=>'Gender',
     				'rules'=>'required',
     				'errors'=>array
     				('required'=>'you should insert %s for the user')
-
+    				
     			),
 
     			array(
@@ -393,20 +427,29 @@ class Publiczone extends CI_Controller
     			array(
     				'field'=>'province',
     				'label'=>'province',
+
+
+    			
     				'rules'=>'required',
     				'errors'=>array
     				('required'=>'you should insert one %s for the user'
 
     			)
+
     			),
     			array(
+
     				'field'=>'manucipality',
     				'label'=>'manucipality',
+
     				'rules'=>'required',
     				'errors'=>array
     				('required'=>'you should insert one %s for the user'
 
     			)
+
+ 
+
     			)
 			/*array(
 				'field'=>'zip_code',
@@ -436,6 +479,13 @@ class Publiczone extends CI_Controller
 		}
 
 	}
+
+	/**
+	 * [user description]
+	 * @return [true] [this retrieves the correct information of user]
+	 */
+
+
 	public function user()
 	{
 
@@ -445,9 +495,11 @@ class Publiczone extends CI_Controller
 			//from helper and library
 		$this->load->helper('form');
 
+
 		$this->load->library('form_validation');
 		$id_remove = $this->input->post('user_id');
 
+		
 
 		if(null!=$this->input->get('statusEdit'))
 		{
@@ -501,6 +553,11 @@ class Publiczone extends CI_Controller
 	}
 
 //public function editUser($id=0)
+
+/**
+ * [editUser description]
+ * @return [true] [this retrieves the correct information when editUser]
+ */
 	public function editUser()
 	{
 		$id=$this->input->post('userid');
@@ -514,9 +571,11 @@ class Publiczone extends CI_Controller
 			$id=$data['user_id'] =$_SESSION['userid'];
 		}
 
+
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
 		$data['pageTitle']='Edit User';
+		
 
 		//data from db
 		$search=array();
@@ -735,8 +794,17 @@ class Publiczone extends CI_Controller
     	}
 
     }
+
+
+
+    /**
+     * [askdelete description]
+     * @param  integer $id_remove [description]
+     * @return [true]             [this retrieves when the user has been removed/deleted by owner when the user has been deceased]
+     */
     public function askdelete($id_remove=0)
     {
+
 
 
     	if($id_remove!=0 and is_numeric($id_remove))
@@ -888,8 +956,10 @@ class Publiczone extends CI_Controller
 		{
 
 			$statusInsert=$this->user_model->updateUserAddress($this->input->post());
+				
 
-			redirect("residents/request");
+		redirect("residents/userprofile?statusInsert=$statusInsert");
+
 
 		}
 

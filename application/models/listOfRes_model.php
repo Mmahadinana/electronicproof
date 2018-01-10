@@ -13,6 +13,11 @@ class ListOfRes_model extends CI_MODEL
 		$this->load->database();
 	}
 
+/**
+ * [listquery description]
+ * @param  [type] $search [description]
+ * @return [true]         [Function retrieves the details via the property]
+ */
 public function listquery($search ){
 
 $user_id = $search['property_id'] ?? FALSE;
@@ -45,6 +50,12 @@ return $this->db
 	->order_by('user.id');
 
 }
+
+/**
+ * [addressquery description]
+ * @param  [type] $search [description]
+ * @return [true]         [This query retrieves the address details]
+ */
 public function addressquery($search )
 {
 

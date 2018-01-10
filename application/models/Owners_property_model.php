@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
- 
+ //This model hold the information of the owner's property
 class Owners_property_model extends CI_MODEL
 {
 
@@ -11,6 +11,7 @@ class Owners_property_model extends CI_MODEL
 		
 		
 	}
+//This function holds the request query of the owners details
 public function requestquery($search )
 {
 
@@ -40,6 +41,7 @@ return $this->db
 	->order_by('user.id');
 
 }
+//This query holds the data for the property
 public function propertyquery($search )
 {
 //var_dump($search);
@@ -87,6 +89,7 @@ public function propertyquery($search )
 		
 
 	}
+	//This function gets the information for the owners details.
 public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 //public function getAddress(){
@@ -100,6 +103,9 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 	return $this->db->get()->result() ;
 }
+/**
+ * this function is where the owner getProperty
+ */
 public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 

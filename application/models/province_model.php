@@ -8,6 +8,10 @@ class Province_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+	/**
+	 * [getProvince description]
+	 * @return [true] [correct provinces information]
+	 */
 	public function getProvince()
 {
 	$this->db->select("province.id,province.name")
