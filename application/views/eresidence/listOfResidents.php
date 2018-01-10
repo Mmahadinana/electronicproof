@@ -114,33 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         </tr>
           <?php } ?>  
-          <?php    
-        
-
-       foreach ($user_add as $key2) {
-
-        ?>
-  
-       <tr class="warning text-danger">
-          <td><?php  echo $key2->name;?></td>
-
-          <td>
-            <?php
-
-            $action="publiczone/editUser";
-
-            echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
-            <input type="hidden" name="userid" value=<?php echo $key2->user_id; ?>>
-            <input type="hidden" name="usercheck" value="true">
-            <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
-          </form>
-        </td>
-        <td><button href ="<?php echo base_url("pub/listOfResidents/".$key2->user_id) ?>" class ="btn btn-danger btn-md" title="Delete">
-          <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
-        </tr>
-        <?php } ?>  
+       
 
       </tbody>
     </table>

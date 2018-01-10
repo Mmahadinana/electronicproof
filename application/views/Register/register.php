@@ -380,6 +380,29 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
          errors = true;
      }
  });
+     /**
+ * checks date of birth
+ * 
+ */
+    var chkdate = document.getElementById("dateofbirth").value;
+checkDate(chkdate);
+
+function checkDate(date) {
+    if (date == "") {
+        alert("Please enter the Date..!!")
+        return false;
+    }
+    else if (!date.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+        alert('date format is wrong');
+        return false;
+    }
+
+    var today = new Date();
+    if (today <= date) {
+        alert("Current or future date is not allowed.");
+        return false;
+ 
+
 /**
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 

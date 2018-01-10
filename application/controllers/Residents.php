@@ -819,21 +819,6 @@ public function listOfResidents()
 	$search['property_id']=$property_id;
 	$search['property_id1']=$property_id;
 		//$data['property_id']=$_SESSION['property_id'];
-<<<<<<< HEAD
-      
-	    if ($property_id != null) {
-	  
-	    $this->session->set_userdata('property_id',$property_id);
-	    }
-		else {
-			
-			$search['property_id']=$_SESSION['property_id'];
-			$search['property_id1']=$_SESSION['property_id'];
-			
-		}
-		$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
-		$data['user_add']= $this->user_model->getUser($search);
-=======
 
 	if ($property_id != null) {
 
@@ -846,7 +831,7 @@ public function listOfResidents()
 
 	}
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
->>>>>>> 175e0029e63fe6d295c5f1f1a7b80718f9fae7d6
+
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
