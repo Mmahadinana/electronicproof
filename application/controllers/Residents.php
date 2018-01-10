@@ -868,10 +868,7 @@ public function listOfResidents()
 
 	}
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
-<<<<<<< HEAD
 
-=======
->>>>>>> a0b4507d2dcb52ca63a521807113bebfcf084273
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
