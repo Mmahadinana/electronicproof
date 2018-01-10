@@ -63,31 +63,17 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 
 					</div>
-					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-						<label for="password">Password</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="text" class="form-control" name="password"   id="password" placeholder="Password" onblur="validatePassword" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
-						</div>
-<<<<<<< HEAD
-						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
-=======
+				
+
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="password">Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 								<input type="password" class="form-control" name="password"   id="password" placeholder="Password" onblur="validatePassword" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 							</div>
 							<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
->>>>>>> 90a6d64bcecd558bde8717ebad157e73d0030c11
 
 					</div>
-					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-						<label for="confirm">Confirm Password</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-							<input type="password" class="form-control" name="confirm" onblur="validatePassword"  id="confirm" placeholder="Confirm Password" required>
-						</div>
-<<<<<<< HEAD
-						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
-=======
+
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="confirm">Confirm Password</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
@@ -96,9 +82,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 						</div>
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="setup" name="setup" onclick="validatePassword"  >Next</button>
->>>>>>> 90a6d64bcecd558bde8717ebad157e73d0030c11
-					</div>
-					<button class="btn btn-primary nextBtn btn-m pull-right" id="submit" name="submit" onclick="validatePassword" type="submit" >Next</button>
+
+			
 				</div>
 			</div>
 		</div>
@@ -131,21 +116,14 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 					</div>
 					<div class="form-group">
-						<label class="control-label" for="date_registration">Date of Registration</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="date" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
-						</div>
-<<<<<<< HEAD
-						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
-						
-=======
-						<div class="form-group">
+			
 						
 								<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m-d')?>"   placeholder="date of registration" required>
+				
 							
 							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 							
->>>>>>> 90a6d64bcecd558bde8717ebad157e73d0030c11
+
 
 					</div>
 					<div class="form-group">
@@ -168,13 +146,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 						<label for="radio101">Female</label>
 						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
-<<<<<<< HEAD
-=======
 						</div>
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="personal" name="personal">Next</button>
->>>>>>> 90a6d64bcecd558bde8717ebad157e73d0030c11
-					</div>
-					<button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
 				</div>
 			</div>
 		</div>
@@ -415,6 +388,29 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
          errors = true;
      }
  });
+     /**
+ * checks date of birth
+ * 
+ */
+    var chkdate = document.getElementById("dateofbirth").value;
+checkDate(chkdate);
+
+function checkDate(date) {
+    if (date == "") {
+        alert("Please enter the Date..!!")
+        return false;
+    }
+    else if (!date.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+        alert('date format is wrong');
+        return false;
+    }
+
+    var today = new Date();
+    if (today <= date) {
+        alert("Current or future date is not allowed.");
+        return false;
+ 
+
 /**
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 

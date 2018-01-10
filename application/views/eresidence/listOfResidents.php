@@ -110,12 +110,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </tr>
           
           <?php } ?>  
+<<<<<<< HEAD
+       
+
+      </tbody>
+    </table>
+  <button href ="<?php echo base_url("publiczone/home/") ?>" class ="btn btn-primary btn-md">Create</button>
+=======
           
           
         </tbody>
       </table>
 
     </div>
+>>>>>>> a0b4507d2dcb52ca63a521807113bebfcf084273
 
   </div>
 
