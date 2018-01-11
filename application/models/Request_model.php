@@ -77,27 +77,26 @@ class Request_model extends CI_MODEL
 public function ownerquery($search )
 {
 
+
 	$property_id = $search['property_id'] ?? FALSE;
 	$user_id = $search['user_id'] ?? FALSE;
-//$userid = $search['userid'] ?? FALSE;
+		//$userid = $search['userid'] ?? FALSE;
 
-	//check for the requestPreview control
+
 	if($property_id)
 	{
-		$this->db->where('owners_property.property_id',$property_id); 
+		$this->db->where('property.id',$property_id); 
 	}
-	//check from getOwnerOfProperty control
 	if($user_id)
 	{
 		$this->db->where('owners.user_id',$user_id); 
 	}
 		/*if($userid){
 			$this->db->where('owners_property.owners_id',$userid); 
-		}*/ 
+		}*/
 
 
-		//Data of the user of that specified property which will be stored on the database for the administrator to access.
-
+		
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
 			role.role,role.id as roleid,
@@ -131,10 +130,8 @@ public function ownerquery($search )
 	/**
 	 * [userquery description]
 	 * @param  [type] $search [description]
-	 * This query is for the userprofile to be accessed by the owner and the administrator.
 	 * @return [type]         [description]
 	 */
-	
 	public function userquery($search )
 	{
 
@@ -161,10 +158,8 @@ public function ownerquery($search )
 	 * [getListToComfirmQuery description]
 	 * @param  [type] $search [description]
 	 * @return [type]         [description]
-
 	 */// Check if the user has already made  request
 	//var_dump($date_request);
-
 		/*if($date_request < )
 		{
 			$this->db->where('request_docs.user_id',$user_id)
@@ -282,7 +277,6 @@ public function ownerquery($search )
 
 				}
 
-
 /**
  * [getApproveToComfirmQuery used getApproveToComfirm function]
  * @param  [type] $search [varialble used for the where clause]
@@ -351,7 +345,6 @@ public function ownerquery($search )
 				public function getAttachmentQuery($search=array() )
 				{
 
-
 					$request_id = $search['request_id'] ?? FALSE;
 					$user_id = $search['user_id'] ?? FALSE;
 					$property_id = $search['property_id'] ?? FALSE;
@@ -371,7 +364,6 @@ public function ownerquery($search )
 						->where('proof_of_res_doc.property_id',$property_id); 
 					}
 					if($request_id){
-
 
 						$this->db->where('request_docs.id',$request_id); 
 					}
@@ -393,7 +385,6 @@ public function ownerquery($search )
 				}
 
 				/***********************function get the address of the residents from the database**************************/
-
 /**
  * get the list of property or the address of the user
  */
@@ -404,25 +395,23 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 	$this->requestquery($search)
-
 	
-
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
 	return $this->db->get()->result();
 }
-
 /**
  * get the list of attachments of the user
- */public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
+ */
+public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 	$this->getAttachmentquery($search)
-
+	
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
 			//get data from bd
@@ -444,7 +433,6 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 		return $this->db->get()->result();
 	}
-
 	/**
 	 * Get the list request of the user
 	 */
@@ -685,8 +673,7 @@ public function getListToComfirmRequest(array $search = array(),int $limit = ITE
 public function listOfApproval(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 1;
-	$config['property_id']  = 1;
+	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 	$this->getListToComfirmQuery($search)			
 
@@ -731,10 +718,12 @@ public function confirm_status($status,$search){
  * @return [type]         [description]
  */
 public function removeUserAddress($search){
-	
+	$removeUserData=array(
+		'user_id' => 'user_id' ,
+		'property_id' => 'property_id'  
+	);
 	$this->db->trans_start();
-	//delete in loves on table
-	$this->db->delete('lives_on',array('user_id'=>$search['user_id'],'property_id'=>$search['property_id']));
+	$this->db->delete('lives_on',array('user_id'=>$removeUserData['user_id'],'property_id'=>$removeUserData['property_id']));
 	return $this->db->trans_complete();
 }
 
@@ -759,7 +748,6 @@ public function getApproveToComfirm(array $search = array(),int $limit = ITEMS_P
 
 
 
-	
 
 
 
