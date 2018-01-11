@@ -51,7 +51,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 	</div>
 	<form role="form" action="" id="data" method="post">
 		<div class="row setup-content" id="step-1">
-			<div class="col-xs-6 col-md-offset-3">
+			<div class="col-xs-6 col-md-offset-1">
 				<div class="col-md-12">
 					<h3>Setup Account</h3>
 					<div class="form-group">
@@ -91,7 +91,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 		</div>
 
 		<div class="row setup-content" id="step-2">
-			<div class="col-xs-6 col-md-offset-3">
+			<div class="col-xs-6 col-md-offset-2">
 				<div class="col-md-12">
 					<h3>Personal Information</h3>
 					<div class="form-group">
