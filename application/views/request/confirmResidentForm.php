@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1 > Approval Form </h1>
+  <h1 > Comfirm User </h1>
 
   <?php
  //var_dump($user_id) ;
@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $action="residents/confirmResident/";
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
-  <div class="form-area">
+  <div class="form-area" >
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
-    <div class="row tablereq">
+    <div class="row tablereq" id="approval">
       <div class="col-md-10">
         <table class="table text-left romtbl_borders">
 
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <td>
                 <?php    
 
-                foreach ($userInfo as $key ) {
+                foreach ($user_addinfor as $key ) {
 
                   ?>
 
@@ -70,20 +70,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           </tbody>
         </table>
-
-        <h5 id="para">This is to confirm <!--?php echo $key->name;?--> Id numbers <!--?php echo $key->identitynumber;?--> 
-          stays at the above mentioned address since (<!--?php echo $key->date_registration;?-->)   until today. The house owned by <!--?php echo $key->name;?--> </h5>
-
+        <h5 id="para">This is to confirm <?php echo $key->name;?> Id numbers <?php echo $key->identitynumber;?> 
+          stays at the above mentioned address since (<?php echo $key->date_registration;?>)   until today. The house owned by <?php echo $key->name;?> </h5>
           <h5 id="pari">You can go to  (<a href ="<?php echo base_url("publiczone/editUser/") ?>">Confirm User Address</a>) to check the applicant  </h5>
 
           
         </div>
         <div class="col-lg-3">
-          <button class="btn btn-lg btn-primary form-control" name="approve"  type="submit">Approve</button>     
+          <button class="btn btn-lg btn-primary form-control" name="confirm" id="confirm"  type="submit">Confirm</button>     
         </div>
 
         <div class="col-lg-3">
-          <a class="btn btn-lg btn-warning form-control" type="text">Decline</a>
+          <button class="btn btn-lg btn-warning form-control" name="decline" id="decline" type="submit">Decline</button>
         </div>
 
       </div>
