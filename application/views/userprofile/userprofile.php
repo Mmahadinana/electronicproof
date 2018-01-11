@@ -80,7 +80,7 @@
  			<div class="row">
  				 <?php
 
-                    $action="residents/listOfResidents";
+                    $action="publiczone/editUser";
 
                     echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 

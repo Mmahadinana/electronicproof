@@ -18,7 +18,7 @@ class User_model extends CI_MODEL
 	 * @param  [type] $searchterm [description]
 	 * @return [true]             [retrieves owner's manucipality]
 	 */
-	public function manucipality($searchterm)
+	public function userQuery($searchterm)
 	{
 		
 
