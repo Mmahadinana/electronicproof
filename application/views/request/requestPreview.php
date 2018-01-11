@@ -114,13 +114,17 @@ foreach ($residentInfor as $key ){
    
  </div>
 </form>
+
+ 
  <div class="col-lg-4 col-md-12">
  
 <?php
-                  $action="residents/askdelete";
+
+                  //$action="residents/askdelete";
+                  $action="#";
                   echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-                  <input type="hidden" name="multipleFile[]" value=<?php  echo($_SESSION['id']) ?>>
-                  <input type="hidden" name="fileID" value=<?php echo $fileID ?>>
+                  <input type="hidden" name="user_id" value="<?php  echo($_SESSION['id']) ?>">
+                  <input type="hidden" name="property_id" value="<?php echo $property_id ?>">
                   <div class="col-lg-6">
                     <button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="cancel">CANCEL</button>
                   </div>
