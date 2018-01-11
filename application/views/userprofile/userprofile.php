@@ -21,7 +21,7 @@
  		
  		<div class="row tablereq">
  			<div class="col-xm-12 col-sm-8 col-md-12">
- 				<table class="table text-left romtbl_borders">
+ 				<table class="table text-left romtbl_borders">  
 
  					<tbody>
  						<tr>
