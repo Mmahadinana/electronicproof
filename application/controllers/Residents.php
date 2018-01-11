@@ -1082,7 +1082,7 @@ public function confirmResident()
 	$search['request_id']= $this->input->post('request_id');
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
-	
+	$data['userInfo']=$this->user_model->getUser($search);
 
 	if ($search['property_id'] != null) {
 		$listvar=array('property_id'=>$search['property_id'],
