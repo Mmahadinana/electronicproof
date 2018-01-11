@@ -14,7 +14,7 @@ class Residents extends CI_Controller {
 		$this->load->model("approval_model");
 		$this->load->model("ownersProperty_model");
 		$this->load->model("ownersDetails_model");
-		$this->load->model("manucipality_model");
+		$this->load->model("manucipality_model");  
 		$this->load->model("district_model");
 		$this->load->model("province_model");
 		$this->load->model("user_model");

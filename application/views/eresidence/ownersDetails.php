@@ -1,18 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-   // $automovel_id   = $user_data['automovel_id']    ?? false; 
-$id_province = $user_data->province_id ?? $this->input->post('province') ?? false;
-$id_district= $user_data->district_id ?? $this->input->post('district') ?? false;
-$id_manucipality = $user_data->manucipality_id ?? $this->input->post('manucipality') ?? false;
-$id_town= $user_data->town_id ?? $this->input->post('town')?? false;
-
-$id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
-$id_address = $user_data->id ?? $this->input->post('street_name')?? false;
-$streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
 
 ?>
 <div class="container form-area">
-
 
 
     <?php 

@@ -21,7 +21,7 @@
  		
  		<div class="row tablereq">
  			<div class="col-xm-12 col-sm-8 col-md-12">
- 				<table class="table text-left romtbl_borders">
+ 				<table class="table text-left romtbl_borders">  
 
  					<tbody>
  						<tr>
@@ -79,8 +79,8 @@
  			</div>
  			<div class="row">
  				 <?php
-
-                    $action="residents/listOfResidents";
+/****udit user profile of the user*******************/
+                    $action="publiczone/editUser";
 
                     echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 

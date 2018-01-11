@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container ">
 
-  <h1 > List Of Residents</h1>
+  <h1 > List Of Residents</h1> 
   
   <?php
   
