@@ -14,7 +14,7 @@ class Residents extends CI_Controller {
 		$this->load->model("approval_model");
 		$this->load->model("ownersProperty_model");
 		$this->load->model("ownersDetails_model");
-		$this->load->model("manucipality_model");
+		$this->load->model("manucipality_model");  
 		$this->load->model("district_model");
 		$this->load->model("province_model");
 		$this->load->model("user_model");
@@ -867,8 +867,7 @@ public function listOfResidents()
 		$search['property_id1']=$_SESSION['property_id'];
 
 	}
-
-
+	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
 	$data['pageToLoad']='eresidence/listOfResidents';
@@ -1076,17 +1075,14 @@ public function approve()
  */
 public function confirmResident()
 {
-
+	
 	$search=array();
 
 	$search['owner_id']= $this->input->post('owner_id');
 	$search['request_id']= $this->input->post('request_id');
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
-
-
-	$data['userInfo']= $this->user_model->getUser($search);
-
+	
 
 	if ($search['property_id'] != null) {
 		$listvar=array('property_id'=>$search['property_id'],

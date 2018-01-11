@@ -21,7 +21,7 @@
  		
  		<div class="row tablereq">
  			<div class="col-xm-12 col-sm-8 col-md-12">
- 				<table class="table text-left romtbl_borders">
+ 				<table class="table text-left romtbl_borders">  
 
  					<tbody>
  						<tr>
@@ -33,7 +33,7 @@
  							<td>Resident Full Names</td>
  							<td class="text-danger">
  								<?php    
-
+ 								// print the unfirmation of the user
  								foreach ($user_addinfor as $key ) {
  									echo $key->name;
  									?>
@@ -111,7 +111,9 @@
  					</thead>
  					<tbody>
 
- 						<?php foreach ($property_addinfor as $value) {?>
+ 						<?php 
+ 						//printing th properties of the user
+ 						foreach ($property_addinfor as $value) {?>
 
  						<tr>
  							<td><?php echo $value->property ?></td>
@@ -154,7 +156,9 @@
  				</tr>
  			</thead>
  			<tbody>
- 				<?php foreach ($add_addinfor as $value) {?>
+ 				<?php 
+ 				//printing the addresses of where the user lives
+ 				foreach ($add_addinfor as $value) {?>
 
  				<tr>
  					<td><?php echo $value->property ?></td>
@@ -179,12 +183,7 @@
 
  						$action="residents/listOfResidents";
 
- 						echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
- 						<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
-
-
+ 						echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?> 						<input type="hidden" name="property_id" value=<?php echo $value->property; ?>> 
  						<button type="Submit" ><span class=" fa fa-pencil fa-2x text-primary"></span></button>
  					</form>
  				</div>
@@ -192,9 +191,13 @@
 
  		</tr><?php	} ?>
  		<tr class="warning">
- 			<td  colspan="5" headers="list"class="col-lg-12">
+ 			<td  colspan="1" class="col-lg-3">
+ 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add Property</a>
+ 			</td>
+ 			<td  colspan="4" class="col-lg-9">
  				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
  			</td>
+ 			
  		</tr>
  	</tbody>
  </table>
