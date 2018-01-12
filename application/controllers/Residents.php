@@ -979,10 +979,10 @@ public function getOwnerOfProperty($user_id){
 	{
 		$search=array();
 		$search['property_id']=$property_id;
-		$search['property_id1']=$property_id;
+		//$search['property_id1']=$property_id;
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
-
-	//var_dump($data['user_addinfor']);
+		$search['user_id']= $_SESSION['id'];
+	var_dump($search);
 
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';
