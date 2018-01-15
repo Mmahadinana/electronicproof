@@ -103,12 +103,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
           </td>
           
+
           <td>  <button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
             <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
-            
+             </tr>
+         <tr>
+         <td>Add new Resident</td>
+        <td></td>
+       <td>
+              <?php
 
-          </tr>
-          
+              $action="publiczone/registerUser";
+
+              echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+              <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
+              <input type="hidden" name="usercheck" value="true">
+              <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-plus text-primary" title="Add"><span class="text-success"></span></button>
+            </form>
+          </td>
+          </tr> 
+         
           <?php } ?>  
           
           

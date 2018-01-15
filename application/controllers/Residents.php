@@ -801,15 +801,19 @@ var_dump($property_id,$user_id);
 	
 }*/
 public function askDelete()
+<<<<<<< HEAD
+{
+	$attament=$this->input->post('fileID');
+		//var_dump($attament);
+=======
 {   
 	//$cancel=$this->input->post('cancel');
 	$user_id=$this->input->post('user_id');
 	$property_id=$this->input->post('property_id');
 	
+>>>>>>> d979092fc512e74ec2b31ac4c53327b710cad401
 	$data['pageToLoad']='eresidence/askDelete';
 	$data['pageActive']='eresidence';
-	$data['user_id']=$user_id;
-	$data['property_id']=$property_id;
 	$this->load->helper('form');	
 
 	$this->load->view('ini',$data);
@@ -1002,10 +1006,10 @@ public function getOwnerOfProperty($user_id){
 	{
 		$search=array();
 		$search['property_id']=$property_id;
-		$search['property_id1']=$property_id;
+		//$search['property_id1']=$property_id;
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
-
-	//var_dump($data['user_addinfor']);
+		$search['user_id']= $_SESSION['id'];
+	var_dump($search);
 
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';
