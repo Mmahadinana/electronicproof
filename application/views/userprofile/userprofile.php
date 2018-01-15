@@ -7,10 +7,13 @@
  	  <?php
 
   if (isset($statusInsert)) {
-   echo alertMsg($statusInsert,' Your request was made successfully','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+		echo alertMsg($statusInsert,' Your request was made successfully','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
  } 
  if (isset($statusRequest)) {
-   echo alertMsg($statusRequest,' Your request was made successfully',"Oops! something went wrong, registeraddress in order make arequest <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
+   echo alertMsg($statusRequest,' Your request was made successfully',"Oops! something went wrong, register address again in order make a request <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
+ } if (isset($statusConfirm)) {
+   echo alertMsg($statusConfirm,' Your request deleted successfully',"Oops!Something went wrong while processing your request, please make a new request <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
  }
 
 ?>
@@ -78,6 +81,7 @@
  				</div>
  			</div>
  			<div class="row">
+				<div class="col-sm-8 col-lg-8 pfTbl_padding">
  				 <?php
 /****udit user profile of the user*******************/
                     $action="publiczone/editUser";
@@ -91,8 +95,8 @@
  						<button type="submit" name="confirm" class="btn btn-lg form-control btn-warning text-danger" title="Edit"><i class="fa fa-list-alt " aria-hidden="true">&nbsp;&nbsp;Edit My Information</i></button>
  					</div>
  					<!--div class="col-lg-3">
- 						<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a>
- 					</div-->
+ 						<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a-->
+ 					
  				</form>
  				<table <?php echo $_SESSION['owner'] != false ? "class=' '" : "class='hidden'"?> class="table ">
 
@@ -192,7 +196,7 @@
  		</tr><?php	} ?>
  		<tr class="warning">
  			<td  colspan="1" class="col-lg-3">
- 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add Property</a>
+ 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add New Address</a>
  			</td>
  			<td  colspan="4" class="col-lg-9">
  				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>

@@ -15,6 +15,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   ?>
   <h1 class="whtColor"> List Of Residents To Confirm </h1>
   <br>
+  <?php
+  
+   if (isset($statusUpdate)) {
+    echo alertMsg($statusUpdate,'Request confirmed','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ }?>
   <h4><b><span class="text-danger"><?php 
   /*******getOwnerListToComfirmariable used to increament in the array index********/
   $i=0;
@@ -67,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php
 
 //echo $_SESSION['id'];
-          $action="residents/confirmList/";
+          $action="residents/confirmResident/"; 
 
           echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'off'));?>
 
