@@ -7,34 +7,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="starter-template">
         <h1>Are you sure you want to cancel your request?</h1>
         <p>This operation can not be cancelled</p>
-        <?php
-                    
+        <div class="">
+          <div class="col-lg-3 pull-right align-left">
+          <?php                
 
-$action= "residents/requestPreview";
+$action= "residents/userprofile";
   $options = array("class"=>"form-horizontal ","method"=>"POST");
   echo form_open($action,$options);
   ?> 
   
       
-      <input type="hidden" name="user_id" value="<?php echo isset($user_id) ? $user_id:0;?>" >
-      <input type="hidden" name="property_id" value="<?php echo isset($property_id) ? $property_id:0;?>">
+      <input type="hidden" name="user_id" value="<?php echo $user_id;?>" >
+      <input type="hidden" name="property_id" value="<?php echo $property_id;?>">
      
-         <button type="submit" name="cancel" class ="btn btn-default btn-md" title="Cancel">NO
+         <button type="submit" name="cancel" class ="btn btn-default btn-md" title="No Cancel">NO
           <span class="glyphicon glyphicon-remove"></span></button>
           
        </form>
-       <?php $action= "residents/requestPreview";
+        </div>
+        <div class="col-lg-3 pull-right"> 
+       <?php $action= "residents/userprofile";
   $options = array("class"=>"form-horizontal ","method"=>"POST");
   echo form_open($action,$options);
   ?> 
   
-      <input type="hidden" name="" value="<?php echo isset($id_vehicle) ? $id_vehicle:0;?>" placeholder="">
+      <input type="hidden" name="" value="<?php echo isset($property_id) ? $property_id:0;?>" placeholder="">
        
          <button type="submit" class ="btn btn-default btn-md" title="Yes Cancel">YES
           <span class="glyphicon glyphicon-ok"></span></button>
 					
        </form>
-      
+      </div>
       </div>
 
     </div><!-- /.container -->

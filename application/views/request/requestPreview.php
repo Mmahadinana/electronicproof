@@ -120,8 +120,8 @@ foreach ($residentInfor as $key ){
  
 <?php
 
-                  //$action="residents/askdelete";
-                  $action="#";
+                  $action="residents/askdelete";
+                  //$action="#";
                   echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
                   <input type="hidden" name="user_id" value="<?php  echo($_SESSION['id']) ?>">
                   <input type="hidden" name="property_id" value="<?php echo $property_id ?>">
