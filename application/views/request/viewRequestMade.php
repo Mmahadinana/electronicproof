@@ -15,7 +15,9 @@ $property_id=0;
     <th>Name</th>
     <th>Address</th>
     <th>Date</th>
-    <th>Edit</th>
+    <th>
+    <div>Edit request</div><div>Remove request</div>
+  </th>
   </tr>
   <?php 
 
