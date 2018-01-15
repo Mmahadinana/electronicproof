@@ -14,7 +14,7 @@ class Residents extends CI_Controller {
 		$this->load->model("approval_model");
 		$this->load->model("ownersProperty_model");
 		$this->load->model("ownersDetails_model");
-		$this->load->model("manucipality_model");  
+		$this->load->model("manucipality_model");
 		$this->load->model("district_model");
 		$this->load->model("province_model");
 		$this->load->model("user_model");
@@ -139,26 +139,26 @@ class Residents extends CI_Controller {
 	 	$config['uri_segment']  = 3;
 		//intialize the pagination with our config
 	 	
-	 /*************tags for pagination with config**************/
-		$config['full_tag_open'] = '<ul class="pagination">';
-        $config['full_tag_close'] = '</ul>';
-        $config['first_link'] = 'FIRST';
-        $config['last_link'] = 'LAST';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['prev_link'] = 'Prev';
-        $config['prev_tag_open'] = '<li class="prev">';
-        $config['prev_tag_close'] = '</li>';
-        $config['next_link'] = 'Next';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $this->pagination->initialize($config);
+	 	/*************tags for pagination with config**************/
+	 	$config['full_tag_open'] = '<ul class="pagination">';
+	 	$config['full_tag_close'] = '</ul>';
+	 	$config['first_link'] = 'FIRST';
+	 	$config['last_link'] = 'LAST';
+	 	$config['first_tag_open'] = '<li>';
+	 	$config['first_tag_close'] = '</li>';
+	 	$config['prev_link'] = 'Prev';
+	 	$config['prev_tag_open'] = '<li class="prev">';
+	 	$config['prev_tag_close'] = '</li>';
+	 	$config['next_link'] = 'Next';
+	 	$config['next_tag_open'] = '<li>';
+	 	$config['next_tag_close'] = '</li>';
+	 	$config['last_tag_open'] = '<li>';
+	 	$config['last_tag_close'] = '</li>';
+	 	$config['cur_tag_open'] = '<li class="active"><a href="#">';
+	 	$config['cur_tag_close'] = '</a></li>';
+	 	$config['num_tag_open'] = '<li>';
+	 	$config['num_tag_close'] = '</li>';
+	 	$this->pagination->initialize($config);
 	 	$data['search_pagination']=$this->pagination->create_links();
 
 	 	$this->load->view('ini',$data);
@@ -228,6 +228,7 @@ class Residents extends CI_Controller {
 
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
+
 		if ($property_id == null) {
 			//Get the primary address of where the user lives
 			$search['primary_add']=1;
@@ -376,7 +377,7 @@ class Residents extends CI_Controller {
 						$this->requestPreview($data['user_addinfor'],$fileID);
 					}
 					
-			
+
 				}
 
 			}
@@ -640,7 +641,7 @@ public function id_upload(){
 		}
 
 		}//error if there in no file to upload
-				
+
 		return true;
 	}
 // **********************************************the success page of the request*******************************************************************************************//
@@ -651,14 +652,25 @@ public function id_upload(){
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
+	
 	$search=array();
-	foreach($user_addinfor as $userdata)
-	{
-		$search['property_id']=$userdata->property;
-		$search['userid']=$userdata->id;
-		
+	if (empty($user_addinfor)) {
+		$search['property_id']=$this->input->post('property_id');
+		$search['userid']=$this->input->post('user_id');
+	
+		$user_addinfor= $this->request_model->getAddress($search);
 
+	}else {
+		foreach($user_addinfor as $userdata)
+		{
+			$search['property_id']=$userdata->property;
+			$search['userid']=$userdata->id;
+
+
+		}
 	}
+	
+	
 	$data['multipleFile']=$multipleFile;
 	$data['fileID']=$fileID;
 
@@ -669,8 +681,8 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	//check if there is owner
 	if(empty($data['owner_addinfor'])){
 		//dedele user adddress of where there is no owner
-			$this->request_model->removeUserAddress($search);
-			redirect("residents/userprofile?statusRequest=0");
+		$this->request_model->removeUserAddress($search);
+		redirect("residents/userprofile?statusRequest=0");
 		
 	}
 		/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
@@ -698,6 +710,10 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 		}
 		if(null!=$this->input->get('statusRequest')){
 			$data['statusRequest']= $this->input->get('statusRequest');
+
+		}	
+		if(null!=$this->input->get('statusConfirm')){
+			$data['statusConfirm']= $this->input->get('statusConfirm');
 
 		}
 		$search=array();
@@ -785,7 +801,8 @@ var_dump($property_id,$user_id);
 	
 }*/
 public function askDelete()
-{
+{   
+	//$cancel=$this->input->post('cancel');
 	$user_id=$this->input->post('user_id');
 	$property_id=$this->input->post('property_id');
 	
@@ -848,7 +865,7 @@ public function askDelete()
  */
 public function listOfResidents()
 {
-	if($_SESSION['role']!="admin")
+	if($_SESSION['role']=="resident")
 	{
 		redirect('login/login_');
 	}
@@ -907,7 +924,11 @@ public function getOwnerOfProperty($user_id){
 	 */
 	public function confirmList() 
 	{
+				
+		if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
 
+		}
   //user that does is not owner have no access to this view
 		if ($_SESSION['owner'] != true) {
 			redirect(base_url());
@@ -1084,7 +1105,7 @@ public function confirmResident()
 	$search['request_id']= $this->input->post('request_id');
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
-	$data['userInfo']=$this->user_model->getUser($search);
+	//var_dump($search);
 
 	if ($search['property_id'] != null) {
 		$listvar=array('property_id'=>$search['property_id'],
@@ -1105,7 +1126,11 @@ public function confirmResident()
 	}
 	///
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
-	
+	if(empty($data['user_addinfor'])){
+			$me=$this->request_model->deleteRequest($search['request_id']);
+
+			redirect('residents/userprofile?statusConfirm=$me');
+	}
 
 	$data['pageToLoad']='request/confirmResident';
 	$data['pageActive']='request';
@@ -1131,19 +1156,22 @@ public function confirm()
 	$search['property_id']= $this->input->post('property_id');
 	$search['request_id']= $this->input->post('request_id');
 	$data['user_request']=$this->request_model->getUserRequest($search);
+	$data['userid']=$search['user_id'];
 	
 
 	if($this->input->post('confirm')){
-		$this->request_model->confirm_status(1,$search);
+		$confirm=$this->request_model->confirm_status(1,$search);
 
-		redirect('residents/confirmList');
+		redirect('residents/confirmList?statusUpdate=$confirm');
+		
 	}
 	else {
 
-		$this->request_model->confirm_status(2,$search);
-		redirect('residents/confirmList');
+		$confirm=$this->request_model->confirm_status(2,$search);
+		redirect('residents/confirmList?statusUpdate=$confirm');
 	}
 }
+
 
 
 }
