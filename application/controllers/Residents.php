@@ -651,6 +651,7 @@ public function id_upload(){
  */
 public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 { 
+	
 	$search=array();
 	foreach($user_addinfor as $userdata)
 	{
@@ -786,13 +787,10 @@ var_dump($property_id,$user_id);
 }*/
 public function askDelete()
 {
-	$user_id=$this->input->post('user_id');
-	$property_id=$this->input->post('property_id');
-	
+	$attament=$this->input->post('fileID');
+		//var_dump($attament);
 	$data['pageToLoad']='eresidence/askDelete';
 	$data['pageActive']='eresidence';
-	$data['user_id']=$user_id;
-	$data['property_id']=$property_id;
 	$this->load->helper('form');	
 
 	$this->load->view('ini',$data);

@@ -178,11 +178,9 @@ h3 {
     margin-top: 90px;
   }
   .carousel-control.right {
-<<<<<<< HEAD
-    right: -3px;
-=======
+
     right: -12px;
->>>>>>> 519c36059020d3f0487b2638b0c7b1491803a115
+
   }
 
   /* The indicators */
@@ -325,6 +323,9 @@ h3 {
 #step-2
 {
   display:none;
+}
+.hide {
+  display: none;
 }
 /*.row 
 {

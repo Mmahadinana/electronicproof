@@ -86,6 +86,20 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 							</div>
 							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 						</div>
+						<label  id ="gender" class="control-label">Role</label>
+
+						<div class="form-group">
+
+							<input  name="gender" type="radio" value="1" name="tab" id="radio10">
+							<label for="radio10">Owner</label>
+						</div>
+
+						<div class="form-group">
+							<input  name="gender" type="radio" value="1" name="tab" id="radio11"   checked>
+							<label for="radio11">Resident</label>
+							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
+
+						</div>
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="setup" name="setup" onclick="validatePassword"  >Next</button>
 					</div>
 				</div>
@@ -139,30 +153,17 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 						<div class="form-group">
 
-							<input  name="gender" type="radio" value="1" id="radio100">
+							<input  name="gender" type="radio" value="1" id="radio100" onclick="show1();">
 							<label for="radio100">Male</label>
 						</div>
 
 						<div class="form-group">
-							<input  name="gender" type="radio" value="2" id="radio101"   checked>
+							<input  name="gender" type="radio" value="2" id="radio101" onclick="show1();"  checked>
 							<label for="radio101">Female</label>
 							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
 						</div>
-						<label  id ="gender" class="control-label">Role</label>
-
-						<div class="form-group">
-
-							<input  name="gender" type="radio" value="1" id="radio100" <?= isset($user_id1)?'':'disabled="disabled"' ?>>
-							<label for="radio100">Owner</label>
-						</div>
-
-						<div class="form-group">
-							<input  name="gender" type="radio" value="2" id="radio101"   checked>
-							<label for="radio101">Resident</label>
-							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
-
-						</div>
+						
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="personal" name="personal">Next</button>
 
 					</div>
@@ -309,10 +310,9 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 		</div>
 
-		<div class="row setup-content" id="step-3">
+		<div class="row setup-content" id="step-3"  class="hide">
 			<div class="col-xs-6 col-md-offset-4">
 				<div class="col-md-12">
-			
 					<h3 >Owners Information</h3>
 					<div class="form-group">
 						<label class="control-label" for="phone">Title Deed</label>
@@ -380,7 +380,14 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 </div>
 
-
+<!-------script for show hide div on radio button------>
+<script type="text/javascript">
+$(function() {
+    $('input[name=post-format]').on('click init-post-format', function() {
+        $('#step-3').toggle($('#radio10').prop('checked'));
+    }).trigger('init-post-format');
+});
+</script>
 
 <!--script for validating stepwizard -->
 
