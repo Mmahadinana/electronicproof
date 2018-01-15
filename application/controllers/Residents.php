@@ -801,17 +801,13 @@ var_dump($property_id,$user_id);
 	
 }*/
 public function askDelete()
-<<<<<<< HEAD
-{
-	$attament=$this->input->post('fileID');
-		//var_dump($attament);
-=======
+
 {   
 	//$cancel=$this->input->post('cancel');
 	$user_id=$this->input->post('user_id');
 	$property_id=$this->input->post('property_id');
 	
->>>>>>> d979092fc512e74ec2b31ac4c53327b710cad401
+
 	$data['pageToLoad']='eresidence/askDelete';
 	$data['pageActive']='eresidence';
 	$this->load->helper('form');	
