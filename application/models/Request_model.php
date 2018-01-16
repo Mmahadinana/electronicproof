@@ -174,7 +174,7 @@ public function ownerquery($search )
 				}	*/	
 				public function getListToComfirmQuery($search )
 				{
-
+					
 					$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
 					$user_id = $search['user_id'] ?? FALSE;
 					$request_id = $search['request_id'] ?? FALSE;
@@ -291,34 +291,7 @@ public function ownerquery($search )
  * @return [type]         [data]
  */
 				public function getApproveToComfirmQuery($search )
-				{
-
-					$owner_confirmation_states = $search['owner_confirmation_states'] ?? FALSE;
-					$user_id = $search['user_id'] ?? FALSE;
-					$owner = $search['owner'] ?? FALSE;
-
-					$property_id = $search['property_id'] ?? FALSE;		
-
-					if($user_id)
-					{
-						$this->db->where('request_docs.user_id',$user_id)
-						->where('request_docs.b_deleted',0); 
-					}
-
-
-
-					if($property_id){
-						$this->db->where('request_docs.property_id',$property_id); 
-					}
-					if($owner){
-
-						$this->db->where('owners.user_id',$owner); 
-					}
-
-					if($owner_confirmation_states)
-					{
-						$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
-					}
+				{			
 					return	$this->db->select("user.name,
 						request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
 						owners.user_id as owner,
@@ -339,6 +312,9 @@ public function ownerquery($search )
 					->join("manucipality","manucipality.id = town.manucipality_id")
 					->join("district","district.id = manucipality.district_id")
 					->join("province","province.id = district.province_id")
+					//get only requests that has been approved
+					->where('request_docs.b_deleted',0) 
+					->where('request_docs.owner_confirmation_states',1)
 
 
 					->group_by('request_docs.id')
@@ -634,17 +610,22 @@ public function cancelReques($file_id =0){
 public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 {
 	$property=0;
+	$userid=0;
 	$requestdata = array(
 		'property_id'=>$property_id,
 		'user_id'=>$user_id,
 		'date_request'=>date('Y-m-d H:i:s'),		     		
 	);
-	$this->getListToComfirmQuery($requestdata);
+	$search['user_id']=$requestdata['user_id'];
+	$this->getListToComfirmQuery($search);
 	$result=$this->db->get()->result();
-	foreach ($result as $value) {		
-		$property=$value->property_id;
+	
+	foreach ($result as $value) {
+
+		
+		$userid=$value->user_id;
 	}
-	if ($property == $property_id) {
+	if ($userid == $user_id) {
 		return FALSE;
 	}else {
 		$this->db->insert("request_docs",$requestdata);
@@ -733,7 +714,8 @@ public function confirm_status($status,$search){
 //update the request_docs table
 	$this->db->where('id',$request_id)
 	->update('request_docs',$request_status);
-	if ($status) {
+	if ($status==2) {
+
 	//delete the user if declined by owner
 		$this->cancelRequest($request_id);
  	//remove the user from lives on table on that particula address
@@ -742,7 +724,31 @@ public function confirm_status($status,$search){
 	}
 	return $this->db->trans_complete();
 }
+/**
+ * [approve_status adminitrator declines or approve user request]
+ * @param  integer $status [description]
+ * @param  [type]  $search [description]
+ * @return [boolean]       [true or false]
+ */
+public function approve_status($status=0,$search){
+	$request_id=$search['request_id'];
+	$request_status=array(
+		'administrator_confirmation_states'=>$status,
+		'administrator_confirmation_date'=>date('Y-m-d H:i:s')
+	);
+	$this->db->trans_start();
+//update the request_docs table
+	$this->db->where('id',$request_id)
+	->update('request_docs',$request_status);
+	if ($status) {
+	//delete the user if declined by administrator
+		$this->cancelRequest($request_id);
+ 	//remove the user from lives on table on that particula address
+		$this->removeUserAddress($search);
 
+	}
+	return $this->db->trans_complete();
+}
 
 /**
  * [removeUserAddress removes the add of the user]

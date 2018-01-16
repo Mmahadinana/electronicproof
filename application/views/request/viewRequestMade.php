@@ -15,7 +15,9 @@ $property_id=0;
     <th>Name</th>
     <th>Address</th>
     <th>Date</th>
-    <th>Edit</th>
+    <th>
+    <span class="pull-left">Edit request</span> &nbsp;&nbsp; <span class="pull-right">Remove request</span>
+  </th>
   </tr>
   <?php 
 
@@ -40,7 +42,7 @@ $property_id=0;
           <input type="hidden" name="usercheck" value="true">
           <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
           <input type="hidden" name="user_id" value=<?php echo $user_id ?>>
-          <button type="submit"  class='btn btn-primary btn-xs' title="edit">
+          <button type="submit"  class='btn btn-primary btn-xs pull-left' title="edit">
             <span class='glyphicon glyphicon-pencil'></span> 
           </button>
         </form>
@@ -53,7 +55,7 @@ $property_id=0;
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
           <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
           
-          <button type="submit"  class='btn btn-warning btn-xs' title="cancel">
+          <button type="submit"  class='btn btn-warning btn-xs pull-right' title="cancel">
             <span class='glyphicon glyphicon-minus'></span> 
           </button>
         </form>

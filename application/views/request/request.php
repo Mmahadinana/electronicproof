@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <?php
 
   if (isset($statusInsert)) {
-   echo alertMsg($statusInsert,' Your request was made','You have already made a request for this address');
+   echo alertMsg($statusInsert,' Your request was made','You have already made a request , you can only make a new request after three months from the date your request was approved');
  }
 
 ?></div><?php
