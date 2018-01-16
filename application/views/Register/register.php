@@ -136,7 +136,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 						<div class="form-group">
 
-							<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m-d')?>"   placeholder="date of registration" required>
+							<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m- d')?>"   placeholder="date of registration" required>
 							
 							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 
@@ -344,12 +344,21 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					</div>
 
 					<div class="form-group">
+							<label class="control-label" for="phone">Purchase Date</label>
+							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+								<input type="date" class="form-control" name="Purchase Date"  id="PurchaseDate" value="<?php echo isset($user_id)? $PurchaseDateEdit: set_value('PurchaseDate')?>"  placeholder="Purchase Date" required>
+							</div>
+							<p><?php echo form_error('PurchaseDate') ? alertMsg(false,'PurchaseDate',form_error('PurchaseDate')) : ''; ?></p>
+
+						</div>
+
+					<!--div class="form-group">
 						<label class="control-label" for="phone">Purchase Date</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="purchase date" required>
+							<input type="text" class="form-control" name="phone" value="<?php  //echo date('Y / m / d')?>"   id="phone" placeholder="purchase date" required>
 						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-					</div>
+						<p><?php// echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div -->
 					<div class="form-group col-lg-12 ">
 						<div class="form-group col-lg-12 ">
 							<div class="col-lg-5 ">

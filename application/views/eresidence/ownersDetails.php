@@ -1,6 +1,3 @@
-
-?>
-
 <div class="container ">
 
   <h1>Owner's Details</h1>
