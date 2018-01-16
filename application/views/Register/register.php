@@ -44,11 +44,11 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Step 2</p>
 				</div>
-				<div class="stepwizard-step">
+				<div class="stepwizard-step" id="step-3" style="display:none">
 					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Step 3</p>
 				</div>
-				<div class="stepwizard-step">
+				<div class="stepwizard-step" >
 					<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Step 4</p>
 				</div>
@@ -90,13 +90,13 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 						<div class="form-group">
 
-							<input  name="gender" type="radio" value="1" name="tab" id="radio10">
+							<input  name="gender" type="radio" name="tab" id="radio0" >
 							<label for="radio10">Owner</label>
 						</div>
 
 						<div class="form-group">
-							<input  name="gender" type="radio" value="1" name="tab" id="radio11"   checked>
-							<label for="radio11">Resident</label>
+							<input  name="gender" type="radio" name="tab" checked>
+							<label for="radio1">Resident</label>
 							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
 						</div>
@@ -158,7 +158,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 						</div>
 
 						<div class="form-group">
-							<input  name="gender" type="radio" value="2" id="radio101" onclick="show1();"  checked>
+							<input  name="gender" type="radio" value="2" id="radio101"  checked>
 							<label for="radio101">Female</label>
 							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
@@ -170,6 +170,72 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 				</div>
 			</div>
+
+
+			<div class="row setup-content" id="step-3">
+			<div class="col-xs-6 col-md-offset-4">
+				<div class="col-md-12">
+					<h3 >Owners Information</h3>
+					<div class="form-group">
+						<label class="control-label" for="phone">Title Deed</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-address-card-o"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="title deed" required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="phone">House Type</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-home"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="house type" required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="phone">Registration Number</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-registered"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="registreation no." required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="phone">Purchase Price</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-money"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="purchase price" required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="phone">Purchase Date</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="purchase date" required>
+						</div>
+						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+					</div>
+					<div class="form-group col-lg-12 ">
+						<div class="form-group col-lg-12 ">
+							<div class="col-lg-5 ">
+								<input type="text" class="idinput_path form-control text-success" name="identity_doc" value="<?php echo isset($userid) ? $idFiles: set_value('idFiles') ;?>" disabled>
+							</div>
+							<div class="col-lg-4">
+								<?php echo isset($userid)? "<a href= 'request' class='btn btn-warning form-control text-success'><b>Change Files</b></a>":"<label class='idUpload '>
+								<input type='file' name='idUpload' class='hidden'>
+								<span class='btn-idUpload'>Choose Identity Doc.</span>
+							</label>"?>
+
+
+
+							<p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
+							<!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
+						</div>
+					</div>
+					</div>
+					<button class="btn btn-primary nextBtn btn-m pull-right" id="address" name="address">Next</button>
+
+				</div>
+			</div>
+		</div>
+
 
 
 			<div class="row setup-content" id="step-4">
@@ -310,6 +376,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 		</div>
 
+<<<<<<< HEAD
 		<div class="row setup-content" id="step-3"  class="hide">
 			<div class="col-xs-6 col-md-offset-4">
 				<div class="col-md-12">
@@ -383,6 +450,9 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 		</div>
 
+=======
+		
+>>>>>>> cf2a9c2c1e44dd3b69c236aeeaea08d97f57b3c8
 
 
 </form>
@@ -390,13 +460,17 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 </div>
 
 <!-------script for show hide div on radio button------>
+
 <script type="text/javascript">
-$(function() {
-    $('input[name=post-format]').on('click init-post-format', function() {
-        $('#step-3').toggle($('#radio10').prop('checked'));
-    }).trigger('init-post-format');
-});
+$(document).ready(function(){
+  $('#radio0').on('click',function(event){
+event.preventDefault();
+$('#step-3').show();
+  });
+  })
 </script>
+
+
 
 <!--script for validating stepwizard -->
 

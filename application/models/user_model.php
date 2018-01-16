@@ -32,6 +32,7 @@ class User_model extends CI_MODEL
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
+			owners.user_id,
 			lives_on.user_id,
 			property.id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
@@ -42,6 +43,7 @@ class User_model extends CI_MODEL
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
 		->from("user")
+		->join("owners","owners.user_id = user.id")
 		->join("gender","gender.id = user.gender_id")
 		->join("lives_on","lives_on.user_id = user.id")		
 		->join("property"," property.id= lives_on.property_id")

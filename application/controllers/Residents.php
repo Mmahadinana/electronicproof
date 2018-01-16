@@ -802,7 +802,13 @@ var_dump($property_id,$user_id);
 }*/
 public function askDelete()
 
+<<<<<<< HEAD
+{
+	
+ 
+=======
 {   
+>>>>>>> bc4916323067377f9574f4252d5d873dce2bd189
 	//$cancel=$this->input->post('cancel');
 	$user_id=$this->input->post('user_id');
 	$property_id=$this->input->post('property_id');
