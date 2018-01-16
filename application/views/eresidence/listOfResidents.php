@@ -99,42 +99,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
               <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
               <input type="hidden" name="usercheck" value="true">
-              <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
+              <button type="submit" name="confirm"   class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
             </form>
           </td>
           
 
-          <td>  <button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
+          <td><button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
             <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
              </tr>
          <tr>
-         <td>Add new Resident</td>
+      
+          </tr> 
+         
+          <?php } ?>  
+          
+             <td>Add new Resident</td>
         <td></td>
        <td>
-              <?php
+              <!--?php
 
               $action="publiczone/registerUser";
 
               echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
-              <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
+              <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>-->
               <input type="hidden" name="usercheck" value="true">
-              <button type="submit" name="confirm" class="btn btn-md glyphicon glyphicon-plus text-primary" title="Add"><span class="text-success"></span></button>
+              <button name="confirm"  id="add1" class="btn btn-md glyphicon glyphicon-plus text-primary" title="Add"><span class="text-success"></span></button>
             </form>
           </td>
-          </tr> 
-         
-          <?php } ?>  
-          
-          
         </tbody>
       </table>
 
+    <!--search div -->
+      <div id="add" style="display:none">
+       <div class="col-lg-3 col-sm-7"  >
+      <select class="form-control" id="search" name="inputForSearch">              
+        <option value= 0></option>     
+        <option value= 1>Owner's Name</option>
+      </select>
+    </div>   
+     <div class="col-lg-3 col-sm-7" >
+      <input class="form-control" type="text" name="mysearch" id="search" placeholder="search" value="<?php echo isset($search['mysearch']) ? $search['mysearch'] : '' ;?>">    
     </div>
+      <div class="col-lg-2 col-sm-7">  
+    <button class="btn btn-primary form-control" type="submit" name="bntSearch">Search</button>
+  </div>
+  </div>
+ <!-- End search div -->
 
   </div>
-
 </div>
 <!-- /form -->
 </div>
+
+<!----show search div onclick ---->
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#add1').on('click',function(event){
+event.preventDefault();
+$('#add').show();
+  });
+  })
+</script>
