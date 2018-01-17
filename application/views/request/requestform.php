@@ -6,9 +6,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container ">
 
   <h1 ><?php echo $pageTitle; ?></h1>
+  
   <div class="form-area">
+    <div id='days_left' class="text-danger h3 days_left hidden">
+    <span class="text-primary">You make a new request after:</span>
+    </div>
     <?php
-
+ 
     (isset($userid) && !empty($fileToUpload))? $count=count($propFiles) : '';  
     $action= isset($userid)? "residents/EditRequest/":"residents/request/";
 
@@ -21,9 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="col-md-10"><!--span class="text-warning h4"> Owner :<?php foreach ($db as $value) {
       echo ', '.$value->name;
     } ?> </span-->
-    <div id='property_id'>
-
-    </div>
+  
+    
     <table class="table text-left romtbl_borders">
 
       <tbody>
@@ -209,6 +212,25 @@ if(isset($userid) && !empty($fileToUpload)) {
   /****************query for the idetity document upload***********************/
   $(document).ready(function(){
 
+         
+           /*let user_id=<?php echo $_SESSION['id']; ?>;
+           let property_id=<?php echo $property_id; ?>;
+           //console.log(user_id,property_id);
+            $.ajax({
+             url: "check_date",
+             type: 'POST',         
+             //data: {'user_id' : user_id,'property_id' : property_id},
+             success:function(data){
+              $('#days_left').append(data);
+              }, 
+            error: function(){
+                    alert('I have failed');
+             }
+
+            });*/
+        
+           // console.log(userid);
+        
      
       let userid   = <?php echo isset($userid ) ? $userid : 'false' ?>;     
         

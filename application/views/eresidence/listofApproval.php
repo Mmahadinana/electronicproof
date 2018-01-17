@@ -18,6 +18,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  if (isset($statusApprove)) {
     echo alertMsg($statusApprove,'','<b>Sorry, no waiting request to approve  <span class="glyphicon glyphicon-thumbs-down text-primary"></span></b>');
    
+
+ } 
+  // sending a failer message from administrator
+ if (isset($statusUpdate_AdminD)) {
+    echo alertMsg($statusUpdate_AdminD,'User request declined successfully','Request was unabled to be declined <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ }
+ //sending a success message from administrator
+if (isset($statusUpdate_AdminA)) {
+    echo alertMsg($statusUpdate_AdminA,'User request declined successfully','Request was unabled to be declined <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
  }?>
   <table class="table">
     <tr class="danger text-warning">
