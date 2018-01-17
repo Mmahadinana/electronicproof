@@ -90,12 +90,12 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 						<div class="form-group">
 
-							<input  name="gender" type="radio" name="tab" id="radio0" >
+							<input  name="gender" type="radio" name="tab" value="ABC" id="radio0" >
 							<label for="radio10">Owner</label>
 						</div>
 
 						<div class="form-group">
-							<input  name="gender" type="radio" name="tab" checked>
+							<input  name="gender" type="radio" name="tab" value="PQR" checked>
 							<label for="radio1">Resident</label>
 							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
@@ -455,15 +455,19 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 </div>
 
-<!-------script for show hide div on radio button------>
+<!-------script for show/hide div on radio button------>
 
 <script type="text/javascript">
-$(document).ready(function(){
-  $('#radio0').on('click',function(event){
-event.preventDefault();
-$('#step-3').show();
-  });
-  })
+$('input[type="radio"]').click(function(){
+        if($(this).attr("value")=="PQR"){
+            $("#step-3").hide('slow');
+        }
+        if($(this).attr("value")=="ABC"){
+            $("#step-3").show('slow');
+
+        }        
+    });
+$('input[type="radio"]').trigger('click');
 </script>
 
 
