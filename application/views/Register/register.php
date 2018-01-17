@@ -376,7 +376,6 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 		</div>
 
-<<<<<<< HEAD
 		<div class="row setup-content" id="step-3"  class="hide">
 			<div class="col-xs-6 col-md-offset-4">
 				<div class="col-md-12">
@@ -450,9 +449,6 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 		</div>
 
-=======
-		
->>>>>>> cf2a9c2c1e44dd3b69c236aeeaea08d97f57b3c8
 
 
 </form>
