@@ -38,19 +38,19 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			<div class="stepwizard-row setup-panel">
 				<div class="stepwizard-step">
 					<a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
-					<p>Step 1</p>
+					<p>Account</p>
 				</div>
 				<div class="stepwizard-step">
 					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
-					<p>Step 2</p>
+					<p>Personal</p>
 				</div>
-				<div class="stepwizard-step" id="step-3" style="display:none">
-					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-					<p>Step 3</p>
+				<div class="stepwizard-step" id="step-3" style="display:block">
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="false"></i></a>
+					<p>Owner</p>
 				</div>
 				<div class="stepwizard-step" >
 					<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-					<p>Step 4</p>
+					<p>Address</p>
 				</div>
 
 			</div>
