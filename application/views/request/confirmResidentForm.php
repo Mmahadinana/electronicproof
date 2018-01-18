@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <div class="col-lg-3">
-          <button class="btn btn-lg btn-warning form-control" name="decline" id="decline_user" type="submit">Decline</button>
+          <button class="btn btn-lg btn-warning form-control" name="decline" id="decline_user" type="submit" value="2">Decline</button>
         </div>
 
       </div>

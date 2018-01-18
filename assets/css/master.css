@@ -518,3 +518,30 @@ i .fa .fa-archive {
 .fa .fa-pencil{
     overflow: hidden;
 }
+/**********************style for requestPreview view***********************************/
+#askDelete{
+    margin-top:20em;
+    color: #2e3f4f;
+}
+.modal-dialog{
+ background-color: #e1f2f3;
+    height: auto;
+    border-radius: 10px;
+    padding: 20px;
+    
+}
+.modal-content{
+    
+   background-color: #e1f2f3;
+}
+/**********************style for request view***********************************/
+.days_left{
+    border-style: 2px solid blue;
+    
+    border-radius: 10px;
+    background-color: white;
+    padding-top:0.5em;
+}
+.days_left span{
+    
+    }
