@@ -44,7 +44,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Personal</p>
 				</div>
-				<div class="stepwizard-step" id="step-3" style="display:none">
+				<div class="stepwizard-step" id="owner_step-3" >
 					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Owner</p>
 				</div>
@@ -163,7 +163,6 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
 						</div>
-						
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="personal" name="personal">Next</button>
 
 					</div>
@@ -172,64 +171,50 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 
 
-			<div class="row setup-content" id="step-3" >
+			<div class="row setup-content" id="step-3">
 			<div class="col-xs-6 col-md-offset-4">
 				<div class="col-md-12">
 					<h3 >Owners Information</h3>
 					<div class="form-group">
-						<label class="control-label" for="phone">Title Deed</label>
+						<label class="control-label" for="title_deed">Title Deed</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-address-card-o"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="title deed" required>
+							<input type="text" class="form-control" name="title_deed" value="<?php echo isset($user_id)? $title_deedEdit: set_value('title_deed')?>"   id="title_deed" placeholder="title deed" required>
 						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+						<p><?php echo form_error('title_deed') ? alertMsg(false,'title_deed',form_error('title_deed')) : ''; ?></p>
 					</div>
 					<div class="form-group">
-						<label class="control-label" for="phone">House Type</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-home"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="house type" required>
-						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="phone">Registration Number</label>
+						<label class="control-label" for="registration_number">Registration Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-registered"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="registreation no." required>
+							<input type="text" class="form-control" name="registration_number" value="<?php echo isset($user_id)? $registration_numberEdit: set_value('registration_number')?>"   id="registration_number" placeholder="registreation no." required>
 						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+						<p><?php echo form_error('registration_number') ? alertMsg(false,'registration_number',form_error('registration_number')) : ''; ?></p>
 					</div>
 					<div class="form-group">
-						<label class="control-label" for="phone">Purchase Price</label>
+						<label class="control-label" for="purchase_price">Purchase Price</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-money"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="purchase price" required>
+							<input type="text" class="form-control" name="purchase_price" value="<?php echo isset($user_id)? $purchase_priceEdit: set_value('purchase_price')?>"   id="purchase_price" placeholder="purchase price" required>
 						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+						<p><?php echo form_error('purchase_price') ? alertMsg(false,'purchase_price',form_error('purchase_price')) : ''; ?></p>
 					</div>
+
 
 					<div class="form-group">
-						<label class="control-label" for="phone">Purchase Date</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="purchase date" required>
-						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-					</div>
-					<div class="form-group col-lg-12 ">
-						<div class="form-group col-lg-12 ">
-							<div class="col-lg-5 ">
-								<input type="text" class="idinput_path form-control text-success" name="identity_doc" value="<?php echo isset($userid) ? $idFiles: set_value('idFiles') ;?>" disabled>
+							<label class="control-label" for="purchase_date">Purchase Date</label>
+							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+								<input type="date" class="form-control" name="purchase_date"  id="purchase_date" value="<?php echo isset($user_id)? $purchase_dateEdit: set_value('purchase_date')?>"  placeholder="purchase_date" required>
 							</div>
-							<div class="col-lg-4">
-								<?php echo isset($userid)? "<a href= 'request' class='btn btn-warning form-control text-success'><b>Change Files</b></a>":"<label class='idUpload '>
-								<input type='file' name='idUpload' class='hidden'>
-								<span class='btn-idUpload'>Choose Identity Doc.</span>
-							</label>"?>
+							<p><?php echo form_error('purchase_date') ? alertMsg(false,'purchase_date',form_error('purchase_date')) : ''; ?></p>
 
-
-
-							<p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
-							<!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
 						</div>
+						<div class="form-group">
+						<label class="control-label" for="house_type">House Type</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+							<input type="text" class="form-control" name="house_type" value="<?php echo isset($user_id)? $house_typeEdit: set_value('house_type')?>"   id="house_type" placeholder="house_type" required>
+						</div>
+						<p><?php echo form_error('house_type') ? alertMsg(false,'house_type',form_error('house_type')) : ''; ?></p>
 					</div>
-					</div>
+					
+					
 					<button class="btn btn-primary nextBtn btn-m pull-right" id="address" name="address">Next</button>
 
 				</div>
@@ -385,10 +370,10 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 <script type="text/javascript">
 $('input[type="radio"]').click(function(){
         if($(this).attr("value")=="PQR"){
-            $("#step-3").hide('slow');
+            $("#owner_step-3").hide('slow');
         }
         if($(this).attr("value")=="ABC"){
-            $("#step-3").show('slow');
+            $("#owner_step-3").show('slow');
 
         }        
     });
