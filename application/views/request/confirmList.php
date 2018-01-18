@@ -16,9 +16,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <h1 class="whtColor"> List Of Residents To Confirm </h1>
   <br>
   <?php
-  
-   if (isset($statusUpdate)) {
-    echo alertMsg($statusUpdate,'Request confirmed','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+  // sending a failer message from owner
+   if (isset($statusUpdate_OwnerD)) {
+    echo alertMsg($statusUpdate_OwnerD,'Request declined','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ }
+ //sending a success message from owner
+ if (isset($statusUpdate_OwnerC)) {
+    echo alertMsg($statusUpdate_OwnerC,'Request confirmed','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
    
  }?>
   <h4><b><span class="text-danger"><?php 

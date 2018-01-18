@@ -9,7 +9,7 @@ class Request_model extends CI_MODEL
 		$this->load->database();
 		$this->load->helper(array('file','form','url'));
 
-		$this->file_uploadpath=realpath(APPPATH . './id_upload');
+		$this->file_uploadpath=realpath(APPPATH . './id_upload'); 
 		
 	}
 	/**************This query get user address through the lives_on table***************/
@@ -258,7 +258,8 @@ public function ownerquery($search )
 						$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
 					}
 					return	$this->db->select("user.name,
-						request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+						request_docs.id as request_docs_id,request_docs.b_deleted,
+						request_docs.user_id,request_docs.property_id,request_docs.date_request,			
 						owners.user_id as owner,
 						address.id as addressid, address.door_number, address.street_name, address.suburb_id,
 						suburb.name as suburbname,suburb.town_id,
@@ -290,87 +291,100 @@ public function ownerquery($search )
  * @param  [type] $search [varialble used for the where clause]
  * @return [type]         [data]
  */
-				public function getApproveToComfirmQuery($search )
-				{			
-					return	$this->db->select("user.name,
-						request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
-						owners.user_id as owner,
-						address.id as addressid, address.door_number, address.street_name, address.suburb_id,
-						suburb.name as suburbname,suburb.town_id,
-						town.name as town,town.zip_code,
-						manucipality.name as manucipality,
-						district.name as district,
-						province.name as province")
-					->from("user")	
-					->join("request_docs","request_docs.user_id = user.id")	
-					->join("property","property.id =request_docs.property_id ")	
-					->join("owners_property"," owners_property.property_id= property.id")
-					->join("owners"," owners.id = owners_property.owners_id")
-					->join("address"," address.id= property.address_id")
-					->join("suburb"," suburb.id = address.suburb_id")
-					->join("town","town.id = suburb.town_id")
-					->join("manucipality","manucipality.id = town.manucipality_id")
-					->join("district","district.id = manucipality.district_id")
-					->join("province","province.id = district.province_id")
+public function getListToApproveQuery($search )
+{			
+	return	$this->db->select("user.name,
+		request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+		owners.user_id as owner,
+		address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+		suburb.name as suburbname,suburb.town_id,
+		town.name as town,town.zip_code,
+		manucipality.name as manucipality,
+		district.name as district,
+		province.name as province")
+	->from("user")	
+	->join("request_docs","request_docs.user_id = user.id")	
+	->join("property","property.id =request_docs.property_id ")	
+	->join("owners_property"," owners_property.property_id= property.id")
+	->join("owners"," owners.id = owners_property.owners_id")
+	->join("address"," address.id= property.address_id")
+	->join("suburb"," suburb.id = address.suburb_id")
+	->join("town","town.id = suburb.town_id")
+	->join("manucipality","manucipality.id = town.manucipality_id")
+	->join("district","district.id = manucipality.district_id")
+	->join("province","province.id = district.province_id")
 					//get only requests that has been approved
-					->where('request_docs.b_deleted',0) 
-					->where('request_docs.owner_confirmation_states',1)
+	->where('request_docs.b_deleted',0) 
+	->where('request_docs.owner_confirmation_states',1)
 
 
-					->group_by('request_docs.id')
-					->order_by('user.id');
+	->group_by('user.id')
+	->order_by('user.id');
 
-				}
+}
 /**
  * [getAttachmentQuery used to get files from attachement]
  * @param  array  $search [varialble used for the where clause]
  * @return [type]         [data]
  */
-				public function getAttachmentQuery($search=array() )
-				{
+public function getAttachmentQuery($search=array() )
+{
 
 
-					$request_id = $search['request_id'] ?? FALSE;
-					$user_id = $search['user_id'] ?? FALSE;
-					$property_id = $search['property_id'] ?? FALSE;
-					$idUpload = $search['idUpload'] ?? FALSE;
-					$fileToUpload = $search['fileToUpload'] ?? FALSE;
+	$request_id = $search['request_id'] ?? FALSE;
+	$user_id = $search['user_id'] ?? FALSE;
+	$property_id = $search['property_id'] ?? FALSE;
+	
+	$idUpload = $search['idUpload'] ?? FALSE;
+	$fileToUpload = $search['fileToUpload'] ?? FALSE;
+	//check expiry date for approved proof of resident 
+	$approved = $search['approved'] ?? FALSE;
+	$property = $search['property'] ?? FALSE;
+	//get files identity
+	if($idUpload && $user_id){
 
-					if($idUpload && $user_id){
+		$this->db->where('attachments.minetype',$idUpload)
+		->where('proof_of_res_doc.user_id',$user_id)
+		->where('proof_of_res_doc.property_id',$property_id); 
+	}
+	//get file property
+	if($fileToUpload && $user_id){
 
-						$this->db->where('attachments.minetype',$idUpload)
-								->where('proof_of_res_doc.user_id',$user_id)
-								->where('proof_of_res_doc.property_id',$property_id); 
-					}
-					if($fileToUpload && $user_id){
-
-						$this->db->where('attachments.minetype',$fileToUpload)
-						->where('proof_of_res_doc.user_id',$user_id)
-						->where('proof_of_res_doc.property_id',$property_id); 
-					}
-					if($request_id){
-
-
-						$this->db->where('request_docs.id',$request_id); 
-					}
-
-					return	$this->db->select("user.name,
-						proof_of_res_doc.id,proof_of_res_doc.user_id,proof_of_res_doc.property_id,proof_of_res_doc.attachment_id,
-						request_docs.date_request,
-						attachments.minetype,attachments.original_name,		
-						")
-					->from("user")	
-					->join("proof_of_res_doc","proof_of_res_doc.user_id = user.id")		
-					->join("request_docs","request_docs.user_id = user.id")		
-					->join("attachments"," attachments.id = proof_of_res_doc.attachment_id")
+		$this->db->where('attachments.minetype',$fileToUpload)
+		->where('proof_of_res_doc.user_id',$user_id)
+		->where('proof_of_res_doc.property_id',$property_id); 
+	}
+	if($request_id){
 
 
-					->group_by('proof_of_res_doc.id')
-					->order_by('user.id');
+		$this->db->where('request_docs.id',$request_id); 
+	}
+//check expiry date for approved proof of resident 
+	if($approved){
 
-				}
+		$this->db->where('proof_of_res_doc.property_id',$property)
+				->where('proof_of_res_doc.user_id',$user_id)
+				->where('proof_of_res_doc.approved',$approved); 
+	}
 
-				/***********************function get the address of the residents from the database**************************/
+	return	$this->db->select("user.name,
+		proof_of_res_doc.id,proof_of_res_doc.user_id,proof_of_res_doc.expiry_date,proof_of_res_doc.approved,
+		proof_of_res_doc.property_id,proof_of_res_doc.attachment_id,
+		request_docs.date_request,
+		attachments.minetype,attachments.original_name,		
+		")
+	->from("user")	
+	->join("proof_of_res_doc","proof_of_res_doc.user_id = user.id")		
+	->join("request_docs","request_docs.user_id = user.id")		
+	->join("attachments"," attachments.id = proof_of_res_doc.attachment_id")
+
+
+	->group_by('proof_of_res_doc.id')
+	->order_by('user.id');
+
+}
+
+/***********************function get the address of the residents from the database**************************/
 
 /**
  * get the list of property or the address of the user
@@ -451,7 +465,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 		$offset = $search['page'] ?? 0;
 //call the query to bring the residence
 		$this->ownerquery($search)
-	
+
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
 			//get data from bd
@@ -476,14 +490,44 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			'newname'=>$data['raw_name'],
 			'minetype'=>$minetype,
 		);
+		// check if user has file and it has not expired
+		
+		$check_record=$this->check_record($proofOfRecData);
+		
+		if($check_record == true){
+			$this->db->insert("attachments",$requests);
+			$attachments_id = $this->db->insert_id();
+
+			$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
+			return $attachments_id;
+			
+		}else {
+			return false;
+		}
 		//$this->db->trans_start();
-		$this->db->insert("attachments",$requests);
-		$attachments_id = $this->db->insert_id();
-		$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
-		return $attachments_id;
-
-
 	}
+	public function check_record($records){
+		
+		$approved=0;
+		$records['approved']=1;
+		$check_record=$this->getAttachment($records);
+			
+		if(!empty($check_record)){
+			
+			foreach ($check_record as $value) {
+				// check if the time has expired
+				if($this->check_date($value->expiry_date) ==false){
+										
+					return true;
+				}
+			}
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	/***********************function to insert the files into data**************************/
 	/**
 	 * [cancelRequest description]
@@ -492,7 +536,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	 */
 	public function cancelRequest($request_id=0)
 	{
-	
+
 		$request=array(
 			'b_deleted'=>'1'
 		);
@@ -516,7 +560,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 		$this->db->trans_start();
 		/*$this->db->where('id',$request_id) 
 		->update("request_docs",$request);*/
-$this->db->delete('request_docs',array('id'=>$request_id));
+		$this->db->delete('request_docs',array('id'=>$request_id));
 		return $this->db->trans_complete();
 	}
 
@@ -551,7 +595,7 @@ $this->db->delete('request_docs',array('id'=>$request_id));
 		      * @param  array  $data [description]
 		      * @return [type]       [description]
 		      */
-		     public function insertMultipleFileData($data=array(),$proofOfRecData = 0)
+	public function insertMultipleFileData($data=array(),$proofOfRecData = 0)
 		     {
 
 		     	foreach ($data as $value) 
@@ -620,14 +664,17 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 	$this->getListToComfirmQuery($search);
 	$result=$this->db->get()->result();
 	
-	foreach ($result as $value) {
-
-		
+	foreach ($result as $value) {		
 		$userid=$value->user_id;
+		$date_request=$value->date_request;
+
 	}
-	if ($userid == $user_id) {
+	
+	if (($userid == $user_id) && $this->check_date($date_request) != false) {
+		//return ($this->check_date($date_request));
 		return FALSE;
 	}else {
+		
 		$this->db->insert("request_docs",$requestdata);
 		return true;
 	}
@@ -719,7 +766,7 @@ public function confirm_status($status,$search){
 	//delete the user if declined by owner
 		$this->cancelRequest($request_id);
  	//remove the user from lives on table on that particula address
-		$this->removeUserAddress($search);
+		//$this->removeUserAddress($search);
 
 	}
 	return $this->db->trans_complete();
@@ -731,20 +778,26 @@ public function confirm_status($status,$search){
  * @return [boolean]       [true or false]
  */
 public function approve_status($status=0,$search){
+	
 	$request_id=$search['request_id'];
 	$request_status=array(
 		'administrator_confirmation_states'=>$status,
 		'administrator_confirmation_date'=>date('Y-m-d H:i:s')
 	);
+	//updates proof_of_res_doc table 
+	$proof_of_res_doc['approved']=1;
 	$this->db->trans_start();
 //update the request_docs table
 	$this->db->where('id',$request_id)
 	->update('request_docs',$request_status);
+	$this->db->where('user_id',$search['user_id'])
+	->where('property_id',$search['property_id'])
+	->update('proof_of_res_doc',$proof_of_res_doc);
 	if ($status) {
 	//delete the user if declined by administrator
 		$this->cancelRequest($request_id);
  	//remove the user from lives on table on that particula address
-		$this->removeUserAddress($search);
+		//$this->removeUserAddress($search);
 
 	}
 	return $this->db->trans_complete();
@@ -773,12 +826,12 @@ public function removeUserAddress($search){
 /**
  * the funtion get all the confirmed request by owner 
  */
-public function getApproveToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getListToApprove(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-	$this->getApproveToComfirmQuery($search)			
+	$this->getListToApproveQuery($search)			
 
 
 		//establish the limit and start to bring the owner address
@@ -789,12 +842,30 @@ public function getApproveToComfirm(array $search = array(),int $limit = ITEMS_P
 
 
 
+public function check_date($date){
 
 	
+	$date1=strtotime($date);
+	$expiry_date=(date($date1 + 3*30*24*3600));
+	$currentdate=strtotime(date('Y-m-d H:i:s'));
+	//
+	$ex_datetime =new DateTime($date);
+	$cur_datetime =new DateTime(date('Y-m-d H:i:s'));
+	$int=$ex_datetime->diff($cur_datetime);
+	$days_left=$int->format('%a days');
+
+	
+	if ($expiry_date <=$currentdate ) {		
+
+		return false;
+	}else{
+		
+		return $days_left;
 
 
+	}
 
 }
-
+}
 
 ?>
