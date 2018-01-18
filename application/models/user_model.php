@@ -32,13 +32,13 @@ class User_model extends CI_MODEL
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
-			owners.user_id,
+			owners.id as ownersid,owners.title_deed,owners.registration_number,owners.purchase_price,owners.purchase_date,owners.house_type,
 			lives_on.user_id,
 			property.id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
 			town.id as townid,
-			town.name as town,town.zip_code,town.manucipality_id,,manucipality.id as manucipalityid,
+			town.name as town,town.zip_code,town.manucipality_id,manucipality.id as manucipalityid,
 			manucipality.name as manucipality,manucipality.district_id,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
@@ -81,17 +81,22 @@ public function addUser($data)
 
 
 	$add = array(
-		'name'=>$data['name'],
-		'email'=>$data['email'],
+		     'name'=>$data['name'],
+		     'email'=>$data['email'],
 			//'address'=>$data['address'],
-		'identitynumber'=>$data['identitynumber'],
-		'phone'=>$data['phone'],
+		    'identitynumber'=>$data['identitynumber'],
+		    'phone'=>$data['phone'],
 			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
+			//'title_deed'=>$data['title_deed'],
+			//'purchase_price'=>$data['purchase_price'],
+			//'registration_number'=>$data['registration_number'],
+			//'purchase_date'=>$data['purchase_date'],
+			//'house_type'=>$data['house_type'],
 
 		     		//'minetype'=>$minetype
-		);
+			);
 
 	$this->db->trans_start();
 //var_dump($add);
@@ -125,7 +130,7 @@ public function addUser($data)
 			//var_dump($data['date_registration']),
 
 		    		//'minetype'=>$minetype
-		);
+			);
 		$this->db->trans_start();
 		$this->db->where('user.id',$data['iduser'])
 		->update('user',$user);
@@ -272,7 +277,7 @@ public function insertPassword($data=array(), $user_id)
 		'expireTime'=>$expireDate,
 		'role_id'=>$role_id,
 		
-	);
+		);
 		//var_dump($loginadd);
 		//$this->db->trans_start();
 	
@@ -299,7 +304,7 @@ public function insertAddress($data=array(), $user_id)
 		'street_name'=>$street_name,
 		'suburb_id'=>$suburb_id,
 		
-	);
+		);
 		//var_dump($addressAdd);
 		//$this->db->trans_start(); 
 	
@@ -361,21 +366,21 @@ public function insertAddress($data=array(), $user_id)
 		$address=array(
 			'user_id'=>$addifor['userid'],
 			'property_id'=>$userProperty,
-		);
+			);
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);
 		//check if the address has owner
 		$hasOwner=$this->isThereOwnerInProperty($address);
 		if(empty($hasOwner)){
-				return 0;
+			return 0;
 		}
 		if (!empty($hasAddress) && !empty($hasOwner)) {
 			
-				return 0;
-			}else {
+			return 0;
+		}else {
 			//insert the address for the user
 			$this->db->trans_start();
-				$this->db->insert('lives_on',$address);
+			$this->db->insert('lives_on',$address);
 			return $this->db->trans_complete();
 		}
 
