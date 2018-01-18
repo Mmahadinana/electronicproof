@@ -44,8 +44,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Personal</p>
 				</div>
-				<div class="stepwizard-step" id="step-3" style="display:block">
-					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="false"></i></a>
+				<div class="stepwizard-step" id="step-3" style="display:none">
+					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Owner</p>
 				</div>
 				<div class="stepwizard-step" >
@@ -172,7 +172,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 			</div>
 
 
-			<div class="row setup-content" id="step-3">
+			<div class="row setup-content" id="step-3" >
 			<div class="col-xs-6 col-md-offset-4">
 				<div class="col-md-12">
 					<h3 >Owners Information</h3>
@@ -375,10 +375,6 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 				</div>
 			</div>
 		</div>
-
-		
-
-
 </form>
 
 </div>
