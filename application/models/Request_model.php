@@ -291,7 +291,7 @@ public function ownerquery($search )
  * @param  [type] $search [varialble used for the where clause]
  * @return [type]         [data]
  */
-public function getApproveToComfirmQuery($search )
+public function getListToApproveQuery($search )
 {			
 	return	$this->db->select("user.name,
 		request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
@@ -318,7 +318,7 @@ public function getApproveToComfirmQuery($search )
 	->where('request_docs.owner_confirmation_states',1)
 
 
-	->group_by('request_docs.id')
+	->group_by('user.id')
 	->order_by('user.id');
 
 }
@@ -826,12 +826,12 @@ public function removeUserAddress($search){
 /**
  * the funtion get all the confirmed request by owner 
  */
-public function getApproveToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE){
+public function getListToApprove(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-	$this->getApproveToComfirmQuery($search)			
+	$this->getListToApproveQuery($search)			
 
 
 		//establish the limit and start to bring the owner address

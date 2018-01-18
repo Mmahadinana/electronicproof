@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  }
  //sending a success message from administrator
 if (isset($statusUpdate_AdminA)) {
-    echo alertMsg($statusUpdate_AdminA,'User request declined successfully','Request was unabled to be declined <span class="glyphicon glyphicon-thumbs-down"></span>');
+    echo alertMsg($statusUpdate_AdminA,'User request approved successfully','Request was unabled to be declined <span class="glyphicon glyphicon-thumbs-down"></span>');
    
  }?>
   <table class="table">

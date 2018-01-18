@@ -396,7 +396,7 @@ class Residents extends CI_Controller {
 		else {
 			//user does not have address they should register their address		
 			
-			redirect('residents/ResidencialProperty');
+			redirect('residents/userprofile');
 		}
 		
 
@@ -550,7 +550,7 @@ class Residents extends CI_Controller {
 		else {
 			//user does not have address they should register their address		
 			
-			redirect('residents/ResidencialProperty');
+			redirect('residents/userprofile');
 		}
 		
 
@@ -1011,7 +1011,7 @@ public function getOwnerOfProperty($user_id){
 			$search['property']=$owner->property;			
 		}*/		
 		
-		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
+		$data['getListToComfirm']=$this->request_model->getListToApprove($search);
 
 		$data['pageToLoad']='eresidence/listOfApproval';
 		$data['pageActive']='eresidence';
