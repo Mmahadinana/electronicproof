@@ -572,7 +572,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	 * @return [type]                 [description]
 	 */
 	public function insertInProodOfResDoc($proofOfRecData,$attachments_id){
-
+        
 		$tabledata = array(
 			'property_id'=>$proofOfRecData['property'],
 			'user_id'=>$proofOfRecData['user_id'],
@@ -654,26 +654,24 @@ public function cancelReques($file_id =0){
 public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 {
 	$property=0;
-	$userid=0;
+	$date_request='';
 	$requestdata = array(
 		'property_id'=>$property_id,
 		'user_id'=>$user_id,
 		'date_request'=>date('Y-m-d H:i:s'),		     		
 	);
 	$search['user_id']=$requestdata['user_id'];
-	$this->getListToComfirmQuery($search);
-	$result=$this->db->get()->result();
-	
-	foreach ($result as $value) {		
-		$userid=$value->user_id;
-		$date_request=$value->date_request;
+	$result=$this->getListToComfirm($search);
 
+	foreach ($result as $value) {			
+		$date_request=$value->date_request;
 	}
 	
-	if (($userid == $user_id) && $this->check_date($date_request) != false) {
+	if (empty($result) && $this->check_date($date_request) != false) {
 		//return ($this->check_date($date_request));
 		return FALSE;
-	}else {
+	}
+	else {
 		
 		$this->db->insert("request_docs",$requestdata);
 		return true;
@@ -684,10 +682,10 @@ public function insertRequest($user_id=0,$owner_id=0,$property_id=0)
 	
 }
 
-/***********************function get the address of the residents from the database**************************/
-/**************************************************************************************
- * It should be merged with getListToComfirmRequest************************************
- **************************************************************************************/
+
+/**
+ * getListToComfirmRequest, get the list of all the request owner has to confirm  
+ **/
 
 public function getListToComfirm(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
@@ -779,23 +777,27 @@ public function confirm_status($status,$search){
  */
 public function approve_status($status=0,$search){
 	
-	$request_id=$search['request_id'];
+	//$request_id=$search['request_id'];
 	$request_status=array(
 		'administrator_confirmation_states'=>$status,
 		'administrator_confirmation_date'=>date('Y-m-d H:i:s')
 	);
 	//updates proof_of_res_doc table 
 	$proof_of_res_doc['approved']=1;
+	//setting the value for the expiry date for proof of residence
+	$proof_of_res_doc['expiry_date']=date("Y-m-d H:i:s",strtotime("+3 month",strtotime(date("Y-m-d 08:00:00",strtotime("now") ) )));
+	
 	$this->db->trans_start();
-//update the request_docs table
-	$this->db->where('id',$request_id)
+	//update the request_docs table
+	$this->db->where('id',$search['request_id'])
 	->update('request_docs',$request_status);
+	//updates proof_of_res_doc table 
 	$this->db->where('user_id',$search['user_id'])
 	->where('property_id',$search['property_id'])
 	->update('proof_of_res_doc',$proof_of_res_doc);
 	if ($status) {
 	//delete the user if declined by administrator
-		$this->cancelRequest($request_id);
+		$this->cancelRequest($search['request_id']);
  	//remove the user from lives on table on that particula address
 		//$this->removeUserAddress($search);
 

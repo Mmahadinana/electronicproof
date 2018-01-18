@@ -12,7 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <span class="text-primary">You make a new request after:</span>
     </div>
     <?php
- 
+ //if there is request write the message
+    echo isset($message)? "<div class='h4 text-danger'>$message</div> ": ''; 
+    //in edit mode get the length of the file 
     (isset($userid) && !empty($fileToUpload))? $count=count($propFiles) : '';  
     $action= isset($userid)? "residents/EditRequest/":"residents/request/";
 

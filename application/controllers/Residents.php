@@ -14,13 +14,8 @@ class Residents extends CI_Controller {
 		$this->load->model("approval_model");
 		$this->load->model("ownersProperty_model");
 		$this->load->model("ownersDetails_model");
-		$this->load->model("manucipality_model");
-		$this->load->model("district_model");
-		$this->load->model("province_model");
-		$this->load->model("user_model");
 		$this->load->model("login_model");
-		$this->load->model("owners_property_model");	
-
+		$this->load->model("owners_property_model");
 		$this->load->model("listOfRes_model");
 		$this->load->library('pagination');
 		logoutByInactiv();
@@ -367,19 +362,25 @@ class Residents extends CI_Controller {
 					}
 
 					$proofOfRecData['user_id']=$_SESSION['id'];
-
-
-
-					if($_FILES['fileToUpload']['name'][0] != '') {
+					//this will check if the user is on waitin
+					$check_proof_hasexpired=$this->request_model->check_record($proofOfRecData);
+					$check_if_request_made=$this->request_model->getListToComfirm($proofOfRecData); 
+					
+					if($_FILES['fileToUpload']['name'][0] != '' && (empty($check_if_request_made)) && $check_proof_hasexpired==true) {
 
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
+
+						
 						$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
-					}else {
+					}elseif((empty($check_if_request_made)) && $check_proof_hasexpired==true) {
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID);
+					}else {
+						$data['message']='Be patiant, your request in progress';
+						$this->load->view('ini',$data);
 					}
 					
 
@@ -685,7 +686,7 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	
 	//check if there is owner
 	if(empty($data['owner_addinfor'])){
-		//dedele user adddress of where there is no owner
+		//delete user adddress of where there is no owner
 		$this->request_model->removeUserAddress($search);
 		redirect("residents/userprofile?statusRequest=0");
 		
