@@ -12,10 +12,9 @@ class Login_model extends CI_MODEL
 		$this->load->helper('cookie');
 	}
 /**
- * [query description]
+ * [query The query retrieves the user's details]
  * @param  [type] $search [description]
- * The query retrieves the user's details.
- * @return [type]         [description]
+ * @return [true]         [description]
  */
 	public function query($search){
 
@@ -55,9 +54,8 @@ class Login_model extends CI_MODEL
 	}
 	
 /**
- * [checkPassword description]
+ * [checkPassword check the password from the the input in the login, changepassword pages to validate it in login table]
  * @param  [type] $password [description]
- * check the password from the the input in the login, changepassword pages to validate it in login table
  * @return [true]           [checkPassword]
  */
 	public function checkPassword($password) 
@@ -112,11 +110,11 @@ public function getPasswordHashFromUser($username)
 }
 
 /**
- * [startUserSession description]
+ * [startUserSession //checks if the hash exists and if the hash matches with the password using the function password_varify]
  * @param  [type] $username [description]
- * @return [type]           [description]
+ * @return [true]           [description]
  */
-//checks if the hash exists and if the hash matches with the password using the function password_varify
+
 public function startUserSession($username)
 {
 	

@@ -14,7 +14,7 @@ class ListOfRes_model extends CI_MODEL
 	}
 
 /**
- * [listquery description]
+ * [listquery Function retrieves the details via the property]
  * @param  [type] $search [description]
  * @return [true]         [Function retrieves the details via the property]
  */
@@ -52,7 +52,7 @@ return $this->db
 }
 
 /**
- * [addressquery description]
+ * [addressquery This query retrieves the address details]
  * @param  [type] $search [description]
  * @return [true]         [This query retrieves the address details]
  */

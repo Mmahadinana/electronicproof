@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Fileload_model extends CI_MODEL
 {
 var $file_uploadpath;
+//This hold the attachments of documents.
 	public function __construct()
 	{
 		parent::__construct();

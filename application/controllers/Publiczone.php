@@ -65,7 +65,7 @@ class Publiczone extends CI_Controller
 	}
 
 	/**
-	 * [contact form which allow the user to get information with regarding the app]
+	 * [contact form which allow the user to require information with regarding the app]
 	 * @return [true] [respond that it works well]
 	 */
 	public function contact()
