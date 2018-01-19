@@ -148,9 +148,8 @@ public function startUserSession($username)
 	}
 }
 /**
- * [getOwner description]
+ * [getOwner  * This function retrieves the information for the owner´s details.]
  * @param  [type] $user_id [description]
- * This function retrieves the information for the owner´s details.
  * @return [true]          [getOwner]
  */
 public function getOwner($user_id){
@@ -167,9 +166,9 @@ public function getOwner($user_id){
 
 }
 /**
- * [get_user description]
+ * [get_user This function retrieves the information for the user details.]
  * @param  [type] $username [description]
- * This function retrieves the information for the user details.
+ * 
  * @return [user data]           [get_user]
  */
 public function get_user($username)

@@ -10,7 +10,6 @@ class Address_model extends CI_MODEL{
 	/**
 	 * Enables the user to retrieve the address from the database.
 	 */
-	
 	public function getAddress($suburb_id=0)
 	{
 

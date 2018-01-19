@@ -51,7 +51,6 @@ class Residents extends CI_Controller {
 	  */
 	 public function Eresidence()
 	 {
-	 	
 	 	if($_SESSION['role']!="admin")
 	 	{
 	 		redirect('login/login_');
@@ -226,10 +225,6 @@ class Residents extends CI_Controller {
 			$data['statusInsert']= $this->input->get('statusInsert');
 
 		}
-		if(null!=$this->input->get('days_left')){
-			$data['days_left']= $this->input->get('days_left');
-
-		}
 
 		/*Get the property id from the post*/
 		$property_id=$this->input->post('property_id');
@@ -245,7 +240,7 @@ class Residents extends CI_Controller {
 			}
 		}
 
-		$data['property_id']=$property_id;	 
+		$data['property_id']=$property_id;	
 		//get the property id of the selected property
 		if ($property_id != null)
 		{
@@ -396,7 +391,7 @@ class Residents extends CI_Controller {
 		else {
 			//user does not have address they should register their address		
 			
-			redirect('residents/userprofile');
+			redirect('residents/ResidencialProperty');
 		}
 		
 
@@ -550,7 +545,7 @@ class Residents extends CI_Controller {
 		else {
 			//user does not have address they should register their address		
 			
-			redirect('residents/userprofile');
+			redirect('residents/ResidencialProperty');
 		}
 		
 
@@ -662,7 +657,7 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	if (empty($user_addinfor)) {
 		$search['property_id']=$this->input->post('property_id');
 		$search['userid']=$this->input->post('user_id');
-
+		
 		$user_addinfor= $this->request_model->getAddress($search);
 
 	}else {
@@ -767,15 +762,13 @@ public function confirmRequestInsert()
 
 	}
 	$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-	
-	if($results!=true){
+	if($results){
 			//redirecting to the other page
-
 		$this->waitingForApproval($user_id,$property_id,$status=1);
 	}else {
-		$statusInsert=0;	
-		
-		redirect("residents/request/$results?statusInsert=$statusInsert");
+		$statusInsert=0;
+
+		redirect("residents/request?statusInsert=$statusInsert");
 
 	}
 	
@@ -811,7 +804,6 @@ public function askDelete()
 
 
 {   
-
 	//$cancel=$this->input->post('cancel');
 	$user_id=$this->input->post('user_id');
 	$property_id=$this->input->post('property_id');
@@ -933,17 +925,11 @@ public function getOwnerOfProperty($user_id){
 	 */
 	public function confirmList() 
 	{
-
-		if(null!=$this->input->get('statusUpdate_OwnerD')){
-			$data['statusUpdate_OwnerD']= $this->input->get('statusUpdate_OwnerD');
+		
+		if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
 
 		}
-		
-		if(null!=$this->input->get('statusUpdate_OwnerC')){
-			$data['statusUpdate_OwnerC']= $this->input->get('statusUpdate_OwnerC');
-
-		}
-		
   //user that does is not owner have no access to this view
 		if ($_SESSION['owner'] != true) {
 			redirect(base_url());
@@ -991,27 +977,15 @@ public function getOwnerOfProperty($user_id){
 	 */
 	public function listOfApproval() 
 	{
-		if(null!=$this->input->get('statusApprove')){
-			$data['statusApprove']= $this->input->get('statusApprove');
-
-		}
-		if(null!=$this->input->get('statusUpdate_AdminD')){
-			$data['statusUpdate_AdminD']= $this->input->get('statusUpdate_AdminD');
-
-		}
-		if(null!=$this->input->get('statusUpdate_AdminA')){
-			$data['statusUpdate_AdminA']= $this->input->get('statusUpdate_AdminA');
-
-		}
 		$search=array();		
-		//might be used later for identify the person who approved the user
+		
 		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
 		
-		/*foreach ($data['owner'] as $owner) {
+		foreach ($data['owner'] as $owner) {
 			$search['property']=$owner->property;			
-		}*/		
+		}		
 		
-		$data['getListToComfirm']=$this->request_model->getListToApprove($search);
+		$data['getListToComfirm']=$this->request_model->getApproveToComfirm($search);
 
 		$data['pageToLoad']='eresidence/listOfApproval';
 		$data['pageActive']='eresidence';
@@ -1032,7 +1006,7 @@ public function getOwnerOfProperty($user_id){
 		//$search['property_id1']=$property_id;
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 		$search['user_id']= $_SESSION['id'];
-
+		var_dump($search);
 
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';
@@ -1093,7 +1067,7 @@ public function getOwnerOfProperty($user_id){
  * [load approve page for admin]
  * @return [type] [description]
  */
-public function approveResident()
+public function approve()
 {
 	if($_SESSION['role']!="admin")
 	{
@@ -1102,97 +1076,23 @@ public function approveResident()
 	$search=array();
 
 	//$search['owner_id']= $this->input->post('owner_id');
-	$search['request_id']= $this->input->post('request_id');
-
-	//data for the user that is to be approved
-	$search['user_id']= $this->input->post('user_id');
-	
-	$search['property_id']= $this->input->post('property_id');
-	if($search['request_id']==null){
-	//$data['statusApprove']=0;
-		redirect('residents/listOfApproval?statusApprove=0');
-	}
-	//data that will be stored in hidden input
-	$data['user_id']=$search['user_id'];
-	$data['property_id']=$search['property_id'];
-	$data['request_id']=$search['request_id'];
+	$search['user_id']= $_SESSION['id'];
+	//$search['user_id']= $this->input->post('user_id');
+	//$search['property_id']= $this->input->post('property_id');
 	
 
-	/*if ($search['property_id'] != null) {
-		$listvar=array('property_id'=>$search['property_id'],
-			'owner_id'=>$search['owner_id'],
-			'user_id'=>$search['user_id'],
-			'request_id'=>$search['request_id'],
-		);
-
-		$this->session->set_userdata($listvar);
-	}
-	else {
-
-		$search['property_id']=$_SESSION['property_id'];
-		$search['owner_id']=$_SESSION['owner_id'];
-		$search['user_id']=$_SESSION['user_id'];
-		$search['request_id']=$_SESSION['request_id'];
-
-	}
-	///*/
 	$data['user_addinfor']= $this->approval_model->getAddress($search);
-
-	// if there is no data delete the request
-	if(empty($data['user_addinfor'])){
-		$this->request_model->cancelRequest($search['request_id']);
-
-	}
-	$data['user_addr']= $this->request_model->getListToComfirm($search);
-
-	/*if(empty($data['user_addinfor'])){
-			$me=$this->request_model->deleteRequest($search['request_id']);
-
-			redirect('residents/userprofile?statusConfirm=$me');
-		}*/
-
-		$data['pageToLoad']='request/approveResident';
-		$data['pageActive']='request';
+	
+	$data['pageToLoad']='eresidence/approve';
+	$data['pageActive']='eresidence';
 
 // loading the form and files for file uoload		
-		$this->load->helper(array('form','file','url'));
+	$this->load->helper(array('form','file','url'));
 		//$this->load->helper(array('form','url'));
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
+	$this->load->library('form_validation');
+	$this->load->view('ini',$data);
 
-	}
-
-	public function approve()
-	{
-		if($_SESSION['role']!="admin")
-		{
-			redirect('login/login_');
-		}
-		$search=array();
-
-	//$search['user_id']= $_SESSION['id'];
-		$search['user_id']= $this->input->post('user_id');
-		$search['property_id']= $this->input->post('property_id');
-		$search['request_id']= $this->input->post('request_id');
-		$data['user_request']=$this->request_model->getUserRequest($search);
-		$data['userid']=$search['user_id'];
-
-	//here administrator has approved the user
-		if($this->input->post('approve')){
-			$confirm=$this->request_model->approve_status(1,$search);
-			
-			redirect('residents/listOfApproval?statusUpdate=$confirm');
-
-		}
-
-	//administrator has declined the usr request
-		elseif($this->input->post('disapprove')){
-
-			$confirm=$this->request_model->approve_status(2,$search);
-			redirect('residents/listOfApproval?statusUpdate=$confirm');
-		}
-
-	}
+}
 /**
  * [confirmResident page owner and the requester]
  * @return [type] [description]
@@ -1206,7 +1106,7 @@ public function confirmResident()
 	$search['request_id']= $this->input->post('request_id');
 	$search['user_id']= $this->input->post('user_id');
 	$search['property_id']= $this->input->post('property_id');
-
+	//var_dump($search);
 
 	if ($search['property_id'] != null) {
 		$listvar=array('property_id'=>$search['property_id'],
@@ -1259,54 +1159,21 @@ public function confirm()
 	$data['user_request']=$this->request_model->getUserRequest($search);
 	$data['userid']=$search['user_id'];
 	
-	//owner confirms the user request
+
 	if($this->input->post('confirm')){
 		$confirm=$this->request_model->confirm_status(1,$search);
 
-		redirect('residents/confirmList?statusUpdate_OwnerC=$confirm');
+		redirect('residents/confirmList?statusUpdate=$confirm');
 		
 	}
-	//owner declined the user request
-	elseif($this->input->post('decline')) {
+	else {
 
 		$confirm=$this->request_model->confirm_status(2,$search);
-		redirect('residents/confirmList?statusUpdate_OwnerD=$confirm');
+		redirect('residents/confirmList?statusUpdate=$confirm');
 	}
-	//here administrator has approved the user
-	elseif($this->input->post('approval')){
-		$confirm=$this->request_model->approve_status(1,$search);
-		
-		redirect('residents/listOfApproval?statusUpdate_AdminA=$confirm');
-		
-	}
-	//administrator has declined the usr request
-	elseif($this->input->post('disapprove')){
-		$data['message']="'User request was not decline','Request was declined successfully'";
-		$confirm=$this->request_model->approve_status(2,$search);
-		redirect('residents/listOfApproval?statusUpdate_AdminD=$confirm');
-	}
-
-
 }
 
-public function check_date(){
-	$search['user_id']=$this->input->post('user_id');
-	$search['property_id']=$this->input->post('property_id');
-	$data['user_data']=$this->request_model->getUserRequest($search);
 
-	$data['days_left']=0;
-
-	foreach ($data['user_data'] as $value) {
-		//later
-		//$data['days_left']=$this->request_model->check_date($value->administrator_confirmation_date);
-		if ($value->b_deleted == 0) {
-			$data['days_left']=$this->request_model->check_date($value->date_request);
-
-		}
-	}
-	echo json_encode($data['days_left']);
-
-}
 
 }
 

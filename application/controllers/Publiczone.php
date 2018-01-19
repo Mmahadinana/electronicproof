@@ -154,8 +154,8 @@ class Publiczone extends CI_Controller
 		
 	}
 	/**
-	 * [listOfResidents description]
-	 * @return [type] [description]
+	 * [listOfResidents shows a list of residents staying in that particulsr property]
+	 * @return [true] [once the owner has approve that list]
 	 */
 	public function listOfResidents()
 	{
@@ -165,9 +165,9 @@ class Publiczone extends CI_Controller
 		
 	}
 	/**
-	 * [login description]
-	 * @return [type] [login]
-	 * this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login
+	 * [login  this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login]
+	 * @return [true] [login]
+	 *
 	 */
 	public function login()
 	{
