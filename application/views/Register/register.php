@@ -123,13 +123,9 @@ $editmode = isset($user_id)? 'TRUE':'FALSE';
 					</div>
 
 
-<<<<<<< HEAD
 					<div class="form-group">
-=======
-							<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m- d')?>"   placeholder="date of registration" required>
-							
-							<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
->>>>>>> 2a6ef9c116fe01ad1efaf30da45ac499c879e869
+
+				
 
 						<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m-d')?>"   placeholder="date of registration" required>
 
@@ -308,15 +304,9 @@ $editmode = isset($user_id)? 'TRUE':'FALSE';
 				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
 	</form>
 </div>
-=======
 
-</form>
-
->>>>>>> 2a6ef9c116fe01ad1efaf30da45ac499c879e869
-</div>
 
 
 
