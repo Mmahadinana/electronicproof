@@ -177,18 +177,12 @@ class Passwords extends CI_Controller
 				'errors'=>array(						
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %'),
-					
-
-			),				
-	
-			
+			),			
 			array(
 				'field'=>'confirmpass',
 				'label'=>'Confirm Password',
 				'rules'=>array('required',
-					'matches[newpassword]'),		
-
-											
+					'matches[newpassword]'),											
 				'errors'=>array(						
 					'required'=>'you should insert one %s for login',
 					'matches[newpassword]'=>'% you entered does not match'),

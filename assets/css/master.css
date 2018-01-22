@@ -541,7 +541,15 @@ i .fa .fa-archive {
     border-radius: 10px;
     background-color: white;
     padding-top:0.5em;
+}/**********************style for eresidenceform view***********************************/
+.eres_tabs{
+    padding: 10px 20px;
+    margin: 10% auto -10% auto;
+    width: 60%;
+    font-size: 14px;
+
 }
-.days_left span{
-    
-    }
+.eres_tabs a{
+
+color:#2e3f4f !important; 
+}

@@ -16,9 +16,6 @@ class Publiczone extends CI_Controller
 		$this->load->model('town_model');
 		$this->load->model('user_model');
 		$this->load->model('login_model');
-		$this->load->model('owner_model');
-		$this->load->library('email');
-		$this->load->model('Postoffice_model');
 		$this->load->model('address_model');
 		$this->load->helper('form');
 

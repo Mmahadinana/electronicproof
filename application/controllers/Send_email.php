@@ -19,7 +19,7 @@ class Send_email extends CI_Controller {
  **/
 public function index($data =array()){
 	//email
-var_dump($data);
+
 					$name = 'name';
 					$email ='freestateresident@gmail.com';
 				$token = bin2hex(openssl_random_pseudo_bytes(32));				
