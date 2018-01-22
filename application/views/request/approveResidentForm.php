@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   }else {
 
 
-    $action="residents/confirm/";
+    $action="Request_proof/confirm/";
 
     echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'on'));?>
     <div class="form-area" >

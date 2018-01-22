@@ -171,7 +171,7 @@
  					<td>  
  						<?php
 
- 						$action="residents/request";
+ 						$action="Request_proof/request";
 
  						echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
  						<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
@@ -181,7 +181,7 @@
  						</button>
  					</form>
 
- 					<!--a href="<?php echo base_url('residents/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
+ 					<!--a href="<?php echo base_url('Request_proof/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
  					<td>  <div class="col-lg-6">
  						<?php
 
@@ -199,7 +199,7 @@
  				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add New Address</a>
  			</td>
  			<td  colspan="4" class="col-lg-9">
- 				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('residents/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
+ 				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('Request_proof/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>
  			</td>
  			
  		</tr>

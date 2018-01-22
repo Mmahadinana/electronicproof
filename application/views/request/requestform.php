@@ -12,9 +12,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <span class="text-primary">You make a new request after:</span>
     </div>
     <?php
- 
+ //if there is request write the message
+    echo isset($message)? "<div class='h4 text-danger'>$message</div> ": ''; 
+    //in edit mode get the length of the file 
     (isset($userid) && !empty($fileToUpload))? $count=count($propFiles) : '';  
-    $action= isset($userid)? "residents/EditRequest/":"residents/request/";
+    $action= isset($userid)? "Request_proof/EditRequest/":"Request_proof/request/";
 
     echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data', 'autocomplete'=>'off'));?>
 
@@ -179,7 +181,7 @@ if(isset($userid) && !empty($fileToUpload)) {
   <div class="col-lg-6">
    <?php
    /****udit user profile of the user*******************/
-   $action="residents/request";
+   $action="Request_proof/request";
 
    echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
@@ -244,7 +246,7 @@ if(isset($userid) && !empty($fileToUpload)) {
           $.ajax({
            url: "request",
            type: 'POST',
-           action:'residents/request',
+           action:'Request_proof/request',
            data: {'property_id' : property_id},
            success:function(r){
             //show the cancel and continue button

@@ -59,7 +59,7 @@ class Login extends CI_Controller
 		//validation rules
 		$this->load->library('form_validation');
 		//$data['username']=$this->Login_model->getUser();
-//var_dump($data['username']);
+
 		$config_validation = array(
 			array(
 				'field'=>'username',
@@ -101,7 +101,8 @@ class Login extends CI_Controller
 		}else
 		{
 
-		redirect ($data['referrer']);
+		//redirect ($data['referrer']);
+		redirect(base_url());
 
 		} 
 

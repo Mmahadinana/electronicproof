@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="row tablereq">
       <div class="col-md-10">
 
-        <?php $action="residents/confirmRequestInsert/";
+        <?php $action="Request_proof/confirmRequestInsert/";
 
         echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 

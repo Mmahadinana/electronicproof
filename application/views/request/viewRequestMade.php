@@ -35,7 +35,7 @@ $property_id=0;
         <div class="col-lg-6">
           <?php
 
-          $action="residents/EditRequest";
+          $action="Request_proof/EditRequest";
 //var_dump($getListToComfirm);
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST','autocomplete'=>'off'));?>
           <input type="hidden" name="property_id" value=<?php echo $property_id ?>>
@@ -50,7 +50,7 @@ $property_id=0;
       <div class="col-lg-6">
          <?php
 
-          $action="residents/cancelRequest";
+          $action="Request_proof/cancelRequest";
 //var_dump($getListToComfirm);
           echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST', 'autocomplete'=>'off'));?>
           <input type="hidden" name="request_id" value=<?php echo $request_id ?>>
