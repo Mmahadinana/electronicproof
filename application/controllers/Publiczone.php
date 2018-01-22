@@ -242,6 +242,7 @@ class Publiczone extends CI_Controller
 	{
 
 		$search=array();
+		
 		//$search['user_id']= $this->input->get('user_id') ?? '0';
 		
 		//$data['user_id']= $this->user_model->getUser($search);
@@ -252,11 +253,18 @@ class Publiczone extends CI_Controller
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		if(null!=$this->input->get('statusInsert'))
-		{
-			$data['statusInsert']=$this->input->get('statusInsert');
-		}
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
 
+		}
+		if(null!=$this->input->get('statusRequest')){
+			$data['statusRequest']= $this->input->get('statusRequest');
+
+		}	
+		if(null!=$this->input->get('statusConfirm')){
+			$data['statusConfirm']= $this->input->get('statusConfirm');
+
+		}
 
 		/***get the provice and distric by province id*******/
 		$selDistrict= $this->getProvinceDistrict();
@@ -448,7 +456,7 @@ class Publiczone extends CI_Controller
 
  
 
-    			),
+    			)
 			/*array(
 				'field'=>'zip_code',
 				'label'=>'Zip Code',
@@ -457,75 +465,7 @@ class Publiczone extends CI_Controller
 				'errors'=>array('required'=>'you should insert %s for the user')),
 
             */
-				array(
-    				'field'=>'title_deed',
-    				'label'=>'Title Deed',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-				array(
-    				'field'=>'registration_number',
-    				'label'=>'Registration Number',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-    				array(
-    				'field'=>'purchase_price',
-    				'label'=>'Purchase Price',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-
-
-    						array(
-    				'field'=>'purchase_date',
-    				'label'=>'Purchase Date',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-    			
-    						array(
-    				'field'=>'house_type',
-    				'label'=>'House Type',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-
+				
 			);
 
 		$this->form_validation->set_rules($config_validation);
@@ -653,11 +593,11 @@ class Publiczone extends CI_Controller
 		$data['dateOfbirth']=$this->user_model->getUser();
 		$data['date_registration']=$this->user_model->getUser();
 		$data['phone']=$this->user_model->getUser();
-		$data['title_deed']=$this->user_model->getUser();
-		$data['registration_number']=$this->user_model->getUser();
-		$data['purchase_price']=$this->user_model->getUser();
-		$data['purchase_date']=$this->user_model->getUser();
-		$data['house_type']=$this->user_model->getUser();
+		//$data['title_deed']=$this->user_model->getUser();
+		//$data['registration_number']=$this->user_model->getUser();
+		//$data['purchase_price']=$this->user_model->getUser();
+		//$data['purchase_date']=$this->user_model->getUser();
+		//$data['house_type']=$this->user_model->getUser();
 
 		/*$data['province']=$this->province_model->getProvince();
 		$data['districts']=$this->district_model->getDistricts();
@@ -704,11 +644,11 @@ class Publiczone extends CI_Controller
     		$data['suburbEdit'] = $value->suburb;
     		$data['streetNameEdit'] = $value->street_name;
     		$data['doorNoEdit'] = $value->door_number;
-    		$data['title_deedEdit'] = $value->title_deed;
-    		$data['registration_numberEdit'] = $value->registration_number;
-    		$data['purchase_priceEdit'] = $value->purchase_price;
-    		$data['purchase_dateEdit'] = $value->purchase_date;
-    		$data['house_typeEdit'] = $value->house_type;
+    		//$data['title_deedEdit'] = $value->title_deed;
+    		//$data['registration_numberEdit'] = $value->registration_number;
+    		//$data['purchase_priceEdit'] = $value->purchase_price;
+    		//$data['purchase_dateEdit'] = $value->purchase_date;
+    		//$data['house_typeEdit'] = $value->house_type;
 
 			//$data['zip-codeEdit'] = $value->zip_code;
 
@@ -851,75 +791,8 @@ class Publiczone extends CI_Controller
     					'required'=>'you should insert one %s for the user'
 
     				)
-    			),
-    			array(
-    				'field'=>'title_deed',
-    				'label'=>'Title Deed',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
     			)
-
-    			),
-				array(
-    				'field'=>'registration_number',
-    				'label'=>'Registration Number',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-    				array(
-    				'field'=>'purchase_price',
-    				'label'=>'Purchase Price',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-
-    				
-    						array(
-    				'field'=>'purchase_date',
-    				'label'=>'Purchase Date',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
-    			
-    						array(
-    				'field'=>'house_type',
-    				'label'=>'House Type',
-
-
-    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
-    			),
+    		
     		);
 
 

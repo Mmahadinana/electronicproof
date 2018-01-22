@@ -11,17 +11,10 @@ $id_address = $user_data->id ?? $this->input->post('street_name')?? false;
 $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
 //**This is the registration page whereby the owner will access to register for the proof of address on the webpage**
 ?>
+
 <div class="container form-area">
 
-	<h1 ><?php echo $pageTitle;
-
-		if(isset($statusEdit))
-		{
-			echo alertMsg($statusEdit,'User Added','User Not Added'); 
-		}
-		?></h1>
-
-
+	
 		<?php 
 
 
@@ -34,7 +27,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 		<input <?php echo isset($user_id1)? "value='$user_id1'":"value='0'";?> id='userid' type='hidden' name='userid'>
 
 
-		<div class="stepwizard col-md-offset-4">
+		<div class="stepwizard col-md-offset-3">
 			<div class="stepwizard-row setup-panel">
 				<div class="stepwizard-step">
 					<a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
@@ -44,20 +37,16 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 					<a href="#step-2" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"' ?>><i class="fa fa-user" aria-hidden="true"></i></a>
 					<p>Personal</p>
 				</div>
-				<div class="stepwizard-step" id="owner_step-3" >
+				<div class="stepwizard-step">
 					<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-					<p>Owner</p>
-				</div>
-				<div class="stepwizard-step" >
-					<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					<p>Address</p>
 				</div>
-
+				
 			</div>
 		</div>
-		<form role="form" action="" id="data" method="post">
+		<form role="form" action="" id="data" method="post" onSubmit="alert('Successfully Registered.');">
 			<div class="row setup-content" id="step-1">
-				<div class="col-xs-6 col-md-offset-4">
+				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
 						<h3>Setup Account</h3>
 						<div class="form-group">
@@ -81,40 +70,29 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 						<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 							<label for="confirm">Confirm Password</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
+							<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 								<input type="password" class="form-control" name="confirm" onblur="validatePassword"  id="confirm" placeholder="Confirm Password" required>
 							</div>
 							<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 						</div>
-						<label  id ="gender" class="control-label">Role</label>
-
-						<div class="form-group">
-
-							<input  name="gender" type="radio" name="tab" value="ABC" id="radio0" >
-							<label for="radio10">Owner</label>
-						</div>
-
-						<div class="form-group">
-							<input  name="gender" type="radio" name="tab" value="PQR" checked>
-							<label for="radio1">Resident</label>
-							<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
-
-						</div>
+					
+						
 						<button class="btn btn-primary nextBtn btn-m pull-right" id="setup" name="setup" onclick="validatePassword"  >Next</button>
 					</div>
 				</div>
 			</div>
 
 			<div class="row setup-content" id="step-2">
-				<div class="col-xs-6 col-md-offset-4">
+				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
 						<h3>Personal Information</h3>
 						<div class="form-group">
 							<label class="control-label" for="name">Full Name</label>
 							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-								<input type="text" class="form-control" name="name" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>"    id="name" placeholder="full name" required>
+								<input type="text" class="form-control" name="name" min="10" max="30" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>"    id="name" placeholder="full name" required>
 							</div>
 							<p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
+							<p id="demo"></p>
 
 						</div>
 						<div class="form-group">
@@ -169,62 +147,12 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 				</div>
 			</div>
+			
+
 
 
 			<div class="row setup-content" id="step-3">
-			<div class="col-xs-6 col-md-offset-4">
-				<div class="col-md-12">
-					<h3 >Owners Information</h3>
-					<div class="form-group">
-						<label class="control-label" for="title_deed">Title Deed</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-address-card-o"></span></span>
-							<input type="text" class="form-control" name="title_deed" value="<?php echo isset($user_id)? $title_deedEdit: set_value('title_deed')?>"   id="title_deed" placeholder="title deed" required>
-						</div>
-						<p><?php echo form_error('title_deed') ? alertMsg(false,'title_deed',form_error('title_deed')) : ''; ?></p>
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="registration_number">Registration Number</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-registered"></span></span>
-							<input type="text" class="form-control" name="registration_number" value="<?php echo isset($user_id)? $registration_numberEdit: set_value('registration_number')?>"   id="registration_number" placeholder="registreation no." required>
-						</div>
-						<p><?php echo form_error('registration_number') ? alertMsg(false,'registration_number',form_error('registration_number')) : ''; ?></p>
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="purchase_price">Purchase Price</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-money"></span></span>
-							<input type="text" class="form-control" name="purchase_price" value="<?php echo isset($user_id)? $purchase_priceEdit: set_value('purchase_price')?>"   id="purchase_price" placeholder="purchase price" required>
-						</div>
-						<p><?php echo form_error('purchase_price') ? alertMsg(false,'purchase_price',form_error('purchase_price')) : ''; ?></p>
-					</div>
-
-
-					<div class="form-group">
-							<label class="control-label" for="purchase_date">Purchase Date</label>
-							<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-								<input type="date" class="form-control" name="purchase_date"  id="purchase_date" value="<?php echo isset($user_id)? $purchase_dateEdit: set_value('purchase_date')?>"  placeholder="purchase_date" required>
-							</div>
-							<p><?php echo form_error('purchase_date') ? alertMsg(false,'purchase_date',form_error('purchase_date')) : ''; ?></p>
-
-						</div>
-						<div class="form-group">
-						<label class="control-label" for="house_type">House Type</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-							<input type="text" class="form-control" name="house_type" value="<?php echo isset($user_id)? $house_typeEdit: set_value('house_type')?>"   id="house_type" placeholder="house_type" required>
-						</div>
-						<p><?php echo form_error('house_type') ? alertMsg(false,'house_type',form_error('house_type')) : ''; ?></p>
-					</div>
-					
-					
-					<button class="btn btn-primary nextBtn btn-m pull-right" id="address" name="address">Next</button>
-
-				</div>
-			</div>
-		</div>
-
-
-
-			<div class="row setup-content" id="step-4">
-				<div class="col-xs-6 col-md-offset-4">
+				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
 						<h3 >Residential Information</h3>
 						<!-- Province start-->
@@ -354,10 +282,16 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 						<?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
 
 					</div>
-					<!-- door_number end-->
-					<button class="btn btn-success btn-lg pull-right" id="submit" name="submit" type="submit" >Submit</button>
+					<?php
 
-				</div>
+ 								$action="publiczone/editUser";
+
+ 								echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+		          	<button type="Submit"  class="btn btn-primary" <?= isset($user_id)?'':'disabled="disabled"' ?>>Submit</button>
+
+			
+ 				</div>
 			</div>
 		</div>
 
@@ -365,20 +299,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 </div>
 
-<!-------script for show/hide div on radio button------>
 
-<script type="text/javascript">
-$('input[type="radio"]').click(function(){
-        if($(this).attr("value")=="PQR"){
-            $("#owner_step-3").hide('slow');
-        }
-        if($(this).attr("value")=="ABC"){
-            $("#owner_step-3").show('slow');
-
-        }        
-    });
-$('input[type="radio"]').trigger('click');
-</script>
 
 
 
@@ -474,6 +395,7 @@ $('input[type="radio"]').trigger('click');
          errors = true;
      }
  });
+
 /**
  * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
  * 
@@ -511,6 +433,16 @@ $('input[type="radio"]').trigger('click');
  });
 
 
+</script>
+<script>
+function myFunction() {
+    var inpObj = document.getElementById("name");
+    if (!inpObj.checkValidity()) {
+        document.getElementById("demo").innerHTML = inpObj.validationMessage;
+    } else {
+        document.getElementById("demo").innerHTML = "Input OK";
+    } 
+} 
 </script>
 
 <script>
@@ -774,11 +706,7 @@ $( document ).ready(function()
 </script>
 
 
-
-
-
-
-<!-- validatin for password-->
+<!-- validation for password-->
 </script>
 <script type="text/javascript">
 	var password = document.getElementById("password")
