@@ -113,9 +113,37 @@ class OwnersProperty_model extends CI_MODEL
 	{
 
 		$property_id=	$search['property_id'] ?? FALSE;
-	
-		
 
+		if($property_id)
+		{
+			$this->db->where('property.id',$property_id);
+		}	
+		
+		return $this->db
+		->select("
+			property.id as property,property.address_id,
+			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+			suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
+			town.name as town,town.zip_code,
+			manucipality.name as manucipality,
+			district.name as district,
+			province.name as province ")
+		->from("owners_property")		
+		->join("property"," property.id= owners_property.property_id")
+		->join("address"," address.id= property.address_id")
+		->join("suburb"," suburb.id = address.suburb_id")
+		->join("town","town.id = suburb.town_id")
+		->join("manucipality","manucipality.id = town.manucipality_id")
+		->join("district","district.id = manucipality.district_id")
+		->join("province","province.id = district.province_id")
+		->group_by("property.id")	
+		->order_by("property.id");
+
+	}
+	public function availablePropertiesquery($search )
+	{
+
+		$property_id=	$search['property_id'] ?? FALSE;
 
 		if($property_id)
 		{
@@ -131,13 +159,13 @@ class OwnersProperty_model extends CI_MODEL
 			district.name as district,
 			province.name as province ")
 		->from("property")		
-		->join("property"," property.id= owners_property.property_id")
 		->join("address"," address.id= property.address_id")
 		->join("suburb"," suburb.id = address.suburb_id")
 		->join("town","town.id = suburb.town_id")
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
+		
 		->group_by("property.id")	
 		->order_by("property.id");	
 
@@ -146,7 +174,6 @@ class OwnersProperty_model extends CI_MODEL
 /**
  * this function is hold the information for property of the owners
  */
-
 	public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	{
 //public function getAddress(){
@@ -184,6 +211,12 @@ class OwnersProperty_model extends CI_MODEL
 	public function countProperties(array $search=array())
 	{
 		$this->propertyquery($search);
+
+		return $this->db->count_all_results();
+	}
+	public function countAvailableProperties(array $search=array())
+	{
+		$this->availablePropertiesquery($search);
 
 		return $this->db->count_all_results();
 	}
@@ -237,5 +270,74 @@ class OwnersProperty_model extends CI_MODEL
 		
 		
 	}
+	/**
+	 * [availableProperties get all the properties in a property table]
+	 * @param  array  $search [description]
+	 * @return [type]         [description]
+	 */
+	public function availableProperties($search=array(),int $limit = ITEMS_PER_PAGE ){
+
+		//$offset = $search['page']??0;
+		$this->availablePropertiesquery($search);
+		//$this->db->limit($limit,$offset);
+		return $this->db->get()->result();
+
+		//return $this->db->get()->result() ;
+	}
+	/**
+	 * [PropertiesWithOwner get all the properties that has owners]
+	 * @param array $search [description]
+	 */
+	public function PropertiesWithOwner($search=array(),int $limit = ITEMS_PER_PAGE ){
+
+		//$offset = $search['page']??0;
+		$this->addressquery($search);
+		//$this->db->limit($limit,$offset);
+		return $this->db->get()->result();
+
+		//return $this->db->get()->result() ;
+	}
+/**
+ * [getAvailableProperties this functions compares the owners_property with the property table for the available properties]
+ * @param  array  $search [description]
+ * @return [type]  array       [array of all the avaible properties]
+ */
+	public function getAvailableProperties($search=array(),int $limit = ITEMS_PER_PAGE){
+
+		//this array stores the properties where the is no owner
+		$result=array();
+		//array stores the property_id that will be searched in owner_property table
+		$mysearch=array();
+		
+		
+	// this increment the count for the $results array
+	$i=0;
+		
+			//get all the property_id´s in the property table
+			foreach ($this->availableProperties() as $matchProperty) {
+				//store the property_id in a search array
+				$mysearch['property_id']=$matchProperty->property;
+
+				if (empty($this->PropertiesWithOwner($mysearch))) {
+					//store all the property if the property_id is not found
+					foreach ($this->availableProperties($mysearch) as $value) {
+						$result[$i]=$value;
+					}
+					
+
+				}
+				
+				$i +=1;
+				
+				
+			}
+			
+			return $result;
+			
+		
+		//array_intersect($array1, $array2);$this->getProperty());
+		//return $this->db->get()->result() ;
+	}
+
 }
 ?>

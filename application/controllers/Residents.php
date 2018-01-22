@@ -119,10 +119,12 @@ class Residents extends CI_Controller {
 	 	$data['db']=$this->ownersProperty_model->getProperty($search);
 	 	//get all the properties that does not have the owner
 	 	$search['owner_id']=0;
-	 	$data['available_properties']=$this->ownersProperty_model->getProperty($search);
-	 	// count for all the properties
-
+	 	$data['available_properties']=$this->ownersProperty_model->getAvailableProperties($search);
+	 	$data['all_properties']=$this->ownersProperty_model->availableProperties($search);
+	 
+		// count for all the properties
 	 	$data['countProperties']=$this->ownersProperty_model->countProperties($search);
+	 	$data['countProp']=$this->ownersProperty_model->countAvailableProperties($search);
 
 		//pagination for the Properties
 

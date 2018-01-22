@@ -1,8 +1,9 @@
 <?php
- defined('BASEPATH') OR exit('No direct script access allowed');
- $owner_property=array();
- ?>
- <div class="eres_tabs">
+defined('BASEPATH') OR exit('No direct script access allowed');
+$owner_property=array();
+$no_owner_property=array();
+?>
+<div class="eres_tabs">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" id="owner_property">Owner's Property</a></li>
     <li><a data-toggle="tab" id="available_property">Available Properties</a></li>
@@ -58,8 +59,8 @@
             <thead-->
             <div class="row text-danger">
               <div class="col-lg-1 colBrd-warning colBrd"><span class="glyphicon glyphicon-home"></span>&nbsp;No.</div>
-              <div class="col-lg-1 colBrd-warning colBrd hide_owner"><i class="fa fa-user" aria-hidden="true"></i>  &nbsp;Owner</div>
-              <div class="col-lg-1 colBrd-warning colBrd"><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;Address</div>
+              <div class="col-lg-1 colBrd-warning colBrd hide_all_properties"><i class="fa fa-user" aria-hidden="true"></i>  &nbsp;Owner</div>
+              <div class="col-lg-1 colBrd-warning colBrd show_all_properties"><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;Address</div>
               <div class="col-lg-2 colBrd-warning colBrd"><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;Town</div>
               <div class="col-lg-2 colBrd-warning colBrd"><i class="fa fa-location-arrow" aria-hidden="true"></i> &nbsp;Municipality</div>
               <div class="col-lg-2 colBrd-warning colBrd"><i class="fa fa-sitemap" aria-hidden="true"></i> &nbsp;District</div>
@@ -69,17 +70,37 @@
             </div>
             <!--/thead>
               <tbody-->
+              <!--displays the list of properties that has owner-->
               <?php foreach ($db as $value) {
                 $owner_property=$value;
                 ?>
 
-                <div class="row rowBrd man_properties">
+                <div class="row rowBrd is_owner">
                   <div class="col-lg-1 value1 colBrd"><?php echo $value->property ?></div>
-                  <div class="col-lg-1 value2 colBrd no_owner"><?php echo $value->name ?></div>
-                  <!--div class="col-lg-1 value colBrd add_owner text-success hidden"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i></div-->
-                  <div class="col-lg-1 colBrd add_owner hidden"> 
+                  <div class="col-lg-1 value2 colBrd "><?php echo $value->name ?></div>                  
+                  <div class="col-lg-1 value3 colBrd"><?php echo $value->door_number. ' '.$value->street_name?></div>
+                  <div class="col-lg-2 value4 colBrd"><?php echo $value->town ?></div>
+                  <div class="col-lg-2 value5 colBrd"><?php echo $value->manucipality ?></div>
+                  <div class="col-lg-2 value6 colBrd"><?php echo $value->district ?></div>
+                  <div class="col-lg-2 value7 colBrd"><?php echo $value->province ?></div>
 
 
+                  <div class="col-lg-1 colBrd"> 
+                    <div class="col-lg-6 "> 
+
+                      <?php
+
+                      $action="residents/listOfResidents";
+
+                      echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+                      <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+                      <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                    </form>
+                  </div>
+                  <div class="col-lg-6">
                     <?php
 
                     $action="residents/listOfResidents";
@@ -89,33 +110,25 @@
 
                     <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
 
-                    <button type="submit" name="edit" class="fa fa-plus-circle text-success" title="Asign Owner to this property"></button> <span class="text-default">Owner</span>
-                  </form>
 
-                </div>
-                <div class="col-lg-1 value3 colBrd"><?php echo $value->door_number. ' '.$value->street_name?></div>
-                <div class="col-lg-2 value4 colBrd"><?php echo $value->town ?></div>
-                <div class="col-lg-2 value5 colBrd"><?php echo $value->manucipality ?></div>
-                <div class="col-lg-2 value6 colBrd"><?php echo $value->district ?></div>
-                <div class="col-lg-2 value7 colBrd"><?php echo $value->province ?></div>
-
-
-                <div class="col-lg-1 colBrd"> 
-                  <div class="col-lg-6 "> 
-
-                    <?php
-
-                    $action="residents/listOfResidents";
-
-                    echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
-                    <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
-
-                    <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                    <input type="image" src="<?php echo base_url('assets/icons/Icons8-Windows-8-Users-Edit-User.png') ?>" alt="Submit" class=" resize_usericon">
                   </form>
                 </div>
-                <div class="col-lg-6">
+
+              </div>
+            </div> 
+            <?php } ?>
+            <!--end of properties that has owner-->
+            <!--displays the list of properties that does not have owner-->
+            <?php foreach ($available_properties as $value) {
+              $no_owner_property=$value;
+              ?>
+
+              <div class="row rowBrd add_owner hidden">
+                <div class="col-lg-1 value1 colBrd"><?php echo $value->property ?></div>
+                <div class="col-lg-1 colBrd "> 
+
+
                   <?php
 
                   $action="residents/listOfResidents";
@@ -125,8 +138,45 @@
 
                   <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
 
+                  <button type="submit" name="edit" class="fa fa-plus-circle text-success" title="Asign Owner to this property"></button> <span class="text-default">Owner</span>
+                </form>
 
-                  <input type="image" src="<?php echo base_url('assets/icons/Icons8-Windows-8-Users-Edit-User.png') ?>" alt="Submit" class=" resize_usericon">
+              </div>
+
+              <div class="col-lg-1 value3 colBrd "><?php echo $value->door_number. ' '.$value->street_name?></div>
+              <div class="col-lg-2 value4 colBrd"><?php echo $value->town ?></div>
+              <div class="col-lg-2 value5 colBrd"><?php echo $value->manucipality ?></div>
+              <div class="col-lg-2 value6 colBrd"><?php echo $value->district ?></div>
+              <div class="col-lg-2 value7 colBrd"><?php echo $value->province ?></div>
+
+
+              <div class="col-lg-1 colBrd"> 
+                <div class="col-lg-6 "> 
+
+                  <?php
+
+                  $action="residents/listOfResidents";
+
+                  echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+                  <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+                  <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                </form>
+              </div>
+              <div class="col-lg-6">
+                <?php
+
+                $action="residents/listOfResidents";
+
+                echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+                <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+
+                <button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning">
                 </form>
               </div>
 
@@ -134,36 +184,90 @@
           </div> 
           <!--input type="hidden" name="property_id" value="<?php echo $value->property?>"-->
           <?php } ?>
-            <!--/tbody>
-            </table--> 
+          <!--end of properties that does not have owner-->
+          <!--displays the list of all properties -->
+          <?php foreach ($all_properties as $value) {
+            $no_owner_property=$value;
+            ?>
 
-          </div>
-          <div class="cintainer">
+            <div class="row rowBrd hide_owner hidden">
+              <div class="col-lg-1 value1 colBrd"><?php echo $value->property ?></div>
 
-            <?php echo $search_pagination; ?>
-            
-          </div>
+              <div class="col-lg-2 value3 colBrd"><?php echo $value->door_number. ' '.$value->street_name?></div>
+              <div class="col-lg-2 value4 colBrd"><?php echo $value->town ?></div>
+              <div class="col-lg-2 value5 colBrd"><?php echo $value->manucipality ?></div>
+              <div class="col-lg-2 value6 colBrd"><?php echo $value->district ?></div>
+              <div class="col-lg-2 value7 colBrd"><?php echo $value->province ?></div>
+
+
+              <div class="col-lg-1 colBrd"> 
+                <div class="col-lg-6 "> 
+
+                  <?php
+
+                  $action="residents/listOfResidents";
+
+                  echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+                  <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+                  <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                </form>
+              </div>
+              <div class="col-lg-6">
+                <?php
+
+                $action="#";
+
+                echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+                <input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+
+                <button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning">
+                </form>
+              </div>
+
+            </div>
+          </div> 
+          <!--input type="hidden" name="property_id" value="<?php echo $value->property?>"-->
+          <?php } ?> 
+          <!--end of list of all properties -->
+        </div>
+        <div class="cintainer">
+
+          <?php echo $search_pagination; ?>
 
         </div>
 
-
       </div>
-      <script>
-        $(document).ready(function () {
-          $('.Property_pagination').click(function(e) {
-            e.stopPropagation();
-          });
 
-          let owner_property=<?php echo json_encode($db);?>;
-          $('#owner_property').on('click',function(){
 
+    </div>
+    <script>
+
+      $(document).ready(function () {
+        $('.Property_pagination').click(function(e) {
+          e.stopPropagation();
+        });
+
+        let owner_property=<?php echo json_encode($db);?>;
+        $('#owner_property').on('click',function(){
+          $('.is_owner').removeClass('hidden');
+          $('.add_owner').addClass('hidden');
+          $('.hide_owner').addClass('hidden');
+          $('.hide_all_properties').show();
+          $('.show_all_properties').removeClass('col-lg-2');
+          $('.show_all_properties').addClass('col-lg-1');
         //Selected value
         //var owner_property = <?php json_encode($db);?>; //get the value of selected manufacturer 
         //check if manufacturer has been selected
         $.each(owner_property, function(eresidence, val) {
-          $('.no_owner').removeClass('hidden');
-          $('.add_owner').addClass('hidden');
-          $('.hide_owner').removeClass('hidden');
+
+
+
           console.log(val.province);
         });
 
@@ -172,16 +276,22 @@
       });  
          // get all properties that does have owners
          $('#available_property').on('click',function(){
-
-          $('.no_owner').addClass('hidden');
+          let no_owner_property=<?php echo json_encode($available_properties);?>;
+          $('.is_owner').addClass('hidden');
+          $('.hide_all_properties').show();
           $('.add_owner').removeClass('hidden');
-          $('.hide_owner').removeClass('hidden');
+          $('.hide_owner').addClass('hidden');
+          $('.show_all_properties').addClass('col-lg-1');
 
-
+          let street_name='';
           $.each(owner_property, function(eresidence, val) {
-            $('.no_owner').addClass('hidden');
-            
-          });
+            //$('.no_owner').addClass('hidden');
+            street_name=val.street_name;
+           //$('.value1').append('<span>'+street_name+'</span>');
+
+         });
+
+
 
 
 
@@ -189,17 +299,22 @@
          //get all the properties
 
          $('#all').on('click',function(){
-          $('.no_owner').hide();
-        //$('.no_owner').removeClass('hidden');
-        $('.add_owner').addClass('hidden');
-        $('.hide_owner').addClass('hidden');
+          $('.is_owner').addClass('hidden');
+          $('.hide_all_properties').hide();          
+          $('.add_owner').addClass('hidden');
+          $('.hide_owner').removeClass('hidden');
+          $('.show_all_properties').removeClass('col-lg-1');
+          $('.show_all_properties').addClass('col-lg-2');
         /*$.each(owner_property, function(eresidence, val) {
           $('.no_owner').hide();
         });*/
 
 
 
-      });   
+      });  
+         $(document).on("click", ".pagination li a", function(event){
+          event.preventDefault(); 
+        }); 
        });
 
-     </script>
+      </script>
