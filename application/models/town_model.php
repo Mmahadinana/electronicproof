@@ -23,6 +23,10 @@ class Town_model extends CI_MODEL
 		return $this->db->get()->result();
 		//var_dump($this->db->get()->result());
 	}
+	/**
+	 * [getTowns description]
+	 * @return [type] [verify the assigned town of each suburb]
+	 */
 	public function getTowns()
 	{
 		$this->db->select("town.id,town.name,town.zip_code,manucipality_id")

@@ -46,7 +46,6 @@ class Residents extends CI_Controller {
 	  */
 	 public function Eresidence()
 	 {
-	 	
 	 	if($_SESSION['role']!="admin")
 	 	{
 	 		redirect('login/login_');
@@ -169,8 +168,7 @@ class Residents extends CI_Controller {
 	 }
 
 	 /************* this function enable the user who has made a request to view the request they maderesidence*************/
-	
-	
+
 /**
  * [listOfResidents description]
  * @param  integer $property_id [description]
@@ -277,17 +275,11 @@ public function getOwnerOfProperty($user_id){
 	 */
 	public function confirmList() 
 	{
-
-		if(null!=$this->input->get('statusUpdate_OwnerD')){
-			$data['statusUpdate_OwnerD']= $this->input->get('statusUpdate_OwnerD');
+		
+		if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
 
 		}
-		
-		if(null!=$this->input->get('statusUpdate_OwnerC')){
-			$data['statusUpdate_OwnerC']= $this->input->get('statusUpdate_OwnerC');
-
-		}
-		
   //user that does is not owner have no access to this view
 		if ($_SESSION['owner'] != true) {
 			redirect(base_url());
@@ -329,7 +321,7 @@ public function getOwnerOfProperty($user_id){
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
 	}
-	
+
 
 	/**
 	 * [OwnersDetails page for owner and admin]
@@ -343,7 +335,7 @@ public function getOwnerOfProperty($user_id){
 		//$search['property_id1']=$property_id;
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 		$search['user_id']= $_SESSION['id'];
-
+		var_dump($search);
 
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';
