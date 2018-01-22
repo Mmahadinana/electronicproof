@@ -49,12 +49,13 @@ $editmode = isset($user_id)? 'TRUE':'FALSE';
 				<p>Personal</p>
 			</div>
 			<div class="stepwizard-step">
-				<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)?'':'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 				<p>Address</p>
 			</div>
 
 		</div>
 	</div>
+	<!--setup Account-->
 	<form role="form" action="" id="data" method="post" onSubmit="alert('Successfully Registered.');">
 		<div class="row setup-content" id="step-1" style="display: block;" >
 			<div class="col-xs-6 col-md-offset-3">
