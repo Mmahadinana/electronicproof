@@ -335,16 +335,14 @@ public function insertAddress($data=array(), $user_id)
 
 
 	}*/
-<<<<<<< HEAD
-	public function addUserAddress($addifor, $user_id){
-=======
+
 	/**
 	 * [updateUserAddress description]
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
 	public function updateUserAddress($addifor){
->>>>>>> 2a6ef9c116fe01ad1efaf30da45ac499c879e869
+
 		//Get the address id of the address to be inserted
 		$userProperty=0;
 		$userAddress=0;
