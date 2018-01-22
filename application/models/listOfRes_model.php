@@ -91,7 +91,9 @@ public function addressquery($search )
 		->order_by("property.id");	
 
 	}
-
+/**
+ * retrieves address of the user from pagination
+ */
 public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 //public function getAddress(){
@@ -105,6 +107,9 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 	return $this->db->get()->result();
 }
+/**
+ * retrieves address of the user from pagination
+ */
 public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 //public function getAddress(){

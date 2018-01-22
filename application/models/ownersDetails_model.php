@@ -12,8 +12,7 @@ class OwnersDetails_model extends CI_MODEL
 	/**
 	 * [userQuery description]
 	 * @param  [type] $searchterm [description]
-	 * this query is holds and retrieve the data for the user.
-	 * @return [type]             [description]
+	 * @return [true]             [this query is holds and retrieve the data for the user.]
 	 */
 	public function userQuery($searchterm)
 	{
@@ -106,7 +105,9 @@ class OwnersDetails_model extends CI_MODEL
 		
 		
 	}
-	
+	/**
+	 * This part will be shown of the next turn of pagination
+	 */
 	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
 
 

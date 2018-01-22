@@ -13,8 +13,8 @@ class Login_model extends CI_MODEL
 	}
 /**
  * [query The query retrieves the user's details]
- * @param  [type] $search [description]
- * @return [true]         [description]
+ * @param  [false] $search [this returns the user information of the logged in user]
+ * @return [true]         [once the user has been approved]
  */
 	public function query($search){
 
@@ -111,8 +111,8 @@ public function getPasswordHashFromUser($username)
 
 /**
  * [startUserSession //checks if the hash exists and if the hash matches with the password using the function password_varify]
- * @param  [type] $username [description]
- * @return [true]           [description]
+ * @param  [true] $username [this verify the password of the user who is actively logged in]
+ * @return [false]           [verify the password encryption]
  */
 
 public function startUserSession($username)
@@ -149,7 +149,7 @@ public function startUserSession($username)
 }
 /**
  * [getOwner  * This function retrieves the information for the owner´s details.]
- * @param  [type] $user_id [description]
+ * @param  [type] $user_id [retrieves the data of the owner]
  * @return [true]          [getOwner]
  */
 public function getOwner($user_id){
@@ -191,7 +191,7 @@ public function get_user($username)
 
 /**
  * [generate Token ]
- * @return [string] token [description]
+ * @return [string] token [generate the data]
  */
 
 public function generateToken(){
@@ -201,7 +201,7 @@ public function generateToken(){
 
 /**
  * [callback_checkEmail from request page for that session user]
- * @param  [type] $email [description]
+ * @param  [type] $email [checks the email]
  * @return [type]        [description]
  */
 public function callback_checkEmail($email){
@@ -223,7 +223,7 @@ public function callback_checkEmail($email){
 }
 /**
  * [callback_checkUsername for username in login, reset pages for valid email in user table]
- * @param  [type] $email [description]
+ * @param  [type] $email [verify the user profile]
  * @return [type]        [description]
  */
 public function callback_checkUsername($email){	
@@ -243,7 +243,7 @@ public function callback_checkUsername($email){
 }
 /**
  * [callback_checkPhone for phone in user table from request table if it is valid]
- * @param  [type] $phone [description]
+ * @param  [type] $phone [verify the phone data]
  * @return [type]        [description]
  */
 public function callback_checkPhone($phone){
@@ -293,9 +293,9 @@ public function callback_checkIdnumber($identitynumber){
 }
 /**
  * [inserEmailToken insert temporary token in that will match with the one from user email when user reset password]
- * @param  [type] $id    [description]
- * @param  [type] $token [description]
- * @return [type]        [description]
+ * @param  [true] $id    [verify the email]
+ * @param  [true] $token [verify and reset the password token]
+ * @return [true]        [if both the password and email are stored and verified]
  */
 public function inserEmailToken($id,$token){
 	$this->deleteEmailtoken($id);
@@ -316,7 +316,7 @@ public function inserEmailToken($id,$token){
  * [get_mailToken description]
  * @param  [type] $mailtoken [description]
  * @param  [type] $user_id   [description]
- * @return [type]            [description]
+ * @return [true]            [once the email token has been verified]
  */
 public function get_mailToken($mailtoken,$user_id){
 
@@ -331,7 +331,7 @@ public function get_mailToken($mailtoken,$user_id){
 /**
  * [deleteEmailtoken description]
  * @param  int    $user_id [description]
- * @return [type]          [description]
+ * @return [true]          [verify the email token]
  */
 public function deleteEmailtoken(int $user_id){
 	
@@ -347,7 +347,7 @@ public function deleteEmailtoken(int $user_id){
  * [updatePassword update the password after change password]
  * @param  array  $data    [description]
  * @param  [type] $user_id [description]
- * @return [type]          [description]
+ * @return [true]          [when the password is verified and has been changed]
  */
 public function updatePassword($data=array(), $user_id){
 	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;

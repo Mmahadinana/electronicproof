@@ -24,6 +24,10 @@ class Suburb_model extends CI_MODEL
 		return $this->db->get()->result();
 		
 	}
+	/**
+	 * [getSuburbs description]
+	 * @return [type] [verify the assigned suburb of the user]
+	 */
 	public function getSuburbs()
 	{
 		$this->db->select("suburb.id,suburb.name,suburb.town_id")

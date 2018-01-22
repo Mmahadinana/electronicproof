@@ -12,10 +12,9 @@ class Messages_model extends CI_MODEL
 	}
 
 /**
- * [getMessages description]
- * @param  [true] $data [description]
- * This function holds the specified data of the user.
- * @return [false]       [getMessages]
+ * [getMessages used to send the messages]
+ * @param  [true] $data [hold the data of the message and stores it to the database]
+ * @return [true]       [This function holds the specified data of the user.]
  */
  public function getMessages($data)
 	{

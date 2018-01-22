@@ -19,6 +19,10 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
+	/**
+	 * [getAddresses description]
+	 * @return [true] [retrieves address of the user]
+	 */
 	public function getAddresses()
 	{
 

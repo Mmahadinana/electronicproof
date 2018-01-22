@@ -20,7 +20,7 @@ class Postoffice_model extends CI_Model
 	/**
 	 * Sets the template.
 	 *
-	 * @param      string  $template  The template
+	 * @param      string  $template  The template to the database
 	 */
 	public function setTemplate(string $template)
 	{
@@ -30,7 +30,7 @@ class Postoffice_model extends CI_Model
 /**
 * Sets the data to template with an array. Containing key values as the variables name to be replaced
 *
-* @param      array  $data   The data
+* @param      array  $data   set information from database
 */
 public function setDataToTemplate(array $data)
 {
@@ -47,7 +47,7 @@ public function setDataToTemplate(array $data)
  * Sends an email.
  *
  * @param      string  $subject   The subject
- * @param      string  $email_to  The email to
+ * @param      string  $email_to  The email to the database
  *
  * @return     <type>  ( description_of_the_return_value )
  */

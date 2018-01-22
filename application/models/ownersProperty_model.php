@@ -180,14 +180,21 @@ class OwnersProperty_model extends CI_MODEL
 		return $this->db->get()->result() ;
 	}
 	
-	
+	/**
+	 * [countProperties description]
+	 * @param  array  $search [count the properties that are verified]
+	 * @return [true]         [count all the properties assigned and stored on the database]
+	 */
 	public function countProperties(array $search=array())
 	{
 		$this->propertyquery($search);
 
 		return $this->db->count_all_results();
 	}
-
+/**
+ * [addAddress description]
+ * @param [true] $data [retrieves the data stored on each property address]
+ */
 	public function addAddress($data)
 	{
 	//var_dump($minetype);

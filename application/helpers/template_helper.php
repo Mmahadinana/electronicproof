@@ -11,6 +11,9 @@ if (!function_exists("setMenuActiveItem")) {
 		}
 	}
 }
+/**
+ * alert messages
+ */
 if (!function_exists("alertMsg")) {
 	function alertMsg($flag=false, string $successMsg='', string $errorMsg='')
 	{
@@ -29,6 +32,9 @@ if (!function_exists("alertMsg")) {
 		}
 	}
 }
+/**
+ * logout session
+ */
 if(!function_exists('logoutByInactiv')){
 	function logoutByInactiv(){
 		if (isset($_SESSION['LAST_ACTIVITY'])) {
@@ -42,7 +48,9 @@ if(!function_exists('logoutByInactiv')){
 		$_SESSION['LAST_ACTIVITY'] = time();
 	}
 }
-
+/**
+ * redirect correct location from the database
+ */
 if ( ! function_exists('redirect_back'))
 {
 	function redirect_back()
