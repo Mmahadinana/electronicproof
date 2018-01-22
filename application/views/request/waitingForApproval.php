@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
    ?></p>
    <h1>Preview Message</h1>
-   <h4 class="text-success">Your request has been successfully submitted</h4>
+   <h4 class="text-success">You are request has been successfully submitted</h4>
 
  </div>
  <div class="form-area">
