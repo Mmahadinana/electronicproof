@@ -104,6 +104,8 @@ public function addUser($data)
 
 	$user_id = $this->db->insert_id();
 	$this->insertPassword($data, $user_id);
+	$this->addUserAddress($data, $user_id);
+
 
 	return $this->db->trans_complete();
 
@@ -333,12 +335,14 @@ public function insertAddress($data=array(), $user_id)
 
 
 	}*/
+
 	/**
 	 * [updateUserAddress description]
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
 	public function updateUserAddress($addifor){
+
 		//Get the address id of the address to be inserted
 		$userProperty=0;
 		$userAddress=0;
@@ -369,7 +373,7 @@ public function insertAddress($data=array(), $user_id)
 		
 		//storing the data that will be inserted into lives_on table for user
 		$address=array(
-			'user_id'=>$addifor['userid'],
+			'user_id'=> $user_id,
 			'property_id'=>$userProperty,
 			);
 		//check if the address already exist
@@ -385,6 +389,7 @@ public function insertAddress($data=array(), $user_id)
 		}else {
 			//insert the address for the user
 			$this->db->trans_start();
+			
 			$this->db->insert('lives_on',$address);
 			return $this->db->trans_complete();
 		}
