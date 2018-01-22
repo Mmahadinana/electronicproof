@@ -19,6 +19,7 @@ class OwnersProperty_model extends CI_MODEL
 
 		$user_addinfor = $search['user_idprofile'] ?? FALSE;
 		$name=	$search['name'] ?? FALSE;
+		$owners_id=	$search['owners_id'] ?? FALSE;
 		$property_id=	$search['property_id'] ?? FALSE;
 		$town=	$search['town'] ?? FALSE;
 		$municipality=	$search['municipality'] ?? FALSE;
@@ -30,6 +31,11 @@ class OwnersProperty_model extends CI_MODEL
 		{
 			$this->db->where('owners.user_id',$user_addinfor);
 		}
+		//check all properties where is no owner
+		/*if($owners_id)
+		{
+			$this->db->where('property.user_id',$user_addinfor);
+		}*/
 
 		
 		if ($name)  

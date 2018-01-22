@@ -17,7 +17,7 @@ public function requestquery($search )
 
 $pOwner = $search['$pOwner'] ?? FALSE;
 
-if('$pOwner')
+if($pOwner)
 {
 		$this->db->where('owners_property.property_id',$pOwner );
 	}

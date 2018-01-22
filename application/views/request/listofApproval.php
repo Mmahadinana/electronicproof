@@ -51,7 +51,7 @@ if (isset($statusUpdate_AdminA)) {
 
            <?php
 
-  $action="residents/approveResident/" ;
+  $action="Request_proof/approveResident/" ;
 
   echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
 
