@@ -57,7 +57,9 @@ class User_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
-
+/**
+ * pagination of the get user page
+ */
 	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE)
 	{
 //public function getAddress(){
@@ -74,7 +76,7 @@ class User_model extends CI_MODEL
 	
 /**
  * [addUser description]
- * @param [type] $data [description]
+ * @param [type] $data [add the verified and assigned user and store the data of each on the database]
  */
 public function addUser($data)
 {
@@ -104,6 +106,8 @@ public function addUser($data)
 
 	$user_id = $this->db->insert_id();
 	$this->insertPassword($data, $user_id);
+	$this->addUserAddress($data, $user_id);
+
 
 	return $this->db->trans_complete();
 
@@ -111,8 +115,8 @@ public function addUser($data)
 }
 	/**
 	 * [updateUser description]
-	 * @param  [type] $data [description]
-	 * @return [type]       [description]
+	 * @param  [true] $data [update the user that is verified]
+	 * @return [true]       [stores the data of the user]
 	 */
 	public function updateUser($data)
 	{
@@ -139,7 +143,7 @@ public function addUser($data)
 	}
 	/**
 	 * [updateUser_models description]
-	 * @param  [type] $user_id [description]
+	 * @param  [type] $user_id [update the user that is verified]
 	 * @param  array  $users   [description]
 	 * @return [type]          [description]
 	 */
@@ -161,7 +165,7 @@ public function addUser($data)
 	}
 /**
  * [countUser description]
- * @param  array  $search [description]
+ * @param  array  $search [count the user of each property]
  * @return [type]         [description]
  */
 public function countUser(array $search=array())
@@ -171,7 +175,7 @@ public function countUser(array $search=array())
 }
 	/**
 	 * [deleteUser description]
-	 * @param  int    $user_id [description]
+	 * @param  int    $user_id [delete the user that is not approved on the list]
 	 * @return [type]          [description]
 	 */
 	public function deleteUser(int $user_id)
@@ -188,7 +192,7 @@ public function countUser(array $search=array())
 	}
 	/**
 	 * [removeFromUser description]
-	 * @param  int    $user_id [description]
+	 * @param  int    $user_id [remove the user that is not approved on the list]
 	 * @return [type]          [description]
 	 */
 	public function removeFromUser(int $user_id)
@@ -197,7 +201,7 @@ public function countUser(array $search=array())
 	}
 /**
  * [callback_checkPhone description]
- * @param  [type] $phone [description]
+ * @param  [type] $phone [verify the phone stored on the database]
  * @return [type]        [description]
  */
 public function callback_checkPhone($phone)
@@ -223,7 +227,7 @@ public function callback_checkPhone($phone)
 }
 /**
  * [checkPassword description]
- * @param  [type] $password [description]
+ * @param  [type] $password [verify and store the password of each user]
  * @return [type]           [description]
  */
 public function checkPassword($password)
@@ -257,7 +261,7 @@ public function checkPassword($password)
 
 /**
  * [getPasswordHashFromUser description]
- * @param  [type] $username [description]
+ * @param  [type] $username [stores the password assigned]
  * @return [true]           [correct password that appear in the database]
  */
 
@@ -285,7 +289,7 @@ public function insertPassword($data=array(), $user_id)
 }
 /**
  * [insertAddress description]
- * @param  array  $data    [description]
+ * @param  array  $data    [insert the address on the database]
  * @param  [type] $user_id [description]
  * @return [true]          [retrieves correct information while insertAddress]
  */
@@ -333,7 +337,14 @@ public function insertAddress($data=array(), $user_id)
 
 
 	}*/
+
+	/**
+	 * [updateUserAddress description]
+	 * @param  [type] $addifor [updates the user address assigned]
+	 * @return [type]          [description]
+	 */
 	public function updateUserAddress($addifor){
+
 		//Get the address id of the address to be inserted
 		$userProperty=0;
 		$userAddress=0;
@@ -364,7 +375,7 @@ public function insertAddress($data=array(), $user_id)
 		
 		//storing the data that will be inserted into lives_on table for user
 		$address=array(
-			'user_id'=>$addifor['userid'],
+			'user_id'=> $user_id,
 			'property_id'=>$userProperty,
 			);
 		//check if the address already exist
@@ -380,6 +391,7 @@ public function insertAddress($data=array(), $user_id)
 		}else {
 			//insert the address for the user
 			$this->db->trans_start();
+			
 			$this->db->insert('lives_on',$address);
 			return $this->db->trans_complete();
 		}
@@ -397,7 +409,11 @@ public function insertAddress($data=array(), $user_id)
 
 		return $this->db->get()->result();
 	}
-
+/**
+ * [isUserLivingInProperty description]
+ * @param  array   $search [confirms the data lf user on that particular property assigned]
+ * @return boolean         [description]
+ */
 	public function isUserLivingInProperty($search=array()){
 		
 		$this->db->select('lives_on.id,lives_on.user_id')
@@ -406,6 +422,11 @@ public function insertAddress($data=array(), $user_id)
 		->from('lives_on');
 		return $this->db->get()->result();
 	}
+	/**
+	 * [isThereOwnerInProperty description]
+	 * @param  array   $search [verifies the owner in that particular property assigned]
+	 * @return boolean         [description]
+	 */
 	public function isThereOwnerInProperty($search=array()){
 		
 		$this->db->select('owners_property.id,owners_property.owners_id')				

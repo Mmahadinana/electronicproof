@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 			</div>
 
-			<input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
+			
 			<div class="col-md-10 ">
 				<button class="btn btn-lg btn-primary passbtn" type="submit">Back to login</button>
 			</div>

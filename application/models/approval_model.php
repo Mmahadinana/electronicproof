@@ -23,6 +23,7 @@ if($property_id)
 		$this->db->where('property.id',$property_id)
 					->where('lives_on.user_id',$user_id);
 	}
+	//this returns the data onto the database.
 return $this->db
 ->select("user.id,user.name,user.identitynumber,user.date_registration,		
 		property.id as property,property.address_id,
@@ -46,7 +47,9 @@ return $this->db
 	->order_by('user.id');
 
 }
-
+/**
+ * retrieves address of the user
+ */
 public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 //public function getAddress(){

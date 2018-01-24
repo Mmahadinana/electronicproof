@@ -8,7 +8,7 @@
     padding-top:1em;
      background: linear-gradient(#5c6467,#847B5D,#AC9252,#C39F4C,#CF9F33);
     height: auto;
-    box-shadow: 5px 5px 5px 5px;
+    box-shadow: 5px 5px 5px 5px black;
 
 }
 .samap img{
@@ -409,7 +409,8 @@ input:focus {
  margin: 0px;
 }
 .rowBrd{
-    border-bottom: 1px solid #ddd
+    border-bottom: 1px solid #ddd;
+   
 }
 
 .colBrd-warning{

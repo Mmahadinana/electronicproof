@@ -10,7 +10,6 @@ class Address_model extends CI_MODEL{
 	/**
 	 * Enables the user to retrieve the address from the database.
 	 */
-	
 	public function getAddress($suburb_id=0)
 	{
 
@@ -20,6 +19,10 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
+	/**
+	 * [getAddresses description]
+	 * @return [true] [retrieves address of the user]
+	 */
 	public function getAddresses()
 	{
 

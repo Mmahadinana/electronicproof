@@ -142,14 +142,22 @@ class OwnersProperty_model extends CI_MODEL
 	}
 	public function availablePropertiesquery($search )
 	{
+		//search the search filter for all the properties
+		$data=$search['hide_owner_search'] ?? false;
 
 		$property_id=	$search['property_id'] ?? FALSE;
+
 
 		if($property_id)
 		{
 			$this->db->where('property.id',$property_id);
-		}	
-		
+		}
+		if($data)
+		{
+			$where='(property.id LIKE "%'.$data.'%" OR address.street_name LIKE "%'.$data.'%" OR town.name LIKE "%'.$data.'%")';
+			$this->db->where($where);
+		}		
+				
 		return $this->db
 		->select("property.id as property,property.address_id,
 			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
@@ -169,6 +177,33 @@ class OwnersProperty_model extends CI_MODEL
 		->group_by("property.id")	
 		->order_by("property.id");	
 
+	}public function filterAllProperties($search =array())
+	{
+		//search the search filter for all the properties
+		$data=$search['hide_owner_search'] ?? false;
+		if ($data) {
+					$where='(address.street_name LIKE "%'.$data.'%")';
+			$this->db->where($where);		
+						}				
+				
+	$results=$this->db->select("property.id as property,property.address_id,
+			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
+			suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
+			town.name as town,town.zip_code,
+			manucipality.name as manucipality,
+			district.name as district,
+			province.name as province ")
+		->from("property")		
+		->join("address"," address.id= property.address_id")
+		->join("suburb"," suburb.id = address.suburb_id")
+		->join("town","town.id = suburb.town_id")
+		->join("manucipality","manucipality.id = town.manucipality_id")
+		->join("district","district.id = manucipality.district_id")
+		->join("province","province.id = district.province_id")
+		
+		->group_by("property.id")	
+		->order_by("property.id");
+		 return $this->db->get()->result() ;
 	}
 
 /**
@@ -207,19 +242,30 @@ class OwnersProperty_model extends CI_MODEL
 		return $this->db->get()->result() ;
 	}
 	
-	
+	/**
+	 * [countProperties description]
+	 * @param  array  $search [count the properties that are verified]
+	 * @return [true]         [count all the properties assigned and stored on the database]
+	 */
 	public function countProperties(array $search=array())
 	{
 		$this->propertyquery($search);
 
 		return $this->db->count_all_results();
 	}
+
 	public function countAvailableProperties(array $search=array())
 	{
 		$this->availablePropertiesquery($search);
 
 		return $this->db->count_all_results();
 	}
+
+
+/**
+ * [addAddress description]
+ * @param [true] $data [retrieves the data stored on each property address]
+ */
 
 	public function addAddress($data)
 	{

@@ -20,7 +20,9 @@ class Residents extends CI_Controller {
 		$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		!$is_logged_in ?? redirect('login/login_');
+		if(!$is_logged_in ){
+			redirect('login/login_');
+		} 
 	}
 
 	/**
@@ -46,7 +48,6 @@ class Residents extends CI_Controller {
 	  */
 	 public function Eresidence()
 	 {
-	 	
 	 	if($_SESSION['role']!="admin")
 	 	{
 	 		redirect('login/login_');
@@ -119,9 +120,9 @@ class Residents extends CI_Controller {
 	 	$data['db']=$this->ownersProperty_model->getProperty($search);
 	 	//get all the properties that does not have the owner
 	 	$search['owner_id']=0;
+	 	//$data['all_properties']=$this->ownersProperty_model->availableProperties($search);
 	 	$data['available_properties']=$this->ownersProperty_model->getAvailableProperties($search);
-	 	$data['all_properties']=$this->ownersProperty_model->availableProperties($search);
-	 
+
 		// count for all the properties
 	 	$data['countProperties']=$this->ownersProperty_model->countProperties($search);
 	 	$data['countProp']=$this->ownersProperty_model->countAvailableProperties($search);
@@ -136,6 +137,7 @@ class Residents extends CI_Controller {
 
 		//number of results to be devided on the pagintion
 	 	$config['total_rows']=$data['countProperties'];
+	 	//$config['total_rows']=$data['countProp'];
 				
 
 		// atribute for the class assigned to the pagination
@@ -164,20 +166,90 @@ class Residents extends CI_Controller {
 	 	$config['num_tag_close'] = '</li>';
 	 	$this->pagination->initialize($config);
 	 	$data['search_pagination']=$this->pagination->create_links();
-
 	 	$this->load->view('ini',$data);
-
-
 	 }
 
 	 /************* this function enable the user who has made a request to view the request they maderesidence*************/
-	
-	
+
 /**
  * [listOfResidents description]
  * @param  integer $property_id [description]
  * @return [type]               [description]
  */
+public function getAllProperties()
+{		$data['allproperties']='';
+		//$search['hide_owner_search']=$this->input->post('hide_owner_search');
+	 	$data['all_properties']=$this->ownersProperty_model->availableProperties();
+	 	foreach ($data['all_properties'] as $value) {
+	 	$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.'<div class="col-lg-2 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.' <div class="col-lg-1  ">  
+                <div class="col-lg-6 ">                       
+                <form action="#" enctype="multipart/form-data">
+                  <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                </form>
+              </div>
+              <div class="col-lg-6">
+			<form action="#" enctype="multipart/form-data">
+                <button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
+               </form>              
+              </div>
+
+            </div></div>';
+	 	}
+	 	echo $data['allproperties'];
+}
+public function filterAllProperties()
+{		$data['allproperties']='';
+		$search['hide_owner_search']=$this->input->post('hide_owner_search');
+		//var_dump($search['hide_owner_search']);
+	 	$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
+	 	foreach ($data['all_properties'] as $value) {
+	 	$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.'<div class="col-lg-2 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.' <div class="col-lg-1  ">  
+                <div class="col-lg-6 ">                       
+                <form action="#" enctype="multipart/form-data">
+                  <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+                </form>
+              </div>
+              <div class="col-lg-6">
+			<form action="#" enctype="multipart/form-data">
+                <button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
+               </form>              
+              </div>
+
+            </div></div>';
+	 	}
+	 	echo $data['allproperties'];
+}
+/**
+ * [filterAvailableProperties filter available properties]
+ * @return [type] [description]
+ */
+public function filterAvailableProperties()
+{		$data['avalProperties']='';
+		$search['hide_owner_search']=$this->input->post('add_owner_search');
+		//var_dump($search['hide_owner_search']);
+	 	$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
+	 	foreach ($data['all_properties'] as $value) {
+	 	$data['avalProperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.
+	 							'<div class="col-lg-1"><button type="submit" name="edit" class="fa fa-plus-circle text-success" title="Asign Owner to this property"></button> <span class="text-default">Owner</span></div>'.
+	 							'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.
+	 							'<div class="col-lg-1 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.
+	 							'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.
+	 							' <div class="col-lg-1"><div class="col-lg-6 ">                       
+					                <form action="#" enctype="multipart/form-data">
+					                  <button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+					                </form>
+              						</div>
+              						<div class="col-lg-6">
+									<form action="#" enctype="multipart/form-data">
+						                <button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
+						               </form>              
+						       		 </div>
+
+            					</div></div>';
+	 	}
+	 	echo $data['avalProperties'];
+}
+
 public function listOfResidents()
 {
 	if($_SESSION['role']=="resident")
@@ -229,7 +301,7 @@ public function getOwnerOfProperty($user_id){
 	$search=array();
 	$confirmlist=array();
 	$search['user_id']=$user_id;
-
+echo json_encode($data['owner']);
 	return $data['owner']=$this->request_model->getOwner($search);
 
 }
@@ -279,17 +351,11 @@ public function getOwnerOfProperty($user_id){
 	 */
 	public function confirmList() 
 	{
-
-		if(null!=$this->input->get('statusUpdate_OwnerD')){
-			$data['statusUpdate_OwnerD']= $this->input->get('statusUpdate_OwnerD');
+		
+		if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
 
 		}
-		
-		if(null!=$this->input->get('statusUpdate_OwnerC')){
-			$data['statusUpdate_OwnerC']= $this->input->get('statusUpdate_OwnerC');
-
-		}
-		
   //user that does is not owner have no access to this view
 		if ($_SESSION['owner'] != true) {
 			redirect(base_url());
@@ -331,7 +397,7 @@ public function getOwnerOfProperty($user_id){
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
 	}
-	
+
 
 	/**
 	 * [OwnersDetails page for owner and admin]
@@ -345,7 +411,7 @@ public function getOwnerOfProperty($user_id){
 		//$search['property_id1']=$property_id;
 		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 		$search['user_id']= $_SESSION['id'];
-
+		
 
 		$data['pageToLoad']='eresidence/OwnersDetails';
 		$data['pageActive']='eresidence';

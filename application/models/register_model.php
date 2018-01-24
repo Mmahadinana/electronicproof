@@ -13,7 +13,7 @@ class Register_model extends CI_MODEL
 	}
 	/**
 	 * [createUser description]
-	 * @param  [type] $data [description]
+	 * @param  [false] $data [ot retrieved the information that is need form the database]
 	 * @return [true]       [when the owner createUser]
 	 */
 	public function createUser($data)
@@ -36,7 +36,7 @@ class Register_model extends CI_MODEL
 	}
 	/**
 	 * [addUser_models description]
-	 * @param [true] $user_id        [description]
+	 * @param [true] $user_id        [retrieve the information that is need from the database]
 	 * @param array  $manucipalities [addUser_models]
 	 */
 	public function addUser_models($user_id,$manucipalities=array())

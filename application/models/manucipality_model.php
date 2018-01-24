@@ -19,6 +19,10 @@ class Manucipality_model extends CI_MODEL
 		return $this->db->get()->result();
 		
 	}
+	/**
+	 * [getManucipalities get all the minicipalities]
+	 * @return [true] [retrieves the data of each municipality]
+	 */
 	public function getManucipalities()
 	{
 

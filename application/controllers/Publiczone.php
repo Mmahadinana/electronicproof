@@ -16,6 +16,9 @@ class Publiczone extends CI_Controller
 		$this->load->model('town_model');
 		$this->load->model('user_model');
 		$this->load->model('login_model');
+		$this->load->model('owner_model');
+		$this->load->library('email');
+		$this->load->model('Postoffice_model');
 		$this->load->model('address_model');
 		$this->load->helper('form');
 
@@ -62,7 +65,7 @@ class Publiczone extends CI_Controller
 	}
 
 	/**
-	 * [contact form which allow the user to get information with regarding the app]
+	 * [contact form which allow the user to require information with regarding the app]
 	 * @return [true] [respond that it works well]
 	 */
 	public function contact()
@@ -151,8 +154,8 @@ class Publiczone extends CI_Controller
 		
 	}
 	/**
-	 * [listOfResidents description]
-	 * @return [type] [description]
+	 * [listOfResidents shows a list of residents staying in that particulsr property]
+	 * @return [true] [once the owner has approve that list]
 	 */
 	public function listOfResidents()
 	{
@@ -162,9 +165,9 @@ class Publiczone extends CI_Controller
 		
 	}
 	/**
-	 * [login description]
-	 * @return [type] [login]
-	 * this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login
+	 * [login  this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login]
+	 * @return [true] [login]
+	 *
 	 */
 	public function login()
 	{
@@ -308,6 +311,7 @@ class Publiczone extends CI_Controller
 				'rules'=>'required',
 				'errors'=>array
 				('required'=>'you should insert %s for the user')
+				
 
 			),
 
@@ -456,7 +460,24 @@ class Publiczone extends CI_Controller
 
  
 
-    			)
+    			),
+    				array(
+				'field'=>'street_name',
+				'label'=>'Street Address',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user'
+			)
+			),
+			array(
+				'field'=>'door_number',
+				'label'=>'Door Number',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user'
+			)
+			),
+
 			/*array(
 				'field'=>'zip_code',
 				'label'=>'Zip Code',
@@ -479,7 +500,7 @@ class Publiczone extends CI_Controller
 
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
-			redirect("publiczone/registerUser?statusInsert=$statusInsert");
+			redirect("login/login_?statusInsert=$statusInsert");
 
 		}
 
@@ -661,28 +682,27 @@ class Publiczone extends CI_Controller
 //Including validation library
     	if(!$this->input->post('usercheck')){
     		$config_validation = array(
-    			array('field'=>'email',
-    				'label'=>'email',
-    				'rules'=>array('required','valid_email',
-    					array('checkEmail',array($this->user_model,'callback_checkEmail'))),
-    				'errors'=>array(
-    					'required'=>'%s is required',
-    					'valid_email'=>'invalid email',
-    					'checkEmail'=>'%s does not exist, please enter the correct email'
+    				array('field'=>'email',
+				'label'=>'email',
+				'rules'=>'required',
+				'errors'=>array
+				('required'=>'you should insert %s for the user')						
+			),
 
-    				) 					
-    			),
 
-    			array('field'=>'dateofbirth',
-    				'label'=>'Date of Birth',
-    				'rules'=>'required',
-    				'errors'=>array('required'=>'you should insert %s for the user')						
-    			),
+    			
 
     			array('field'=>'date_registration',
     				'label'=>'Date of Registration',
     				'rules'=>'required',
     				'errors'=>array('required'=>'you should insert %s for the user')						
+    			),
+    				array(
+    				'field'=>'dateofbirth',
+    				'label'=>'Date of Birth',
+    				'rules'=>'required',
+    				'errors'=>array
+    				('required'=>'you should insert %s for the user')
     			),
 
     			array('field'=>'name',
@@ -692,23 +712,18 @@ class Publiczone extends CI_Controller
     			),
 
 
-    			array(
-    				'field'=>'identitynumber',
-    				'label'=>'Identity Number',
-    				'rules'=>array(
-    					'required',
-    					'exact_length[13]',
-    					'numeric',
-    					array('checkIdnumber',array($this->user_model,'callback_checkIdnumber'))				
-    				),
+    				array(
+				'field'=>'identitynumber',
 
-    				'errors'=>array(
-    					'required'=>' %s is required',
-    					'exact_length'=>'the %s must have 13 numbers',
-    					'numeric'=>'the %s must have only numbers',
-    					'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+				'label'=>'Identity Number',
+				'rules'=>array
+				(
+					'required',
+					'exact_length[13]',						
 
-    			),
+					//'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
+				)),
+
 
 
 
@@ -726,8 +741,8 @@ class Publiczone extends CI_Controller
     				'errors'=>array(
     					'required'=>'you should insert one %s ',
     					'exact_length'=>'the %s must have at least length of 10 ',						
-    					'regex_match'=>'the %s must be numbers only',									
-    				)	 					
+    					'regex_match'=>'the %s must be numbers only',)									
+    					 					
     			),
 
     			array(
@@ -775,8 +790,7 @@ class Publiczone extends CI_Controller
     			array(
     				'field'=>'zip_code',
     				'label'=>'zip code',
-    				'rules'=>
-    				'required',	
+    				'rules'=>'required',
     				'errors'=>array(
     					'required'=>'you should insert %s for the user')
     			),
@@ -974,7 +988,7 @@ class Publiczone extends CI_Controller
 		}else
 		{
 
-			$statusInsert=$this->user_model->updateUserAddress($this->input->post());
+			$statusInsert=$this->user_model->addUserAddress($this->input->post());
 				
 
 		redirect("residents/userprofile?statusInsert=$statusInsert");

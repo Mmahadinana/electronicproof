@@ -15,8 +15,8 @@ class Request_model extends CI_MODEL
 	/**************This query get user address through the lives_on table***************/
 	/**
 	 * [requestquery for getAddress function]
-	 * @param  [type] $search [variables used for the where clause]
-	 * @return [type]         [description]
+	 * @param  [false] $search [variables used for the where clause]
+	 * @return [true]         [its retrieved the request information from the database]
 	 */
 	public function requestquery($search )
 	{
@@ -36,7 +36,7 @@ class Request_model extends CI_MODEL
 		{
 			$this->db->where('lives_on.property_id',$property_id)
 			->where('user.id',$user_id); 
-		}
+		}//from user_id
 		if($primary_add && $user_id)
 		{
 			$this->db->where('lives_on.primary_prop',$primary_add)
@@ -73,8 +73,8 @@ class Request_model extends CI_MODEL
 	/**************This query get user address through the owners table to get the owner***************/
 /**
  * [ownerquery get owner or list of owners]
- * @param  [type] $search [used for the where clause]
- * @return [type]         [description]
+ * @param  [false] $search [used for the where clause]
+ * @return [true]         [once the owner conform the information from the database is true]
  */
 public function ownerquery($search )
 {
@@ -228,8 +228,8 @@ public function ownerquery($search )
 				}
 				/**
 				 * [getListToComfirmRequestQuery description]
-				 * @param  [type] $search [description]
-				 * @return [type]         [description]
+				 * @param  [false] $search [retrieved the correct information which is confirm from the database ]
+				 * @return [true]         [once the information is correct]
 				 */
 				public function getListToComfirmRequestQuery($search )
 				{
@@ -407,7 +407,8 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 
 /**
  * get the list of attachments of the user
- */public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
+ */
+public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
 
 	//where to start bringing the rows for the pagination
@@ -492,20 +493,25 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 		);
 		// check if user has file and it has not expired
 		
-		$check_record=$this->check_record($proofOfRecData);
+		//$check_record=$this->check_record($proofOfRecData);
 		
-		if($check_record == true){
+		//if($check_record == true){
 			$this->db->insert("attachments",$requests);
 			$attachments_id = $this->db->insert_id();
 
 			$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
 			return $attachments_id;
 			
-		}else {
+		/*}else {
 			return false;
-		}
+		}*/
 		//$this->db->trans_start();
 	}
+	/**
+	 * [check_record description]
+	 * @param  [false] $records [check all the information recorded is correct from the database]
+	 * @return [true]          [once the information is true]
+	 */
 	public function check_record($records){
 		
 		$approved=0;
@@ -548,7 +554,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	}
 	/**
 	 * [deleteRequest for confirmResidents view of the empty user data]
-	 * @param  integer $request_id [description]
+	 * @param  integer $request_id [retrieve the information from the database]
 	 * @return [type]              [description]
 	 */
 	public function deleteRequest($request_id=0)
@@ -567,7 +573,7 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	/***********************function to insert the data into proof_of_res_doc table**************************/
 	/**
 	 * [insert In ProodOfResDoc table]
-	 * @param  [type] $proofOfRecData [description]
+	 * @param  [type] $proofOfRecData [it retrieved the correct information from the database which where occared form prooof of residencial]
 	 * @param  [type] $attachments_id [description]
 	 * @return [type]                 [description]
 	 */
@@ -592,8 +598,8 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 		     /***********************function to insert the multiple files into data**************************/
 		     /**
 		      * [insertMultipleFileData description]
-		      * @param  array  $data [description]
-		      * @return [type]       [description]
+		      * @param  array  $data [retrieved the correct information of MultipleFileData from database]
+		      * @return [true]       [once it is correct]
 		      */
 	public function insertMultipleFileData($data=array(),$proofOfRecData = 0)
 		     {
@@ -621,8 +627,8 @@ public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 
 /**
  * [cancelRequestAtta attachment Identity Document when new one is inserted of the same user]
- * @param  integer $file_id [description]
- * @return [type]           [description]
+ * @param  integer $file_id [cancels the request attachemnt ]
+ * @return [true]           [if the attachement is approved]
  */
 public function cancelRequestAtta($file_id=0){
 	return $this->db->delete('attachments',array('attachments.id'=>$file_id));
@@ -634,9 +640,9 @@ public function deleteAttachment($attachments=array(),$attachments_id=0){
 	$this->db->delete('attachments',array($attachments_id));*/
 }
 /**
- * [cancel the Requess that the user made befor owner approves is]
- * @param  integer $file_id [description]
- * @return [type]           [description]
+ * [cancel the Request that the user made before owner approves is]
+ * @param  integer $file_id [verify and assigns the request  ]
+ * @return [type]           [if the request has been approved]
  */
 public function cancelReques($file_id =0){
 	$this->db->delete('proof_of_res_doc',array('proof_of_res_doc.id'=>$file_id));
@@ -771,7 +777,7 @@ public function confirm_status($status,$search){
 }
 /**
  * [approve_status adminitrator declines or approve user request]
- * @param  integer $status [description]
+ * @param  integer $status [verify the status of the request]
  * @param  [type]  $search [description]
  * @return [boolean]       [true or false]
  */
@@ -842,7 +848,9 @@ public function getListToApprove(array $search = array(),int $limit = ITEMS_PER_
 	return $this->db->get()->result();
 }
 
-
+/**
+ * This checks and verify the date.
+ */
 
 public function check_date($date){
 
