@@ -241,7 +241,7 @@ class Publiczone extends CI_Controller
 	 * [registerUser description]
 	 * @return [true] [this retrieves the correct information for registerUser]
 	 */
-	public function registerUser() 
+	public function register() 
 	{
 
 		$search=array();
@@ -620,13 +620,13 @@ class Publiczone extends CI_Controller
 		//$data['purchase_date']=$this->user_model->getUser();
 		//$data['house_type']=$this->user_model->getUser();
 
-		/*$data['province']=$this->province_model->getProvince();
+		$data['province']=$this->province_model->getProvince();
 		$data['districts']=$this->district_model->getDistricts();
     	$data['manucipalities']=$this->manucipality_model->getManucipalities();
     	$data['towns']=$this->town_model->getTowns();
     	$data['suburbs']=$this->suburb_model->getSuburbs();
     	$data['addresses']=$this->address_model->getAddresses();
-    	$data['door_numbers']=$this->address_model->getAddresses();*/
+    	$data['door_numbers']=$this->address_model->getAddresses();
     	
     	$selDistrict = $this->getProvinceDistrict();
     	$data['province'] = $selDistrict['province'];
@@ -820,12 +820,13 @@ class Publiczone extends CI_Controller
     		}else
     		{
     			$statusEdit=$this->user_model->updateUser($this->input->post());
-    			redirect("publiczone/user?statusEdit=$statusEdit");
+    			//redirect("publiczone/editUser?statusEdit=$statusEdit");
+    			redirect("login/login_");
     		}
     	}else {
-    		$this->load->view('ini',$data);
+    		
     	}
-
+					$this->load->view('ini',$data);
     }
 
 

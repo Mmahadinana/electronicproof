@@ -9,8 +9,9 @@ $id_town= $user_data->town_id ?? $this->input->post('town')?? false;
 $id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
 $id_address = $user_data->id ?? $this->input->post('street_name')?? false;
 $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
+$doorNumber=$user_data->door_number ?? $this->input->post('door_number')?? false;
 //**This is the registration page whereby the owner will access to register for the proof of address on the webpage**
-$editmode = isset($user_id)? 'TRUE':'FALSE';
+$editmode = isset($user_id)? 'true':'false';
 ?>
 
 <div class="container form-area">
@@ -19,17 +20,17 @@ $editmode = isset($user_id)? 'TRUE':'FALSE';
 
 	  <?php 
          $options = array("class"=> "form-group","method"=>"POST");
-         echo form_open("publiczone/register",$options);
+         echo form_open("login/login_",$options);
 
          if(isset($statusInsert)){
-          echo alertMsg($statusInsert,'Message Sent','Message  Not Sent');
+          echo alertMsg($statusInsert,'User Registered Successfully','User Not Registered Try to fill required fields');
         }
 
         ?>
 	<?php 
 
 
-	$action=isset($user_id)? "publiczone/editUser/$user_id": "publiczone/registerUser";
+	$action=isset($user_id)? "publiczone/editUser": "publiczone/register";
 
 	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
 	?>

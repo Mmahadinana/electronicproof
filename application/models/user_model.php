@@ -126,13 +126,14 @@ public function addUser($data)
 			//'address'=>$data['address'],
 			'identitynumber'=>$data['identitynumber'],
 			'phone'=>$data['phone'],
-			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
+			'dateOfBirth'=>$data['dateofbirth'],
 			'gender_id'=>$data['gender'],
-			'date_registration'=>$data['date_registration'],//'2017-11-11',
-			//var_dump($data['date_registration']),
+			'date_registration'=>$data['date_registration'],
+			
 
-		    		//'minetype'=>$minetype
+		    	
 			);
+	
 		$this->db->trans_start();
 		$this->db->where('user.id',$data['iduser'])
 		->update('user',$user);
@@ -161,6 +162,8 @@ public function addUser($data)
 		//insert the new relations
 		return	$this->db->insert_batch('user_model',$batch);
 	}
+
+	
 /**
  * [countUser description]
  * @param  array  $search [count the user of each property]
@@ -341,7 +344,7 @@ public function insertAddress($data=array(), $user_id)
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
-	public function updateUserAddress($addifor){
+	public function addUserAddress($addifor,$user_id){
 
 		//Get the address id of the address to be inserted
 		$userProperty=0;

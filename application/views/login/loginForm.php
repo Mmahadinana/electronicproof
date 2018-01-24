@@ -43,7 +43,7 @@ if (isset($statusUsername)) {
 		</div>
 			<div class="col-md-3 text-left" >
 				<a href="<?php echo base_url('passwords/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
-			<a href="<?php echo base_url('publiczone/registerUser') ?>" class="text-white"><span>New account? Signup</span></a>
+			<a href="<?php echo base_url('publiczone/register') ?>" class="text-white"><span>New account? Signup</span></a>
 			</div>
 			
 		</form><!--/form -->
