@@ -32,20 +32,10 @@
 
 
 
-// mysql connection
-  try{
-    $db = new pdo('mysql:host=10.11.10.184;port=3306;dbname=e_residence;charset=utf8','user','password',array(
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    ));
-    }catch(PDOException $pe){
-        echo $pe->getMessage();
-    } 
-	
-// get data from users table
-$users = $this->db->get()->result();
-foreach ($users as $user) {
-    echo $user['user.name'] . '<br />';
+
+foreach ($user_addinfor as $key ) {
 }
+
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -65,7 +55,7 @@ $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l);
+//$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -79,16 +69,52 @@ $htmlcontent = "<html>
 				  <body>
 					<table width='500' border='0' align='center' cellpadding='5' cellspacing='0'>
 					  <tr>
-						<td width='165'>Extreme Customs Pty. Ltd.</td>
-						<td width='165'>Proof Of Residence</td>";
+						<td width='165'>Date</td>
+						";
 		
+$htmlcontent .= "<td width='165'>" . date('M-d-Y') .      "</td></tr>";
 
+
+$htmlcontent .=  "<tr>
+        		    <td width='165'>Address</td>
+		  	    	<td width='335' colspan='2'>58972</td>
+      			  </tr>";
+
+$htmlcontent .=  "<tr>
+	    		    <td width='500' colspan='3'>&nbsp;</td>
+	  			  </tr>";	
+
+$htmlcontent .=  "<tr>
+
+                    <td width='165'>Resident</td>
+                  </tr>";
+$htmlcontent .=  "<tr>
+		  	    	<td width='335' colspan='4'></td>
+		  	    	<td width='165'><?php echo $key->door_number. ' '.$key->street_name?></td>
+      			  </tr>";
+$htmlcontent .= "<tr>
+	    		    <td width='500' >&nbsp;</td>
+	  			  </tr>";	
+$htmlcontent .= "<tr>
+	    		    <td width='500'>&nbsp;</td>
+	  			  </tr>";		  			  
+$htmlcontent .=  "<tr>
+					
+                    <td width='700'>This is to confirm that (Name,ID Number) stays at the above mentioned address since". ' ' .date('M-d-Y') ." until today.The house type owned by (Owner)   </td>
+                  </tr>";
+$htmlcontent .=  "<tr>
+		  	    	
+		  	    	<td width='2000'>This letter will be valid for only three months,starting from the date issued.</td>
+      			  </tr>"; 
+$htmlcontent .= "<tr>
+	    		    <td width='700'>&nbsp;</td>
+	  			  </tr>";	      			                   
 $htmlcontent .= "</table></body></html>";
 
 // output the HTML content
 $pdf->writeHTML($htmlcontent, true, 0, true, 0);
 
-$pdf->writeHTML($inlinecss, true, 0, true, 0);
+//$pdf->writeHTML($inlinecss, true, 0, true, 0);
 
 // reset pointer to the last page
 $pdf->lastPage();
