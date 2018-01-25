@@ -617,12 +617,12 @@ public function confirmRequestInsert()
 	
 	if($results!=true){
 			//redirecting to the other page
-
-		$this->waitingForApproval($user_id,$property_id,$status=1);
-	}else {
-		$statusInsert=0;	
-		
+		$statusInsert=0;
 		redirect("Request_proof/request/$results?statusInsert=$statusInsert");
+	}else {
+			
+		$this->waitingForApproval($user_id,$property_id,$status=1);
+		
 
 	}
 	

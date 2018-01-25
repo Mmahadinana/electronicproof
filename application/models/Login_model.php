@@ -312,6 +312,22 @@ public function inserEmailToken($id,$token){
 	return $this->db->trans_complete();
 
 }
+public function updateEmailToken($id,$token){
+	
+		//expire date to be sent to the db to disable token
+	$expireDate = date('Y-m-d H:i:s');
+	
+	$tokendata =array(		
+		'emailtoken'=>$token,
+		'expiretime'=>$expireDate ,
+	);
+	$this->db->trans_start();
+	$this->db->where('user_id', $id);
+	//disable token
+	$this->db->update("emailtoken",$tokendata);    	
+	return $this->db->trans_complete();
+
+}
 /**
  * [get_mailToken description]
  * @param  [type] $mailtoken [description]
@@ -360,7 +376,37 @@ public function updatePassword($data=array(), $user_id){
 	$this->db->update('login', $passwordData);
 	return $this->db->trans_complete();
 }
-
+public function validatePassword($password = '')
+  {
+    $password = trim($password);
+    $regex_lowercase = '/[a-z]/';
+    $regex_uppercase = '/[A-Z]/';
+    $regex_number = '/[0-9]/';
+    $regex_special = '/[!@#$%^&*()\-_=+{};:,<.>§~]/';
+    
+    if (preg_match_all($regex_lowercase, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_uppercase, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_number, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_special, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    
+    return TRUE;
+  }
 
 }
 ?>

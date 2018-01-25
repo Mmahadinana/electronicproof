@@ -493,18 +493,18 @@ public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAG
 		);
 		// check if user has file and it has not expired
 		
-		//$check_record=$this->check_record($proofOfRecData);
+		$check_record=$this->check_record($proofOfRecData);
 		
-		//if($check_record == true){
+		if($check_record == true){
 			$this->db->insert("attachments",$requests);
 			$attachments_id = $this->db->insert_id();
 
 			$this->insertInProodOfResDoc($proofOfRecData,$attachments_id);
 			return $attachments_id;
 			
-		/*}else {
+		}else {
 			return false;
-		}*/
+		}
 		//$this->db->trans_start();
 	}
 	/**

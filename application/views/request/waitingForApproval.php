@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      <?php 
 //var_dump($user_addinfor);
 
-     $action="residents/viewRequestMade/";
+     $action="request_proof/viewRequestMade/";
 
      echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST','autocomplete'=>'off'));
 

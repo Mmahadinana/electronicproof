@@ -101,7 +101,7 @@ Licensed under MIT
 						<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">
 							<p>Hello, <strong>{user_name}</strong> </p>
 							<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">							
-							Your password was successfully registered on the E-residence platform. To activate your account, follow the link <a href="{url_to_activate}">Reset password</a> Click here <strong>"Activate Account"</strong>.
+							You have forgot your password on the E-residence platform. To change your password, follow the link: <a href="{url_to_activate}">Click here <strong>"Reset password"</strong></a> .
 							</span>
 							<span style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #57697e;">
 								<p>The link is valid for 24 hours. If it expires, please <b>reset the password</b>again.</p>
