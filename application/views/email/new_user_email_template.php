@@ -71,7 +71,7 @@ Licensed under MIT
 			<tr><td align="center">
 				<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; float:left; width:100%; padding:20px;text-align:center; font-size: 13px;">
 					<font face="Arial, Helvetica, sans-seri; font-size: 13px;" size="3" color="#596167">
-						<img src="" alt="Metronic" border="0"  /></font></a>
+						<img src="<?php echo(base_url('assets/logos/Logos.jpg')) ?>" alt="E_residence" border="0"  /></font></a>
 					</td>
 					<td align="right">
 				<!--[endif]--><!-- 
@@ -118,7 +118,7 @@ Licensed under MIT
     <center>
     <![endif]-->
     <a href="{url_to_activate}"
-    style="background-color:#2c3e50;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:160px;-webkit-text-size-adjust:none;">Activate account</a>
+    style="background-color:#2c3e50;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:160px;-webkit-text-size-adjust:none;">Change Password</a>
   <!--[if mso]>
     </center>
   </v:roundrect>

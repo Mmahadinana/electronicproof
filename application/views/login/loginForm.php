@@ -38,7 +38,7 @@ if (isset($statusUsername)) {
 			</div>
 			
 			<div class="col-md-5 text-right" >
-			<input type="hidden" id="referrer" name="referrer" value="<?php echo $referrer; ?>">
+			
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 		</div>
 			<div class="col-md-3 text-left" >

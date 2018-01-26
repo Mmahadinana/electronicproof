@@ -2,24 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-	<div class=" container ">
-		
-		
-			<?php
-			if (isset($statusUsername)) {
-   echo alertMsg(false,' ','Username not found ');
- }
- if (isset($statusToken)) {
-   echo alertMsg(false,' ','Token is not Correct ');
- }
- if (isset($statusDate)) {
-   echo alertMsg(false,' ','Date has expired');
- }
-			$action="passwords/reset/";
+<div class="container form-area">
 
-			echo form_open($action,array('class'=>'form-horizontal'));?>
+	<?php
+	if (isset($statusUsername)) {
+		echo alertMsg(false,' ','Username not found ');
+	}
+	if (isset($statusToken)) {
+		echo alertMsg(false,' ','Token is not Correct ');
+	}
+	if (isset($statusDate)) {
+		echo alertMsg(false,' ','Link you are using has expired, enter email to reset your Password');
+	}
+	$action="passwords/reset/";
 
-	<div class="card-container card text-center">
+	echo form_open($action,array('class'=>'form-horizontal'));?>
+
+	<div class="resetTopPad text-center">
 		<h1 > Reset Password </h1>	
 		<div class=" form-group ">
 			<label  for="email" class="  col-sm-2">Username</label>	
@@ -29,19 +28,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			
 		</div>	
-			<div class=" col-lg-2 ">
+		<div class=" col-lg-2 ">
 			<input type="hidden" id="referrer" name="referrer" value="<?php //echo $referrer; ?>">
 		</div>
-			<div class="col-lg-3">
+		<div class="col-lg-3">
 			<button class="btn btn-lg btn-primary form-control" type="submit">Send</button>			
-			</div>
-			<div class="col-lg-3">
+		</div>
+		<div class="col-lg-3">
 			<a class="btn btn-lg btn-warning form-control" type="text">Back</a>
-			</div>
-		</form><!-- /form -->
-		
-			
-		
+		</div>
+	</div>
+	</form><!-- /form -->
+
+
+
 	
 </div><!-- /container --><!-- /.container   -->
-</div>

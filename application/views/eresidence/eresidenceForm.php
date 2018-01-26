@@ -258,61 +258,8 @@ $no_owner_property=array();
 
 </div> 
 </div>
-<div class="row p_r_z property-sidebar widget-area grid__option pull-right">
-          <div class="widget widget-search">
-            <h2 class="widget-title">Search </h2>
 
-            <form class="vertical_form" method="post" action="">
-
-
-
-              <input class="normal" type="text" placeholder="Referência" name="process" value="">
-
-              <select placeholder="Distrito" name="district_id" id="district_id">
-                <option value="">District:
-                              </select>
-
-              <select placeholder="Concelho" name="municipality_id" id="municipality_id">
-                <option value="">County:</option>
-                                              </select>
-
-              <select placeholder="Freguesia" name="parish_id" id="parish_id">
-                <option value="">Parish:</option>
-                                              </select>
-
-            <div class="select2-container select2-container-multi" id="s2id_typology">
-              <ul class="select2-choices"> 
-               <li class="select2-search-field">   
-               <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input select2-default" id="s2id_autogen1"> 
-             </li>
-                </ul>
-                <div class="select2-drop select2-drop-multi select2-display-none">   
-                  <ul class="select2-results">  
-                   <li class="select2-no-results">No matches found
-                   </li>
-                 </ul>
-               </div>
-             </div>
-            
-
-              <select placeholder="Tipo de utilização" name="usagetype_id">
-                <option value="">Type of use:
-                              </select>
-
-              <select placeholder="Tipo de negócio" name="businesstype_id">
-                <option value="">Type of business:
-                              </select>              
-
-            
-              
-
-              <button title="search" class="btn">Search</button>
-            </form>
-          </div>
-
-                                
-          
-        </div>
+         
 <script>
 
   $(document).ready(function () {

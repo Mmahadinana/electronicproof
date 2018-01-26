@@ -63,11 +63,11 @@ class Passwords extends CI_Controller
 			array('field'=>'username',
 				'label'=>'Username',
 				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkUsername'))),
+					array('checkUsername',array($this->login_model,'checkUsername'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
+					'checkUsername'=>'%s does not exist, please enter the correct email'
 
 			) 					
 			),				
@@ -176,7 +176,7 @@ class Passwords extends CI_Controller
 				'rules'=>array('required',
 					'min_length[5]',
 					'max_length[25]',
-					array('validatePassword',array($this->login_model,'callback_validatePassword'))),						
+					array('validatePassword',array($this->login_model,'validatePassword'))),						
 				'errors'=>array(						
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %s',
