@@ -1043,20 +1043,21 @@ public function check_date(){
  public	function index($userid,$property_id)
  	{
  		
- 		$search['user_id']=$userid;
+ 		$search['userid']=$userid;
          $search['property_id']=$property_id;
  		$data['pageToLoad']='makePDF/makepdf';
 		$data['pageActive']='makepdf';
 		//$this->load->view('ini',$data);
 
  		$this->load->library('Pdf');
+
  		$data['user_addinfor']= $this->request_model->getAddress($search);
  		$data['owner_addinfor']=$this->request_model->getOwner($search);
-	
+	//var_dump($data['owner_addinfor']);
 	//check if there is owner
 	if(empty($data['owner_addinfor'])){
 		//delete user adddress of where there is no owner
-		$this->request_model->removeUserAddress($search);
+		//$this->request_model->removeUserAddress($search);
 		redirect("Testing/index?statusRequest=0");
 		
 	}
