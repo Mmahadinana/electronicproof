@@ -391,7 +391,7 @@ public function getAttachmentQuery($search=array() )
  */
 public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
 {
-
+var_dump($search);
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence

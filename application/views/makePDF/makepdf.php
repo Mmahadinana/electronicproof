@@ -31,8 +31,6 @@
  */
 
 
-
-
 foreach ($user_addinfor as $key ) {
 }
  foreach ($owner_addinfor as $valowner ) {
@@ -41,6 +39,7 @@ foreach ($user_addinfor as $key ) {
                   $property_id=$valowner ->property;
                   $owner_name=$valowner->name;
                   $owner_housetype=$valowner->house_type;
+                  //var_dump($owner_addinfor);
                 }
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -65,109 +64,126 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('dejavusans', '', 10);
+$pdf->SetFont('dejavusans', '', 13);
 
 // add a page
 $pdf->AddPage();
+$html = <<<EOF
+		       <div class="form-group">
+		      <div class="col-lg-4 col-md-12">
+		       <input type="hidden" name='user_id' value="<?php echo $userid ?>" >
+          <input type="hidden" name='owner_id' value="<?php echo $owner_id ?>" >
+          <input type="hidden" name='property_id' value="<?php echo $property_id ?>" >
+
+EOF;
 // create some HTML content
 $htmlcontent = "<html>
 				  <body>
-					<table width='500' border='0' align='center' cellpadding='5' cellspacing='0'>
+					<table style='width: 100%' border='0' align='center' cellpadding='5' cellspacing='0'>
 					  <tr>
 						<td width='165'>Date</td>
 						";
 		
 $htmlcontent .= "<td width='165'>" . date('M-d-Y') .      "</td></tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td >&nbsp;</td>
 	  			  </tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td >&nbsp;</td>
 	  			  </tr>";
 
 $htmlcontent .=  "<tr>
-        		    <td width='165'>Address</td>
-		  	    	<td width='335' colspan='2'>" .$key->door_number. ' '.$key->street_name."</td>
+        		    <td >Address</td>
+		  	    	<td  colspan='2'>" .$key->door_number. ' '.$key->street_name."</td>
       			  </tr>";
 
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='3'>&nbsp;</td>
-	    		    <td width='335' colspan='3'>" .$key->street_name."</td>
+	    		    <td  colspan='3'>&nbsp;</td>
+	    		    <td  colspan='3'>" .$key->street_name."</td>
 	    		  
 	  			  </tr>";	
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='4'>&nbsp;</td>
-	    		    <td width='335' colspan='4'>" .$key->town."</td>
+	    		    <td  colspan='4'>&nbsp;</td>
+	    		    <td  colspan='4'>" .$key->town."</td>
 	    		  
 	  			  </tr>";
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='5'>&nbsp;</td>
-	    		    <td width='335' colspan='5'>" .$key->zip_code."</td>
+	    		    <td  colspan='5'>&nbsp;</td>
+	    		    <td  colspan='5'>" .$key->zip_code."</td>
 	    		  
 	  			  </tr>";
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='6'>&nbsp;</td>
-	    		    <td width='335' colspan='6'>" .$key->town."</td>
+	    		    <td  colspan='6'>&nbsp;</td>
+	    		    <td  colspan='6'>" .$key->town."</td>
 	    		  
 	  			  </tr>";
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='7'>&nbsp;</td>
-	    		    <td width='335' colspan='7'>" .$key->manucipality."</td>
+	    		    <td  colspan='7'>&nbsp;</td>
+	    		    <td  colspan='7'>" .$key->manucipality."</td>
 	    		  
 	  			  </tr>";
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='8'>&nbsp;</td>
-	    		    <td width='335' colspan='8'>" .$key->district."</td>
+	    		    <td  colspan='8'>&nbsp;</td>
+	    		    <td  colspan='8'>" .$key->district."</td>
 	    		  
 	  			  </tr>";
 $htmlcontent .=  "<tr>
-	    		    <td width='500' colspan='9'>&nbsp;</td>
-	    		    <td width='335' colspan='9'>" .$key->province."</td>
+	    		    <td  colspan='9'>&nbsp;</td>
+	    		    <td  colspan='9'>" .$key->province."</td>
 	    		  
 	  			  </tr>";	  			  	  			  
 	  			  
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";
 
 
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";	  			  	  			  	  			  	  			  
 
 $htmlcontent .=  "<tr>
-		  	    	<td width='335' colspan='4'></td>
-		  	    	<td width='165'><?php echo $key->door_number. ' '.$key->street_name?></td>
+		  	    	<td colspan='4'></td>
+		  	    	<td><?php echo $key->door_number. ' '.$key->street_name?></td>
       			  </tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='500' >&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";	
 $htmlcontent .= "<tr>
-	    		    <td width='500'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";	
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";	  			  
 $htmlcontent .=  "<tr>
 					 
-                    <td style='width:70%'>This is to confirm that" .'  '."<strong>" . $key->name . "</strong>".' '. "ID number" .' ' ."<strong>". $key->identitynumber ."</strong>"." stays at the above mentioned address since". ' ' .date('M-d-Y') ." until today.The" . ' '."<strong>" . $owner_housetype . "</strong>" . ' ' ."is owned by" . ' '."<strong>" .$owner_name. "</strong>"."</td>
+                    <td width='50%' align='center'>This is to confirm that" .'  '."<strong>" . $key->name . "</strong>".' '. "ID number" .' ' ."<strong>". $key->identitynumber ."</strong>"." stays at the above mentioned address since". ' ' .date('M-d-Y') ." until today.The" . ' '."<strong>" . $owner_housetype . "</strong>" . ' ' ."is owned by" . ' '."<strong>" .$owner_name. "</strong>"."</td>
                   </tr>";
 
 $htmlcontent .=  "<tr>
 		  	    	
-		  	    	<td width='2000'>This letter will be valid for only three months,starting from the date issued.</td>
+		  	    	<td  width='50%'>This letter will be valid for only three months,starting from the date issued.</td>
       			  </tr>"; 
 $htmlcontent .= "<tr>
-	    		    <td width='700'>&nbsp;</td>
+	    		    <td>&nbsp;</td>
 	  			  </tr>";
 $htmlcontent .= "<tr>
-	    		    <td width='700'>SIGNATURE___________________________________</td>
+	    		    <td>&nbsp;</td>
+	  			  </tr>";	
+$htmlcontent .= "<tr>
+	    		    <td>&nbsp;</td>
+	  			  </tr>";	
+$htmlcontent .= "<tr>
+	    		    <td>&nbsp;</td>
+	  			  </tr>";	
+$htmlcontent .= "<tr>
+	    		    <td>SIGNATURE________________________</td>
 	  			  </tr>";	  			  
 	  			      			                   
 $htmlcontent .= "</table></body></html>";

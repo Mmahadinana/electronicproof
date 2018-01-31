@@ -20,7 +20,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 	  <?php 
          $options = array("class"=> "form-group","method"=>"POST");
-         echo form_open("login/login_",$options);
+         echo form_open("residents/userprofile",$options);
 
          if(isset($statusInsert)){
           echo alertMsg($statusInsert,'User Registered Successfully','User Not Registered Try to fill required fields');
