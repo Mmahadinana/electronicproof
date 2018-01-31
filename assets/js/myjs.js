@@ -85,18 +85,21 @@ $(document).ready(function() {
 //for manage propertis view page
 //
 /****************validation for Identity number*********************/
-$('#identitynumber').keyup('input',function(){
+
+
+
+
+/*$('#identitynumber').keyup('input',function(){
 var idNumber = $('#identitynumber').val();
 var dateofbirth=$('#dateofbirth').val();
-console.log(dateofbirth);
-        // assume everything is correct and if it later turns out not to be, just set this to false
-        var correct = true;
-
-        
+alert(dateofbirth);
+        correct=true;
         // SA ID Number have to be 13 digits, so check the length
         if (idNumber.length != 13 || !isNumber(idNumber)) {
-            error.append('<p>ID number does not appear to be authentic - input not a valid number</p>');
-            correct = false;
+           // error.append('<p>input not a valid number</p>');
+            $(this).parent().removeClass('has-success');
+			$(this).parent().addClass('has-error');
+			correct=false;
         }
 
         // get first 6 digits as a valid date
@@ -109,8 +112,10 @@ console.log(dateofbirth);
         var fullDate = id_date + "-" + id_month + 1 + "-" + id_year;
 
         if (!((tempDate.getYear() == idNumber.substring(0, 2)) && (id_month == idNumber.substring(2, 4) - 1) && (id_date == idNumber.substring(4, 6)))) {
-            error.append('<p> date part is not valid</p>');
-            correct = false;
+            //error.append('<p> date part is not valid</p>');
+            $(this).parent().removeClass('has-success');
+			$(this).parent().addClass('has-error');
+			correct=false;
         }
 
         // get the gender
@@ -133,23 +138,28 @@ console.log(dateofbirth);
             multiplier = (multiplier % 2 == 0) ? 1 : 2;
         }
         if ((checkSum % 10) != 0) {
-            error.append('<p> check digit is not valid</p>');
-            correct = false;
+            //error.append('<p> check digit is not valid</p>');
+            $(this).parent().removeClass('has-success');
+			$(this).parent().addClass('has-error');
+			correct=false;
         };
 
 
         // if no error found, hide the error message
         if (correct) {
-            error.css('display', 'none');
+            
+            $(this).parent().removeClass('has-error');
+			$(this).parent().addClass('has-success');
 
             // clear the result div
-            $('#result').empty();
+            //$('#result').empty();
             // and put together a result message
-            $('#result').append('<p>South African ID Number:   ' + idNumber + '</p><p>Birth Date:   ' + fullDate + '</p><p>Gender:  ' + gender + '</p><p>SA Citizen:  ' + citzenship + '</p>');
+            //$('#result').append('<p>South African ID Number:   ' + idNumber + '</p><p>Birth Date:   ' + fullDate + '</p><p>Gender:  ' + gender + '</p><p>SA Citizen:  ' + citzenship + '</p>');
         }
         // otherwise, show the error
         else {
-            error.css('display', 'block');
+            $(this).parent().removeClass('has-error');
+			$(this).parent().addClass('has-success');
         }
 
         return false;
@@ -157,7 +167,7 @@ console.log(dateofbirth);
 
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
-    }
+    }*/
    
      /*$( function() {
     $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
@@ -174,3 +184,55 @@ console.log(dateofbirth);
 
   var maxDate = year + '-' + month + '-' + day;
   $('#dateofbirth').attr('max', maxDate);
+
+
+$(document).ready(function(){
+  $('#identitynumber').keyup('input',function(){
+  	$('#id_results').html(checkIdentity($('#identitynumber').val()));
+alert(checkIdentity($('#identitynumber').val()));
+  });	//var idNumber = $('#identitynumber').val();
+ function checkIdentity(idNumber){
+
+  	var dateofbirt=new Date($('#dateofbirth').val());
+	var id_number= $(this).val($(this).val().replace(/[^\d].+/,''));
+	
+
+  	var id_month = dateofbirt.getMonth()+1;
+  	var id_date = dateofbirt.getDate();       
+    var id_year = dateofbirt.getFullYear(); 
+       
+
+        if(id_month < 10){
+      id_month = '0' + id_month.toString();
+  }
+         if(id_date < 10){
+      id_date = '0' + id_date.toString();
+  }
+ 
+  	var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
+	if (idNumber != dateofbirth && idNumber.length == 13 && id_number) {
+		error=true;
+  		$('#id_results').romoveClass();
+  		$('#id_results').addClass('text-danger');
+  		return 'Identity Number and dateofbirth do not match';
+  		
+	}if (idNumber.length != 13 || !id_number) {
+  		$(this).parent().removeClass('has-success');
+  		$(this).parent().addClass('has-error');
+
+  		$('#id_results').romoveClass();
+  		$('#id_results').addClass('text-danger');
+  		return 'Identity Number do not match';
+
+  	}if(idNumber == dateofbirth && idNumber.length == 13 && id_number){
+  		$(this).parent().removeClass('has-error');
+			$(this).parent().addClass('has-success');
+			$('#id_results').romoveClass();
+  		$('#id_results').addClass('text-success');
+  		return 'Correct';
+  	}
+  	}
+
+
+  
+});

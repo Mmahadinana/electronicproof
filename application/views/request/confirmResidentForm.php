@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <?php
  
-  $action="residents/confirm/";
+  $action="request_proof/confirm/";
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'on'));?>
   <div class="form-area" >

@@ -84,13 +84,13 @@ $editmode = isset($user_id)? 'true':'false';
 					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
 						<label for="confirmpass">Confirm Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="confirm" onblur="validatePassword"  id="confirmpass" placeholder="Confirm Password" required>
+							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="confirm" id="confirmpass" placeholder="Confirm Password" required>
 						</div>
 						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 					</div>
 					
 
-					<button class="btn btn-primary nextBtn btn-m pull-right" id="setup" name="setup" onclick="validatePassword"  >Next</button>
+					<button class="btn btn-primary nextBtn btn-m pull-right" id="setup" name="setup">Next</button>
 				</div>
 			</div>
 		</div>
@@ -122,7 +122,7 @@ $editmode = isset($user_id)? 'true':'false';
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
 							<input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
 						</div>
-						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
+						<p id="id_results"><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
 					</div>
 				
 
@@ -218,7 +218,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 
 					</div>
-					<!-- District end-->
+					<!-- District end--> 
 
 					<!-- manucipality start-->
 					<div class="form-group" id="select_manucipality" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>						
@@ -738,7 +738,7 @@ $( document ).ready(function()
 </script>
 
 
-<!-- validation for password-->
+<!-- validation for password
 </script>
 <script type="text/javascript">
 	var password = document.getElementById("password")
@@ -760,3 +760,4 @@ $( document ).ready(function()
 	confirm.onkeyup = validatePassword;
 </script>
 
+-->
