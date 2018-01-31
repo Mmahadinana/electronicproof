@@ -23,24 +23,25 @@
         ?>
 
         <div class="form-group">
-          <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
+          
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name"  pattern="[a-zA-Z][a-zA-Z ]{2,}"  name="name" placeholder="Palesa Motseare">
+          <input type="text" class="form-control" id="name"  pattern="[a-zA-Z][a-zA-Z ]{2,}"  name="name" value="<?php echo isset($_POST["name"]) ? $_POST["name"] : ''; ?>" placeholder="Palesa Motseare">
+          <?php echo form_error('name') ? alertMsg(false,'',form_error('name')):'';?>
         </div>
         <div class="form-group">
-          <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
           <label for="phone">Phone Number</label>
-          <input type="text" class="form-control" id="phone"  name="phone" placeholder="0735517010">
+          <input type="text" class="form-control" id="phone"  name="phone" value="<?php echo isset($_POST["phone"]) ? $_POST["phone"] : ''; ?>" placeholder="0735517010">
+          <?php echo form_error('phone') ? alertMsg(false,'',form_error('phone')):'';?>
         </div>
         <div class="form-group">
-          <?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email"  name="email" placeholder="palesa.motseare@example.com">
+          <input type="email" class="form-control" id="email"  name="email" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>" placeholder="palesa.motseare@example.com">
+      <?php echo form_error('email') ? alertMsg(false,'',form_error('email')):'';?>
         </div>
         <div class="form-group ">
-          <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
           <label for="message">Your Message</label>
-          <textarea  class="form-control" id="message" name="message" maxlength="500" placeholder="Description" rows="5"></textarea>
+          <textarea  class="form-control" id="message" name="message" value="" maxlength="500" placeholder="Description" rows="5"><?php echo isset($_POST["message"]) ? $_POST["message"] : ''; ?></textarea>
+         <?php echo form_error('message') ? alertMsg(false,'',form_error('message')):'';?>
           <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
         </div>
         
