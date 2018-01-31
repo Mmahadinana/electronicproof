@@ -71,7 +71,7 @@ Licensed under MIT
 			<tr><td align="center">
 				<a href="#" target="_blank" style="color: #596167; font-family: Arial, Helvetica, sans-serif; float:left; width:100%; padding:20px;text-align:center; font-size: 13px;">
 					<font face="Arial, Helvetica, sans-seri; font-size: 13px;" size="3" color="#596167">
-						<img src="" alt="Metronic" border="0"  /></font></a>
+						<img src="<?php echo(base_url('assets/logos/Logos.jpg')) ?>" alt="E_residence" border="0"  /></font></a>
 					</td>
 					<td align="right">
 				<!--[endif]--><!-- 
@@ -101,7 +101,7 @@ Licensed under MIT
 						<font face="Arial, Helvetica, sans-serif" size="4" color="#57697e" style="font-size: 15px;">
 							<p>Hello, <strong>{user_name}</strong> </p>
 							<span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #57697e;">							
-							Your password was successfully registered on the E-residence platform. To activate your account, follow the link <a href="{url_to_activate}">Reset password</a> Click here <strong>"Activate Account"</strong>.
+							You have forgot your password on the E-residence platform. To change your password, follow the link: <a href="{url_to_activate}">Click here <strong>"Reset password"</strong></a> .
 							</span>
 							<span style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #57697e;">
 								<p>The link is valid for 24 hours. If it expires, please <b>reset the password</b>again.</p>
@@ -118,7 +118,7 @@ Licensed under MIT
     <center>
     <![endif]-->
     <a href="{url_to_activate}"
-    style="background-color:#2c3e50;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:160px;-webkit-text-size-adjust:none;">Activate account</a>
+    style="background-color:#2c3e50;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:160px;-webkit-text-size-adjust:none;">Change Password</a>
   <!--[if mso]>
     </center>
   </v:roundrect>

@@ -27,23 +27,17 @@ class Login extends CI_Controller
 	 */
 	//**This function enable the user to log onto the page
 	public function login_()
-	{
+	{	
 		
 		if(null!=$this->input->get('statusResetPass'))
 		{
 			$data['statusResetPass']= $this->input->get('statusResetPass');
-		}
-		//save the first referrrer to this page
-	    if (NULL == $this->input->get('frompage')) 
-	    {
-	    $data['referrer'] =$this->input->post('referrer') ?? $this->agent->referrer();
-	    }
-	    else
-	    {
-	     $data['referrer'] =base_url('residents/eresidence');
-	    }
+		}		
+	    
+		//check if the is session
+		
 
-		//echo $data['referrer'];
+	
 		//view load
 		/*$search=array();
 
@@ -71,6 +65,8 @@ class Login extends CI_Controller
 			'errors' =>array(
 				'required'=>'you should insert one %s for the login',
 				'valid_email' =>'Invalid_email',
+				
+
 				)
 				),
 				array(

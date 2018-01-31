@@ -63,11 +63,11 @@ class Passwords extends CI_Controller
 			array('field'=>'username',
 				'label'=>'Username',
 				'rules'=>array('required','valid_email',
-					array('checkEmail',array($this->login_model,'callback_checkUsername'))),
+					array('checkUsername',array($this->login_model,'checkUsername'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
-					'checkEmail'=>'%s does not exist, please enter the correct email'
+					'checkUsername'=>'%s does not exist, please enter the correct email'
 
 			) 					
 			),				
@@ -173,10 +173,16 @@ class Passwords extends CI_Controller
 			 array(
 				'field'=>'newpassword',
 				'label'=>'Enter New Password',
-				'rules'=>array('required',	'min_length[5]'),						
+				'rules'=>array('required',
+					'min_length[5]',
+					'max_length[25]',
+					array('validatePassword',array($this->login_model,'validatePassword'))),						
 				'errors'=>array(						
 					'required'=>'you should insert one %s for reset',
-					'min_length[5]'=>'You should at least enter 5 charactors of %'),
+					'min_length[5]'=>'You should at least enter 5 charactors of %s',
+					'max_length[25]'=>'%s should not exit 25 charactors',
+					'validatePassword'=>'password should have at least one simbol/charactor',
+				),
 			),			
 			array(
 				'field'=>'confirmpass',
@@ -200,7 +206,9 @@ class Passwords extends CI_Controller
 		else
 		{
 			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
-
+			if($statusInsert==true){
+				$this->login_model->updateEmailToken($user_id,$mailtoken);
+			}
 			//redirect("login/login_?statusResetPass=$statusResetPass");
 			redirect("login/login_");
 

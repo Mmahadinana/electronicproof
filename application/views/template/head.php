@@ -12,6 +12,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>E_Residence</title>
 
      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <?php 
   $Css_Files=[
@@ -19,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'font-awesome.css',
   'ie10-viewport-bug-workaround.css',
   'master.css',
-  'substyle.css',
+  'substyle.css','particles.css',
   'mystyle.css'];
 
   foreach ($Css_Files as $css_file) {?>
@@ -37,5 +41,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
- 
+ <script src='<?php echo base_url("assets/js/jquery.bootpag.js")?>'></script>
   </head>

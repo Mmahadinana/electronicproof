@@ -153,12 +153,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- /form -->
 </div>
 
-<!----show search div onclick ---->
+<!--show search div onclick -->
 <script type="text/javascript">
 $(document).ready(function(){
   $('#add1').on('click',function(event){
 event.preventDefault();
 $('#add').show();
   });
-  })
+
+
+ 
+  $.ajax({
+   url:"getOwnerOfProperty",
+   method:"GET",
+   dataType:"json",
+   success:function(data)
+   {
+    /*$('#search').append($('<option>', { 
+    value: data.id,
+    text : data.name*/ 
+    alert(data);
+  }));
+    
+    
+   }
+  });
+
+
+
+  });
+
 </script>

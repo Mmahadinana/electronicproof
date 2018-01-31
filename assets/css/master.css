@@ -409,7 +409,8 @@ input:focus {
  margin: 0px;
 }
 .rowBrd{
-    border-bottom: 1px solid #ddd
+    border-bottom: 1px solid #ddd;
+
 }
 
 .colBrd-warning{
@@ -543,8 +544,8 @@ i .fa .fa-archive {
     padding-top:0.5em;
 }/**********************style for eresidenceform view***********************************/
 .eres_tabs{
-    padding: 10px 20px;
-    margin: 10% auto -10% auto;
+    padding: 0px 20px 10px 20px;
+    margin: 0% auto -10% auto;
     width: 60%;
     font-size: 14px;
 
@@ -552,4 +553,26 @@ i .fa .fa-archive {
 .eres_tabs a{
 
 color:#2e3f4f !important; 
+}
+/***************widget side bar*********/
+/*widget-search{
+    display: block;
+    font-weight: 700;
+background-color: #f2f4f5;
+    display: inline-block;
+    
+    padding: 35px 33px;
+    width: 100%;
+}*/
+.property-sidebar.grid__option .widget.widget-search input.normal
+{ 
+    border: 0;
+    border-bottom: 2px solid #c8c8c8;
+    background-color: transparent;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 30px;
+    color: #3c3c44;
+    font-weight: 300;
+    margin-top: 15%; 
 }

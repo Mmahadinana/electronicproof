@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php
 
 //echo $_SESSION['id'];
-          $action="residents/confirmResident/"; 
+          $action="request_proof/confirmResident/"; 
 
           echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'off'));?>
 

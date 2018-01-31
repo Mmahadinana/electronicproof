@@ -118,6 +118,7 @@ h3 {
       border: none !important;
     background-color:#2d3f50!important;
     text-align: left;
+    display: block;
   }
 
   .dropdown-menu >li > a {

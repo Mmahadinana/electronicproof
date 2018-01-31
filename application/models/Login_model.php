@@ -62,7 +62,8 @@ class Login_model extends CI_MODEL
 	{
 		//insert the username and password
 		$username = $this->input->post('username');
-		$rememberme = 'rememberme';
+
+		
 		
 
 		if (empty($username) || empty($password))
@@ -73,6 +74,9 @@ class Login_model extends CI_MODEL
 //will retrieve the password from the user
 		$hash =$this->getPasswordHashFromUser($username);
 
+		if (isset($_SESSION['email'])) {
+			return $_SESSION['email'] == $username ? true : false;
+		}	
 
 //lets you varify the password
 		if(!empty($hash) && password_verify($password,$hash))
@@ -80,7 +84,7 @@ class Login_model extends CI_MODEL
 	//valid
 
 			$this->startUserSession($username);
-			//$this->remember_cookie($rememberme);
+			
 	//checks if valid
 			return true;
 		}
@@ -226,19 +230,27 @@ public function callback_checkEmail($email){
  * @param  [type] $email [verify the user profile]
  * @return [type]        [description]
  */
-public function callback_checkUsername($email){	
+public function checkUsername($email){
 
-	$this->db->select("user.email")
+	//check user in a database
+	$this->db->select("user.email,user.id")
 	->from("user")
 	->where("email",$email);
 	$testemail=$this->db->get()->row();
-	if ($testemail != null){
+	//enter only when there is data
+	if ($testemail != null ){
 		if ($testemail->email != $email) {
 			return false;
-		}else{
+		}
+		//check if there is session
+		elseif(isset($_SESSION['id'] )){
+			//session, compare the user id and return true is are not the same and false if they are the same
+			return ($testemail->email == $email && $_SESSION['id'] != $testemail->id) ? false:  true;
+			
+		} else {
+			
 			return true;
-
-		} 
+		}
 	}
 }
 /**
@@ -312,6 +324,23 @@ public function inserEmailToken($id,$token){
 	return $this->db->trans_complete();
 
 }
+public function updateEmailToken($id,$token){
+	
+		//expire date to be sent to the db to disable token
+
+	$expireDate = date('Y-m-d H:i:s');
+	
+	$tokendata =array(		
+		'emailtoken'=>$token,
+		'expiretime'=>$expireDate ,
+	);
+	$this->db->trans_start();
+	$this->db->where('user_id', $id);
+	//disable token
+	$this->db->update("emailtoken",$tokendata);    	
+	return $this->db->trans_complete();
+
+}
 /**
  * [get_mailToken description]
  * @param  [type] $mailtoken [description]
@@ -360,7 +389,38 @@ public function updatePassword($data=array(), $user_id){
 	$this->db->update('login', $passwordData);
 	return $this->db->trans_complete();
 }
+public function validatePassword($password = '')
+  {
 
+    $password = trim($password);
+    $regex_lowercase = '/[a-z]/';
+    $regex_uppercase = '/[A-Z]/';
+    $regex_number = '/[0-9]/';
+    $regex_special = '/[!@#$%^&*()\-_=+{};:,<.>§~]/';
+    
+    if (preg_match_all($regex_lowercase, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_uppercase, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_number, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    if (preg_match_all($regex_special, $password) < 1)
+    {
+      
+      return FALSE;
+    }
+    
+    return TRUE;
+  }
 
 }
 ?>

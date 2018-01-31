@@ -37,7 +37,7 @@ $no_owner_property=array();
       </select>
     </div>   
     <div class="col-lg-3 col-sm-7 is_owner">
-      <input class="form-control" type="text" name="mysearch" id="inputsearch" placeholder="search" value="<?php echo isset($search['mysearch']) ? $search['mysearch'] : '' ;?>">   
+      <input class="form-control" type="text" name="mysearch" id="search" placeholder="search" value="<?php echo isset($search['mysearch']) ? $search['mysearch'] : '' ;?>">   
       
 
     </div>
@@ -51,7 +51,7 @@ $no_owner_property=array();
 
       <input class="form-control" type="text" name="hide_owner_search" id="hide_owner_search" placeholder="search all" >    
     </div>
-
+  </form>
 
   <div class="col-lg-2 col-sm-7 is_owner ">  
     <button class="btn btn-primary form-control" type="submit" name="bntSearch">Search</button>
@@ -61,7 +61,7 @@ $no_owner_property=array();
     <a class="btn btn-success form-control" href="<?php echo base_url('publiczone/change_add') ?>" name="add">Add Property</a>
 
   </div>
-    </form><!-- create a new car --> 
+  <!-- create a new car --> 
   
 
 
@@ -264,7 +264,6 @@ $no_owner_property=array();
 </div> 
 </div>
 
-</div>
          
 <script>
 
@@ -339,7 +338,6 @@ $no_owner_property=array();
          //filtering all properties
          $.post('getAllProperties',function(value){
           /* tab is the table's id */
-
           $('#hide_owner').html(value);
         });
 
@@ -348,7 +346,6 @@ $no_owner_property=array();
           var data = $(this).val();
           if($('#hide_owner_search').val() === ''){
            $.post('getAllProperties',function(value){
-
             $('#hide_owner').html(value);
           }); 
          }    
@@ -360,37 +357,19 @@ $no_owner_property=array();
         }
       });
 });
-
-$(document).ready(function(){
-  var searchProvinve=[];
+  $('#page-selection').bootpag({
+  total: 23,
+  page: 1,
+  wrapClass: 'pagination',
   
-  var idproperty=["#FS","#GP","#WC","#NC","#MP","#NW","#L","#EC","#KZN"]
-   
-    /*if('.idproperty').click(checkinarray(){
-
-    }) */
-  
-      //searchProvinve[i]=;
-   
-  
-  
-}) 
-$(document).ready(function()
-{
-  var idproperty=["#FS","#GP","#WC","#NC","#MP","#NW","#L","#EC","#KZN"];
-  var id="";
-   $(".idproperty").click(function(){
-    for (var i = 0; i < idproperty.length; i++) {
-
-      if (idproperty[i]=='#'+$(this).attr('id')){
-       id= "'#"+ $(this).attr('id')+"'";
-       
-      }      
-    }
- 
-     
-   })
-     
-   
+  maxVisible: 5
+}).on('page', function(event, num){
+  $("#content2").html("Page " + num);
+  $.ajax({
+    url: "getAllProperties",
+  }).done(function(data) {
+    $("#content2").html(data );
+  });
 });
+
 </script>
