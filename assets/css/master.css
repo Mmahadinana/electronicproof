@@ -544,8 +544,8 @@ i .fa .fa-archive {
     padding-top:0.5em;
 }/**********************style for eresidenceform view***********************************/
 .eres_tabs{
-    padding: 10px 20px;
-    margin: 10% auto -10% auto;
+    padding: 0px 20px 10px 20px;
+    margin: 0% auto -10% auto;
     width: 60%;
     font-size: 14px;
 

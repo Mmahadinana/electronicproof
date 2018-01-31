@@ -22,19 +22,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
       
     <!--script src="js/bootstrap.min.js"></script-->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--script src="js/ie10-viewport-bug-workaround.js"></script-->
      <?php 
-  $Js_Files=['ie-emulation-modes-warning.js',
-  'bootstrap.min.js',
+  /*$Js_Files=['ie-emulation-modes-warning.js',
+  'bootstrap.min.js','jquery.bootpag.js',
   'ie10-viewport-bug-workaround.js',
-'myjs.js'];
+'myjs.js'];*/
+$Js_Files=[
+'myjs.js','particles.js'];
 
   foreach ($Js_Files as $js_file) {?>
   <!--script src="js/myjs.js"></script-->
-    <script src="<?php //echo base_url('assets/js/'.$js_file);?>" ></script><?php
+    <script src='<?php echo base_url("assets/js/$js_file")?>'></script><?php
   }
   ?>
 </footer>

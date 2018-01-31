@@ -124,15 +124,12 @@ class Residents extends CI_Controller {
 	 	$data['available_properties']=$this->ownersProperty_model->getAvailableProperties($search);
 
 		// count for all the properties
-		
 	 	$data['countProperties']=$this->ownersProperty_model->countProperties($search);
-	 	$data['countProp']=$this->ownersProperty_model->countAvailableProperties($search);
+	 	
 
 		//pagination for the Properties
 
-	 	$config['enable_query_string']=true;
-		//this is the one to show the actual page number,?page=someInt
-	 	$config['page_query_string']=true;
+	 	$config=$this->getPagination();
 		//url that will use the link
 	 	$config['base_url']=base_url('residents/eresidence?inputForSearch='.$data["inputForSearch"].'&mysearch='.$this->input->get('mysearch'));
 
@@ -142,10 +139,18 @@ class Residents extends CI_Controller {
 
 
 		// atribute for the class assigned to the pagination
-
-	 	$config['uri_segment']  = 3;
-
 	 	
+	 	
+	 	//$this->getPagination($config);
+	 	$this->pagination->initialize($config);
+	 	$data['search_pagination']=$this->pagination->create_links();
+	 	$this->load->view('ini',$data);
+	 }
+public function getPagination(){
+		$config['uri_segment']  = 3;
+	 	$config['enable_query_string']=true;
+		//this is the one to show the actual page number,?page=someInt
+	 	$config['page_query_string']=true;
 	 	/*************tags for pagination with config**************/
 	 	$config['full_tag_open'] = '<ul class="pagination">';
 	 	$config['full_tag_close'] = '</ul>';
@@ -165,13 +170,7 @@ class Residents extends CI_Controller {
 	 	$config['cur_tag_close'] = '</a></li>';
 	 	$config['num_tag_open'] = '<li>';
 	 	$config['num_tag_close'] = '</li>';
-	 	//$this->getPagination($config);
-	 	$this->pagination->initialize($config);
-	 	$data['search_pagination']=$this->pagination->create_links();
-	 	$this->load->view('ini',$data);
-	 }
-public function getPagination($config){
-	var_dump($config);
+	 	return $config;
 }
 	
 /**
@@ -198,6 +197,11 @@ foreach ($data['all_properties'] as $value) {
 
 	</div></div>';
 }
+$data['countProp']=$this->ownersProperty_model->countAvailableProperties();
+$config=$this->getPagination();
+$config['total_rows']=$data['countProp'];
+$this->pagination->initialize($config);
+$data['allproperties'].= $this->pagination->create_links();
 echo $data['allproperties'];
 }
 public function filterAllProperties()
@@ -219,6 +223,7 @@ foreach ($data['all_properties'] as $value) {
 	</div>
 
 	</div></div>';
+
 }
 echo $data['allproperties'];
 }

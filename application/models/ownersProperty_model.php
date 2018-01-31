@@ -323,9 +323,9 @@ class OwnersProperty_model extends CI_MODEL
 	 */
 	public function availableProperties($search=array(),int $limit = ITEMS_PER_PAGE ){
 
-		//$offset = $search['page']??0;
+		$offset = $search['page']??0;
 		$this->availablePropertiesquery($search);
-		//$this->db->limit($limit,$offset);
+		$this->db->limit($limit,$offset);
 		return $this->db->get()->result();
 
 		//return $this->db->get()->result() ;

@@ -14,7 +14,7 @@ $doorNumber=$user_data->door_number ?? $this->input->post('door_number')?? false
 $editmode = isset($user_id)? 'true':'false';
 ?>
 
-<div class="container form-area">
+<div class="container form-area"> 
 
 	<div>
 
@@ -72,19 +72,19 @@ $editmode = isset($user_id)? 'true':'false';
 
 					</div>
 					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-						<label for="password">Password</label>
+						<label for="newpassword">Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="password"   id="password" placeholder="Password" onblur="validatePassword" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="password"   id="newpassword" placeholder="Password" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
 						</div>
-						<p><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+						<p id="results"><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 
 					</div>
 
 
 					<div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-						<label for="confirm">Confirm Password</label>
+						<label for="confirmpass">Confirm Password</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="confirm" onblur="validatePassword"  id="confirm" placeholder="Confirm Password" required>
+							<input <?php echo  isset($user_id)? "disabled" : ""?>  type="password" class="form-control" name="confirm" onblur="validatePassword"  id="confirmpass" placeholder="Confirm Password" required>
 						</div>
 						<p><?php echo form_error('confirm') ? alertMsg(false,'confirm',form_error('confirm')) : ''; ?></p>
 					</div>
@@ -109,20 +109,22 @@ $editmode = isset($user_id)? 'true':'false';
 
 					</div>
 					<div class="form-group">
+						<label class="control-label" for="dateofbirth">Date of Birth</label>
+						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+							
+							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
+						</div>
+						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
+
+					</div>
+					<div class="form-group">
 						<label class="control-label" for="identitynumber">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
 							<input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
 						</div>
 						<p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="dateofbirth">Date of Birth</label>
-						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
-						</div>
-						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
-
-					</div>
+				
 
 
 					<div class="form-group">
@@ -402,7 +404,7 @@ console.log(curInputs);
        //check the parent of the input to change the class latter
        var parent = input.parent();
        //check if the input has only letters if has
-       if (regex.test(current_name))
+       if (regex.test(current_name) && current_name.length>2)
        {
         //removes the class has errors from the input parent
         parent.removeClass('has-error'); 
