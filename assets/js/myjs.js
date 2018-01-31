@@ -185,11 +185,13 @@ alert(dateofbirth);
   var maxDate = year + '-' + month + '-' + day;
   $('#dateofbirth').attr('max', maxDate);
 
-
+/************ validadtion for the Identity Number in South Africa  ***********/
   $(document).ready(function(){
   	$('#identitynumber').keyup('input',function(){
   		$('#id_results').html(checkIdentity($('#identitynumber').val()));
+
   		if(checkIdentity($('#identitynumber').val()) != 'Correct'){
+
   			$(this).parent().removeClass('has-success');
   			$(this).parent().addClass('has-error');
   		}else{
@@ -198,13 +200,14 @@ alert(dateofbirth);
   			$('#id_results').removeClass();
 			$('#id_results').addClass('text-success');
   		}
-  });	//var idNumber = $('#identitynumber').val();
+  });	
+  	// check if the identity number meets all the requirement
   	function checkIdentity(idNumber){
 
   		var dateofbirt=new Date($('#dateofbirth').val());
   		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
 
-
+  		//exracting the date into months, day and year
   		var id_month = dateofbirt.getMonth()+1;
   		var id_date = dateofbirt.getDate();       
   		var id_year = dateofbirt.getFullYear(); 
@@ -216,21 +219,22 @@ alert(dateofbirth);
   		if(id_date < 10){
   			id_date = '0' + id_date.toString();
   		}
-
+  			//concadinate the birthdate to compare it with first six numbers of ID, wich represent date of birth 
   		var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
-  		
+  		//check with date of birth
   		if (idNumber.substring(0,6) != dateofbirth && idNumber.length == 13 && id_number) {
 
   			
   			('#id_results').addClass('text-danger');
   			return 'Identity Number and dateofbirth do not match';
-
+//check the length and if it is only number
   		}if (idNumber.length != 13 || !id_number) {
 
   			$('#id_results').addClass('text-danger');
   			return 'Identity Number is not correct';
 
   		}
+  		//all is checked an correct 
   		if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number){
 
 			
@@ -238,6 +242,9 @@ alert(dateofbirth);
 		}
 	}
 });
+
+
+  /**********Validation for phone number*********/
 	$(document).ready(function(){
   	$('#phone').keyup('input',function(){
   		$('#phone_results').html(checkPhone($('#phone').val()));
@@ -255,31 +262,36 @@ alert(dateofbirth);
 
   		//var dateofbirt=new Date($('#dateofbirth').val());
   		var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''))
+  		//variable to check that the phone starts with 0
   		var phone1=[];
   		
 
   	for (var i = 0; i < phone.length; i++) {
+  		//saving all the characters of phone as array in check variable
   		phone1[i]=phone[i];
   	}
-  	
+  	//test the length
 		if (phone.length != 10) {
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must have exactly 10 numbers';
 
   		}
+  		//check is it is a number
   		if (!phone_number) {
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must have only numbers';
 
   		}
+  		//check if it starts with zero
   		if (phone1[0] != "0") {
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must starts with zero(0)';
 
   		}
+  		//everything is ok submit
   		if(phone.length == 10 && phone_number){
 
 			
