@@ -283,6 +283,7 @@ public function request()
 			//user does not have address they should register their address		
 			
 			redirect('residents/userprofile');
+
 		}
 		
 
@@ -1007,7 +1008,7 @@ public function confirm()
 	elseif($this->input->post('approval')){
 		$confirm=$this->request_model->approve_status(1,$search);
 		
-		redirect('Request_proof/listOfApproval?statusUpdate_AdminA=$confirm');
+		$this->index($search['user_id'],$search['property_id']);
 		
 	}
 	//administrator has declined the usr request
@@ -1039,7 +1040,32 @@ public function check_date(){
 
 }
 
+ public	function index($userid,$property_id)
+ 	{
+ 		
+ 		$search['userid']=$userid;
+         $search['property_id']=$property_id;
+ 		$data['pageToLoad']='makePDF/makepdf';
+		$data['pageActive']='makepdf';
+		//$this->load->view('ini',$data);
 
+ 		$this->load->library('Pdf');
+
+ 		$data['user_addinfor']= $this->request_model->getAddress($search);
+ 		$data['owner_addinfor']=$this->request_model->getOwner($search);
+	//var_dump($data['owner_addinfor']);
+	//check if there is owner
+	if(empty($data['owner_addinfor'])){
+		//delete user adddress of where there is no owner
+		//$this->request_model->removeUserAddress($search);
+		redirect("Testing/index?statusRequest=0");
+		
+	}
+
+ 		$this->load->view('makePDF/makepdf',$data);
+
+
+ 	}
 }
 
 

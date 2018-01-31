@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        </div>
        <div class="form-group">
 
-        <div class="col-lg-4 col-md-12  ">
+        <div class="col-lg-4 col-md-12">
           <input type="hidden" name='user_id' value="<?php echo $userid ?>" >
           <input type="hidden" name='owner_id' value="<?php echo $owner_id ?>" >
           <input type="hidden" name='property_id' value="<?php echo $property_id ?>" >

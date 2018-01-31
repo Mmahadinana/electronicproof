@@ -27,7 +27,7 @@
 	if(empty($data['owner_addinfor'])){
 		//delete user adddress of where there is no owner
 		$this->request_model->removeUserAddress($search);
-		redirect("residents/userprofile?statusRequest=0");
+		redirect("Testing/index?statusRequest=0");
 		
 	}
 

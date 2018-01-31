@@ -500,7 +500,7 @@ class Publiczone extends CI_Controller
 
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
-			redirect("login/login_?statusInsert=$statusInsert");
+		redirect("residents/userprofile?statusRequest=0");
 
 		}
 
@@ -821,7 +821,7 @@ class Publiczone extends CI_Controller
     		{
     			$statusEdit=$this->user_model->updateUser($this->input->post());
     			//redirect("publiczone/editUser?statusEdit=$statusEdit");
-    			redirect("login/login_");
+		redirect("residents/userprofile?statusRequest=0");
     		}
     	}else {
     		
