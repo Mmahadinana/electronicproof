@@ -210,13 +210,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<ul>
 								<li><h5><b><i><u>Setup the account</h5></b></u></i></li>
 								<p>Is to insert the password and username(email)</p>
-								<li><h5><b<i><u>>Adding Personal Details</h5></b></u></i></li>
+								<li><h5><b><i><u>Adding Personal Details</h5></b></u></i></li>
 								<p>Is to insert your personal information(full name,ID nº,date of birth,date of registration,phone,gender)</p>
 								<li><h5><b><i><u>Adding residencial Address</h5></b></u></i></li>
 								<p>Is to insert the residencial information(Province,Distric,Municipality,town,suburb,Street address,Door nº)</p>
-								<li><h5><b>Fill in owner information</b></h5></li>
+								<li><h5><b><i><u>Fill in owner information</b></h5></u></i></li>
 								<p>Is to insert personal information about the owner of tha proparty such as (full name,ID nº,date of birth,date of registration,phone,gender,email)</p>
-								<li><h5><b>Confirm your Details of the Owner</b></h5></li>
+								<li><h5><b><i><u>Confirm your Details of the Owner</b></h5></u></i></li>
 								<p>View all the information for user</p>
 							</ul>
 						</div>
