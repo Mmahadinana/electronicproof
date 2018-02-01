@@ -7,12 +7,12 @@ class Publiczone extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("messages_model");
+		//$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
 		$this->load->model("district_model");
 		$this->load->model('town_model');
-		$this->load->model('user_model');
+		//$this->load->model('user_model');
 
 
 	}

@@ -8,8 +8,8 @@
  		public function __construct()
 	{
 		parent::__construct();
- 			$this->load->model("listOfRes_model");
- 		    $this->load->model("request_model");
+ 			//$this->load->model("listOfRes_model");
+ 		    //$this->load->model("request_model");
 
  		}
 

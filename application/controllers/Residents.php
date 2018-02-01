@@ -9,15 +9,15 @@ class Residents extends CI_Controller {
 
 		
 		//library to access the session
-		$this->load->library("session");
-		$this->load->model("request_model");
-		$this->load->model("approval_model");
-		$this->load->model("ownersProperty_model");
-		$this->load->model("ownersDetails_model");
-		$this->load->model("login_model");
-		$this->load->model("owners_property_model");
-		$this->load->model("listOfRes_model");
-		$this->load->library('pagination');
+		//$this->load->library("session");
+		//$this->load->model("request_model");
+		//$this->load->model("approval_model");
+		//$this->load->model("ownersProperty_model");
+		//$this->load->model("ownersDetails_model");
+		//$this->load->model("login_model");
+		//$this->load->model("owners_property_model");
+		//$this->load->model("listOfRes_model");
+		//$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if(!$is_logged_in ){
