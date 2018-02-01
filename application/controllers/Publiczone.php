@@ -8,17 +8,17 @@ class Publiczone extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("messages_model");
+		//$this->load->model("messages_model");
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
 		$this->load->model('suburb_model');
 		$this->load->model("district_model");
 		$this->load->model('town_model');
-		$this->load->model('user_model');
-		$this->load->model('login_model');
+		//$this->load->model('user_model');
+		//$this->load->model('login_model');
 		$this->load->model('owner_model');
-		$this->load->library('email');
-		$this->load->model('Postoffice_model');
+		//$this->load->library('email');
+		//$this->load->model('Postoffice_model');
 		$this->load->model('address_model');
 		$this->load->helper('form');
 
@@ -64,6 +64,13 @@ class Publiczone extends CI_Controller
 		
 	}
 
+	public function Admin()
+	{
+		$data['pageToLoad']='Admin/admin';
+		$data['pageActive']='help';
+		$this->load->view('ini',$data);
+		
+	}
 	/**
 	 * [contact form which allow the user to require information with regarding the app]
 	 * @return [true] [respond that it works well]

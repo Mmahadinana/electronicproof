@@ -19,6 +19,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li <?php echo setMenuActiveItem ($pageActive == "home")?>><a href="<?php echo base_url() ?>">Home</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "about")?>><a href="<?php echo base_url('publiczone/about') ?>">About</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "contact")?>><a href="<?php echo base_url('publiczone/Contact') ?>">Contact</a></li>
+        <li <?php echo setMenuActiveItem ($pageActive == "index")?>><a href="<?php echo base_url('Testing/index') ?>">Pdf</a></li>
+        <li <?php echo setMenuActiveItem ($pageActive == "Admin")?>><a href="<?php echo base_url('publiczone/Admin') ?>">Admin</a></li>
 
         <!--!!!!!!!!!!!!!!!!!!!!!!!!Links and pages that will be views viewed by administrator !!!!!!!!!!!!!!!!!!!!!!!!!-->
 

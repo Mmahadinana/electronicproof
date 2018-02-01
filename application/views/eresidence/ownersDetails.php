@@ -14,11 +14,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
  <div class="form-area">
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
-         
-      <div class="row setup-content" id="step-3">
       <div class="col-xs-6 col-md-offset-4">
         <div class="col-md-12">
           <h3 >Owners Information</h3>
+
           <div class="form-group" >
             <label class="control-label" for="title_deed">Title Deed</label>
             <div class="input-group"> <span class="input-group-addon"><span class="fa fa-address-card-o"></span></span>

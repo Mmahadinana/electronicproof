@@ -10,15 +10,15 @@ class Request_proof extends CI_Controller {
 
 		
 		//library to access the session
-		$this->load->library("session");
-		$this->load->model("request_model");
-		$this->load->model("approval_model");
-		$this->load->model("ownersProperty_model");
-		$this->load->model("ownersDetails_model");
-		$this->load->model("login_model");
-		$this->load->model("owners_property_model");
-		$this->load->model("listOfRes_model");
-		$this->load->library('pagination');
+		//$this->load->library("session");
+		//$this->load->model("request_model");
+		//$this->load->model("approval_model");
+		//$this->load->model("ownersProperty_model");
+		//$this->load->model("ownersDetails_model");
+		//$this->load->model("login_model");
+		//$this->load->model("owners_property_model");
+		//$this->load->model("listOfRes_model");
+		//$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 
@@ -160,7 +160,7 @@ public function request()
 							'required',
 							'exact_length[10]',						
 							'regex_match[/^[0-9]+$/]',
-							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
+							array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
 
 
 						'errors'=>array(
@@ -177,7 +177,7 @@ public function request()
 							'required',
 							'exact_length[13]',
 							'numeric',
-							array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+							array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))				
 						),
 						'errors'=>array(
 							'required'=>' %s is required',
@@ -191,7 +191,7 @@ public function request()
 						'label'=>'E-mail',
 						'rules'=>array(
 							'required','valid_email',
-							array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+							array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
 						'errors'=>array(
 							'required'=>'%s is required',
 							'valid_email'=>'invalid email',

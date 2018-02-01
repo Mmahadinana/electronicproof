@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'font-awesome.css',
   'ie10-viewport-bug-workaround.css',
   'master.css',
+  'admin.css',
   'substyle.css','particles.css',
   'mystyle.css'];
 

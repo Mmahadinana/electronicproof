@@ -9,8 +9,8 @@ class Send_email extends CI_Controller {
 	
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('email');
-		$this->load->model('Postoffice_model');
+		//$this->load->library('email');
+		//$this->load->model('Postoffice_model');
 	}
 
 /**

@@ -10,11 +10,11 @@ class Passwords extends CI_Controller
 		
 		parent::__construct();
 		//$this->load->library('session');
-		$this->load->model("messages_model");		
-		$this->load->model('user_model');
-		$this->load->model('login_model');
-		$this->load->library('email');
-		$this->load->model('Postoffice_model');
+		//$this->load->model("messages_model");		
+		//$this->load->model('user_model');
+		//$this->load->model('login_model');
+		//$this->load->library('email');
+		//$this->load->model('Postoffice_model');
 
 
 
@@ -63,7 +63,7 @@ class Passwords extends CI_Controller
 			array('field'=>'username',
 				'label'=>'Username',
 				'rules'=>array('required','valid_email',
-					array('checkUsername',array($this->login_model,'checkUsername'))),
+					array('checkUsername',array($this->Login_model,'checkUsername'))),
 				'errors'=>array(
 					'required'=>'%s is required',
 					'valid_email'=>'invalid email',
@@ -80,7 +80,7 @@ class Passwords extends CI_Controller
 		}else
 		{
 
-			$data['db']=$this->login_model->get_user($this->input->post('username'));
+			$data['db']=$this->Login_model->get_user($this->input->post('username'));
 			
 
 			$user_id= $data['db']->id;
