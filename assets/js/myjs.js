@@ -20,14 +20,14 @@ $(document).ready(function() {
 			var password = $("#newpassword").val();
 			var confirmPassword = $("#confirmpass").val();
 				//when passwords do not match
-			if (password != confirmPassword){
-				$("#CheckPasswordMatch").html("Passwords do not match!");
-				$("#CheckPasswordMatch").removeClass("text-success");
-				$("#CheckPasswordMatch").addClass("text-danger");
-				$(this).parent().removeClass('has-success');
-				$(this).parent().addClass('has-error');
-			}
-			else{
+				if (password != confirmPassword){
+					$("#CheckPasswordMatch").html("Passwords do not match!");
+					$("#CheckPasswordMatch").removeClass("text-success");
+					$("#CheckPasswordMatch").addClass("text-danger");
+					$(this).parent().removeClass('has-success');
+					$(this).parent().addClass('has-error');
+				}
+				else{
 				//when passwords match
 				$("#CheckPasswordMatch").html("Passwords match.");
 				$("#CheckPasswordMatch").removeClass("text-danger");
@@ -47,13 +47,13 @@ $(document).ready(function() {
 			//initialize strength to zero
 			var strength = 0;
 			//check length
-		if (password.length < 5) {
+			if (password.length < 5) {
 				$('#results').removeClass();
 				$('#results').addClass('short text-danger h5');
 				return 'Too short'
 			}
 			
-		if (password.length > 5) strength += 1
+			if (password.length > 5) strength += 1
 			// If password contains both lower and uppercase characters, increase strength value.
 		if (regex_lowercase_uppercase) strength += 1
 			// If it has numbers and characters, increase strength value.
@@ -66,22 +66,22 @@ $(document).ready(function() {
 			if (strength < 2) {
 				$('#results').removeClass();
 				$('#results').addClass('weak text-danger h5');
-			
-			return 'Weak, password contain all(special character,number,uppercase and lowercase';
 
-		} else if (strength == 2) {
-			$('#results').removeClass();
-			$('#results').addClass('good text-warning h5');
+				return 'Weak, password contain all(special character,number,uppercase and lowercase';
 
-			return 'Good, password contain all(special character,number,uppercase and lowercase)';
+			} else if (strength == 2) {
+				$('#results').removeClass();
+				$('#results').addClass('good text-warning h5');
 
-		} else {
-			$('#results').removeClass();
-			$('#results').addClass('strong text-success h5');
-			return 'Strong';
+				return 'Good, password contain all(special character,number,uppercase and lowercase)';
+
+			} else {
+				$('#results').removeClass();
+				$('#results').addClass('strong text-success h5');
+				return 'Strong';
+			}
 		}
-	}
-});
+	});
 //for manage propertis view page
 //
 /****************validation for Identity number*********************/
@@ -168,71 +168,137 @@ alert(dateofbirth);
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }*/
-   
+
      /*$( function() {
     $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
-  } );*/
+} );*/
   //Display Only Date till today // 
   var dtToday = new Date();
   var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
   var day = dtToday.getDate()-10;
   var year = dtToday.getFullYear();
   if(month < 10)
-      month = '0' + month.toString();
+  	month = '0' + month.toString();
   if(day < 10)
-      day = '0' + day.toString();
+  	day = '0' + day.toString();
 
   var maxDate = year + '-' + month + '-' + day;
   $('#dateofbirth').attr('max', maxDate);
 
+/************ validadtion for the Identity Number in South Africa  ***********/
+  $(document).ready(function(){
+  	$('#identitynumber').keyup('input',function(){
+  		$('#id_results').html(checkIdentity($('#identitynumber').val()));
 
-$(document).ready(function(){
-  $('#identitynumber').keyup('input',function(){
-  	$('#id_results').html(checkIdentity($('#identitynumber').val()));
-alert(checkIdentity($('#identitynumber').val()));
+  		if(checkIdentity($('#identitynumber').val()) != 'Correct'){
+
+  			$(this).parent().removeClass('has-success');
+  			$(this).parent().addClass('has-error');
+  		}else{
+  			$(this).parent().removeClass('has-error');
+  			$(this).parent().addClass('has-success');
+  			$('#id_results').removeClass();
+			$('#id_results').addClass('text-success');
+  		}
+  });	
+  	// check if the identity number meets all the requirement
+  	function checkIdentity(idNumber){
+
+  		var dateofbirt=new Date($('#dateofbirth').val());
+  		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
+
+  		//exracting the date into months, day and year
+  		var id_month = dateofbirt.getMonth()+1;
+  		var id_date = dateofbirt.getDate();       
+  		var id_year = dateofbirt.getFullYear(); 
+
+
+  		if(id_month < 10){
+  			id_month = '0' + id_month.toString();
+  		}
+  		if(id_date < 10){
+  			id_date = '0' + id_date.toString();
+  		}
+  			//concadinate the birthdate to compare it with first six numbers of ID, wich represent date of birth 
+  		var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
+  		//check with date of birth
+  		if (idNumber.substring(0,6) != dateofbirth && idNumber.length == 13 && id_number) {
+
+  			
+  			('#id_results').addClass('text-danger');
+  			return 'Identity Number and dateofbirth do not match';
+//check the length and if it is only number
+  		}if (idNumber.length != 13 || !id_number) {
+
+  			$('#id_results').addClass('text-danger');
+  			return 'Identity Number is not correct';
+
+  		}
+  		//all is checked an correct 
+  		if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number){
+
+			
+			return 'Correct';
+		}
+	}
+});
+
+
+  /**********Validation for phone number*********/
+	$(document).ready(function(){
+  	$('#phone').keyup('input',function(){
+  		$('#phone_results').html(checkPhone($('#phone').val()));
+  		if(checkPhone($('#phone').val()) != 'Correct'){
+  			$(this).parent().removeClass('has-success');
+  			$(this).parent().addClass('has-error');
+  		}else{
+  			$(this).parent().removeClass('has-error');
+  			$(this).parent().addClass('has-success');
+  			$('#phone_results').removeClass();
+			$('#phone_results').addClass('text-success');
+  		}
   });	//var idNumber = $('#identitynumber').val();
- function checkIdentity(idNumber){
+  	function checkPhone(phone){
 
-  	var dateofbirt=new Date($('#dateofbirth').val());
-	var id_number= $(this).val($(this).val().replace(/[^\d].+/,''));
-	
-
-  	var id_month = dateofbirt.getMonth()+1;
-  	var id_date = dateofbirt.getDate();       
-    var id_year = dateofbirt.getFullYear(); 
-       
-
-        if(id_month < 10){
-      id_month = '0' + id_month.toString();
-  }
-         if(id_date < 10){
-      id_date = '0' + id_date.toString();
-  }
- 
-  	var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
-	if (idNumber != dateofbirth && idNumber.length == 13 && id_number) {
-		error=true;
-  		$('#id_results').romoveClass();
-  		$('#id_results').addClass('text-danger');
-  		return 'Identity Number and dateofbirth do not match';
+  		//var dateofbirt=new Date($('#dateofbirth').val());
+  		var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''))
+  		//variable to check that the phone starts with 0
+  		var phone1=[];
   		
-	}if (idNumber.length != 13 || !id_number) {
-  		$(this).parent().removeClass('has-success');
-  		$(this).parent().addClass('has-error');
 
-  		$('#id_results').romoveClass();
-  		$('#id_results').addClass('text-danger');
-  		return 'Identity Number do not match';
-
-  	}if(idNumber == dateofbirth && idNumber.length == 13 && id_number){
-  		$(this).parent().removeClass('has-error');
-			$(this).parent().addClass('has-success');
-			$('#id_results').romoveClass();
-  		$('#id_results').addClass('text-success');
-  		return 'Correct';
+  	for (var i = 0; i < phone.length; i++) {
+  		//saving all the characters of phone as array in check variable
+  		phone1[i]=phone[i];
   	}
-  	}
+  	//test the length
+		if (phone.length != 10) {
+
+  			$('#phone_results').addClass('text-danger');
+  			return 'Phone Number must have exactly 10 numbers';
+
+  		}
+  		//check is it is a number
+  		if (!phone_number) {
+
+  			$('#phone_results').addClass('text-danger');
+  			return 'Phone Number must have only numbers';
+
+  		}
+  		//check if it starts with zero
+  		if (phone1[0] != "0") {
+
+  			$('#phone_results').addClass('text-danger');
+  			return 'Phone Number must starts with zero(0)';
+
+  		}
+  		//everything is ok submit
+  		if(phone.length == 10 && phone_number){
+
+			
+			return 'Correct';
+		}
+	}
 
 
-  
+
 });

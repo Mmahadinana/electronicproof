@@ -142,7 +142,7 @@ $editmode = isset($user_id)? 'true':'false';
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
 							<input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
 						</div>
-						<p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
+						<p id="phone_results"><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
 					</div>
 					<label  id ="gender" class="control-label">Gender</label>
 
