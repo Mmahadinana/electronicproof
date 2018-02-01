@@ -117,10 +117,7 @@ class Login extends CI_Controller
 		$this->load->helper('form');
 		// this is for validation 
 		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
-
-
-		
+		$this->load->view('ini',$data);		
 	}
 	/*public function reset()
 	{

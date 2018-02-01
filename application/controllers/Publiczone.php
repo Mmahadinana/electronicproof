@@ -587,7 +587,7 @@ class Publiczone extends CI_Controller
 	public function editUser()
 	{
 		$id=$this->input->post('userid');
-
+		//var_dump($id);
 		if($id!=0 and is_numeric($id))
 		{
 			$data['user_id'] = $id;
@@ -607,6 +607,7 @@ class Publiczone extends CI_Controller
 		$search=array();
 		$data['user_id'] =$_SESSION['userid'];
 		$search['user_id']= $data['user_id'];
+		//var_dump($search);
 
 		$data['email']=$this->user_model->getUser();
 		$data['name']=$this->user_model->getUser();
@@ -640,7 +641,7 @@ class Publiczone extends CI_Controller
     	//$data['zip_code']=$this->zip_code_model->getZip_code();
 
     	$data['userInfo']= $this->user_model->getUser($search);
-
+    	//var_dump($data['userInfo']);
     	foreach ($data['userInfo'] as $key => $value) 
     	{
     		$data['user_data']=$value;
