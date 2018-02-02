@@ -221,6 +221,11 @@ h3 {
     box-shadow: 0px 8px 8px #000;
    
   }
+  .form-area2
+  {
+     width: 100%;
+
+  }
   .form-area h1{
     /*padding-top:3em;*/
   }

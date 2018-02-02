@@ -20,21 +20,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li <?php echo setMenuActiveItem ($pageActive == "about")?>><a href="<?php echo base_url('publiczone/about') ?>">About</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "contact")?>><a href="<?php echo base_url('publiczone/Contact') ?>">Contact</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "index")?>><a href="<?php echo base_url('Testing/index') ?>">Pdf</a></li>
-        <li <?php echo setMenuActiveItem ($pageActive == "Admin")?>><a href="<?php echo base_url('publiczone/Admin') ?>">Admin</a></li>
 
         <!--!!!!!!!!!!!!!!!!!!!!!!!!Links and pages that will be views viewed by administrator !!!!!!!!!!!!!!!!!!!!!!!!!-->
 
-        <li <?php echo (isset($_SESSION['email']) && $_SESSION['role'] == "admin")? "class='dropdown'" : "class='hidden'"?> >             
-          <a class="btn dropdown-toggle btn-bkg" data-toggle="dropdown" aria-expanded="false">E-Residence  &nbsp;&nbsp;<span class="caret"></span></a>
-          <ul class="dropdown-menu dropdownmenu " >            
-            <li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li>
+        <li <?php echo (isset($_SESSION['email']) && $_SESSION['role'] == "admin")? "class=''" : "class='hidden'"?> ><a href="<?php echo base_url('residents/Admin') ?>">Admin</a>   
+                  <!--li <?php echo setMenuActiveItem ($pageActive == "Admin")?>><a href="<?php echo base_url('residents/Admin') ?>">Admin</a></li>
+                      <li <?php echo (isset($_SESSION['email']) && $_SESSION['owner'] != false) ? "class=' '" : "class='hidden'"?> <?php echo setMenuActiveItem ($pageActive == "admin")?>><a href="<?php echo base_url('publiczone/Admin')?>">Admin</a></li-->
 
-             
+          <!--a class="btn dropdown-toggle btn-bkg" data-toggle="dropdown" aria-expanded="false">E-Residence  &nbsp;&nbsp;<span class="caret"></span></a-->
+          <!--ul class="dropdown-menu dropdownmenu " -->
+            
+            <!--li <?php echo setMenuActiveItem ($pageActive == "Manage Property")?>><a href="<?php echo base_url('residents/eresidence') ?>">Manage Property</a></li> 
             <li <?php echo (isset($_SESSION['email']) && $_SESSION['owner'] != false) ? "class=' '" : "class='hidden'"?> <?php echo setMenuActiveItem ($pageActive == "confirmList")?>><a href="<?php echo base_url('request_proof/confirmList')?>">Confirm List</a></li>
             <li <?php echo (isset($_SESSION['email']) && $_SESSION['owner'] != false) ? "class=' '" : "class='hidden'"?> <?php echo setMenuActiveItem ($pageActive == "listOfApproval")?>><a href="<?php echo base_url('request_proof/listOfApproval')?>">List Of Approval</a></li>
-            <!--li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li-->
+            <li <?php echo setMenuActiveItem ($pageActive == "ResidencialProperty")?>><a href="<?php echo base_url('residents/ResidencialProperty') ?>">Residencial Property</a></li>
             
-          </ul>
+          </ul-->
         </li>
          <li <?php echo setMenuActiveItem ($pageActive == "Request")?><?php echo (isset($_SESSION['email']) && $_SESSION['role'] == "resident")? "class=' '" : "class='hidden'"?> ><a href="<?php echo base_url('request_proof/request') ?>">Request</a></li>
         <!--!!!!!!!!!!!!!!!!!!!!!Links and pages that will be views viewed by residents and owners !!!!!!!!!!!!!!!!!!!!!!!!!!-->
