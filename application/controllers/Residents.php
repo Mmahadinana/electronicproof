@@ -46,11 +46,11 @@ class Residents extends CI_Controller {
 	 /**
 	  * [Eresidence description]
 	  */
-	 public function Eresidence()
+	 public function Admin()
 	 {
 	 	if($_SESSION['role']!="admin")
 	 	{
-	 		redirect('login/login_');
+	 		redirect('residents/admin');
 	 	}
 	 	$id_remove=$this->input->post('id_Property');
 	 	if ($id_remove!=0 and is_numeric($id_remove))
@@ -67,9 +67,41 @@ class Residents extends CI_Controller {
 	 		$data['statusInsert']= $this->input->get('statusInsert');
 	 	}	
 
+	 	if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
+
+		}
+  //user that does is not owner have no access to this view
+		if ($_SESSION['owner'] != true) {
+			redirect(base_url());
+		}
+		$search=array();		
+		$requestPropertyID=array();		
+		//$data['getOwnerListToComfirm']=array();		
+		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+		$search['owner']=$_SESSION['id'];
+		//$count=count($data['owner']);
+		$data['getListToComfirm']=$this->request_model->getListToComfirmRequest($search);
+		//var_dump($data['owner']);
+		foreach ($data['owner'] as $owner) {
+
+			foreach ($data['getListToComfirm'] as $confirm) {
+				if ($confirm->property_id==$owner->property) {
+					
+					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
+					//get the list that owner should complete
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
+					
+				}					
+			}		
+			//var_dump($data['getOwnerListToComfirm']);
+			//$ownerPropertyID[$owner->property]=$owner->property;
+			
+		}		
+
 	 	//load the page
-	 	$data['pageToLoad']='eresidence/eresidence';
-	 	$data['pageActive']='eresidence';
+	 	$data['pageToLoad']='Admin/admin';
+	 	$data['pageActive']='admin';
 	 	$this->load->helper('form');	
 
 	 	/** start search for property   **/		
@@ -134,7 +166,7 @@ class Residents extends CI_Controller {
 		//this is the one to show the actual page number,?page=someInt
 	 	$config['page_query_string']=true;
 		//url that will use the link
-	 	$config['base_url']=base_url('residents/eresidence?inputForSearch='.$data["inputForSearch"].'&mysearch='.$this->input->get('mysearch'));
+	 	$config['base_url']=base_url('residents/admin?inputForSearch='.$data["inputForSearch"].'&mysearch='.$this->input->get('mysearch'));
 
 		//number of results to be devided on the pagintion
 	 	$config['total_rows']=$data['countProperties'];
@@ -173,7 +205,7 @@ class Residents extends CI_Controller {
 public function getPagination($config){
 	var_dump($config);
 }
-	
+
 /**
  * [listOfResidents description]
  * @param  integer $property_id [description]
@@ -304,7 +336,7 @@ public function getOwnerOfProperty($user_id){
 	$search=array();
 	$confirmlist=array();
 	$search['user_id']=$user_id;
-	echo json_encode($data['owner']);
+	//echo json_encode($data['owner']);
 	return $data['owner']=$this->request_model->getOwner($search);
 
 }
@@ -394,8 +426,9 @@ public function userprofile()
 			
 		}*/
 
-		$data['pageToLoad']='request/confirmList';
-		$data['pageActive']='request';
+
+		$data['pageToLoad']='Admin/confirmList';
+		$data['pageActive']='Admin';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);

@@ -64,13 +64,7 @@ class Publiczone extends CI_Controller
 		
 	}
 
-	public function Admin()
-	{
-		$data['pageToLoad']='Admin/admin';
-		$data['pageActive']='help';
-		$this->load->view('ini',$data);
-		
-	}
+	
 	/**
 	 * [contact form which allow the user to require information with regarding the app]
 	 * @return [true] [respond that it works well]
