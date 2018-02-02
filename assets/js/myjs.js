@@ -24,6 +24,7 @@ $(document).ready(function() {
         parent.removeClass('has-error'); 
          //adds the class has success to the input parent
          parent.addClass('has-success');
+          $('.nextBtn').removeClass('disabled');
          errors = false;  
      } 
        else {//if not
@@ -32,6 +33,7 @@ $(document).ready(function() {
          parent.removeClass('has-success');
          //adds the class has errors to the input parent
          parent.addClass('has-error');
+           $('.nextBtn').addClass('disabled');
          errors = true;
      }
  });
@@ -59,7 +61,8 @@ $(document).ready(function() {
         //removes the class has errors from the input parent
         parent.removeClass('has-error');  
          //adds the class has success to the input parent
-         parent.addClass('has-success');  
+         parent.addClass('has-success'); 
+         $('.nextBtn').removeClass('disabled'); 
          errors = false;
      } 
      else {
@@ -68,6 +71,7 @@ $(document).ready(function() {
          parent.removeClass('has-success');
          //adds the class has errors to the input parent
          parent.addClass('has-error');
+         $('.nextBtn').addClass('disabled');
          errors = true;
 
      }
@@ -80,11 +84,13 @@ $(document).ready(function() {
 			{	//show input error if password does no meet requirements
 				$(this).parent().removeClass('has-success');
 				$(this).parent().addClass('has-error');
+        $('.nextBtn').addClass('disabled'); 
 			}
 			else{
 				//show input success if password meet requirements
 				$(this).parent().removeClass('has-error');
 				$(this).parent().addClass('has-success');
+ $('.nextBtn').removeClass('disabled');
 			}
 		})
 		// Confirm password to match newpassword
@@ -98,6 +104,7 @@ $(document).ready(function() {
 					$("#CheckPasswordMatch").addClass("text-danger");
 					$(this).parent().removeClass('has-success');
 					$(this).parent().addClass('has-error');
+          $('.nextBtn').addClass('disabled'); 
 
 				}
 				else{
@@ -106,7 +113,8 @@ $(document).ready(function() {
 				$("#CheckPasswordMatch").removeClass("text-danger");
 				$("#CheckPasswordMatch").addClass("text-success");
 				$(this).parent().removeClass('has-error');
-				$(this).parent().addClass('has-success')
+				$(this).parent().addClass('has-success');
+         $('.nextBtn').removeClass('disabled');
 			}
 		})
 		//check password 
@@ -268,9 +276,11 @@ alert(dateofbirth);
 
   			$(this).parent().removeClass('has-success');
   			$(this).parent().addClass('has-error');
+         $('.nextBtn').addClass('disabled'); 
   		}else{
   			$(this).parent().removeClass('has-error');
   			$(this).parent().addClass('has-success');
+         $('.nextBtn').removeClass('disabled');
   			$('#id_results').removeClass();
 			$('#id_results').addClass('text-success');
   		}
@@ -325,9 +335,11 @@ alert(dateofbirth);
   		if(checkPhone($('#phone').val()) != 'Correct'){
   			$(this).parent().removeClass('has-success');
   			$(this).parent().addClass('has-error');
+         $('.nextBtn').addClass('disabled'); 
   		}else{
   			$(this).parent().removeClass('has-error');
   			$(this).parent().addClass('has-success');
+         $('.nextBtn').removeClass('disabled');
   			$('#phone_results').removeClass();
 			$('#phone_results').addClass('text-success');
   		}

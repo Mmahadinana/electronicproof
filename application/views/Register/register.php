@@ -223,7 +223,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 					<div class="form-group" id="select_town" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
 
-						<label for="town">town</label>
+						<label for="town">Town</label>
 						<select class="form-control" name="town" id="town" onchange="update_suburb()">
 							<option  selected="true" disabled="disabled">Please select</option>
 
@@ -309,12 +309,18 @@ $editmode = isset($user_id)? 'true':'false';
 
 <script type="text/javascript">
 	$(document).ready(function ()
+
 	{
+		$('#setup').on('change',function(){
+			//checkStrength($('#newpassword').val();
+		});
+
 		var navListItems = $('div.setup-panel div a'),
 		allWells = $('.setup-content'),
 		allNextBtn = $('.nextBtn');
 
 		allWells.hide();
+//show the step when we load the 		
 $('#step-1').show();
 		navListItems.click(function (e) 
 		{
@@ -331,7 +337,7 @@ $('#step-1').show();
 				$target.find('input:eq(0)').focus();
 			}
 		});
-
+//controlls the next step
 		allNextBtn.click(function(e)
 		{
 			var curStep = $(this).closest(".setup-content"),
@@ -352,10 +358,8 @@ $('#step-1').show();
 				for(var i=0; i<curInputs.length; i++)
 				{
 				//console.log( checkStrength(($(curInputs[2]).attr('id'))));
-					if (!curInputs[i].validity.valid )
+					if (!curInputs[i].validity.valid)
 					{
-
-console.log('validity');
 						isValid = false;
 						$(curInputs[i]).closest(".form-group").addClass("has-error");
 					}

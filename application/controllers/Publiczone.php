@@ -312,9 +312,7 @@ class Publiczone extends CI_Controller
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %s',
 					'max_length[25]'=>'%s should not exit 25 charactors',
-					'validatePassword'=>'password should have at least one simbol/charactor',
-				),
-				
+					'validatePassword'=>'password should have at least one simbol/charactor',),			
 
 			),
 
@@ -326,7 +324,6 @@ class Publiczone extends CI_Controller
 				'errors'=>array(						
 					'required'=>'you should insert one %s for login',
 					'matches[newpassword]'=>'% you entered does not match'),
-
 			),
 
 			array('field'=>'name',
@@ -341,28 +338,7 @@ class Publiczone extends CI_Controller
 					'min_length'=>'%s should have minimum of 3 ',
 					'max_length'=>'%s should have maximum of 25',
 					'alpha'=>'%s should have alphabet')						
-			),
-
-			/*array(
-				'field'=>'identitynumber',
-
-				'label'=>'Identity Number',
-				'rules'=>array
-				(
-					'required',
-					'exact_length[13]',						
-
-					//'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
-				),
-
-
-
-				'errors'=>array
-				('required'=>'you should insert one %s ',
-					'exact_length'=>'the %s must have at least length of 13 ',						
-					//'regex_match'=>'the %s must be numbers only',									
-				)	 					
-			),*/
+			),	
 			
 			 array('field'   => 'identitynumber',
     			'label'  =>  'Identity Number',
@@ -370,15 +346,13 @@ class Publiczone extends CI_Controller
     				'required',
     				'exact_length[13]',
     				'numeric',
-    				'is_unique[user.identitynumber]'				
-    				),
+    				'is_unique[user.identitynumber]'),
 
     			'errors'  =>  array(
     				'required'  =>  ' %s is required',
     				'exact_length'  =>  'the %s must have 13 numbers',
     				'numeric'  =>  'the %s must have only numbers',
     				'is_unique'     => 'This %s already exists.')
-
     			),
 
     			array(
@@ -388,8 +362,7 @@ class Publiczone extends CI_Controller
     					'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
     				'errors'=>array
     				('required'=>'you should insert %s for the user',
-    				'regex_match'=>'%s is not valid',
-    					)
+    				'regex_match'=>'%s is not valid',)
     			),
 
     			array(
@@ -406,8 +379,7 @@ class Publiczone extends CI_Controller
     				('required'=>'you should insert one %s ',
     					'exact_length'=>'the %s must have at least length of 10 ',						
     					'regex_match'=>'the %s must starts with 0',									
-    					'numeric'=>'the %s must be numbers',									
-    				)	 					
+    					'numeric'=>'the %s must be numbers')	 					
     			),
     			
     			array(
@@ -415,61 +387,44 @@ class Publiczone extends CI_Controller
     				'label'=>'Gender',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert %s for the user')
-    				
+    				('required'=>'you should insert %s for the user')    				
     			),
-
     			array(
     				'field'=>'suburb',
-    				'label'=>'suburb',
+    				'label'=>'Suburb',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'town',
-    				'label'=>'town',
+    				'label'=>'Town',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'district',
-    				'label'=>'district',
+    				'label'=>' District',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'province',
-    				'label'=>'province',
-
-
-    			
+    				'label'=>'Province',    			
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
+    				('required'=>'you should insert one %s for the user')
 
     			),
     			array(
 
     				'field'=>'manucipality',
-    				'label'=>'manucipality',
-
+    				'label'=>'Manucipality',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
- 
+    				('required'=>'you should insert one %s for the user')
 
     			),
     				array(
@@ -477,20 +432,14 @@ class Publiczone extends CI_Controller
 				'label'=>'Street Address',
 				'rules'=>
 				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
+				'errors'=>array('required'=>'you should insert %s for the user')
 			),
 			array(
 				'field'=>'door_number',
 				'label'=>'Door Number',
 				'rules'=>
 				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
-			),
-
-		
-				
+				'errors'=>array('required'=>'you should insert %s for the user')),				
 			);
 
 		$this->form_validation->set_rules($config_validation);
