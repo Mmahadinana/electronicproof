@@ -18,21 +18,20 @@ class User_model extends CI_MODEL
 	 * @param  [type] $searchterm [description]
 	 * @return [true]             [retrieves owner's manucipality]
 	 */
-	public function userQuery($searchterm)
+	public function userQuery($searchid)
 	{
 		
-
-		$user_id = $searchterm['user_id'] ?? FALSE;
+		//search user id
+		$user_id = $searchid['user_id'] ?? FALSE;
 		//var_dump($user_id);
 		if('$user_id')
 		{
-			$this->db->where('user.id',$user_id);
+			$this->db->where('lives_on.user_id',$user_id);
 
 		}
 		
 		return $this->db
-		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
-			owners.id as ownersid,owners.title_deed,owners.registration_number,owners.purchase_price,owners.purchase_date,owners.house_type,
+		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
 			lives_on.user_id,
 			property.id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
@@ -42,8 +41,7 @@ class User_model extends CI_MODEL
 			manucipality.name as manucipality,manucipality.district_id,
 			district.name as district,district.id as districtid,district.province_id,
 			province.name as province,province.id as provinceid ")
-		->from("user")
-		->join("owners","owners.user_id = user.id")
+		->from("user")		
 		->join("gender","gender.id = user.gender_id")
 		->join("lives_on","lives_on.user_id = user.id")		
 		->join("property"," property.id= lives_on.property_id")
@@ -60,13 +58,14 @@ class User_model extends CI_MODEL
 /**
  * pagination of the get user page
  */
-	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE)
+	public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
 	{
+		
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
-		$offset = $searchterm['page'] ?? 0;
+		$offset = $searchid['page'] ?? 0;
 //call the query to bring the residence
-		$this->userQuery($searchterm)
+		$this->userQuery($searchid)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
