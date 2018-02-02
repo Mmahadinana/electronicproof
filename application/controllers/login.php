@@ -32,6 +32,18 @@ class Login extends CI_Controller
 		if(null!=$this->input->get('statusResetPass'))
 		{
 			$data['statusResetPass']= $this->input->get('statusResetPass');
+		}
+		if(null!=$this->input->get('statusInsert')){
+			$data['statusInsert']= $this->input->get('statusInsert');
+
+		}
+		if(null!=$this->input->get('statusRequest')){
+			$data['statusRequest']= $this->input->get('statusRequest');
+
+		}	
+		if(null!=$this->input->get('statusConfirm')){
+			$data['statusConfirm']= $this->input->get('statusConfirm');
+
 		}		
 	    
 		//check if the is session

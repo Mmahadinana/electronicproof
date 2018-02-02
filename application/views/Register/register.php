@@ -12,24 +12,13 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 $doorNumber=$user_data->door_number ?? $this->input->post('door_number')?? false;
 //**This is the registration page whereby the owner will access to register for the proof of address on the webpage**
 $editmode = isset($user_id)? 'true':'false';
+
 ?>
 
 <div class="container form-area"> 
 
-	<div>
-
-	  <?php 
-         /*
-
-         if(isset($statusInsert)){
-          echo alertMsg($statusInsert,'User Registered Successfully','User Not Registered Try to fill required fields');
-          
-        }*/
-
-        ?>
+	<div>	
 	<?php 
-
-
 	$action=isset($user_id)? "publiczone/editUser": "publiczone/register";
 
 	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
@@ -147,14 +136,14 @@ $editmode = isset($user_id)? 'true':'false';
 					<label  id ="gender" class="control-label">Gender</label>
 
 					<div class="form-group">
-
-						<input  name="gender" type="radio" value="1" id="radio100" onclick="show1();">
-						<label for="radio100">Male</label>
-					</div>
-
-					<div class="form-group">
-						<input  name="gender" type="radio" value="2" id="radio101"  checked>
-						<label for="radio101">Female</label>
+				
+						<input  name="gender" id="male" type="radio" value="1" <?php echo  set_radio('gender', '1', TRUE); ?> />
+						<label class="radio-inline" for="male">Male</label>
+						
+						
+						<input  name="gender" id="female" type="radio" value="2" <?php echo  set_radio('gender', '2'); ?> />
+						<label class="radio-inline" for="female">Female</label>
+						
 						<p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
 					</div>
@@ -332,7 +321,7 @@ $('#step-1').show();
 			e.preventDefault();
 			var $target = $($(this).attr('href'));
 			$item = $(this);
-			console.log($($(this).attr('href')));
+			
 			if (!$item.hasClass('disabled')) 
 			{
 				navListItems.removeClass('btn-primary').addClass('btn-default');
@@ -348,9 +337,10 @@ $('#step-1').show();
 			var curStep = $(this).closest(".setup-content"),
 			curStepBtn = curStep.attr("id"),
 			nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-			curInputs = curStep.find("input[type='text'],input[type='password'],input[type='url'],input[type='email'],select"),
+			curInputs = curStep.find("input[type='text'],input[type='password'],input[type='date'],input[type='radio'],input[type='email'],select"),
 			isValid = true;
-console.log(curInputs);
+
+
 			$(".form-group").removeClass("has-error");
 			var editMode = <?=$editmode?>;
 			if(editMode){
@@ -361,10 +351,11 @@ console.log(curInputs);
 			}else{
 				for(var i=0; i<curInputs.length; i++)
 				{
-					if (!curInputs[i].validity.valid)
+				//console.log( checkStrength(($(curInputs[2]).attr('id'))));
+					if (!curInputs[i].validity.valid )
 					{
 
-
+console.log('validity');
 						isValid = false;
 						$(curInputs[i]).closest(".form-group").addClass("has-error");
 					}
@@ -387,79 +378,7 @@ console.log(curInputs);
 </script>
 
 
-<script> 
-	var errors = false;
-    /**
-     * checks if the input name has only letters
-     * 
-     */
-     $('#name').on('input',function()
-     {
-        //the input that called the function
-        var input = $(this);
-       //gets the value of the input
-       var current_name = input.val();
-       //regex to only allow leters for the name
-       var regex = /^[a-zA-Z\s]+$/;
-       //check the parent of the input to change the class latter
-       var parent = input.parent();
-       //check if the input has only letters if has
-       if (regex.test(current_name) && current_name.length>2)
-       {
-        //removes the class has errors from the input parent
-        parent.removeClass('has-error'); 
-         //adds the class has success to the input parent
-         parent.addClass('has-success');
-         errors = false;  
-     } 
-       else {//if not
-       	var parent = input.parent();
-         //removes the class has success from the input parent
-         parent.removeClass('has-success');
-         //adds the class has errors to the input parent
-         parent.addClass('has-error');
-         errors = true;
-     }
- });
 
-/**
- * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
- * 
- */
- $("#email").on('input',function () 
- {
-        //the input that called the function
-        var input =$(this);
-       //the value of the email input
-       var current_email = input.val();
-       //the regex to check if the email is valid
-       var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-       
-       var email_registed = ["mail@example.com"];
-       //check the parent of the input to change the class latter
-       var parent = input.parent();
-       //checks if the email corresponds with the regex and diferent of email_registed
-       if (regex.test(current_email) && ($.inArray(current_email, email_registed))!=0)
-       {
-        //removes the class has errors from the input parent
-        parent.removeClass('has-error');  
-         //adds the class has success to the input parent
-         parent.addClass('has-success');  
-         errors = false;
-     } 
-     else {
-     	var parent = input.parent();
-         //removes the class has success from the input parent
-         parent.removeClass('has-success');
-         //adds the class has errors to the input parent
-         parent.addClass('has-error');
-         errors = true;
-
-     }
- });
-
-
-</script>
 <script>
 	function myFunction() {
 		var inpObj = document.getElementById("name");

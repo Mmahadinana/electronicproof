@@ -1,7 +1,79 @@
 
-$(document).ready(function() {
 
-	$('#newpassword').keyup('input',function() {
+
+$(document).ready(function() {
+  var errors = false;
+    /**
+     * checks if the input name has only letters
+     * 
+     */
+     $('#name').on('input',function()
+     {
+        //the input that called the function
+        var input = $(this);
+       //gets the value of the input
+       var current_name = input.val();
+       //regex to only allow leters for the name
+       var regex = /^[a-zA-Z\s]+$/;
+       //check the parent of the input to change the class latter
+       var parent = input.parent();
+       //check if the input has only letters if has
+       if (regex.test(current_name) && current_name.length>2)
+       {
+        //removes the class has errors from the input parent
+        parent.removeClass('has-error'); 
+         //adds the class has success to the input parent
+         parent.addClass('has-success');
+         errors = false;  
+     } 
+       else {//if not
+        var parent = input.parent();
+         //removes the class has success from the input parent
+         parent.removeClass('has-success');
+         //adds the class has errors to the input parent
+         parent.addClass('has-error');
+         errors = true;
+     }
+ });
+
+/**
+ * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
+ * 
+ */
+
+ $("input#email.form-control").on('input',function () 
+ {
+        //the input that called the function
+        var input =$(this);
+       //the value of the email input
+       var current_email = input.val();
+       //the regex to check if the email is valid
+       var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+       
+       var email_registed = ["mail@example.com"];
+       //check the parent of the input to change the class latter
+       var parent = input.parent();
+       //checks if the email corresponds with the regex and diferent of email_registed
+       if (regex.test(current_email) && ($.inArray(current_email, email_registed))!=0)
+       {
+        //removes the class has errors from the input parent
+        parent.removeClass('has-error');  
+         //adds the class has success to the input parent
+         parent.addClass('has-success');  
+         errors = false;
+     } 
+     else {
+      var parent = input.parent();
+         //removes the class has success from the input parent
+         parent.removeClass('has-success');
+         //adds the class has errors to the input parent
+         parent.addClass('has-error');
+         errors = true;
+
+     }
+ });
+
+	$('input#newpassword.form-control').keyup('input',function() {
 			//show input indication on failer and or success
 			$('#results').html(checkStrength($('#newpassword').val()));
 			if(checkStrength($('#newpassword').val())!='Strong')
@@ -16,7 +88,7 @@ $(document).ready(function() {
 			}
 		})
 		// Confirm password to match newpassword
-		$('#confirmpass').keyup('input',function() {
+		$('input#confirmpass.form-control').keyup('input',function() {
 			var password = $("#newpassword").val();
 			var confirmPassword = $("#confirmpass").val();
 				//when passwords do not match
@@ -26,6 +98,7 @@ $(document).ready(function() {
 					$("#CheckPasswordMatch").addClass("text-danger");
 					$(this).parent().removeClass('has-success');
 					$(this).parent().addClass('has-error');
+
 				}
 				else{
 				//when passwords match
@@ -38,6 +111,7 @@ $(document).ready(function() {
 		})
 		//check password 
 		function checkStrength(password) {
+      console.log('checkStrength');
 			//uoppercase and lowercase
 			var regex_lowercase_uppercase=password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/);
 			//letters and numbers			

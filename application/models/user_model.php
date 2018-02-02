@@ -58,21 +58,21 @@ class User_model extends CI_MODEL
 /**
  * pagination of the get user page
  */
-	public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
-	{
-		
+public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
+{
+
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
-		$offset = $searchid['page'] ?? 0;
+	$offset = $searchid['page'] ?? 0;
 //call the query to bring the residence
-		$this->userQuery($searchid)
+	$this->userQuery($searchid)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
-		->limit($limit,$offset);
+	->limit($limit,$offset);
 			//get data from bd
-		return $this->db->get()->result() ;
-	}
-	
+	return $this->db->get()->result() ;
+}
+
 /**
  * [addUser description]
  * @param [type] $data [add the verified and assigned user and store the data of each on the database]
@@ -82,11 +82,11 @@ public function addUser($data)
 
 
 	$add = array(
-		     'name'=>$data['name'],
-		     'email'=>$data['email'],
+		'name'=>$data['name'],
+		'email'=>$data['email'],
 			//'address'=>$data['address'],
-		    'identitynumber'=>$data['identitynumber'],
-		    'phone'=>$data['phone'],
+		'identitynumber'=>$data['identitynumber'],
+		'phone'=>$data['phone'],
 			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
 			'gender_id'=>$data['gender'],
 			'date_registration'=>$data['date_registration'],//'2017-11-11',
@@ -97,7 +97,7 @@ public function addUser($data)
 			//'house_type'=>$data['house_type'],
 
 		     		//'minetype'=>$minetype
-			);
+		);
 
 	$this->db->trans_start();
 //var_dump($add);
@@ -132,9 +132,9 @@ public function addUser($data)
 			'date_registration'=>$data['date_registration'],
 			
 
-		    	
-			);
-	
+
+		);
+
 		$this->db->trans_start();
 		$this->db->where('user.id',$data['iduser'])
 		->update('user',$user);
@@ -236,7 +236,7 @@ public function checkPassword($password)
 {
 		//insert the username and password
 	$username = $this->input->post('username');
-	$rememberme = $this->input->post('rememberme');
+	//$rememberme = $this->input->post('rememberme');
 
 	if (empty($username) || empty($password)) 
 	{
@@ -252,7 +252,7 @@ public function checkPassword($password)
 	{
 	//valid
 		$this->startUserSession($username);
-		$this->remember_cookie($rememberme);
+		//$this->remember_cookie($rememberme);
 	//checks if valid
 		return true;
 	}
@@ -283,7 +283,7 @@ public function insertPassword($data=array(), $user_id)
 		'expireTime'=>$expireDate,
 		'role_id'=>$role_id,
 		
-		);
+	);
 		//var_dump($loginadd);
 		//$this->db->trans_start();
 	
@@ -310,35 +310,57 @@ public function insertAddress($data=array(), $user_id)
 		'street_name'=>$street_name,
 		'suburb_id'=>$suburb_id,
 		
-		);
+	);
 		//var_dump($addressAdd);
 		//$this->db->trans_start(); 
 	
 	$this->db->insert("login",$addressAdd);	
 }
 
-	/*public function callback_checkIdnumber($identitynumber)
-	{
+public function callback_checkIdnumber($identitynumber)
+{
 	//var_dump($this->input->post('user_id'));
-		//$user_id = $this->input->post('user_id');
-		$this->db->select("user.identitynumber,user.phone")
-		->from("user")
-		->where("user.id",$user_id);
+	//$birthdate = $this->input->post('dateofbirth');
+		
+	$this->db->select("user.identitynumber")
+	->from("user")
+	->where("user.identitynumber",$identitynumber);
 		     	     //var_dump($this->db->get()->row() );
-		$identity=$this->db->get()->row();
-		//var_dump($identity);
-		//foreach ($identity as $value) {
-		if ($identity->identitynumber != $identitynumber) 
+	$identity=$this->db->get()->row();
+	if (!empty($identity)) {
+		if ($identity->identitynumber == $identitynumber) 
 		{
 			return false;
 		}
-		else
+	}else
+	{
+		return true;
+	}}
+	public function callback_email($email)
+{
+	//var_dump($this->input->post('user_id'));
+	//$birthdate = $this->input->post('dateofbirth');
+		
+	$this->db->select("user.email")
+	->from("user")
+	->where("user.email",$email);
+		     	     //var_dump($this->db->get()->row() );
+	$identity=$this->db->get()->row();
+	var_dump($identity);
+	if (!empty($identity)) {
+		if ($identity->email == $email) 
 		{
-			return true;
+			return false;
 		}
+	}else
+	{
+		return true;
+	}
+
+	
 
 
-	}*/
+}
 
 	/**
 	 * [updateUserAddress description]
@@ -379,7 +401,7 @@ public function insertAddress($data=array(), $user_id)
 		$address=array(
 			'user_id'=> $user_id,
 			'property_id'=>$userProperty,
-			);
+		);
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);
 		//check if the address has owner
@@ -416,14 +438,14 @@ public function insertAddress($data=array(), $user_id)
  * @param  array   $search [confirms the data lf user on that particular property assigned]
  * @return boolean         [description]
  */
-	public function isUserLivingInProperty($search=array()){
-		
-		$this->db->select('lives_on.id,lives_on.user_id')
-		->where('lives_on.user_id',$search['user_id'])			
-		->where('lives_on.property_id',$search['property_id'])			
-		->from('lives_on');
-		return $this->db->get()->result();
-	}
+public function isUserLivingInProperty($search=array()){
+
+	$this->db->select('lives_on.id,lives_on.user_id')
+	->where('lives_on.user_id',$search['user_id'])			
+	->where('lives_on.property_id',$search['property_id'])			
+	->from('lives_on');
+	return $this->db->get()->result();
+}
 	/**
 	 * [isThereOwnerInProperty description]
 	 * @param  array   $search [verifies the owner in that particular property assigned]
