@@ -293,12 +293,15 @@ class Publiczone extends CI_Controller
 				'rules'=>array(
     				'required', 
     				'valid_email',   				
-    				'is_unique[user.email]'				
+    				'is_unique[user.email]',
+    				'max_length[30]',			
     				),
 				'errors'=>array
 				('required'=>'you should insert %s for the user',
 					'valid_email'=>'please enter the correct %s',
-				'is_unique'     => 'This %s already exists.')						
+					'is_unique'     => 'This %s already exists.',
+					'max_length[30]'     => '%s length should not exceed 30.',
+				)						
 			),
 
 			array(
@@ -331,7 +334,7 @@ class Publiczone extends CI_Controller
 				'rules'=>array
 				('required',
 					'min_length[3]',
-					'max_length[25]',
+					'max_length[30]',
 					'alpha'),
 				'errors'=>array
 				('required'=>'insert %s ',
