@@ -16,6 +16,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2./jquery.min.js"></script>
+  <script src="./js/numeric-1.2.6.min.js"></script>
+  <script src="./js/bezier.js"></script>
+  <script src="./js/jquery.signaturepad.js"></script>
+
+  
+  <script src="https:github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <script src="./js/jason2.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <?php 
   $Css_Files=[
