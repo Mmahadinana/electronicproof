@@ -1,22 +1,115 @@
 
-$(document).ready(function() {
 
-	$('#newpassword').keyup('input',function() {
+
+$(document).ready(function() {
+  var errors = false;
+    /**
+     * checks if the input name has only letters
+     * 
+     */
+  $('#name').on('input',function()
+     {
+      var max = 30;
+      $('#name').attr('maxlength','30') ;
+      //the input that called the function
+      var input = $(this);
+      //gets the value of the input
+      var current_name = input.val();
+      //regex to only allow leters for the name
+      var regex = /^[a-zA-Z\s]+$/;
+      //check the parent of the input to change the class latter
+      var parent = input.parent();
+      //check if the input has only letters if has
+      if (regex.test(current_name) && current_name.length>2 && current_name.length<30)
+       {  
+
+        
+        //removes the class has errors from the input parent
+        parent.removeClass('has-error'); 
+        //adds the class has success to the input parent
+        parent.addClass('has-success');
+        //Enable next button
+         $('.nextBtn').removeClass('disabled');
+        errors = false;  
+       }
+       else {//if not
+
+        var parent = input.parent();
+         //removes the class has success from the input parent
+         parent.removeClass('has-success');
+         //adds the class has errors to the input parent
+         parent.addClass('has-error');
+         //disable next button
+           $('.nextBtn').addClass('disabled');
+         errors = true;
+     }
+ });
+
+/**
+ * checks if the email has the correct syntax eg: asdfdsf@fds.sdsd
+ * 
+ */
+
+ $("input#email.form-control").on('input',function () 
+ {
+        //the input that called the function
+        var input =$(this);
+        input.attr('maxlength','30');
+        //the value of the email input
+        var current_email = input.val();
+        //the regex to check if the email is valid
+        var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+         
+        var email_registed = ["mail@example.com"];
+        //check the parent of the input to change the class latter
+        var parent = input.parent();
+        //checks if the email corresponds with the regex and diferent of email_registed
+       if (regex.test(current_email) && ($.inArray(current_email, email_registed))!=0)
+       {
+        //removes the class has errors from the input parent
+        parent.removeClass('has-error');  
+         //adds the class has success to the input parent
+         parent.addClass('has-success'); 
+         //Enable next button
+         $('.nextBtn').removeClass('disabled');          
+         errors = false;
+
+     } 
+     else {
+      var parent = input.parent();
+         //removes the class has success from the input parent
+         parent.removeClass('has-success');
+         //adds the class has errors to the input parent
+         parent.addClass('has-error');
+         //disable next button 
+         $('.nextBtn').addClass('disabled');        
+         errors = true;
+
+     }
+ });
+
+	$('input#newpassword.form-control').keyup('input',function() {
+
 			//show input indication on failer and or success
 			$('#results').html(checkStrength($('#newpassword').val()));
 			if(checkStrength($('#newpassword').val())!='Strong')
 			{	//show input error if password does no meet requirements
 				$(this).parent().removeClass('has-success');
 				$(this).parent().addClass('has-error');
+        //disable next button
+        $('.nextBtn').addClass('disabled'); 
 			}
 			else{
 				//show input success if password meet requirements
 				$(this).parent().removeClass('has-error');
 				$(this).parent().addClass('has-success');
+        //Enable next button
+       $('.nextBtn').removeClass('disabled');
 			}
 		})
 		// Confirm password to match newpassword
-		$('#confirmpass').keyup('input',function() {
+		$('input#confirmpass.form-control').keyup('input',function() {
+      $(this).attr('maxlength','25');
 			var password = $("#newpassword").val();
 			var confirmPassword = $("#confirmpass").val();
 				//when passwords do not match
@@ -26,6 +119,9 @@ $(document).ready(function() {
 					$("#CheckPasswordMatch").addClass("text-danger");
 					$(this).parent().removeClass('has-success');
 					$(this).parent().addClass('has-error');
+          //disable next button
+          $('.nextBtn').addClass('disabled'); 
+
 				}
 				else{
 				//when passwords match
@@ -33,13 +129,18 @@ $(document).ready(function() {
 				$("#CheckPasswordMatch").removeClass("text-danger");
 				$("#CheckPasswordMatch").addClass("text-success");
 				$(this).parent().removeClass('has-error');
-				$(this).parent().addClass('has-success')
+				$(this).parent().addClass('has-success');
+         $('.nextBtn').removeClass('disabled');
 			}
 		})
 		//check password 
 		function checkStrength(password) {
-			//uoppercase and lowercase
-			var regex_lowercase_uppercase=password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/);
+      var inputlength='25';
+     $("#newpassword").attr('maxlength','25');
+			//lowercase
+			var regex_lowercase=password.match(/([a-z])/);
+      //uppercase
+      var regex_uppercase=password.match(/([A-Z])/);
 			//letters and numbers			
 			var regex_number=password.match(/([a-zA-Z])/) && password.match(/([0-9])/);
 			//special charactors
@@ -47,132 +148,52 @@ $(document).ready(function() {
 			//initialize strength to zero
 			var strength = 0;
 			//check length
-			if (password.length < 5) {
+		  if (password.length < 5) {
+        $('#results').removeClass();
+        $('#results').addClass('short text-danger h5');
+        return 'Too short'
+      }
+      if (password.length > inputlength) {
 				$('#results').removeClass();
 				$('#results').addClass('short text-danger h5');
-				return 'Too short'
-			}
+				return 'Too long'
+			}			
 			
-			if (password.length > 5) strength += 1
-			// If password contains both lower and uppercase characters, increase strength value.
-		if (regex_lowercase_uppercase) strength += 1
-			// If it has numbers and characters, increase strength value.
-		if (regex_number) strength += 1
-			// If it has one special character, increase strength value.
-		if (regex_special) strength += 1
-			
-			// Calculated strength value, we can return messages
-			// If value is less than 2
-			if (strength < 2) {
-				$('#results').removeClass();
-				$('#results').addClass('weak text-danger h5');
+			// If password contains lower case
+    if (!regex_lowercase) {
+        $('#results').removeClass();
+        $('#results').addClass('good text-warning h5');
+        return 'Password is missing lowercase)';
+    }
+    // If password contains uppercase characters
+		if (!regex_uppercase) {
+       $('#results').removeClass();
+       $('#results').addClass('good text-warning h5');
 
-				return 'Weak, password contain all(special character,number,uppercase and lowercase';
-
-			} else if (strength == 2) {
-				$('#results').removeClass();
-				$('#results').addClass('good text-warning h5');
-
-				return 'Good, password contain all(special character,number,uppercase and lowercase)';
-
-			} else {
+        return 'Password is missing uppercase ';
+    }
+			// If it has numbers 
+		if (!regex_number){
+        $('#results').removeClass();
+        $('#results').addClass('good text-warning h5');
+        return 'Password is missing number';
+    }
+			// If it has one special character 
+		if (!regex_special){
+        $('#results').removeClass();
+        $('#results').addClass('good text-warning h5');
+       return 'Password is missing special character';
+    } 	
+			// The password met all requirements
+			 else {
 				$('#results').removeClass();
 				$('#results').addClass('strong text-success h5');
 				return 'Strong';
 			}
 		}
 	});
-//for manage propertis view page
-//
-/****************validation for Identity number*********************/
 
-
-
-
-/*$('#identitynumber').keyup('input',function(){
-var idNumber = $('#identitynumber').val();
-var dateofbirth=$('#dateofbirth').val();
-alert(dateofbirth);
-        correct=true;
-        // SA ID Number have to be 13 digits, so check the length
-        if (idNumber.length != 13 || !isNumber(idNumber)) {
-           // error.append('<p>input not a valid number</p>');
-            $(this).parent().removeClass('has-success');
-			$(this).parent().addClass('has-error');
-			correct=false;
-        }
-
-        // get first 6 digits as a valid date
-        var tempDate = new Date(idNumber.substring(0, 2), idNumber.substring(2, 4) - 1, idNumber.substring(4, 6));
-
-        var id_date = tempDate.getDate();
-        var id_month = tempDate.getMonth();
-        var id_year = tempDate.getFullYear();
-
-        var fullDate = id_date + "-" + id_month + 1 + "-" + id_year;
-
-        if (!((tempDate.getYear() == idNumber.substring(0, 2)) && (id_month == idNumber.substring(2, 4) - 1) && (id_date == idNumber.substring(4, 6)))) {
-            //error.append('<p> date part is not valid</p>');
-            $(this).parent().removeClass('has-success');
-			$(this).parent().addClass('has-error');
-			correct=false;
-        }
-
-        // get the gender
-        var genderCode = idNumber.substring(6, 10);
-        var gender = parseInt(genderCode) < 5000 ? "Female" : "Male";
-
-        // get country ID for citzenship
-        var citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? "Yes" : "No";
-
-        // apply Luhn formula for check-digits
-        var tempTotal = 0;
-        var checkSum = 0;
-        var multiplier = 1;
-        for (var i = 0; i < 13; ++i) {
-            tempTotal = parseInt(idNumber.charAt(i)) * multiplier;
-            if (tempTotal > 9) {
-                tempTotal = parseInt(tempTotal.toString().charAt(0)) + parseInt(tempTotal.toString().charAt(1));
-            }
-            checkSum = checkSum + tempTotal;
-            multiplier = (multiplier % 2 == 0) ? 1 : 2;
-        }
-        if ((checkSum % 10) != 0) {
-            //error.append('<p> check digit is not valid</p>');
-            $(this).parent().removeClass('has-success');
-			$(this).parent().addClass('has-error');
-			correct=false;
-        };
-
-
-        // if no error found, hide the error message
-        if (correct) {
-            
-            $(this).parent().removeClass('has-error');
-			$(this).parent().addClass('has-success');
-
-            // clear the result div
-            //$('#result').empty();
-            // and put together a result message
-            //$('#result').append('<p>South African ID Number:   ' + idNumber + '</p><p>Birth Date:   ' + fullDate + '</p><p>Gender:  ' + gender + '</p><p>SA Citizen:  ' + citzenship + '</p>');
-        }
-        // otherwise, show the error
-        else {
-            $(this).parent().removeClass('has-error');
-			$(this).parent().addClass('has-success');
-        }
-
-        return false;
-    });
-
-    function isNumber(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    }*/
-
-     /*$( function() {
-    $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +10D" });
-} );*/
-  //Display Only Date till today // 
+  //*************************************************Display Only Date till today // 
   var dtToday = new Date();
   var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
   var day = dtToday.getDate()-10;
@@ -181,12 +202,13 @@ alert(dateofbirth);
   	month = '0' + month.toString();
   if(day < 10)
   	day = '0' + day.toString();
-
   var maxDate = year + '-' + month + '-' + day;
   $('#dateofbirth').attr('max', maxDate);
 
 /************ validadtion for the Identity Number in South Africa  ***********/
   $(document).ready(function(){
+    var genderCode;
+    var gender;
   	$('#identitynumber').keyup('input',function(){
   		$('#id_results').html(checkIdentity($('#identitynumber').val()));
 
@@ -194,84 +216,141 @@ alert(dateofbirth);
 
   			$(this).parent().removeClass('has-success');
   			$(this).parent().addClass('has-error');
+        //disable next button
+        $('.nextBtn').addClass('disabled'); 
   		}else{
   			$(this).parent().removeClass('has-error');
   			$(this).parent().addClass('has-success');
+        //Enable next button
+        $('.nextBtn').removeClass('disabled');
   			$('#id_results').removeClass();
 			$('#id_results').addClass('text-success');
   		}
   });	
   	// check if the identity number meets all the requirement
   	function checkIdentity(idNumber){
-
+      $('#identitynumber').attr('maxlength','13');
   		var dateofbirt=new Date($('#dateofbirth').val());
+      //identitynumber have only numbers
   		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
-
+      var citzenship;
+      var citzen=['0','1'];
+      //jQuery.inArray( citzenship, citzen ) );
   		//exracting the date into months, day and year
   		var id_month = dateofbirt.getMonth()+1;
   		var id_date = dateofbirt.getDate();       
   		var id_year = dateofbirt.getFullYear(); 
-
-
+  //concadinate the birthdate to compare it with first six numbers of ID, wich represent date of birth 
   		if(id_month < 10){
   			id_month = '0' + id_month.toString();
   		}
   		if(id_date < 10){
   			id_date = '0' + id_date.toString();
   		}
-  			//concadinate the birthdate to compare it with first six numbers of ID, wich represent date of birth 
-  		var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
+      //get date of birth in a string
+      var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
+      if (idNumber.length ==13) {
+        //get the number in position 11 for citizenship
+        citzenship=idNumber.substring(10, 11);      
+      }     
+       //check the length and if it is only number
+      if (idNumber.length != 13) {
+
+        $('#id_results').addClass('text-danger');
+        return 'Identity Number have 13 characters';
+      } 
+        //check number at position 11 is 0 or 1
+      if (idNumber.length ==13 && ( citzen[0] != citzenship && citzen[1] != citzenship)) {
+
+          $('#id_results').addClass('text-danger');
+          return 'Invalid identity number, Citizenship is 0 or 1';
+      }
+  		 //check if it is only number
+      if (!id_number) {
+
+        $('#id_results').addClass('text-danger');
+        return 'Identity Number contain only numbers';
+      }
   		//check with date of birth
-  		if (idNumber.substring(0,6) != dateofbirth && idNumber.length == 13 && id_number) {
-
-  			
-  			('#id_results').addClass('text-danger');
+  		if (idNumber.substring(0,6) != dateofbirth) {       
+        
+        return 'Identity Number and dateofbirth do not match';
+      }
+      if (idNumber.substring(0,6) != dateofbirth) {  			
+        
   			return 'Identity Number and dateofbirth do not match';
-//check the length and if it is only number
-  		}if (idNumber.length != 13 || !id_number) {
+  		}      
+      //all is checked an correct 
+      if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number){  
+        //gender indicator number
+        genderCode = idNumber.substring(6, 10); 
 
-  			$('#id_results').addClass('text-danger');
-  			return 'Identity Number is not correct';
+        //assign value to the number
+        gender = parseInt(genderCode) > 5000 ? "female" : "male"; 
+        //check gender field value
+        checkGender();
+        return 'Correct';
+    }
+  }
+  
+  //***************************************Gender validation 
+$('#gender input').on('change keyup paste',function(){
+  //call check gender function
+checkGender();
+   
+  });
+//******************************************check gender and macth it to the one in Identitynumber 
+function checkGender(){
+  //store the value of radio button checked
+  var checkgender=$('input:radio[name="gender"]:checked').val();
+  //compare the value with the gender indicator in IdentityNumber field
+  if (checkgender==gender) {
+        $('#gender input').parent().removeClass('has-success');
+        $('#gender input').parent().addClass('has-error');
+        //disable next button
+        $('.nextBtn').addClass('disabled');
+       }else{
+        $('#gender input').parent().removeClass('has-error');
+        $('#gender input').parent().addClass('has-success');
+        
+        //disable next button
+        $('.nextBtn').removeClass('disabled');
+       } 
+}
 
-  		}
-  		//all is checked an correct 
-  		if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number){
-
-			
-			return 'Correct';
-		}
-	}
-});
-
-
-  /**********Validation for phone number*********/
-	$(document).ready(function(){
-  	$('#phone').keyup('input',function(){
+  /***********************************************Validation for phone number*********/
+	
+  $('#phone').keyup('input',function(){
+      $(this).attr('maxlength','10');
   		$('#phone_results').html(checkPhone($('#phone').val()));
   		if(checkPhone($('#phone').val()) != 'Correct'){
   			$(this).parent().removeClass('has-success');
   			$(this).parent().addClass('has-error');
+        //disable next button
+        $('.nextBtn').addClass('disabled'); 
   		}else{
   			$(this).parent().removeClass('has-error');
   			$(this).parent().addClass('has-success');
+        //Enable next button
+        $('.nextBtn').removeClass('disabled');
   			$('#phone_results').removeClass();
 			$('#phone_results').addClass('text-success');
   		}
-  });	//var idNumber = $('#identitynumber').val();
-  	function checkPhone(phone){
+  });
+//check phone numbers validation
+function checkPhone(phone){
 
   		//var dateofbirt=new Date($('#dateofbirth').val());
   		var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''))
   		//variable to check that the phone starts with 0
-  		var phone1=[];
-  		
+  		var phone1=[];  		
 
-  	for (var i = 0; i < phone.length; i++) {
-  		//saving all the characters of phone as array in check variable
-  		phone1[i]=phone[i];
-  	}
-  	//test the length
-		if (phone.length != 10) {
+    	for (var i = 0; i < phone.length; i++) {
+    		//saving all the characters of phone as array in check variable
+    		phone1[i]=phone[i];
+    	}
+    	//test the length
+  		if (phone.length != 10) {
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must have exactly 10 numbers';
@@ -282,23 +361,17 @@ alert(dateofbirth);
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must have only numbers';
-
   		}
   		//check if it starts with zero
   		if (phone1[0] != "0") {
 
   			$('#phone_results').addClass('text-danger');
   			return 'Phone Number must starts with zero(0)';
-
   		}
   		//everything is ok submit
   		if(phone.length == 10 && phone_number){
-
 			
 			return 'Correct';
 		}
 	}
-
-
-
 });

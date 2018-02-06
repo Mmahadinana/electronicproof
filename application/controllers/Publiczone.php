@@ -264,18 +264,7 @@ class Publiczone extends CI_Controller
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		if(null!=$this->input->get('statusInsert')){
-			$data['statusInsert']= $this->input->get('statusInsert');
-
-		}
-		if(null!=$this->input->get('statusRequest')){
-			$data['statusRequest']= $this->input->get('statusRequest');
-
-		}	
-		if(null!=$this->input->get('statusConfirm')){
-			$data['statusConfirm']= $this->input->get('statusConfirm');
-
-		}
+		
 
 		/***get the provice and distric by province id*******/
 		$selDistrict= $this->getProvinceDistrict();
@@ -308,82 +297,82 @@ class Publiczone extends CI_Controller
 		(
 			array('field'=>'email',
 				'label'=>'email',
-				'rules'=>'required',
+				'rules'=>array(
+    				'required', 
+    				'valid_email',   				
+    				'is_unique[user.email]',
+    				'max_length[30]',			
+    				),
 				'errors'=>array
-				('required'=>'you should insert %s for the user')						
+				('required'=>'you should insert %s for the user',
+					'valid_email'=>'please enter the correct %s',
+					'is_unique'     => 'This %s already exists.',
+					'max_length[30]'     => '%s length should not exceed 30.',
+				)						
 			),
 
 			array(
 				'field'=>'password',
 				'label'=>'Password',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert %s for the user')
-				
+				'rules'=>array('required',
+					'min_length[5]',
+					'max_length[25]',
+					array('validatePassword',array($this->Login_model,'validatePassword'))),						
+				'errors'=>array(						
+					'required'=>'you should insert one %s for reset',
+					'min_length[5]'=>'You should at least enter 5 charactors of %s',
+					'max_length[25]'=>'%s should not exit 25 charactors',
+					'validatePassword'=>'password should have at least one simbol/charactor',),			
 
 			),
 
 			array(
 				'field'=>'confirm',
 				'label'=>'Confirm Password',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert %s for the user')
-
+				'rules'=>array('required',
+					'matches[password]'),											
+				'errors'=>array(						
+					'required'=>'you should insert one %s for login',
+					'matches[newpassword]'=>'% you entered does not match'),
 			),
 
 			array('field'=>'name',
 				'label'=>'Full Name',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert %s for the user')						
-			),
-
-			array(
-				'field'=>'identitynumber',
-
-				'label'=>'Identity Number',
 				'rules'=>array
-				(
-					'required',
-					'exact_length[13]',						
-
-					//'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
-				),
-
-
-
+				('required',
+					'min_length[3]',
+					'max_length[30]',
+					'alpha'),
 				'errors'=>array
-				('required'=>'you should insert one %s ',
-					'exact_length'=>'the %s must have at least length of 13 ',						
-					//'regex_match'=>'the %s must be numbers only',									
-				)	 					
-			),
+				('required'=>'insert %s ',
+					'min_length'=>'%s should have minimum of 3 ',
+					'max_length'=>'%s should have maximum of 25',
+					'alpha'=>'%s should have alphabet')						
+			),	
 			
-			 /*array('field' => 'identitynumber',
-    			'label'=>'Identity Number',
-    			'rules'=>array(
+			 array('field'   => 'identitynumber',
+    			'label'  =>  'Identity Number',
+    			'rules'  =>  array(
     				'required',
     				'exact_length[13]',
     				'numeric',
-    				array('checkIdnumber',array($this->user_model,'callback_checkIdnumber'))				
-    				),
+    				'is_unique[user.identitynumber]'),
 
-    			'errors'=>array(
-    				'required'=>' %s is required',
-    				'exact_length'=>'the %s must have 13 numbers',
-    				'numeric'=>'the %s must have only numbers',
-    				'checkIdnumber'=>'%s exist, please enter the correct email',)
-
-    			),*/
-
+    			'errors'  =>  array(
+    				'required'  =>  ' %s is required',
+    				'exact_length'  =>  'the %s must have 13 numbers',
+    				'numeric'  =>  'the %s must have only numbers',
+    				'is_unique'     => 'This %s already exists.')
+    			),
 
     			array(
     				'field'=>'dateofbirth',
     				'label'=>'Date of Birth',
-    				'rules'=>'required',
+    				'rules'=>array('required',
+    					'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
     				'errors'=>array
-    				('required'=>'you should insert %s for the user')
+    				('required'=>'you should insert %s for the user',
+    				'regex_match'=>'%s is not valid',)
     			),
 
     			array(
@@ -392,81 +381,60 @@ class Publiczone extends CI_Controller
     				'rules'=>array
     				(
     					'required',
-    					'exact_length[10]',						
-
-    					'regex_match[/^[0-9]+$/]',
+    					'exact_length[10]',
+    					'numeric',
+    					'regex_match[/^[0]\d{9}$/]',
     				),
-
-
-
     				'errors'=>array
     				('required'=>'you should insert one %s ',
     					'exact_length'=>'the %s must have at least length of 10 ',						
-    					'regex_match'=>'the %s must be numbers only',									
-    				)	 					
+    					'regex_match'=>'the %s must starts with 0',									
+    					'numeric'=>'the %s must be numbers')	 					
     			),
-
     			
     			array(
     				'field'=>'gender',
     				'label'=>'Gender',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert %s for the user')
-    				
+    				('required'=>'you should insert %s for the user')    				
     			),
-
     			array(
     				'field'=>'suburb',
-    				'label'=>'suburb',
+    				'label'=>'Suburb',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'town',
-    				'label'=>'town',
+    				'label'=>'Town',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'district',
-    				'label'=>'district',
+    				'label'=>' District',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-    			),
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'province',
-    				'label'=>'province',
-
-
-    			
+    				'label'=>'Province',    			
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
+    				('required'=>'you should insert one %s for the user')
 
     			),
     			array(
 
     				'field'=>'manucipality',
-    				'label'=>'manucipality',
-
+    				'label'=>'Manucipality',
     				'rules'=>'required',
     				'errors'=>array
-    				('required'=>'you should insert one %s for the user'
-
-    			)
-
- 
+    				('required'=>'you should insert one %s for the user')
 
     			),
     				array(
@@ -474,27 +442,14 @@ class Publiczone extends CI_Controller
 				'label'=>'Street Address',
 				'rules'=>
 				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
+				'errors'=>array('required'=>'you should insert %s for the user')
 			),
 			array(
 				'field'=>'door_number',
 				'label'=>'Door Number',
 				'rules'=>
 				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
-			),
-
-			/*array(
-				'field'=>'zip_code',
-				'label'=>'Zip Code',
-				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user')),
-
-            */
-				
+				'errors'=>array('required'=>'you should insert %s for the user')),				
 			);
 
 		$this->form_validation->set_rules($config_validation);
@@ -508,7 +463,7 @@ class Publiczone extends CI_Controller
 
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
-		redirect("residents/userprofile?statusRequest=0");
+		redirect("login/login_/userprofile?$statusInsert=$statusInsert");
 
 		}
 
