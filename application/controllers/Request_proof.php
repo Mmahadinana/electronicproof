@@ -369,7 +369,7 @@ public function request()
 						'rules'=>array('required',
 							'exact_length[10]',						
 							'regex_match[/^[0-9]+$/]',
-							array('checkPhone',array($this->login_model,'callback_checkPhone'))),
+							array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
 
 						'errors'=>array('required'=>'you should insert a %s ',
 							'exact_length'=>'the %s must have at least length of 10 ',						
@@ -384,7 +384,7 @@ public function request()
 							'required',
 							'exact_length[13]',
 							'numeric',
-							array('checkIdnumber',array($this->login_model,'callback_checkIdnumber'))				
+							array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))				
 						),
 						'errors'=>array(
 							'required'=>' %s is required',
@@ -397,7 +397,7 @@ public function request()
 					array('field'=>'email',
 						'label'=>'E-mail',
 						'rules'=>array('required','valid_email',
-							array('checkEmail',array($this->login_model,'callback_checkEmail'))),
+							array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
 						'errors'=>array(
 							'required'=>'%s is required',
 							'valid_email'=>'invalid email',

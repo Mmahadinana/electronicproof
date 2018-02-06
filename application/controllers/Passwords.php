@@ -108,7 +108,7 @@ class Passwords extends CI_Controller
 
 					$this->Postoffice_model->sendEmail($subject,$email);
 				//end email
-					$this->login_model->inserEmailToken($user_id,$token);
+					$this->Login_model->inserEmailToken($user_id,$token);
 					redirect('passwords/resetmessage/');
 
 				}
@@ -139,7 +139,7 @@ class Passwords extends CI_Controller
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
 		//var_dump($mailtoken);
-		$data['db']= $this->login_model->get_mailToken($mailtoken,$user_id);
+		$data['db']= $this->Login_model->get_mailToken($mailtoken,$user_id);
 		
 	
 		if ($data['db'] == null ) 
@@ -176,7 +176,7 @@ class Passwords extends CI_Controller
 				'rules'=>array('required',
 					'min_length[5]',
 					'max_length[25]',
-					array('validatePassword',array($this->login_model,'validatePassword'))),						
+					array('validatePassword',array($this->Login_model,'validatePassword'))),						
 				'errors'=>array(						
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %s',
@@ -205,9 +205,9 @@ class Passwords extends CI_Controller
 		}
 		else
 		{
-			$statusInsert=$this->login_model->updatePassword($this->input->post(),$user_id);
+			$statusInsert=$this->Login_model->updatePassword($this->input->post(),$user_id);
 			if($statusInsert==true){
-				$this->login_model->updateEmailToken($user_id,$mailtoken);
+				$this->Login_model->updateEmailToken($user_id,$mailtoken);
 			}
 			//redirect("login/login_?statusResetPass=$statusResetPass");
 			redirect("login/login_");
