@@ -17,6 +17,11 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 
 		<?php 
+		if($user_id!=0){
+			echo '<h4 class="text-warning"> You do not have address, please <a class="text-danger" href=" '.("../publiczone/change_add").'">Register Address</a> where you live before Editing your information</h4>';
+		}else {
+			
+		
 		$action="publiczone/change_add";
 		
 		echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
@@ -24,7 +29,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		<!--input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'-->
 		<input  value='<?php echo $_SESSION["id"]?>' id='userid' type='hidden' name='userid'>
-		
+		<a href="<?php echo base_url('residents/userprofile') ?>"></a>
 		
 				<div class="col-xs-6 col-md-offset-3">
 					<div class="col-md-12">
@@ -169,7 +174,7 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		
 
-	</form>
+	</form><?php } ?>
 
 </div>
 

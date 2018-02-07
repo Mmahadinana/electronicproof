@@ -20,8 +20,21 @@ class District_model extends CI_MODEL
 {
 	//var_dump($search);
 	$this->db->select("district.id,district.name,province_id")
-		         ->from("district")
-		         ->where('province_id',$search);
+		        ->from("district")	
+		        ->join("province","province.id = district.province_id")
+		        ->join("manucipality"," manucipality.district_id =district.id")	
+		        ->join("town","town.manucipality_id =manucipality.id ")
+		        ->join("suburb","suburb.town_id = town.id")
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id")
+				//->join("owners_property","owners_property.owners_id = owners.id") 
+		        					
+				
+		        ->where('province_id',$search)
+
+		        ->group_by('district.id')
+				->order_by('district.name');
 		       return $this->db->get()->result();
 }
 
@@ -33,7 +46,14 @@ public function getDistricts()
 {
 	
 	$this->db->select("district.id,district.name,province_id")
-		         ->from("district");
+		        ->from("district")
+		        ->join("province","province.id = district.province_id")
+		        ->join("manucipality"," manucipality.district_id =district.id")	
+		        ->join("town","town.manucipality_id =manucipality.id ")
+		        ->join("suburb","suburb.town_id = town.id")
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id") ;
 		         //->where('province_id',$search);
 		       return $this->db->get()->result();
 }

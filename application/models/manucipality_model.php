@@ -14,8 +14,17 @@ class Manucipality_model extends CI_MODEL
 	{
 
 		$this->db->select("manucipality.id,manucipality.name,district_id")
-		->from("manucipality")
-		->where("district_id",$manucipality_id);
+				->from("manucipality")		        	
+		        ->join("town","town.manucipality_id =manucipality.id ")
+		        ->join("suburb","suburb.town_id = town.id")
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id")
+
+				->where("district_id",$manucipality_id)
+
+		   		->group_by('manucipality.id')
+				->order_by('manucipality.name');
 		return $this->db->get()->result();
 		
 	}
@@ -27,8 +36,13 @@ class Manucipality_model extends CI_MODEL
 	{
 
 		$this->db->select("manucipality.id,manucipality.name,district_id")
-		->from("manucipality");
-		//->where("district_id",$manucipality_id);
+		->from("manucipality")
+		->join("town","town.manucipality_id =manucipality.id ")
+		        ->join("suburb","suburb.town_id = town.id")
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id");
+		
 		return $this->db->get()->result();
 		
 	}

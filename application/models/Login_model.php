@@ -379,9 +379,13 @@ public function deleteEmailtoken(int $user_id){
  * @return [true]          [when the password is verified and has been changed]
  */
 public function updatePassword($data=array(), $user_id){
-	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT)	;
+	$password=password_hash($data['newpassword'], PASSWORD_BCRYPT);
+	$expireDate = 3*20*24*3600;
+		//expire date to be sent to the db
+	$expireTime = date('Y-m-d H:i:s',time()+$expireDate);
 	$passwordData = array(
 		'password' => $password,
+		'expireTime' => $expireTime,
 
 	);
 	$this->db->trans_start();

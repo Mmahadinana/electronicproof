@@ -349,13 +349,16 @@ class Publiczone extends CI_Controller
     				'required',
     				'exact_length[13]',
     				'numeric',
-    				'is_unique[user.identitynumber]'),
+    				array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),
+    				'is_unique[user.identitynumber]'
+    			),
 
     			'errors'  =>  array(
     				'required'  =>  ' %s is required',
     				'exact_length'  =>  'the %s must have 13 numbers',
     				'numeric'  =>  'the %s must have only numbers',
-    				'is_unique'     => 'This %s already exists.')
+    				'callback_checkIdnumber'     =>'Invalid %s' ,
+    				'is_unique'=>'This %s already exists.')
     			),
 
     			array(
@@ -604,7 +607,9 @@ class Publiczone extends CI_Controller
 
 
     	}
-
+		if(empty($data['userInfo'])){
+			$this->change_add($data['user_id']);
+		}
     	foreach ($data['userInfo'] as $value) 
     	{
 
@@ -822,13 +827,16 @@ class Publiczone extends CI_Controller
 
 
 
-	public function change_add() 
+	public function change_add($user_id=0) 
 	{
 
 		$search=array();
+		$data['user_id']=0;
 		//$search['user_id']= $this->input->get('user_id') ?? '0';
+		if($user_id !=0){
+			$data['user_id']= $user_id;
+		}
 		
-		//$data['user_id']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'request/change_add';
 		$data['pageActive']='request';

@@ -21,9 +21,7 @@ $(document).ready(function() {
       var parent = input.parent();
       //check if the input has only letters if has
       if (regex.test(current_name) && current_name.length>2 && current_name.length<30)
-       {  
-
-        
+       {        
         //removes the class has errors from the input parent
         parent.removeClass('has-error'); 
         //adds the class has success to the input parent
@@ -32,8 +30,7 @@ $(document).ready(function() {
          $('.nextBtn').removeClass('disabled');
         errors = false;  
        }
-       else {//if not
-
+       else {
         var parent = input.parent();
          //removes the class has success from the input parent
          parent.removeClass('has-success');
@@ -73,7 +70,6 @@ $(document).ready(function() {
          //Enable next button
          $('.nextBtn').removeClass('disabled');          
          errors = false;
-
      } 
      else {
       var parent = input.parent();
@@ -84,7 +80,6 @@ $(document).ready(function() {
          //disable next button 
          $('.nextBtn').addClass('disabled');        
          errors = true;
-
      }
  });
 
@@ -193,17 +188,18 @@ $(document).ready(function() {
 		}
 	});
 
-  //*************************************************Display Only Date till today // 
+  //*************************************************Validation for date of birth // 
   var dtToday = new Date();
-  var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
-  var day = dtToday.getDate()-10;
+  var month = dtToday.getMonth() +1;     // getMonth() is zero-based
+  var day = dtToday.getDate() - 2;
   var year = dtToday.getFullYear();
   if(month < 10)
   	month = '0' + month.toString();
   if(day < 10)
   	day = '0' + day.toString();
   var maxDate = year + '-' + month + '-' + day;
-  $('#dateofbirth').attr('max', maxDate);
+  $('#dateofbirth').attr('max', maxDate).children().addClass('text-warning');
+ 
 
 /************ validadtion for the Identity Number in South Africa  ***********/
   $(document).ready(function(){
@@ -286,19 +282,19 @@ $(document).ready(function() {
         genderCode = idNumber.substring(6, 10); 
 
         //assign value to the number
-        gender = parseInt(genderCode) > 5000 ? "female" : "male"; 
+        gender = parseInt(genderCode) > 5000 ? "2" : "1"; 
         //check gender field value
         checkGender();
         return 'Correct';
     }
-  }
-  
+  } 
+
   //***************************************Gender validation 
 $('#gender input').on('change keyup paste',function(){
   //call check gender function
-checkGender();
-   
+  checkGender();   
   });
+
 //******************************************check gender and macth it to the one in Identitynumber 
 function checkGender(){
   //store the value of radio button checked

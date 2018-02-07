@@ -137,11 +137,11 @@ $editmode = isset($user_id)? 'true':'false';
 
 					<div class="form-group" id="gender">
 						<label class="radio-inline" for="male">Male</label>
-						<input  name="gender" id="male" type="radio" value="male" <?php echo  set_radio('gender', 'male'); ?> />
+						<input  name="gender" id="male" type="radio" value="1" <?php echo  set_radio('gender', '1'); ?> />
 						
 						
 						<label class="radio-inline" for="female">Female</label>
-						<input  name="gender" id="female" type="radio" value="female" <?php echo  set_radio('gender', 'female'); ?> />
+						<input  name="gender" id="female" type="radio" value="2" <?php echo  set_radio('gender', '2'); ?> />
 						
 						
 						<p class="gender"><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
@@ -347,6 +347,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 			$(".form-group").removeClass("has-error");
 			var editMode = <?=$editmode?>;
+			//for the edit user
 			if(editMode){
 				if (!curInputs[0].validity.valid){
 					isValid = false;
@@ -354,21 +355,21 @@ $editmode = isset($user_id)? 'true':'false';
 				}
 			}else{
 				for(var i=0; i<curInputs.length; i++){
-console.log('check forloop')
+					//are the inputs filled with data
 					if (!curInputs[i].validity.valid)
 					{
 						isValid = false;
 						$(curInputs[i]).closest(".form-group").addClass("has-error");
 					}
-					if ($(curInputs[i]).parent().parent().hasClass("has-error")){
-						console.log('check has-error')
+					//check if there are any error in the inputs
+					if ($(curInputs[i]).parent().hasClass("has-error")){
+						
 						isValid = false;
 					}
 				}
 			}
-
 			if (isValid){
-
+				//all is checked, move to the next level
 				nextStepWizard.removeAttr('disabled').trigger('click');
 			}
 			e.preventDefault();	

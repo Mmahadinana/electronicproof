@@ -209,7 +209,7 @@ public function countUser(array $search=array())
 public function callback_checkPhone($phone)
 {
 	$user_id = $this->input->post('phone');
-        //var_dump($phone);
+    
 	$this->db->select("user.phone")
 	->from("user")
 	->where("id",$user_id);
@@ -272,7 +272,7 @@ public function insertPassword($data=array(), $user_id)
 		//var_dump($data);
 	
 	$password=password_hash($data['password'], PASSWORD_BCRYPT);
-	$expireTime = 30*24*3600;
+	$expireTime = 3*30*24*3600;
 	$role_id = 2;
 		//expire date to be sent to the db
 	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
@@ -290,7 +290,7 @@ public function insertPassword($data=array(), $user_id)
 	$this->db->insert("login",$loginadd);	
 }
 /**
- * [insertAddress description]
+ * [insert Address ]
  * @param  array  $data    [insert the address on the database]
  * @param  [type] $user_id [description]
  * @return [true]          [retrieves correct information while insertAddress]
@@ -316,6 +316,11 @@ public function insertAddress($data=array(), $user_id)
 	
 	$this->db->insert("login",$addressAdd);	
 }
+/**
+ * [callback_checkIdnumber for validation]
+ * @param  [type] $identitynumber [description]
+ * @return [type]                 [description]
+ */
 
 public function callback_checkIdnumber($identitynumber)
 {
@@ -334,8 +339,55 @@ public function callback_checkIdnumber($identitynumber)
 		}
 	}else
 	{
-		return true;
-	}}
+		$validate=$this->compareIdentity_Date_Gender_Citizen($identitynumber);
+		if ($validate ==false){
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+}
+/**
+ * [compareIdentity_Date_Gender_Citizen check valide Identity number for South Africa]
+ * @param  [type] $identitynumber [description]
+ * @return [type]                 [description]
+ */
+function compareIdentity_Date_Gender_Citizen($identitynumber){
+	// storing date of birth input
+	$birthdate =$this->input->post('dateofbirth');
+	// storing gender input
+	$gender =$this->input->post('gender');
+	//exracting and assembling date of birth to be compared to identity number input
+	$birthdate=(explode('-',$birthdate));
+	$birthdate=(implode('',$birthdate));		
+	//check if the gender numbers is for female or male
+	$checkgender=intval(substr($identitynumber, 6, 4)) < 5000 ? 2 : 1;
+	//rang for citizenship
+	$citizen =array(0,1);
+
+	if(substr($birthdate, 2,6) != substr($identitynumber, 0, 6) ){
+		return false;
+	}
+	//:date("$year-$month-$day", array('format' => '%y-%m-%d'))
+	if (!in_array($identitynumber{11}, array(8, 9))) {
+            return false;
+        }
+    if($checkgender != $gender){
+    	return false;
+    }
+    if (!in_array($identitynumber{10}, array(0, 1))) {
+         return false;
+     }else {
+     	return true;
+     }
+	
+}
+/**
+ * [callback_email for validation]
+ * @param  [type] $email [description]
+ * @return [type]        [description]
+ */
 	public function callback_email($email)
 {
 	//var_dump($this->input->post('user_id'));
@@ -356,23 +408,23 @@ public function callback_checkIdnumber($identitynumber)
 	{
 		return true;
 	}
-
-	
-
-
 }
 
 	/**
-	 * [updateUserAddress description]
+	 * [update User Address ]
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
-	public function addUserAddress($addifor,$user_id){
-
-		//Get the address id of the address to be inserted
+	public function addUserAddress($addifor=array(),$user_id=0){
+		//for user in session who has no address
+		if ($user_id==0) {
+			$user_id=$addifor['userid'];
+		}
+		
+		//variable to store address id and property id 
 		$userProperty=0;
 		$userAddress=0;
-		
+		//get address
 		$this->db->select('address.id')
 		->where('address.suburb_id',$addifor['suburb'])
 		->where('address.street_name',$addifor['street_name'])

@@ -14,8 +14,13 @@ class Address_model extends CI_MODEL{
 	{
 
 		$this->db->select("address.id,address.door_number,address.street_name,address.suburb_id")
-		->from("address")
-		->where("suburb_id",$suburb_id);
+		->from("address")				
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id")
+				->where("suburb_id",$suburb_id)
+
+				->group_by('address.id')
+				->order_by('address.street_name');
 		return $this->db->get()->result();
 		
 	}
@@ -27,7 +32,10 @@ class Address_model extends CI_MODEL{
 	{
 
 		$this->db->select("address.id,address.door_number,address.street_name")
-		->from("address");
+		->from("address")
+			       
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id");
 		
 		return $this->db->get()->result();
 		
