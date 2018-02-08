@@ -370,7 +370,7 @@ function compareIdentity_Date_Gender_Citizen($identitynumber){
 		return false;
 	}
 	//:date("$year-$month-$day", array('format' => '%y-%m-%d'))
-	if (!in_array($identitynumber{11}, array(8, 9))) {
+	if (!in_array($identitynumber{11}, array(8))) {
             return false;
         }
     if($checkgender != $gender){

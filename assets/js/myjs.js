@@ -2,6 +2,13 @@
 
 
 $(document).ready(function() {
+  $('select').on('change keyup',function(){
+
+      $('.select').closest(".form-group").removeClass("has-error");
+      $('.select').closest(".form-group").addClass("has-success");
+      $('.select').text("");
+      $('.select').addClass("text-success");
+  });
   var errors = false;
     /**
      * checks if the input name has only letters
@@ -186,43 +193,50 @@ $(document).ready(function() {
 				return 'Strong';
 			}
 		}
-	});
 
-  //*************************************************Validation for date of birth // 
-  var dtToday = new Date();
-  var month = dtToday.getMonth() +1;     // getMonth() is zero-based
-  var day = dtToday.getDate() - 2;
-  var year = dtToday.getFullYear();
-  if(month < 10)
-  	month = '0' + month.toString();
-  if(day < 10)
-  	day = '0' + day.toString();
-  var maxDate = year + '-' + month + '-' + day;
-  $('#dateofbirth').attr('max', maxDate).children().addClass('text-warning');
+
+  //*************************************************Validation for date of birth //
+  
+    var dtToday = new Date();
+    var month = dtToday.getMonth() +1;     // getMonth() is zero-based
+    var day = dtToday.getDate() - 2;
+    var year = dtToday.getFullYear();
+    if(month < 10)
+      month = '0' + month.toString();
+    if(day < 10)
+      day = '0' + day.toString();
+    var maxDate = year + '-' + month + '-' + day;
+    $('#dateofbirth').attr('max', maxDate);
  
 
 /************ validadtion for the Identity Number in South Africa  ***********/
-  $(document).ready(function(){
+ 
     var genderCode;
     var gender;
+
   	$('#identitynumber').keyup('input',function(){
   		$('#id_results').html(checkIdentity($('#identitynumber').val()));
+        identityValidation();
+  		
+  });	
+    function identityValidation(){
+      if(checkIdentity($('#identitynumber').val()) != 'Correct'){
 
-  		if(checkIdentity($('#identitynumber').val()) != 'Correct'){
-
-  			$(this).parent().removeClass('has-success');
-  			$(this).parent().addClass('has-error');
+        $(this).parent().removeClass('has-success');
+        $(this).parent().addClass('has-error');
         //disable next button
         $('.nextBtn').addClass('disabled'); 
-  		}else{
-  			$(this).parent().removeClass('has-error');
-  			$(this).parent().addClass('has-success');
+        
+      }else{
+        $(this).parent().removeClass('has-error');
+        $(this).parent().addClass('has-success');
         //Enable next button
         $('.nextBtn').removeClass('disabled');
-  			$('#id_results').removeClass();
-			$('#id_results').addClass('text-success');
-  		}
-  });	
+        $('#id_results').removeClass();
+      $('#id_results').addClass('text-success');
+        
+      }
+    }
   	// check if the identity number meets all the requirement
   	function checkIdentity(idNumber){
       $('#identitynumber').attr('maxlength','13');
@@ -231,6 +245,7 @@ $(document).ready(function() {
   		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
       var citzenship;
       var citzen=['0','1'];
+      var sa_number;
       //jQuery.inArray( citzenship, citzen ) );
   		//exracting the date into months, day and year
   		var id_month = dateofbirt.getMonth()+1;
@@ -247,7 +262,10 @@ $(document).ready(function() {
       var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
       if (idNumber.length ==13) {
         //get the number in position 11 for citizenship
-        citzenship=idNumber.substring(10, 11);      
+        citzenship=idNumber.substring(10, 11);
+        //south african number      
+        sa_number=idNumber.substring(11, 12);
+        console.log(sa_number);      
       }     
        //check the length and if it is only number
       if (idNumber.length != 13) {
@@ -261,12 +279,18 @@ $(document).ready(function() {
           $('#id_results').addClass('text-danger');
           return 'Invalid identity number, Citizenship is 0 or 1';
       }
+       //check if it is valid south african number
+      if (idNumber.length ==13 && sa_number != '8') { 
+       $('#id_results').addClass('text-danger');      
+        return 'Number at positon 12 should be 8';
+      }
   		 //check if it is only number
       if (!id_number) {
 
         $('#id_results').addClass('text-danger');
         return 'Identity Number contain only numbers';
       }
+
   		//check with date of birth
   		if (idNumber.substring(0,6) != dateofbirth) {       
         
@@ -282,7 +306,7 @@ $(document).ready(function() {
         genderCode = idNumber.substring(6, 10); 
 
         //assign value to the number
-        gender = parseInt(genderCode) > 5000 ? "2" : "1"; 
+        gender = parseInt(genderCode) < 5000 ? "2" : "1"; 
         //check gender field value
         checkGender();
         return 'Correct';
@@ -300,7 +324,7 @@ function checkGender(){
   //store the value of radio button checked
   var checkgender=$('input:radio[name="gender"]:checked').val();
   //compare the value with the gender indicator in IdentityNumber field
-  if (checkgender==gender) {
+  if (checkgender!=gender) {
         $('#gender input').parent().removeClass('has-success');
         $('#gender input').parent().addClass('has-error');
         //disable next button
