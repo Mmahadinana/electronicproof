@@ -180,7 +180,7 @@ class User_model extends CI_MODEL
 					->where('property_id',$data['property_id'])
 					//update lives_on table		
 					->update('lives_on',array('primary_prop'=>0));
-					
+			//update address		
 			$this->addUserAddress($data);
 			
 		}

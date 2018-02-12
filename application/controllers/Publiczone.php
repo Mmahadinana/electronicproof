@@ -794,8 +794,9 @@ class Publiczone extends CI_Controller
     		{
     			
     			$statusEdit=$this->user_model->updateUser($this->input->post());
+    			//redirect to userprifile with the success message
     			redirect("residents/userprofile?statusEdit=$statusEdit");
-				//redirect("residents/userprofile?statusRequest=0");
+				
     		}
     	}else {
     		$this->load->view('ini',$data);

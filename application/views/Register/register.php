@@ -316,10 +316,15 @@ $editmode = isset($user_id)? 'true':'false';
 
 <script type="text/javascript">
 	$(document).ready(function (){
+		//stores the Id of the inputs temporarely
 		var inputattr=[];
+		//stores the ID that is going to be diplayed
 		var lastoutput=[];
+		//stores the value that should be diplayed
 		var outputval=[];
+		//hold the values to be displayed temporaly
 		var outputattr=[];
+		
 		var navListItems = $('div.setup-panel div a'),
 		allWells = $('.setup-content'),
 		allNextBtn = $('.nextBtn');		
