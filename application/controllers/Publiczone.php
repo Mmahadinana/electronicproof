@@ -379,7 +379,7 @@ class Publiczone extends CI_Controller
     					'required',
     					'exact_length[10]',
     					'numeric',
-    					'regex_match[/^[0]\d{9}$/]',
+    					'regex_match[/^[0]\d[1-9]{1}\d[0-9]{6}$/]',
     				),
     				'errors'=>array
     				('required'=>'you should insert one %s ',

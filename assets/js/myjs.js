@@ -348,8 +348,9 @@ function checkGender(){
 
   /***********************************************Validation for phone number*********/
 	
-  $('#phone').keyup('input',function(){
+  $('#phone').keyup('input',function(e){
       $(this).attr('maxlength','10');
+
   		$('#phone_results').html(checkPhone($('#phone').val()));
   		if(checkPhone($('#phone').val()) != 'Correct'){
   			$(this).parent().removeClass('has-success');
@@ -369,14 +370,23 @@ function checkGender(){
 function checkPhone(phone){
 
   		//var dateofbirt=new Date($('#dateofbirth').val());
-  		var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''))
+      var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''));
+      //regex for the 2nd and 3rd number to not be 0
+  		var regex= /^[0]\d[1-9]{1}\d[0-9]{6}$/;
   		//variable to check that the phone starts with 0
   		var phone1=[];  		
 
     	for (var i = 0; i < phone.length; i++) {
     		//saving all the characters of phone as array in check variable
     		phone1[i]=phone[i];
-    	}
+    	}     
+   /* if (phone.length == 2 && phone.substr(0,1)== 0){
+      
+         phone_number=phone_number.slice(0,1);
+
+
+    }*/
+    
     	//test the length
   		if (phone.length != 10) {
 
@@ -384,17 +394,23 @@ function checkPhone(phone){
   			return 'Phone Number must have exactly 10 numbers';
 
   		}
+      
   		//check is it is a number
   		if (!phone_number) {
 
   			$('#phone_results').addClass('text-danger');
-  			return 'Phone Number must have only numbers';
+  			return 'Phone should only be number';
   		}
   		//check if it starts with zero
   		if (phone1[0] != "0") {
 
+        $('#phone_results').addClass('text-danger');
+        return 'Phone Number must starts with zero(0)';
+      }
+      if (!regex.test(phone)) {
+
   			$('#phone_results').addClass('text-danger');
-  			return 'Phone Number must starts with zero(0)';
+         return '0 is ny allowed to be a second and third';
   		}
   		//everything is ok submit
   		if(phone.length == 10 && phone_number){
