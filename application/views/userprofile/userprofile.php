@@ -17,7 +17,7 @@
    echo alertMsg($statusConfirm,' Your request deleted successfully',"Oops!Something went wrong while processing your request, please make a new request <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
  }
 if (isset($statusEdit)) {
-   echo alertMsg($statusEdit,' Your request deleted successfully',"Oops!Unable to update your infor <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
+   echo alertMsg($statusEdit,' User information updated successfully',"Oops!Unable to update your infor <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
  }
 
 ?>
