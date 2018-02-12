@@ -537,7 +537,7 @@ class Publiczone extends CI_Controller
 
 	}
 
-//public function editUser($id=0)
+
 
 /**
  * [editUser description]
@@ -545,6 +545,10 @@ class Publiczone extends CI_Controller
  */
 	public function editUser()
 	{
+
+		if (!isset($_SESSION['id'])) {
+			redirect('login/login_');			
+		}
 		$id=$this->input->post('userid');
 		//var_dump($id);
 		if($id!=0 and is_numeric($id))
@@ -604,12 +608,13 @@ class Publiczone extends CI_Controller
     	foreach ($data['userInfo'] as $key => $value) 
     	{
     		$data['user_data']=$value;
-
+    		
 
     	}
 		if(empty($data['userInfo'])){
 			$this->change_add($data['user_id']);
 		}
+		
     	foreach ($data['userInfo'] as $value) 
     	{
 
@@ -627,6 +632,7 @@ class Publiczone extends CI_Controller
     		$data['suburbEdit'] = $value->suburb;
     		$data['streetNameEdit'] = $value->street_name;
     		$data['doorNoEdit'] = $value->door_number;
+    		$data['gender_id'] = $value->gender_id;
     		//$data['title_deedEdit'] = $value->title_deed;
     		//$data['registration_numberEdit'] = $value->registration_number;
     		//$data['purchase_priceEdit'] = $value->purchase_price;
@@ -643,136 +649,141 @@ class Publiczone extends CI_Controller
 
 //Including validation library
     	if(!$this->input->post('usercheck')){
-    		$config_validation = array(
-    				array('field'=>'email',
+    		$config_validation = array
+		(
+			array('field'=>'email',
 				'label'=>'email',
-				'rules'=>'required',
+				'rules'=>array(
+    				'required', 
+    				'valid_email',   				
+    				array('callback_email',array($this->user_model,'callback_email')),
+    				'max_length[30]',			
+    				),
 				'errors'=>array
-				('required'=>'you should insert %s for the user')						
-			),
-
-
-    			
-
-    			array('field'=>'date_registration',
-    				'label'=>'Date of Registration',
-    				'rules'=>'required',
-    				'errors'=>array('required'=>'you should insert %s for the user')						
+				('required'=>'you should insert %s for the user',
+					'valid_email'=>'please enter the correct %s',
+					'callback_email'     => 'This %s already exists.',
+					'max_length[30]'     => '%s length should not exceed 30.',
+				)						
+			),	
+			array('field'=>'name',
+				'label'=>'Full Name',
+				'rules'=>array
+				('required',
+					'min_length[3]',
+					'max_length[30]',
+					'alpha'),
+				'errors'=>array
+				('required'=>'insert %s ',
+					'min_length'=>'%s should have minimum of 3 ',
+					'max_length'=>'%s should have maximum of 25',
+					'alpha'=>'%s should have alphabet')						
+			),	
+			
+			 array('field'   => 'identitynumber',
+    			'label'  =>  'Identity Number',
+    			'rules'  =>  array(
+    				'required',
+    				'exact_length[13]',
+    				'numeric',
+    				array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),
+    				
     			),
-    				array(
+
+    			'errors'  =>  array(
+    				'required'  =>  ' %s is required',
+    				'exact_length'  =>  'the %s must have 13 numbers',
+    				'numeric'  =>  'the %s must have only numbers',
+    				'callback_checkIdnumber'     =>'Invalid %s' ,
+    				)
+    			),
+
+    			array(
     				'field'=>'dateofbirth',
     				'label'=>'Date of Birth',
-    				'rules'=>'required',
+    				'rules'=>array('required',
+    					'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
     				'errors'=>array
-    				('required'=>'you should insert %s for the user')
+    				('required'=>'you should insert %s for the user',
+    				'regex_match'=>'%s is not valid',)
     			),
-
-    			array('field'=>'name',
-    				'label'=>'Full Name',
-    				'rules'=>'required',
-    				'errors'=>array('required'=>'you should insert %s for the user')						
-    			),
-
-
-    				array(
-				'field'=>'identitynumber',
-
-				'label'=>'Identity Number',
-				'rules'=>array
-				(
-					'required',
-					'exact_length[13]',						
-
-					//'regex_match[ /^([0-9]){2}([0-1][0-9])([0-3][0-9])([0-9]){4}([0-1])([0-9]){2}?$/]',
-				)),
-
-
-
 
     			array(
     				'field'=>'phone',
     				'label'=>'Phone number',
-    				'rules'=>array(
+    				'rules'=>array
+    				(
     					'required',
-    					'exact_length[10]',						
-    					'regex_match[/^[0-9]+$/]',
+    					'exact_length[10]',
+    					'numeric',
+    					'regex_match[/^[0]\d{9}$/]',
     				),
-
-
-
-    				'errors'=>array(
-    					'required'=>'you should insert one %s ',
+    				'errors'=>array
+    				('required'=>'you should insert one %s ',
     					'exact_length'=>'the %s must have at least length of 10 ',						
-    					'regex_match'=>'the %s must be numbers only',)									
-    					 					
+    					'regex_match'=>'the %s must starts with 0',									
+    					'numeric'=>'the %s must be numbers')	 					
     			),
-
+    			
     			array(
     				'field'=>'gender',
     				'label'=>'Gender',
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert %s for the user')
+    				'errors'=>array
+    				('required'=>'you should insert %s for the user')    				
     			),
-
     			array(
     				'field'=>'suburb',
     				'label'=>'Suburb',
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert one %s for the user')
-    			),
+    				'errors'=>array
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'town',
-    				'label'=>'town',
+    				'label'=>'Town',
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert one %s for the user')
-    			),
+    				'errors'=>array
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'district',
-    				'label'=>'District',
+    				'label'=>' District',
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert one %s for the user')
-    			),
+    				'errors'=>array
+    				('required'=>'you should insert one %s for the user')),
 
     			array(
     				'field'=>'province',
-    				'label'=>'Province',
+    				'label'=>'Province',    			
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert one %s for the user')
+    				'errors'=>array
+    				('required'=>'you should insert one %s for the user')
+
     			),
-
-
-
     			array(
-    				'field'=>'zip_code',
-    				'label'=>'zip code',
-    				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert %s for the user')
-    			),
 
-
-
-    			array(
     				'field'=>'manucipality',
     				'label'=>'Manucipality',
     				'rules'=>'required',
-    				'errors'=>array(
-    					'required'=>'you should insert one %s for the user'
+    				'errors'=>array
+    				('required'=>'you should insert one %s for the user')
 
-    				)
-    			)
-    		
-    		);
-
-
-
+    			),
+    				array(
+				'field'=>'street_name',
+				'label'=>'Street Address',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user')
+			),
+			array(
+				'field'=>'door_number',
+				'label'=>'Door Number',
+				'rules'=>
+				'required',	
+				'errors'=>array('required'=>'you should insert %s for the user')),				
+			);
 
     		$this->form_validation->set_rules($config_validation);
     		if($this->form_validation->run()===FALSE)
@@ -781,14 +792,15 @@ class Publiczone extends CI_Controller
 
     		}else
     		{
+    			
     			$statusEdit=$this->user_model->updateUser($this->input->post());
-    			//redirect("publiczone/editUser?statusEdit=$statusEdit");
-		redirect("residents/userprofile?statusRequest=0");
+    			redirect("residents/userprofile?statusEdit=$statusEdit");
+				//redirect("residents/userprofile?statusRequest=0");
     		}
     	}else {
-    		
+    		$this->load->view('ini',$data);
     	}
-					$this->load->view('ini',$data);
+					
     }
 
 

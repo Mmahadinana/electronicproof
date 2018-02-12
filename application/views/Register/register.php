@@ -137,12 +137,23 @@ $editmode = isset($user_id)? 'true':'false';
 					<label  id ="gender" class="control-label">Gender</label>
 
 					<div class="form-group" id="gender">
+						
+						<?php if (isset($user_id))
+						//is in edit mode-editing and updating user information
+						{?>
 						<label class="radio-inline" for="male">Male</label>
-						<input  name="gender" id="male" type="radio" value="1" <?php echo  set_radio('gender', '1',true); ?> />
-						
-						
+						<input  name="gender" id="male" type="radio" value="1" <?php echo ($gender_id == 1) ? 'checked':''; ?> />						
+						<label class="radio-inline" for="female">Female</label>
+						<input  name="gender" id="female" type="radio" value="2" <?php echo ($gender_id == 2) ? 'checked':''; ?> />
+					<?php }else {
+						//is on create or add mode- creating new user
+						?>
+						<label class="radio-inline" for="male">Male</label>
+						<input  name="gender" id="male" type="radio" value="1" <?php echo set_radio('gender', '1',true); ?> />						
 						<label class="radio-inline" for="female">Female</label>
 						<input  name="gender" id="female" type="radio" value="2" <?php echo  set_radio('gender', '2'); ?> />
+					<?php }?>
+						
 						
 						
 						<p class="gender"><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
@@ -281,8 +292,15 @@ $editmode = isset($user_id)? 'true':'false';
 			<h1>Details Preview</h1>
 			<div class="col-lg-10col-md-offset-3">
 				<div class="col-md-12 h5" >
-					<table class='table'>
+					<table class="table">
+						<thead>
+							<tr class="warning h4 text-danger">
+								<td>Title</td>
+								<td>Your Information</td>
+							</tr>
+						</thead>
 						<tbody id="output">
+
 						</tbody>
 					</table>
 				</div>				
@@ -436,13 +454,14 @@ $editmode = isset($user_id)? 'true':'false';
 						//cutting off passwords					
 						lastoutput.pop(lastoutput.splice(0,2));
 						outputattr.pop(outputattr.splice(0,2));
-
+						$("#output").empty();
 						//print inputs for view on html
 						for (var i = 0; i < lastoutput.length; i++) {
-							
+							outputattr[i]=(outputattr[i].substr(0,1)).toUpperCase() + outputattr[i].substr(1);
 							//output on the html tag div
 							$("#output").append("<tr>","<td><b>"+outputattr[i]+"</b> </td> \n <td class='info'> "+lastoutput[i]+"</td></tr>");
-							$("#output tr").addClass('warning');
+							//$("#output .table").children();
+							$("#output").has('tr').addClass('table table-dark table-striped text-success');
 
 						}//end forloop		
 				}//end if step 3		
@@ -693,7 +712,7 @@ function update_address()
 			}));
 			door_number.append($('<option>', 
 			{ 
-				value: item.door_number,
+				value: item.id,
 				text : item.door_number 
 			}));
 		});
@@ -704,6 +723,7 @@ function update_address()
 		else{
 			
 			$("#select_address select").val(0);
+			$("#select_Number selected").val(0);
 		}
 			//dispaly the select box
 			$("#select_address").attr('style','display:block');

@@ -422,7 +422,7 @@ $.each(address[selected], function (i, item)
 	}));
 	door_number.append($('<option>', 
 	{ 
-		value: item.door_number,
+		value: item.id,
 		text : item.door_number 
 	}));
 

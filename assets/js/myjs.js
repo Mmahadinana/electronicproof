@@ -216,11 +216,8 @@ $(document).ready(function() {
 
   	$('#identitynumber').keyup('input',function(){
   		$('#id_results').html(checkIdentity($('#identitynumber').val()));
-        identityValidation();
-  		
-  });	
-    function identityValidation(){
-      if(checkIdentity($('#identitynumber').val()) != 'Correct'){
+        
+  		if(checkIdentity($('#identitynumber').val()) != 'Correct'){
 
         $(this).parent().removeClass('has-success');
         $(this).parent().addClass('has-error');
@@ -236,7 +233,10 @@ $(document).ready(function() {
       $('#id_results').addClass('text-success');
         
       }
-    }
+  });	
+   /* function identityValidation(){
+      
+    }*/
   	// check if the identity number meets all the requirement
   	function checkIdentity(idNumber){
       $('#identitynumber').attr('maxlength','13');
@@ -245,7 +245,9 @@ $(document).ready(function() {
   		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
       var citzenship;
       var citzen=['0','1'];
-      var sa_number;
+      var sa_number=['8'];
+      var num;
+
       //jQuery.inArray( citzenship, citzen ) );
   		//exracting the date into months, day and year
   		var id_month = dateofbirt.getMonth()+1;
@@ -263,13 +265,16 @@ $(document).ready(function() {
       if (idNumber.length ==13) {
         //get the number in position 11 for citizenship
         citzenship=idNumber.substring(10, 11);
-        //south african number      
-        sa_number=idNumber.substring(11, 12);
-        console.log(sa_number);      
+        //south african number   
+         
+        num=idNumber.substring(11, 12);
+          
+   
       }     
        //check the length and if it is only number
       if (idNumber.length != 13) {
 
+        $('#id_results').removeClass('text-success');
         $('#id_results').addClass('text-danger');
         return 'Identity Number have 13 characters';
       } 
@@ -280,24 +285,27 @@ $(document).ready(function() {
           return 'Invalid identity number, Citizenship is 0 or 1';
       }
        //check if it is valid south african number
-      if (idNumber.length ==13 && sa_number != '8') { 
+      if (idNumber.length ==13 && (sa_number.indexOf(num) == -1)) { 
        $('#id_results').addClass('text-danger');      
         return 'Number at positon 12 should be 8';
       }
   		 //check if it is only number
       if (!id_number) {
 
+      
         $('#id_results').addClass('text-danger');
         return 'Identity Number contain only numbers';
       }
 
   		//check with date of birth
   		if (idNumber.substring(0,6) != dateofbirth) {       
-        
+          
+        $('#id_results').addClass('text-danger');
         return 'Identity Number and dateofbirth do not match';
       }
       if (idNumber.substring(0,6) != dateofbirth) {  			
         
+        $('#id_results').addClass('text-danger');
   			return 'Identity Number and dateofbirth do not match';
   		}      
       //all is checked an correct 

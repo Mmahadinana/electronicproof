@@ -348,15 +348,15 @@ public function userprofile()
 {
 	if(null!=$this->input->get('statusInsert')){
 		$data['statusInsert']= $this->input->get('statusInsert');
-
 	}
 	if(null!=$this->input->get('statusRequest')){
 		$data['statusRequest']= $this->input->get('statusRequest');
-
 	}	
 	if(null!=$this->input->get('statusConfirm')){
 		$data['statusConfirm']= $this->input->get('statusConfirm');
-
+	}
+	if(null!=$this->input->get('statusEdit')){
+		$data['statusEdit']= $this->input->get('statusEdit');
 	}
 	$search=array();
 	$properties=array();
