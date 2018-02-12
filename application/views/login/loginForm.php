@@ -13,6 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if (isset($statusUsername)) {
    echo alertMsg($statusResetPass,'Password reset successfully ','Username not found ');
  }
+ if (isset($statusUserInsert)) {
+   echo alertMsg($statusUserInsert,'You have successfully registered ','Failed registration ');
+ }
 		$action="login/login_/";
 
 		echo form_open($action,array('class'=>'form-horizontal','method'=>'POST'));?>

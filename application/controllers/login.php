@@ -33,8 +33,8 @@ class Login extends CI_Controller
 		{
 			$data['statusResetPass']= $this->input->get('statusResetPass');
 		}
-		if(null!=$this->input->get('statusInsert')){
-			$data['statusInsert']= $this->input->get('statusInsert');
+		if(null!=$this->input->get('statusUserInsert')){
+			$data['statusUserInsert']= $this->input->get('statusUserInsert');
 
 		}
 		if(null!=$this->input->get('statusRequest')){

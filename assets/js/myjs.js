@@ -261,6 +261,7 @@ $(document).ready(function() {
   			id_date = '0' + id_date.toString();
   		}
       //get date of birth in a string
+      //first six lettes of ID
       var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
       if (idNumber.length ==13) {
         //get the number in position 11 for citizenship
@@ -314,6 +315,7 @@ $(document).ready(function() {
         genderCode = idNumber.substring(6, 10); 
 
         //assign value to the number
+        //Gender from position 7-10
         gender = parseInt(genderCode) < 5000 ? "2" : "1"; 
         //check gender field value
         checkGender();
