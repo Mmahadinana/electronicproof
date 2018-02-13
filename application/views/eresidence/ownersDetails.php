@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="container ">
 
-  <h1>Register Property</h1>
+  <h1>Owners Information</h1>
 
   <?php
 //var_dump($user_addinfor);
@@ -12,11 +12,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 
- <div class="form-area">
+ <div class="form-area5">
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
       <div class="col-xs-6 col-md-offset-4">
         <div class="col-md-12">
-          <h3 >Owners Information</h3>
+     
 
           <div class="form-group" >
             <label class="control-label" for="title_deed">Title Deed</label>

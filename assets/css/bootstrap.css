@@ -1311,12 +1311,14 @@ mark,
 }
 .text-left {
   text-align: left;
+
 }
 .text-right {
   text-align: right;
 }
-.text-center {
+.text-center1 {
   text-align: center;
+  
 }
 .text-justify {
   text-align: justify;
@@ -3929,9 +3931,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+
 }
 .input-group-addon:first-child {
   border-right: 0;
+  background-color:#337ab7;
 }
 .input-group .form-control:last-child,
 .input-group-addon:last-child,

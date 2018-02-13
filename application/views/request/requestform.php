@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <h1 ><?php echo $pageTitle; ?></h1>
   
-  <div class="form-area">
+  <div class="form-area4">
     <div id='days_left' class="text-danger h3 days_left hidden">
     <span class="text-primary">You make a new request after:</span>
     </div>

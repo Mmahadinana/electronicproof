@@ -3,7 +3,7 @@
 
  ?>
 
- <div class="form-area">
+ <div class="form-area1">
  	  <?php
 
   if (isset($statusInsert)) {
@@ -17,7 +17,7 @@
  }
 
 ?>
- 	<h1>User Profile</h1>
+ 	<h1>My Profile</h1>
 
  	
  	<div class="container">
@@ -100,7 +100,7 @@
  				</form>
  				<table <?php echo $_SESSION['owner'] != false ? "class=' '" : "class='hidden'"?> class="table ">
 
- 					<caption class="h3 text-center">List of your properties</caption>
+ 					<caption class="h3 text-center" id="center">List of your properties</caption>
 
  					<thead>
 
@@ -148,7 +148,7 @@
  <div class="row">
  	<div class="col-sm-8 col-lg-8 pfTbl_padding">
  		<table class="table ">
- 			<caption class="h3 text-center">Lives at:</caption>
+ 			<caption class="h3 text-center" id="live">Lives at:</caption>
  			<thead>
  				<tr class="warning text-danger">
  					<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>

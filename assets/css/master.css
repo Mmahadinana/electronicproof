@@ -407,6 +407,7 @@ input:focus {
 .pfTbl_rom_padding .colBrd{    
  padding: 2px;
  margin: 0px;
+ color: #337ab7;
 }
 .rowBrd{
     border-bottom: 1px solid #ddd;
@@ -418,7 +419,7 @@ input:focus {
  background-color:#fcf8e4 ;
 }
 .text-white span{
-color: #fff !important;
+color: #337ab7 !important;
 }
 .text-white span:hover{
 color: pink !important;

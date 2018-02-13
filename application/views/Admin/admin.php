@@ -448,6 +448,7 @@ $no_owner_property=array();
 	<div class="container form-area">
 
   <?php
+
   //var_dump($getListToComfirm);
   $user_id=0;
   $property=0;
@@ -519,7 +520,7 @@ if (isset($statusUpdate_AdminA)) {
 <div class="tab-pane" id="lD">
 	<div class="col-md-offset-1">
 		<div class="row" style="line-height: 14px; margin-bottom: 34.5px">
-			<div class="container form-area">
+			<div class="form-area6">
   <?php 
 
   $action="residents/details/";?>
@@ -603,7 +604,7 @@ if (isset($statusUpdate_AdminA)) {
             </div>
 
             <div class="form-group">
-              <input  name="gender" type="radio" value="2" id="radio101"   checked>
+              <input  name="gender" type="radio" value="2" id="radio101"  checked>
               <label for="radio101">Female</label>
               <p><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
 
@@ -702,7 +703,7 @@ if (isset($statusUpdate_AdminA)) {
               <?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
             </div>
             <!-- suburb end-->
-
+              
             <!-- zip code start-->
             <div class="form-group" id="zip_code_input" style="display:none">
               <!--label for="zip_code">Zip Code</label>
@@ -771,8 +772,8 @@ if (isset($statusUpdate_AdminA)) {
           </div>
           <div class="form-group">
             <label class="control-label" for="dateofbirth">Registration Number</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-              <input type="date" class="form-control" name="dateofbirth"  id="dateofbirth"   placeholder="date of birth" required>
+           <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+              <input type="text" class="form-control" name="identitynumber"  id="identitynumber"  placeholder="identity number" required>
             </div>
             <p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
 
@@ -791,15 +792,18 @@ if (isset($statusUpdate_AdminA)) {
           </div>
           <div class="form-group">
             <label class="control-label" for="phone">Purchase Price</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-money"></span></span>
               <input type="text" class="form-control" name="phone"    id="phone" placeholder="phone numbers" required>
             </div>
             <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
           </div>
           <div class="form-group">
             <label class="control-label" for="phone">Purchase Date</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-              <input type="text" class="form-control" name="phone"    id="phone" placeholder="phone numbers" required>
+          <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+              <input type="date" class="form-control" name="date_registration" <?php
+              $currentDate = date('Y-m-d');
+              echo $currentDate;
+              ?>  id="date_registration"    placeholder="date of registration" required>
             </div>
             <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
           </div>

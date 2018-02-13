@@ -75,7 +75,7 @@
   .contact
   {
 
-    color: black;
+    color: #337ab7;
     padding-right: -50px;
 
   }
@@ -91,12 +91,13 @@
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    color: #337ab7;
   }
 
   h1
   {
     margin-right: 30px;
-    color: black
+    color: #337ab7
   }
 .tably tr td{
  border-style: none;
