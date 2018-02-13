@@ -40,7 +40,13 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
-	
+	public function check_streetname($street_name){
+
+	}
+	public function check_doornumber($door_number){
+		
+	}
+
 }
 
 ?>

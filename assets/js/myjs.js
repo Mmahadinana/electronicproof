@@ -269,6 +269,7 @@ $(document).ready(function() {
         //south african number   
          
         num=idNumber.substring(11, 12);
+        checksum=isValidIdetity_checkLuhn(idNumber);
           
    
       }     
@@ -290,6 +291,11 @@ $(document).ready(function() {
        $('#id_results').addClass('text-danger');      
         return 'Number at positon 12 should be 8';
       }
+         //check checksum using Luhn algorith at position 13
+      if (idNumber.length ==13 && ! checksum) { 
+       $('#id_results').addClass('text-danger');      
+        return 'Number at positon 13 is invalid';
+      }
   		 //check if it is only number
       if (!id_number) {
 
@@ -308,9 +314,10 @@ $(document).ready(function() {
         
         $('#id_results').addClass('text-danger');
   			return 'Identity Number and dateofbirth do not match';
-  		}      
+  		}
+
       //all is checked an correct 
-      if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number){  
+      if(idNumber.substring(0,6) == dateofbirth && idNumber.length == 13 && id_number && checksum){  
         //gender indicator number
         genderCode = idNumber.substring(6, 10); 
 
@@ -381,13 +388,7 @@ function checkPhone(phone){
     	for (var i = 0; i < phone.length; i++) {
     		//saving all the characters of phone as array in check variable
     		phone1[i]=phone[i];
-    	}     
-   /* if (phone.length == 2 && phone.substr(0,1)== 0){
-      
-         phone_number=phone_number.slice(0,1);
-
-
-    }*/
+    	}  
     
     	//test the length
   		if (phone.length != 10) {
@@ -420,4 +421,22 @@ function checkPhone(phone){
 			return 'Correct';
 		}
 	}
+
+  function isValidIdetity_checkLuhn(number) {  
+     var str = '';
+
+    for (var i = number.length - 1; i >= 0; --i) {
+        str += i & 1  ? (parseInt(number[i]) * 2).toString() : number[i] ;
+    }
+
+    var sum = str.split('').reduce(function(prev, current) {
+     // console.log(prev,current)
+     
+        return prev + parseInt(current);
+
+    }, 0);
+//console.log(sum % 10);
+    return sum % 10 === 0;
+    //return sum % 12;//
+};
 });

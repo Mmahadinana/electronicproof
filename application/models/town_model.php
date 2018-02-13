@@ -49,7 +49,8 @@ class Town_model extends CI_MODEL
 		return $this->db->get()->result();
 		//var_dump($this->db->get()->result());
 	}
-	
+	public function check_town(){}
+
 }
 
 ?>

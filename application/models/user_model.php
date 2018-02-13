@@ -32,6 +32,7 @@ class User_model extends CI_MODEL
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
 			lives_on.user_id,
+			gender.description,
 			property.id as property_id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
@@ -437,6 +438,9 @@ class User_model extends CI_MODEL
 		$checkgender=intval(substr($identitynumber, 6, 4)) < 5000 ? 2 : 1;
 		//rang for citizenship
 		$citizen =array(0,1);
+		//checksum for correct Identity number
+		$checksum_num=$this->isValidIdetity_checkLuhn($identitynumber);
+	
 
 		if(substr($birthdate, 2,6) != substr($identitynumber, 0, 6) ){
 			return false;
@@ -447,6 +451,8 @@ class User_model extends CI_MODEL
 	        }
 	    if($checkgender != $gender){
 	    	return false;
+	    }if(!$checksum_num){
+	    	return false;
 	    }
 	    if (!in_array($identitynumber{10}, array(0, 1))) {
 	         return false;
@@ -455,6 +461,21 @@ class User_model extends CI_MODEL
 	     }
 		
 	}
+	/**
+	 * [isValidIdetity_checkLuhn description]
+	 * @param  [type]  $card_number [description]
+	 * @return boolean              [description]
+	 */
+	public function isValidIdetity_checkLuhn ($id_number) {
+	    $string = '';
+
+	    foreach (str_split(strrev((string) $id_number)) as $i => $num) {
+	        $string .= $i %2 !== 0 ? $num * 2 : $num;
+	    }
+
+	    return array_sum(str_split($string)) % 10 === 0;
+	}
+
 	/**
 	 * [callback_email for validation]
 	 * @param  [type] $email [description]
@@ -501,6 +522,18 @@ class User_model extends CI_MODEL
 		{
 			return true;
 		}
+	}
+	public function callback_alpha($name){
+		//checking if there any numbers
+		preg_match_all('!\d+!', $name, $matches);
+		//preg_match_all('!d+!', $name, $matches);
+		
+		if (!empty($matches[0])) { 
+		//number has been found return false       
+        return FALSE;
+    } else {
+        return TRUE;
+    }
 	}
 		/**
 	 * [update User Address ]

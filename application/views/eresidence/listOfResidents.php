@@ -169,10 +169,10 @@ $('#add').show();
    dataType:"json",
    success:function(data)
    {
-    /*$('#search').append($('<option>', { 
+    $('#search').append($('<option>', { 
     value: data.id,
-    text : data.name*/ 
-    alert(data);
+    text : data.name 
+    //alert(data);
   }));
     
     

@@ -200,7 +200,7 @@ if (isset($statusEdit)) {
  		</tr><?php	} ?>
  		<tr class="warning">
  			<td  colspan="1" class="col-lg-3">
- 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add New Address</a>
+ 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('residents/ownersDetails') ?>">Register Property</a>
  			</td>
  			<td  colspan="4" class="col-lg-9">
  				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('Request_proof/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>

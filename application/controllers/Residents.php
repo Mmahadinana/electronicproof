@@ -445,8 +445,9 @@ public function userprofile()
 		$search=array();
 		$search['property_id']=$property_id;
 		//$search['property_id1']=$property_id;
-		$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
+		//$data['user_addinfor']= $this->ownersDetails_model->getAddressTwo($search);
 		$search['user_id']= $_SESSION['id'];
+		$data['user_addinfor']=$this->user_model->getUser($search);
 		
 
 		$data['pageToLoad']='eresidence/OwnersDetails';

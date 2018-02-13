@@ -18,7 +18,8 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
 
 		<?php 
 		if($user_id!=0){
-			echo '<h4 class="text-warning"> You do not have address, please <a class="text-danger" href=" '.("../publiczone/change_add").'">Register Address</a> where you live before Editing your information</h4>';
+			echo '
+			<div class="text-danger"> <i class="fa fa-ban fa-5x" aria-hidden="true"></i></div><h4 class="text-warning"> You do not have address, please <a class="text-danger" href=" '.("../publiczone/change_add").'">Register Address</a> where you live before Editing your information</h4>';
 		}else {
 			
 		
