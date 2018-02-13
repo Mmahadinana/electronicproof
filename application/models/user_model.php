@@ -23,17 +23,16 @@ class User_model extends CI_MODEL
 		
 		//search user id
 		$user_id = $searchid['user_id'] ?? FALSE;
-		//var_dump($user_id);
+		
 		if('$user_id')
 		{
 			$this->db->where('lives_on.user_id',$user_id);
-
 		}
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
 			lives_on.user_id,
-			property.id,property.address_id,
+			property.id as property_id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
 			town.id as townid,
@@ -55,63 +54,81 @@ class User_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
-/**
- * pagination of the get user page
- */
-public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
-{
 
-//public function getAddress(){
-	//where to start bringing the rows for the pagination
-	$offset = $searchid['page'] ?? 0;
-//call the query to bring the residence
-	$this->userQuery($searchid)
-	//$this->requestquery();
-		//establish the limit and start to bring the owner address
-	->limit($limit,$offset);
-			//get data from bd
-	return $this->db->get()->result() ;
-}
+	public function addressquery($search=array()){
+   $suburb=$search['suburb'] ?? FALSE;
+   $door_number=$search['door_number'] ?? FALSE;
+   $street_name=$search['street_name'] ?? FALSE;
+   
+   if($suburb || $door_number || $street_name){
+ 	$this->db->where('address.suburb_id',$suburb)
+		->where('address.street_name',$street_name)
+		->where('address.door_number',$door_number);
+		
+   }
+    $this->db->select('address.id')
+    		->from('address');
+		
+	 return $this->db->get()->result();
 
-/**
- * [addUser description]
- * @param [type] $data [add the verified and assigned user and store the data of each on the database]
- */
-public function addUser($data)
-{
+	}
+	/**
+	 * pagination of the get user page
+	 */
+	public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
+	{
 
+	//public function getAddress(){
+		//where to start bringing the rows for the pagination
+		$offset = $searchid['page'] ?? 0;
+	//call the query to bring the residence
+		$this->userQuery($searchid)
+		//$this->requestquery();
+			//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+				//get data from bd
+		return $this->db->get()->result() ;
+	}
 
-	$add = array(
-		'name'=>$data['name'],
-		'email'=>$data['email'],
-			//'address'=>$data['address'],
-		'identitynumber'=>$data['identitynumber'],
-		'phone'=>$data['phone'],
-			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
-			'gender_id'=>$data['gender'],
-			'date_registration'=>$data['date_registration'],//'2017-11-11',
-			//'title_deed'=>$data['title_deed'],
-			//'purchase_price'=>$data['purchase_price'],
-			//'registration_number'=>$data['registration_number'],
-			//'purchase_date'=>$data['purchase_date'],
-			//'house_type'=>$data['house_type'],
-
-		     		//'minetype'=>$minetype
-		);
-
-	$this->db->trans_start();
-//var_dump($add);
-	$this->db->insert("user",$add);
-
-	$user_id = $this->db->insert_id();
-	$this->insertPassword($data, $user_id);
-	$this->addUserAddress($data, $user_id);
+	/**
+	 * [addUser description]
+	 * @param [type] $data [add the verified and assigned user and store the data of each on the database]
+	 */
+	public function addUser($data)
+	{
 
 
-	return $this->db->trans_complete();
+		$add = array(
+			'name'=>$data['name'],
+			'email'=>$data['email'],
+				//'address'=>$data['address'],
+			'identitynumber'=>$data['identitynumber'],
+			'phone'=>$data['phone'],
+				'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
+				'gender_id'=>$data['gender'],
+				'date_registration'=>$data['date_registration'],//'2017-11-11',
+				//'title_deed'=>$data['title_deed'],
+				//'purchase_price'=>$data['purchase_price'],
+				//'registration_number'=>$data['registration_number'],
+				//'purchase_date'=>$data['purchase_date'],
+				//'house_type'=>$data['house_type'],
+
+			     		//'minetype'=>$minetype
+			);
+
+		$this->db->trans_start();
+	//var_dump($add);
+		$this->db->insert("user",$add);
+
+		$user_id = $this->db->insert_id();
+		$this->insertPassword($data, $user_id);
+		$this->addUserAddress($data, $user_id);
 
 
-}
+		return $this->db->trans_complete();
+
+
+	}
 	/**
 	 * [updateUser description]
 	 * @param  [true] $data [update the user that is verified]
@@ -119,62 +136,92 @@ public function addUser($data)
 	 */
 	public function updateUser($data)
 	{
-		//prepare the data to insert
-		$user = array(
+		
 
-			'name'=>$data['name'],
-			'email'=>$data['email'],
-			//'address'=>$data['address'],
-			'identitynumber'=>$data['identitynumber'],
-			'phone'=>$data['phone'],
-			'dateOfBirth'=>$data['dateofbirth'],
-			'gender_id'=>$data['gender'],
-			'date_registration'=>$data['date_registration'],
-			
+		//get user by user id
+		$search['user_id']=$data['userid'];		
+		//variable to hold address
+		$address=0;
+		//variable to hold add former add-NOTE: my door_number comes as an id for address
+		$formeradd=$data['door_number'];
+		//get user information 
+		$currentuserdata=$this->getUser($search);
 
+		//get address id of new property
+		//$isaddress=$this->addressquery($data);;
+		
+	/*foreach ($isaddress as $add) {
+		$formeradd=$add->id;
+	}*/
 
-		);
-
+	foreach ($currentuserdata as $value) {
+		$data['property_id']=$value->property_id;
+		$address=$value->address_id;
+	}
+	
+	$userdata=array(
+		'name'=>$data['name'],
+		'email'=>$data['email'],
+		'identitynumber'=>$data['identitynumber'],
+		'phone'=>$data['phone'],
+		'dateOfBirth'=>$data['dateofbirth'],
+		'gender_id'=>$data['gender'],
+		'date_registration'=>$data['date_registration'],
+		'id'=>$data['userid']
+	);
 		$this->db->trans_start();
-		$this->db->where('user.id',$data['iduser'])
-		->update('user',$user);
-		         //update 
+		//update user information
+		$this->db->where('user.id',$userdata['id'])
+				->update('user',$userdata);
+		//check if address is updated
+		if ($address != $formeradd) {
+			//it new address remove old one from primary address
+			$this->db->where('user_id',$data['userid'])
+					->where('property_id',$data['property_id'])
+					//update lives_on table		
+					->update('lives_on',array('primary_prop'=>0));
+			//update address		
+			$this->addUserAddress($data);
+			
+		}
 		return $this->db->trans_complete();
 	}
+
+
 	/**
-	 * [updateUser_models description]
-	 * @param  [type] $user_id [update the user that is verified]
-	 * @param  array  $users   [description]
-	 * @return [type]          [description]
+	 * [removeUserAddress removes the add of the user]
+	 * @param  [type] $search [contains user_id and the property_id that will be deleted in lives_on table]
+	 * @return [type]         [description]
 	 */
-	public function updateUser_models($user_id,$users=array())
-	{
+	public function removeUserAddress($search){
 		
-		$batch = array();
-		foreach ($users as $users_id) 
-		{
-			$batch[] = array(
-				'user_id'=>$user_id,
-				'name'=>$name);
-
+		$this->db->trans_start();
+		//delete in lives on table
+		if ($search['user_id']) {
+			$this->db->where('user_id',$search['user_id'])
+					->where('property_id',$search['property_id'])		
+					->update('lives_on',array('deleted'=>1));
 		}
-		//remove the previous relation
-		$this->removeFromUser($user_id);
-		//insert the new relations
-		return	$this->db->insert_batch('user_model',$batch);
+		else{
+			//user_id from confirm view to decline user
+			$this->db->where('user_id',$search['userid'])
+					->where('property_id',$search['property_id'])		
+					->update('lives_on',array('deleted'=>1));
+		}
+		
+		return $this->db->trans_complete();
 	}
-
-	
-/**
- * [countUser description]
- * @param  array  $search [count the user of each property]
- * @return [type]         [description]
- */
-public function countUser(array $search=array())
-{
-	$this->userQuery($search);
-	return $this->db->count_all_results();
-}
+		
+	/**
+	 * [countUser description]
+	 * @param  array  $search [count the user of each property]
+	 * @return [type]         [description]
+	 */
+	public function countUser(array $search=array())
+	{
+		$this->userQuery($search);
+		return $this->db->count_all_results();
+	}
 	/**
 	 * [deleteUser description]
 	 * @param  int    $user_id [delete the user that is not approved on the list]
@@ -201,197 +248,292 @@ public function countUser(array $search=array())
 	{
 		$this->db->delete("user",array("id"=>$user_id));
 	}
-/**
- * [callback_checkPhone description]
- * @param  [type] $phone [verify the phone stored on the database]
- * @return [type]        [description]
- */
-public function callback_checkPhone($phone)
-{
-	$user_id = $this->input->post('phone');
-        //var_dump($phone);
-	$this->db->select("user.phone")
-	->from("user")
-	->where("id",$user_id);
-		//var_dump($this->db->get()->row());
-	$testphone=$this->db->get()->row();
-	//var_dump($testphone);
-	if ($testphone->phone != $phone) 
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-
-	} 
-
-}
-/**
- * [checkPassword description]
- * @param  [type] $password [verify and store the password of each user]
- * @return [type]           [description]
- */
-public function checkPassword($password)
-{
-		//insert the username and password
-	$username = $this->input->post('username');
-	//$rememberme = $this->input->post('rememberme');
-
-	if (empty($username) || empty($password)) 
-	{
-			//no values go out
-		return true;
-	}
-//will retrieve the password from the user
-	$hash =$this->getPasswordHashFromUser($username);
-
-
-//lets you varify the password
-	if(!empty($hash) && password_verify($password,$hash))
-	{
-	//valid
-		$this->startUserSession($username);
-		//$this->remember_cookie($rememberme);
-	//checks if valid
-		return true;
-	}
-//return false if password is not correct
-	return false;
-
-}
-
-/**
- * [getPasswordHashFromUser description]
- * @param  [type] $username [stores the password assigned]
- * @return [true]           [correct password that appear in the database]
- */
-
-public function insertPassword($data=array(), $user_id)
-{	
-		//var_dump($data);
-	
-	$password=password_hash($data['password'], PASSWORD_BCRYPT);
-	$expireTime = 30*24*3600;
-	$role_id = 2;
-		//expire date to be sent to the db
-	$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
-	//return the username
-	$loginadd = array(
-		'password'=>$password,
-		'user_id'=>$user_id,
-		'expireTime'=>$expireDate,
-		'role_id'=>$role_id,
-		
-	);
-		//var_dump($loginadd);
-		//$this->db->trans_start();
-	
-	$this->db->insert("login",$loginadd);	
-}
-/**
- * [insertAddress description]
- * @param  array  $data    [insert the address on the database]
- * @param  [type] $user_id [description]
- * @return [true]          [retrieves correct information while insertAddress]
- */
-public function insertAddress($data=array(), $user_id)
-{	
-		//var_dump($data);
-	
-	$door_number=password_hash($data['door_number'], PASSWORD_BCRYPT);
-	$street_name = 30*24*3600;
-	$suburb_id = 2;
-		//expire date to be sent to the db
-	
-	//return the username
-	$addressAdd = array(
-		'door_number'=>$door_number,
-		'street_name'=>$street_name,
-		'suburb_id'=>$suburb_id,
-		
-	);
-		//var_dump($addressAdd);
-		//$this->db->trans_start(); 
-	
-	$this->db->insert("login",$addressAdd);	
-}
-
-public function callback_checkIdnumber($identitynumber)
-{
-	//var_dump($this->input->post('user_id'));
-	//$birthdate = $this->input->post('dateofbirth');
-		
-	$this->db->select("user.identitynumber")
-	->from("user")
-	->where("user.identitynumber",$identitynumber);
-		     	     //var_dump($this->db->get()->row() );
-	$identity=$this->db->get()->row();
-	if (!empty($identity)) {
-		if ($identity->identitynumber == $identitynumber) 
-		{
-			return false;
-		}
-	}else
-	{
-		return true;
-	}}
-	public function callback_email($email)
-{
-	//var_dump($this->input->post('user_id'));
-	//$birthdate = $this->input->post('dateofbirth');
-		
-	$this->db->select("user.email")
-	->from("user")
-	->where("user.email",$email);
-		     	     //var_dump($this->db->get()->row() );
-	$identity=$this->db->get()->row();
-	var_dump($identity);
-	if (!empty($identity)) {
-		if ($identity->email == $email) 
-		{
-			return false;
-		}
-	}else
-	{
-		return true;
-	}
-
-	
-
-
-}
 
 	/**
-	 * [updateUserAddress description]
+	 * [callback_checkPhone description]
+	 * @param  [type] $phone [verify the phone stored on the database]
+	 * @return [type]        [description]
+	 */
+	public function callback_checkPhone($phone)
+	{
+		$user_id = $this->input->post('phone');
+	    
+		$this->db->select("user.phone")
+		->from("user")
+		->where("id",$user_id);
+			//var_dump($this->db->get()->row());
+		$testphone=$this->db->get()->row();
+		//var_dump($testphone);
+		if ($testphone->phone != $phone) 
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
+	 * [checkPassword description]
+	 * @param  [type] $password [verify and store the password of each user]
+	 * @return [type]           [description]
+	 */
+	public function checkPassword($password)
+	{
+			//insert the username and password
+		$username = $this->input->post('username');
+		//$rememberme = $this->input->post('rememberme');
+
+		if (empty($username) || empty($password)) 
+		{
+				//no values go out
+			return true;
+		}
+	//will retrieve the password from the user
+		$hash =$this->getPasswordHashFromUser($username);
+
+
+	//lets you varify the password
+		if(!empty($hash) && password_verify($password,$hash))
+		{
+		//valid
+			$this->startUserSession($username);
+			//$this->remember_cookie($rememberme);
+		//checks if valid
+			return true;
+		}
+	//return false if password is not correct
+		return false;
+	}
+
+	/**
+	 * [getPasswordHashFromUser description]
+	 * @param  [type] $username [stores the password assigned]
+	 * @return [true]           [correct password that appear in the database]
+	 */
+	public function insertPassword($data=array(), $user_id)
+	{	
+			//var_dump($data);
+		
+		$password=password_hash($data['password'], PASSWORD_BCRYPT);
+		$expireTime = 3*30*24*3600;
+		$role_id = 2;
+			//expire date to be sent to the db
+		$expireDate = date('Y-m-d H:i:s',time()+$expireTime);
+		//return the username
+		$loginadd = array(
+			'password'=>$password,
+			'user_id'=>$user_id,
+			'expireTime'=>$expireDate,
+			'role_id'=>$role_id,
+			
+		);
+			//var_dump($loginadd);
+			//$this->db->trans_start();
+		
+		$this->db->insert("login",$loginadd);	
+	}
+
+	/**
+	 * [insert Address ]
+	 * @param  array  $data    [insert the address on the database]
+	 * @param  [type] $user_id [description]
+	 * @return [true]          [retrieves correct information while insertAddress]
+	 */
+	public function insertAddress($data=array(), $user_id)
+	{	
+			//var_dump($data);
+		
+		$door_number=password_hash($data['door_number'], PASSWORD_BCRYPT);
+		$street_name = 30*24*3600;
+		$suburb_id = 2;
+			//expire date to be sent to the db
+		
+		//return the username
+		$addressAdd = array(
+			'door_number'=>$door_number,
+			'street_name'=>$street_name,
+			'suburb_id'=>$suburb_id,
+			
+		);
+			//var_dump($addressAdd);
+			//$this->db->trans_start(); 
+		
+		$this->db->insert("login",$addressAdd);	
+	}
+
+	/**
+	 * [callback_checkIdnumber for validation]
+	 * @param  [type] $identitynumber [description]
+	 * @return [type]                 [description]
+	 */
+
+	public function callback_checkIdnumber($identitynumber)
+	{
+		
+		$search['user_id']=$this->input->post('userid');
+		//$birthdate = $this->input->post('dateofbirth');		
+		if ((is_numeric($search['user_id']) && $search['user_id'] !=0)) {
+				// I am on the edit mode
+				$user=$this->getUser($search);
+
+				foreach ($user as $value) {
+					if ($identitynumber == $value->identityNumber) { 
+						// email did not change
+						return true;
+					}else{
+						// email changed
+						return $this->idnumberDontExist($identitynumber);
+					}
+				}	
+			}
+			//email does not exist and id is on create mode
+			return $this->idnumberDontExist($identitynumber);
+	}
+
+	/**
+	 * [idnumberDontExist, called when adding new user or edit has changed]
+	 * @param  [type] $identitynumber [description]
+	 * @return [type]                 [description]
+	 */
+	public function idnumberDontExist($identitynumber){
+
+		$this->db->select("user.identitynumber")
+		->from("user")
+		->where("user.identitynumber",$identitynumber);
+			     	     //var_dump($this->db->get()->row() );
+		$identity=$this->db->get()->row();
+		if (!empty($identity)) {
+			if ($identity->identitynumber == $identitynumber) 
+			{
+				return false;
+			}
+		}else
+		{
+			$validate=$this->compareIdentity_Date_Gender_Citizen($identitynumber);
+			if ($validate ==false){
+				return false;
+			}else {
+				return true;
+			}
+			
+		}
+	}
+	/**
+	 * [compareIdentity_Date_Gender_Citizen check valide Identity number for South Africa]
+	 * @param  [type] $identitynumber [description]
+	 * @return [type]                 [description]
+	 */
+	function compareIdentity_Date_Gender_Citizen($identitynumber){
+		// storing date of birth input
+		$birthdate =$this->input->post('dateofbirth');
+		// storing gender input
+		$gender =$this->input->post('gender');
+		//exracting and assembling date of birth to be compared to identity number input
+		$birthdate=(explode('-',$birthdate));
+		$birthdate=(implode('',$birthdate));		
+		//check if the gender numbers is for female or male
+		$checkgender=intval(substr($identitynumber, 6, 4)) < 5000 ? 2 : 1;
+		//rang for citizenship
+		$citizen =array(0,1);
+
+		if(substr($birthdate, 2,6) != substr($identitynumber, 0, 6) ){
+			return false;
+		}
+		//:date("$year-$month-$day", array('format' => '%y-%m-%d'))
+		if (!in_array($identitynumber{11}, array(8))) {
+	            return false;
+	        }
+	    if($checkgender != $gender){
+	    	return false;
+	    }
+	    if (!in_array($identitynumber{10}, array(0, 1))) {
+	         return false;
+	     }else {
+	     	return true;
+	     }
+		
+	}
+	/**
+	 * [callback_email for validation]
+	 * @param  [type] $email [description]
+	 * @return [type]        [description]
+	 */
+		public function callback_email($email)
+	{
+		$search['user_id']=$this->input->post('userid');
+		//$birthdate = $this->input->post('dateofbirth');
+		if ((is_numeric($search['user_id']) && $search['user_id'] !=0)) {
+				// I am on the edit mode
+				$user=$this->getUser($search);
+				foreach ($user as $value) {
+					if ($email == $value->email) { 
+						// email did not change
+						return true;
+					}else{
+						// email changed
+						return $this->emailDontExist($email);
+					}
+				}	
+			}
+			//email does not exist and id is on create mode
+			return $this->emailDontExist($email);
+	}
+	/**
+	 * [emailDontExist called when adding new email or editemail changed]
+	 * @param  [type] $email [description]
+	 * @return [type]        [description]
+	 */
+	public function emailDontExist($email)
+	{
+		$this->db->select("user.email")
+		->from("user")
+		->where("user.email",$email);
+			     	     //var_dump($this->db->get()->row() );
+		$user=$this->db->get()->row();	
+		if (!empty($user)) {
+			if ($user->email == $email) 
+			{
+				return false;
+			}
+		}else
+		{
+			return true;
+		}
+	}
+		/**
+	 * [update User Address ]
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
-	public function addUserAddress($addifor,$user_id){
-
-		//Get the address id of the address to be inserted
+	public function addUserAddress($addifor=array(),$user_id=0){
+		//for user in session who has no address
+		if ($user_id==0) {
+			$user_id=$addifor['userid'];
+		}
+		
+		//variable to store address id and property id 
 		$userProperty=0;
 		$userAddress=0;
+		//get address
 		
-		$this->db->select('address.id')
-		->where('address.suburb_id',$addifor['suburb'])
-		->where('address.street_name',$addifor['street_name'])
-		->where('address.door_number',$addifor['door_number'])
-		->from('address');
-		$address=$this->db->get()->result();
+		$address=$this->addressquery($addifor);
 		foreach ($address as $value) {
 			$userAddress=$value->id;
 		}
-
+		//if function is called from update user 
+		
 		//get the property id for the address
 		
 		$property=$this->getProperty($userAddress);
+//var_dump($property);
 		//if no property that does not have that address_id insert a new property
-		if(empty($property)){
+		/*if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
 			//get the last inserted id			
 			$property=$this->getProperty($userAddress);
-		}
+		}*/
 		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
@@ -427,25 +569,26 @@ public function callback_checkIdnumber($identitynumber)
 	 * @return [type]              [array of the property where there is address id]
 	 */
 	public function getProperty($userAddress){
+
 		$this->db->select('property.id')
 		->where('property.address_id',$userAddress)			
 		->from('property');
 
 		return $this->db->get()->result();
 	}
-/**
- * [isUserLivingInProperty description]
- * @param  array   $search [confirms the data lf user on that particular property assigned]
- * @return boolean         [description]
- */
-public function isUserLivingInProperty($search=array()){
+	/**
+	 * [isUserLivingInProperty description]
+	 * @param  array   $search [confirms the data lf user on that particular property assigned]
+	 * @return boolean         [description]
+	 */
+	public function isUserLivingInProperty($search=array()){
 
-	$this->db->select('lives_on.id,lives_on.user_id')
-	->where('lives_on.user_id',$search['user_id'])			
-	->where('lives_on.property_id',$search['property_id'])			
-	->from('lives_on');
-	return $this->db->get()->result();
-}
+		$this->db->select('lives_on.id,lives_on.user_id')
+		->where('lives_on.user_id',$search['user_id'])			
+		->where('lives_on.property_id',$search['property_id'])			
+		->from('lives_on');
+		return $this->db->get()->result();
+	}
 	/**
 	 * [isThereOwnerInProperty description]
 	 * @param  array   $search [verifies the owner in that particular property assigned]

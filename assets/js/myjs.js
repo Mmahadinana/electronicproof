@@ -2,6 +2,13 @@
 
 
 $(document).ready(function() {
+  $('select').on('change keyup',function(){
+
+      $('.select').closest(".form-group").removeClass("has-error");
+      $('.select').closest(".form-group").addClass("has-success");
+      $('.select').text("");
+      $('.select').addClass("text-success");
+  });
   var errors = false;
     /**
      * checks if the input name has only letters
@@ -21,9 +28,7 @@ $(document).ready(function() {
       var parent = input.parent();
       //check if the input has only letters if has
       if (regex.test(current_name) && current_name.length>2 && current_name.length<30)
-       {  
-
-        
+       {        
         //removes the class has errors from the input parent
         parent.removeClass('has-error'); 
         //adds the class has success to the input parent
@@ -32,8 +37,7 @@ $(document).ready(function() {
          $('.nextBtn').removeClass('disabled');
         errors = false;  
        }
-       else {//if not
-
+       else {
         var parent = input.parent();
          //removes the class has success from the input parent
          parent.removeClass('has-success');
@@ -73,7 +77,6 @@ $(document).ready(function() {
          //Enable next button
          $('.nextBtn').removeClass('disabled');          
          errors = false;
-
      } 
      else {
       var parent = input.parent();
@@ -84,7 +87,6 @@ $(document).ready(function() {
          //disable next button 
          $('.nextBtn').addClass('disabled');        
          errors = true;
-
      }
  });
 
@@ -191,42 +193,50 @@ $(document).ready(function() {
 				return 'Strong';
 			}
 		}
-	});
 
-  //*************************************************Display Only Date till today // 
-  var dtToday = new Date();
-  var month = dtToday.getMonth() + 1;     // getMonth() is zero-based
-  var day = dtToday.getDate()-10;
-  var year = dtToday.getFullYear();
-  if(month < 10)
-  	month = '0' + month.toString();
-  if(day < 10)
-  	day = '0' + day.toString();
-  var maxDate = year + '-' + month + '-' + day;
-  $('#dateofbirth').attr('max', maxDate);
+
+  //*************************************************Validation for date of birth //
+  
+    var dtToday = new Date();
+    var month = dtToday.getMonth() +1;     // getMonth() is zero-based
+    var day = dtToday.getDate() - 2;
+    var year = dtToday.getFullYear();
+    if(month < 10)
+      month = '0' + month.toString();
+    if(day < 10)
+      day = '0' + day.toString();
+    var maxDate = year + '-' + month + '-' + day;
+    $('#dateofbirth').attr('max', maxDate);
+ 
 
 /************ validadtion for the Identity Number in South Africa  ***********/
-  $(document).ready(function(){
+ 
     var genderCode;
     var gender;
+
   	$('#identitynumber').keyup('input',function(){
   		$('#id_results').html(checkIdentity($('#identitynumber').val()));
-
+        
   		if(checkIdentity($('#identitynumber').val()) != 'Correct'){
 
-  			$(this).parent().removeClass('has-success');
-  			$(this).parent().addClass('has-error');
+        $(this).parent().removeClass('has-success');
+        $(this).parent().addClass('has-error');
         //disable next button
         $('.nextBtn').addClass('disabled'); 
-  		}else{
-  			$(this).parent().removeClass('has-error');
-  			$(this).parent().addClass('has-success');
+        
+      }else{
+        $(this).parent().removeClass('has-error');
+        $(this).parent().addClass('has-success');
         //Enable next button
         $('.nextBtn').removeClass('disabled');
-  			$('#id_results').removeClass();
-			$('#id_results').addClass('text-success');
-  		}
+        $('#id_results').removeClass();
+      $('#id_results').addClass('text-success');
+        
+      }
   });	
+   /* function identityValidation(){
+      
+    }*/
   	// check if the identity number meets all the requirement
   	function checkIdentity(idNumber){
       $('#identitynumber').attr('maxlength','13');
@@ -235,6 +245,9 @@ $(document).ready(function() {
   		var id_number= $('#identitynumber').val($('#identitynumber').val().replace(/[^\d].+/,''));
       var citzenship;
       var citzen=['0','1'];
+      var sa_number=['8'];
+      var num;
+
       //jQuery.inArray( citzenship, citzen ) );
   		//exracting the date into months, day and year
   		var id_month = dateofbirt.getMonth()+1;
@@ -248,14 +261,21 @@ $(document).ready(function() {
   			id_date = '0' + id_date.toString();
   		}
       //get date of birth in a string
+      //first six lettes of ID
       var dateofbirth=id_year.toString().substring(2,4) + id_month + id_date;
       if (idNumber.length ==13) {
         //get the number in position 11 for citizenship
-        citzenship=idNumber.substring(10, 11);      
+        citzenship=idNumber.substring(10, 11);
+        //south african number   
+         
+        num=idNumber.substring(11, 12);
+          
+   
       }     
        //check the length and if it is only number
       if (idNumber.length != 13) {
 
+        $('#id_results').removeClass('text-success');
         $('#id_results').addClass('text-danger');
         return 'Identity Number have 13 characters';
       } 
@@ -265,19 +285,28 @@ $(document).ready(function() {
           $('#id_results').addClass('text-danger');
           return 'Invalid identity number, Citizenship is 0 or 1';
       }
+       //check if it is valid south african number
+      if (idNumber.length ==13 && (sa_number.indexOf(num) == -1)) { 
+       $('#id_results').addClass('text-danger');      
+        return 'Number at positon 12 should be 8';
+      }
   		 //check if it is only number
       if (!id_number) {
 
+      
         $('#id_results').addClass('text-danger');
         return 'Identity Number contain only numbers';
       }
+
   		//check with date of birth
   		if (idNumber.substring(0,6) != dateofbirth) {       
-        
+          
+        $('#id_results').addClass('text-danger');
         return 'Identity Number and dateofbirth do not match';
       }
       if (idNumber.substring(0,6) != dateofbirth) {  			
         
+        $('#id_results').addClass('text-danger');
   			return 'Identity Number and dateofbirth do not match';
   		}      
       //all is checked an correct 
@@ -286,25 +315,26 @@ $(document).ready(function() {
         genderCode = idNumber.substring(6, 10); 
 
         //assign value to the number
-        gender = parseInt(genderCode) > 5000 ? "female" : "male"; 
+        //Gender from position 7-10
+        gender = parseInt(genderCode) < 5000 ? "2" : "1"; 
         //check gender field value
         checkGender();
         return 'Correct';
     }
-  }
-  
+  } 
+
   //***************************************Gender validation 
 $('#gender input').on('change keyup paste',function(){
   //call check gender function
-checkGender();
-   
+  checkGender();   
   });
+
 //******************************************check gender and macth it to the one in Identitynumber 
 function checkGender(){
   //store the value of radio button checked
   var checkgender=$('input:radio[name="gender"]:checked').val();
   //compare the value with the gender indicator in IdentityNumber field
-  if (checkgender==gender) {
+  if (checkgender!=gender) {
         $('#gender input').parent().removeClass('has-success');
         $('#gender input').parent().addClass('has-error');
         //disable next button
@@ -320,8 +350,9 @@ function checkGender(){
 
   /***********************************************Validation for phone number*********/
 	
-  $('#phone').keyup('input',function(){
+  $('#phone').keyup('input',function(e){
       $(this).attr('maxlength','10');
+
   		$('#phone_results').html(checkPhone($('#phone').val()));
   		if(checkPhone($('#phone').val()) != 'Correct'){
   			$(this).parent().removeClass('has-success');
@@ -341,14 +372,23 @@ function checkGender(){
 function checkPhone(phone){
 
   		//var dateofbirt=new Date($('#dateofbirth').val());
-  		var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''))
+      var phone_number= $('#phone').val($('#phone').val().replace(/[^\d].+/,''));
+      //regex for the 2nd and 3rd number to not be 0
+  		var regex= /^[0]\d[1-9]{1}\d[0-9]{6}$/;
   		//variable to check that the phone starts with 0
   		var phone1=[];  		
 
     	for (var i = 0; i < phone.length; i++) {
     		//saving all the characters of phone as array in check variable
     		phone1[i]=phone[i];
-    	}
+    	}     
+   /* if (phone.length == 2 && phone.substr(0,1)== 0){
+      
+         phone_number=phone_number.slice(0,1);
+
+
+    }*/
+    
     	//test the length
   		if (phone.length != 10) {
 
@@ -356,17 +396,23 @@ function checkPhone(phone){
   			return 'Phone Number must have exactly 10 numbers';
 
   		}
+      
   		//check is it is a number
   		if (!phone_number) {
 
   			$('#phone_results').addClass('text-danger');
-  			return 'Phone Number must have only numbers';
+  			return 'Phone should only be number';
   		}
   		//check if it starts with zero
   		if (phone1[0] != "0") {
 
+        $('#phone_results').addClass('text-danger');
+        return 'Phone Number must starts with zero(0)';
+      }
+      if (!regex.test(phone)) {
+
   			$('#phone_results').addClass('text-danger');
-  			return 'Phone Number must starts with zero(0)';
+         return '0 is ny allowed to be a second and third';
   		}
   		//everything is ok submit
   		if(phone.length == 10 && phone_number){

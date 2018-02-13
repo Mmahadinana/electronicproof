@@ -19,8 +19,15 @@ class Suburb_model extends CI_MODEL
 
 		$this->db->select("suburb.id,suburb.name,suburb.town_id,town.zip_code")
 		->from("suburb")
-		->join("town","town.id = suburb.town_id")
-		->where("town_id",$manucipality_id);
+		->join("town","town.id = suburb.town_id")		        
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id")
+
+				->where("town_id",$manucipality_id)
+				
+				->group_by('suburb.id')
+				->order_by('suburb.name');
 		return $this->db->get()->result();
 		
 	}
@@ -31,7 +38,10 @@ class Suburb_model extends CI_MODEL
 	public function getSuburbs()
 	{
 		$this->db->select("suburb.id,suburb.name,suburb.town_id")
-		->from("suburb");
+		->from("suburb")	        
+				->join("address"," address.suburb_id = suburb.id")
+				->join("property","property.address_id =address.id ")
+				->join("owners_property","owners_property.property_id = property.id");
 		return $this->db->get()->result();
 	}
 	

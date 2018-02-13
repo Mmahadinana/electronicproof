@@ -7,27 +7,13 @@ $id_manucipality = $user_data->manucipality_id ?? $this->input->post('manucipali
 $id_town= $user_data->town_id ?? $this->input->post('town')?? false;
 
 $id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
-$id_address = $user_data->id ?? $this->input->post('street_name')?? false;
+$id_address = $user_data->id ?? $this->input->post('id')?? false;
 $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
 $doorNumber=$user_data->door_number ?? $this->input->post('door_number')?? false;
 //**This is the registration page whereby the owner will access to register for the proof of address on the webpage**
 $editmode = isset($user_id)? 'true':'false';
 
 ?>
-
-<div class="container form-area"> 
-
-	<div>	
-	<?php 
-	$action=isset($user_id)? "publiczone/editUser": "publiczone/register";
-
-	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off'));
-	?>
-
-	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
-	<!--input <?php echo isset($user_id1)? "value='$user_id1'":"value='0'";?> id='userid' type='hidden' name='userid'-->
-
-
 	<div class="stepwizard col-md-offset-3">
 		<div class="stepwizard-row setup-panel">
 			<div class="stepwizard-step">
@@ -42,15 +28,34 @@ $editmode = isset($user_id)? 'true':'false';
 				<a href="#step-3" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 				<p>Address</p>
 			</div>
+			<div class="stepwizard-step">
+				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fal fa-binoculars"></i></a>
+				<p>Output</p>
+			</div>
 
 		</div>
 	</div>
-	<!--setup Account-->
-	<form role="form" action="" id="data" method="post" onSubmit="alert('Successfully Registered.');">
+<div class="container form-area"> 
+
+	<div>	
+	<?php 
+	$action=isset($user_id)? "publiczone/editUser": "publiczone/register";
+
+	echo form_open($action,array('class'=>'form-horizontal col-md-offset-2 col-md-8',' autocomplete'=>'off',"method"=>"POST"));
+	?>
+
+	<input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
+	<!--input <?php echo isset($user_id1)? "value='$user_id1'":"value='0'";?> id='userid' type='hidden' name='userid'-->
+
+
+
+	<!--setup Account>
+	<form role="form" action="" id="data" method="post" onSubmit="alert('Successfully Registered.');"-->
 		<div class="row setup-content" id="step-1" style="display: block;" >
+			<h1>Setup Account</h1>
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
-					<h3>Setup Account</h3>
+					
 					<div class="form-group">
 						<label for="email">email</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
@@ -85,9 +90,10 @@ $editmode = isset($user_id)? 'true':'false';
 		</div>
 
 		<div class="row setup-content" id="step-2" style="display: none;">
+			<h1>Personal Information</h1>
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
-					<h3>Personal Information</h3>
+					
 					<div class="form-group">
 						<label class="control-label" for="name">Full Name</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
@@ -104,8 +110,8 @@ $editmode = isset($user_id)? 'true':'false';
 							<input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
 						</div>
 						<p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
-
 					</div>
+
 					<div class="form-group">
 						<label class="control-label" for="identitynumber">Identity Number</label>
 						<div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
@@ -117,14 +123,9 @@ $editmode = isset($user_id)? 'true':'false';
 
 
 					<div class="form-group">
-
-				
-
 						<input type="hidden" class="form-control" name="date_registration"  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: date('Y-m-d')?>"   placeholder="date of registration" required>
 
 						<p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
-
-
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="phone">Phone number</label>
@@ -136,12 +137,23 @@ $editmode = isset($user_id)? 'true':'false';
 					<label  id ="gender" class="control-label">Gender</label>
 
 					<div class="form-group" id="gender">
+						
+						<?php if (isset($user_id))
+						//is in edit mode-editing and updating user information
+						{?>
 						<label class="radio-inline" for="male">Male</label>
-						<input  name="gender" id="male" type="radio" value="male" <?php echo  set_radio('gender', 'male'); ?> />
-						
-						
+						<input  name="gender" id="male" type="radio" value="1" <?php echo ($gender_id == 1) ? 'checked':''; ?> />						
 						<label class="radio-inline" for="female">Female</label>
-						<input  name="gender" id="female" type="radio" value="female" <?php echo  set_radio('gender', 'female'); ?> />
+						<input  name="gender" id="female" type="radio" value="2" <?php echo ($gender_id == 2) ? 'checked':''; ?> />
+					<?php }else {
+						//is on create or add mode- creating new user
+						?>
+						<label class="radio-inline" for="male">Male</label>
+						<input  name="gender" id="male" type="radio" value="1" <?php echo set_radio('gender', '1',true); ?> />						
+						<label class="radio-inline" for="female">Female</label>
+						<input  name="gender" id="female" type="radio" value="2" <?php echo  set_radio('gender', '2'); ?> />
+					<?php }?>
+						
 						
 						
 						<p class="gender"><?php echo form_error('gender') ? alertMsg(false,'gender',form_error('gender')) : ''; ?></p>
@@ -156,9 +168,10 @@ $editmode = isset($user_id)? 'true':'false';
 
 
 		<div class="row setup-content" id="step-3" style="display: none;">
+			<h1>User Address</h1>
 			<div class="col-xs-6 col-md-offset-3">
 				<div class="col-md-12">
-					<h3 >Residential Information</h3>
+					
 					<!-- Province start-->
 					<div class="form-group">
 
@@ -189,7 +202,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 							value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
 							<?php } ?>
-						</select>
+						</select><span class="select"></span>
 						<?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
 					</div>
 					<!-- Province end-->
@@ -199,22 +212,15 @@ $editmode = isset($user_id)? 'true':'false';
 
 						<label for="district">District</label>
 
-						<select class="form-control"  name="district" id="district" onchange="update_manucipality()">
-
-						</select>
+						<select class="form-control"  name="district" id="district" onchange="update_manucipality()"></select><span class="select"></span>
 						<?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
-
-
-
 					</div>
 					<!-- District end--> 
 
 					<!-- manucipality start-->
 					<div class="form-group" id="select_manucipality" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>						
 						<label for="manucipality">Manucipality</label>
-						<select class="form-control" name="manucipality" id="manucipality" onchange="update_town()" required>
-
-						</select>
+						<select class="form-control" name="manucipality" id="manucipality" onchange="update_town()" required></select><span class="select"></span>
 						<?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
 					</div>
 					<!-- manucipality end-->
@@ -226,9 +232,7 @@ $editmode = isset($user_id)? 'true':'false';
 						<label for="town">Town</label>
 						<select class="form-control" name="town" id="town" onchange="update_suburb()">
 							<option  selected="true" disabled="disabled">Please select</option>
-
-
-						</select>
+						</select><span class="select"></span>
 						<?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
 					</div>
 					<!-- town end-->
@@ -237,23 +241,13 @@ $editmode = isset($user_id)? 'true':'false';
 					<div class="form-group" id="select_suburb" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
 
 						<label for="suburb">Suburb</label>
-						<select class="form-control" name="suburb" id="suburb" onchange="update_address()" required>
-							<!--option  selected="true" disabled="disabled">Please select</option-->
-
-
-						</select>
+						<select class="form-control" name="suburb" id="suburb" onchange="update_address()" required></select><span class="select"></span>
 						<?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
 					</div>
 					<!-- suburb end-->
 
 					<!-- zip code start-->
 					<div class="form-group" id="zip_code_input" style="display:none">
-							<!--label for="zip_code">Zip Code</label>
-								<select class="form-control" name="zip_code" id="zip_code" onchange="update_address()">
-
-								<option  selected="true" disabled="disabled">Please select</option>
-							</select-->
-						</div>
 
 						<?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
 
@@ -268,9 +262,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 						<select class="form-control" name="street_name" id="street_name" required>
 							<option  selected="true" disabled="disabled">Please select</option>
-
-
-						</select>
+						</select><span class="select"></span>
 						<?php 
 						echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
 
@@ -284,39 +276,58 @@ $editmode = isset($user_id)? 'true':'false';
 
 						<select class="form-control" name="door_number" id="door_number" required>
 							<option  selected="true" disabled="disabled">Select door number</option>
-
-
-						</select>
+						</select><span class="select"></span>
 						<?php 
 						echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
 
 					</div>
 					
-					<button id="lasbtnsubmit"  class="btn btn-primary" >Submit</button>
+					<button id="lasbtnsubmit"  class="btn btn-primary nextBtn" >Submit</button>
+					
 
 				</div>
+			</div>
+		</div>
+		<div class="row setup-content" id="step-4" style="display: none;">
+			<h1>Details Preview</h1>
+			<div class="col-lg-10col-md-offset-3">
+				<div class="col-md-12 h5" >
+					<table class="table">
+						<thead>
+							<tr class="warning h4 text-danger">
+								<td>Title</td>
+								<td>Your Information</td>
+							</tr>
+						</thead>
+						<tbody id="output">
+
+						</tbody>
+					</table>
+				</div>				
+			</div>
+			<div class="col-lg-3 pull-right">
+				<button id="submit"  class="btn btn-primary " >Submit</button>
 			</div>
 		</div>
 	</form>
 </div>
 
-
-
-
-
-
 <!--script for validating stepwizard -->
 
 <script type="text/javascript">
 	$(document).ready(function (){
-
-		$('#setup').on('change',function(){
-			//checkStrength($('#newpassword').val();
-		});
+		//stores the Id of the inputs temporarely
+		var inputattr=[];
+		//stores the ID that is going to be diplayed
+		var lastoutput=[];
+		//stores the value that should be diplayed
+		var outputval=[];
+		//hold the values to be displayed temporaly
+		var outputattr=[];
+		
 		var navListItems = $('div.setup-panel div a'),
 		allWells = $('.setup-content'),
-		allNextBtn = $('.nextBtn');
-
+		allNextBtn = $('.nextBtn');		
 		allWells.hide();
 		//show the step when we load the 		
 		$('#step-1').show();
@@ -343,10 +354,11 @@ $editmode = isset($user_id)? 'true':'false';
 			nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
 			curInputs = curStep.find("input[type='text'],input[type='password'],input[type='date'],input[type='radio'],input[type='email'],select"),
 			isValid = true;
-
-
-			$(".form-group").removeClass("has-error");
+			//console.log(nextStepWizard);
+			//console.log(curStepBtn);
+			
 			var editMode = <?=$editmode?>;
+			//for the edit user
 			if(editMode){
 				if (!curInputs[0].validity.valid){
 					isValid = false;
@@ -354,25 +366,117 @@ $editmode = isset($user_id)? 'true':'false';
 				}
 			}else{
 				for(var i=0; i<curInputs.length; i++){
-console.log('check forloop')
+					//console.log($(curInputs[i]).attr('id'));
+					//console.log($('#'+$(curInputs[2]).attr('id')).val());
+					if ($(curInputs[1]).attr('id')== 'newpassword' || $(curInputs[2]).attr('id')== 'confirmPassword') {
+
+						if($('#'+$(curInputs[1]).attr('id')).val() != $('#'+$(curInputs[2]).attr('id')).val()){
+							isValid = false;
+							$(curInputs[i]).closest(".form-group").addClass("has-error");
+						}
+					}
+					if ($('#'+$(curInputs[i]).attr('id')).val()== null || $('#'+$(curInputs[i]).attr('id')).val()==0) {
+							isValid = false;
+							$(curInputs[i]).closest(".form-group").addClass("has-error");
+							$('.select').text('You must select an option').addClass('text-danger');
+					}					
+										
+					//are the inputs filled with data
 					if (!curInputs[i].validity.valid)
 					{
 						isValid = false;
 						$(curInputs[i]).closest(".form-group").addClass("has-error");
 					}
-					if ($(curInputs[i]).parent().parent().hasClass("has-error")){
-						console.log('check has-error')
+					//check if there are any error in the inputs
+					if ($(curInputs[i]).parent().hasClass("has-error")){
+
 						isValid = false;
 					}
-				}
+					//storing values and data of the current input steps
+					outputval[i]=$('#'+$(curInputs[i]).attr('id')).val();
+					inputattr[i]=$(curInputs[i]).attr('id');									
+				}//end forloop validation
 			}
+			if (isValid){				
+				//variable storing the values of the inputs
+				var view='';
+				//variable temporarely store inputs to be displayed
+				var tempattr='';
+		
+				//collecting data dispayed later from each step
+				//step 1
+					if((curStepBtn) == 'step-1'){					
+						for (var i = outputval.length - 1; i >= 0; i--) {
+							view +=outputval[i]+'#$';
+							tempattr +=inputattr[i]+' ';			
+						}//end forloop
 
-			if (isValid){
+						//saving the results;
+						lastoutput +=view;
+						outputattr +=tempattr;
+					}//end if step 1
 
+					//step 2
+					if((curStepBtn) == 'step-2'){					
+						for (var i = outputval.length - 1; i >= 0; i--) {
+							// elimination radio input that is not cheched	
+							if ((($(curInputs[i]).attr('checked')) !='checked') && (($(curInputs[i]).attr('type'))=='radio')) continue; 
+							//end if
+							
+							view +=outputval[i]+'#$';
+							tempattr +=inputattr[i]+' ';				
+						}//end forloop
+
+						//saving the results;				
+						lastoutput +=view;
+						outputattr +=tempattr;
+					}//end if step 2
+
+					//Step 3 
+					if((curStepBtn) == 'step-3'){					
+						for (var i = outputval.length - 1; i >= 0; i--) {
+							//checking if it is select option
+							if($(curInputs[i]).prop('type') == 'select-one' ){
+								//storing selected option					
+
+							outputval[i]=$(curInputs[i]).children().filter(':selected').text();
+							
+							}//end if
+
+						view +=outputval[i]+'#$';								
+						tempattr +=inputattr[i]+' ';
+
+						}//end forloop
+
+						//saving the results;
+						lastoutput +=view;
+						outputattr +=tempattr;						
+					
+						//convert string into array
+						lastoutput=lastoutput.split("#$");					
+						outputattr=outputattr.split(" ");
+
+						//cutting off passwords					
+						lastoutput.pop(lastoutput.splice(0,2));
+						outputattr.pop(outputattr.splice(0,2));
+						$("#output").empty();
+						//print inputs for view on html
+						for (var i = 0; i < lastoutput.length; i++) {
+							outputattr[i]=(outputattr[i].substr(0,1)).toUpperCase() + outputattr[i].substr(1);
+							//output on the html tag div
+							$("#output").append("<tr>","<td><b>"+outputattr[i]+"</b> </td> \n <td class='info'> "+lastoutput[i]+"</td></tr>");
+							//$("#output .table").children();
+							$("#output").has('tr').addClass('table table-dark table-striped text-success');
+
+						}//end forloop		
+				}//end if step 3		
+				
+				//go to next wizard step
 				nextStepWizard.removeAttr('disabled').trigger('click');
 			}
+			
 			e.preventDefault();	
-		});
+		});		
 });
 
 function myFunction() {
@@ -613,7 +717,7 @@ function update_address()
 			}));
 			door_number.append($('<option>', 
 			{ 
-				value: item.door_number,
+				value: item.id,
 				text : item.door_number 
 			}));
 		});
@@ -624,6 +728,7 @@ function update_address()
 		else{
 			
 			$("#select_address select").val(0);
+			$("#select_Number selected").val(0);
 		}
 			//dispaly the select box
 			$("#select_address").attr('style','display:block');

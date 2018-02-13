@@ -12,8 +12,12 @@
  } 
  if (isset($statusRequest)) {
    echo alertMsg($statusRequest,' Your request was made successfully',"Oops! something went wrong, register address again in order make a request <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
- } if (isset($statusConfirm)) {
+ } 
+ if (isset($statusConfirm)) {
    echo alertMsg($statusConfirm,' Your request deleted successfully',"Oops!Something went wrong while processing your request, please make a new request <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
+ }
+if (isset($statusEdit)) {
+   echo alertMsg($statusEdit,' User information updated successfully',"Oops!Unable to update your infor <i class='fa fa-frown-o fa-2x' aria-hidden='true' ></i>");
  }
 
 ?>
@@ -196,7 +200,7 @@
  		</tr><?php	} ?>
  		<tr class="warning">
  			<td  colspan="1" class="col-lg-3">
- 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('residents/OwnersDetails') ?>">Add New Address</a>
+ 				<a class="btn btn-lg form-control btn-primary text-danger" href="<?php echo base_url('publiczone/change_add') ?>">Add New Address</a>
  			</td>
  			<td  colspan="4" class="col-lg-9">
  				<a class="btn btn-lg form-control btn-warning text-danger" href="<?php echo base_url('Request_proof/viewRequestMade') ?>">&nbsp;&nbsp;<i class="fa fa-list-alt " aria-hidden="true"></i>&nbsp;&nbsp;View Request Made</a>

@@ -573,7 +573,7 @@ public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
 	//check if there is owner
 	if(empty($data['owner_addinfor'])){
 		//delete user adddress of where there is no owner
-		$this->request_model->removeUserAddress($search);
+		$this->user_model->removeUserAddress($search);
 		redirect("residents/userprofile?statusRequest=0");
 		
 	}

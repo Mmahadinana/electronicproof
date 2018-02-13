@@ -813,26 +813,6 @@ public function approve_status($status=0,$search){
 }
 
 /**
- * [removeUserAddress removes the add of the user]
- * @param  [type] $search [contains user_id and the property_id that will be deleted in lives_on table]
- * @return [type]         [description]
- */
-public function removeUserAddress($search){
-	
-	$this->db->trans_start();
-	//delete in loves on table
-	if ($search['user_id']) {
-		$this->db->delete('lives_on',array('user_id'=>$search['user_id'],'property_id'=>$search['property_id']));
-	}else{
-		//user_id from confirm view to decline user
-		$this->db->delete('lives_on',array('user_id'=>$search['userid'],'property_id'=>$search['property_id']));
-	}
-	
-	return $this->db->trans_complete();
-}
-
-
-/**
  * the funtion get all the confirmed request by owner 
  */
 public function getListToApprove(array $search = array(),int $limit = ITEMS_PER_PAGE){
