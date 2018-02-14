@@ -3,27 +3,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
       </button>
+      
       <a class="navbar-brand" href="<?php echo base_url() ?>"><img src="<?php echo base_url('assets/logos/Logos.jpg') ?>"  class="logo" alt="Logo" ></a>
     </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li <?php echo setMenuActiveItem ($pageActive == "home")?>><a href="<?php echo base_url() ?>">Home</a></li>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+              <li <?php echo setMenuActiveItem ($pageActive == "home")?>><a href="<?php echo base_url() ?>">Home</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "about")?>><a href="<?php echo base_url('publiczone/about') ?>">About</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "contact")?>><a href="<?php echo base_url('publiczone/Contact') ?>">Contact</a></li>
         <li <?php echo setMenuActiveItem ($pageActive == "index")?>><a href="<?php echo base_url('Testing/index') ?>">Pdf</a></li>
 
         <!--!!!!!!!!!!!!!!!!!!!!!!!!Links and pages that will be views viewed by administrator !!!!!!!!!!!!!!!!!!!!!!!!!-->
 
-        <li <?php echo (isset($_SESSION['email']) && $_SESSION['role'] == "admin")? "class=''" : "class='hidden'"?> ><a href="<?php echo base_url('residents/Admin') ?>">Admin</a>   
+        <li <?php echo (isset($_SESSION['email']) && $_SESSION['role'] == "admin")? "class=''" : "class='hidden'"?> ><a href="<?php echo base_url('residents/Admin') ?>">Admin Area</a>   
                   <!--li <?php echo setMenuActiveItem ($pageActive == "Admin")?>><a href="<?php echo base_url('residents/Admin') ?>">Admin</a></li>
                       <li <?php echo (isset($_SESSION['email']) && $_SESSION['owner'] != false) ? "class=' '" : "class='hidden'"?> <?php echo setMenuActiveItem ($pageActive == "admin")?>><a href="<?php echo base_url('publiczone/Admin')?>">Admin</a></li-->
 
@@ -61,16 +65,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         Logout '.$_SESSION['name'].' <span class="text-success">'.ucfirst($_SESSION['role']).'</span></a>':'<a href="'.base_url("login/login_").'">
         Login </a>';?>
       </li>
-      <li <?php echo (isset($_SESSION['email']))? "class=' '":"class='hidden'"?> > 
-        <a href="<?php echo base_url('residents/userprofile') ?>">User Profile</a>
+      <li <?php echo (isset($_SESSION['email']))? "class=' '":"class='hidden'"?>> 
+        <a href="<?php echo base_url('residents/userprofile') ?>">My Profile</a>
       </li>
-
-
-    
-  </ul>
-</div>
-</div>
+      </ul>
+    </div>
+  </div>
 </nav>
 
+<div class="jumbotron text-center">
+  <h1>E-Residence</h1> 
+  <p>Electronic Proof Of Residence</p> 
 
-
+</div>

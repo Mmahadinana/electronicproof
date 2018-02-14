@@ -6,7 +6,7 @@
    
   <!--section class="contact-section">
     <div class="contact"-->
-     <div class="form-area">
+     <div class="form-area3">
 
       <h1>Contact Us</h1>
 

@@ -22,8 +22,8 @@ if (isset($statusUsername)) {
 
 
 		<div class="form-group ">
-			<label  for="email" class="  col-sm-4">Username</label>	
-			<div class="col-lg-4 col-xs-12">
+			<label  for="email" class="col-sm-4">Username</label>	
+			<div class="col-lg-6 col-xs-12">
 				<input type="text" id="email" name="username" class="form-control" placeholder="Email address" value="<?php echo  set_value('username') ;?>">
 				<p><?php echo form_error('username') ? alertMsg(false,'username',form_error('username')) : ''; ?></p>
 			</div>
@@ -31,16 +31,16 @@ if (isset($statusUsername)) {
 		</div>
 		<div class="form-group ">
 
-			<label for="inputPassword" class=" col-sm-4">Password</label>
+			<label for="inputPassword" class="col-sm-4">Password</label>
 
-			<div class="col-lg-4 col-xs-12">
+			<div class="col-lg-6 col-xs-12">
 				<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" value="<?php echo set_value('password') ;?>">
 				<p ><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
 			</div>
 				
 			</div>
 			
-			<div class="col-md-5 text-right" >
+			<div class="col-md-6 text-right" >
 			
 			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 		</div>

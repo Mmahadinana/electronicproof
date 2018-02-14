@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <h4>Well done!!! Please click a confirm button to confirm your request or cancel to cancel your request</h4>
     <h4>Please contact the owner of the residence if you have not recieve email or text message of the proof of residence within 48 hours!!!</h4>
   </div>
-  <div class="form-area">
+  <div class="form-area7">
     <h1>Proof of Residence</h1>
     <div class="row tablereq">
       <div class="col-md-10">

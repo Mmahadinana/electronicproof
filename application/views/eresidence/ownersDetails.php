@@ -1,16 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-   // $automovel_id   = $user_data['automovel_id']    ?? false; 
-$id_province = $user_data->province_id ?? $this->input->post('province') ?? false;
-$id_district= $user_data->district_id ?? $this->input->post('district') ?? false;
-$id_manucipality = $user_data->manucipality_id ?? $this->input->post('manucipality') ?? false;
-$id_town= $user_data->town_id ?? $this->input->post('town')?? false;
-
-$id_suburb = $user_data->suburb_id ?? $this->input->post('suburb')?? false;
-$id_address = $user_data->id ?? $this->input->post('street_name')?? false;
-$streetName=$user_data->street_name ?? $this->input->post('street_name')?? false;
-
 ?>
+<<<<<<< HEAD
+<div class="container ">
+=======
 <h1>Owner's Details</h1>
 <div class="container form-area">
   <?php 
@@ -172,108 +165,70 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
                 <option  selected="true" disabled="disabled">Please select</option>
               </select-->
             </div>
+>>>>>>> 054165ab82fe96573c260c4ff739a246cf319fb1
 
-            <?php  echo form_error('zip_code') ? alertMsg(false,'',form_error('zip_code')):'';?>
+  <h1>Owners Information</h1>
 
-          </div>
-          <!--zip code end-->
+  <?php
+//var_dump($user_addinfor);
+//echo $_SESSION['id'];
+  $action="residents/details/";
 
+  echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
 
-          <!-- address start-->
-          <!--div class="form-group" id="select_address" <?php //echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>-->
-          <div class="form-group" id="select_address" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-            <label for="street_name">Street Address</label>
-
-            <select class="form-control" name="street_name" id="street_name">
-              <option  selected="true" disabled="disabled">Please select</option>
-
-
-            </select>
-            <?php 
-            echo form_error('street_name') ? alertMsg(false,'',form_error('street_name')):'';?>
-
-          </div>
-          <!-- address end-->
-
-
-          <!-- door_number start-->     
-          <div class="form-group" id="select_Number"  <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-            <label for="door_number">Door Number</label>
-
-            <input type="number" id="door" value="<?php echo isset($user_id)? $doorNoEdit: set_value('door')?>" name="door" min="1" max="1000">
-            <?php  echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
-
-          </div>
-          <!-- door_number end-->
-          <button class="btn btn-success btn-lg pull-right" type="next" >Next</button>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="row setup-content" id="step-3">
-      <div class="col-xs-6 col-md-offset-3">
+ <div class="form-area5">
+    <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
+      <div class="col-xs-6 col-md-offset-4">
         <div class="col-md-12">
-          <h3>House Details</h3>
-          <div class="form-group">
-            <label class="control-label" for="name">Title Deed</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-user"></span></span>
-              <input type="text" class="form-control" name="name" value="<?php echo isset($user_id)? $nameEdit: set_value('name')?>"    id="name" placeholder="full name" required>
-            </div>
-            <p><?php echo form_error('name') ? alertMsg(false,'name',form_error('name')) : ''; ?></p>
+     
 
+          <div class="form-group" >
+            <label class="control-label" for="title_deed">Title Deed</label>
+            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-address-card-o"></span></span>
+              <input type="text" class="form-control" name="title_deed" value="<?php echo isset($user_id)? $title_deedEdit: set_value('title_deed')?>"   id="title_deed" placeholder="title deed" required>
+            </div>
+            <p><?php echo form_error('title_deed') ? alertMsg(false,'title_deed',form_error('title_deed')) : ''; ?></p>
           </div>
           <div class="form-group">
-            <label class="control-label" for="identitynumber">House Type</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-              <input type="text" class="form-control" name="identitynumber" value="<?php echo isset($user_id)? $identitynumberEdit: set_value('identitynumber')?>" id="identitynumber"  placeholder="identity number" required>
+            <label class="control-label" for="registration_number">Registration Number</label>
+            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-registered"></span></span>
+              <input type="text" class="form-control" name="registration_number" value="<?php echo isset($user_id)? $registration_numberEdit: set_value('registration_number')?>"   id="registration_number" placeholder="registreation no." required>
             </div>
-            <p><?php echo form_error('identitynumber') ? alertMsg(false,'identitynumber',form_error('identitynumber')) : ''; ?></p>
+            <p><?php echo form_error('registration_number') ? alertMsg(false,'registration_number',form_error('registration_number')) : ''; ?></p>
           </div>
           <div class="form-group">
-            <label class="control-label" for="dateofbirth">Registration Number</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-              <input type="date" class="form-control" name="dateofbirth"  id="dateofbirth" value="<?php echo isset($user_id)? $dateofbirthEdit: set_value('dateofbirth')?>"  placeholder="date of birth" required>
+            <label class="control-label" for="purchase_price">Purchase Price</label>
+            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-money"></span></span>
+              <input type="text" class="form-control" name="purchase_price" value="<?php echo isset($user_id)? $purchase_priceEdit: set_value('purchase_price')?>"   id="purchase_price" placeholder="purchase price" required>
             </div>
-            <p><?php echo form_error('dateofbirth') ? alertMsg(false,'dateofbirth',form_error('dateofbirth')) : ''; ?></p>
-
+            <p><?php echo form_error('purchase_price') ? alertMsg(false,'purchase_price',form_error('purchase_price')) : ''; ?></p>
           </div>
-          <div class="form-group">
-            <label class="control-label" for="date_registration">Registration Date</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
-              <input type="date" class="form-control" name="date_registration" <?php
-              $currentDate = date('Y-m-d');
-              echo $currentDate;
-              ?>  id="date_registration" value="<?php echo isset($user_id)? $dateOfRegistrationEdit: set_value('date_registration')?>"   placeholder="date of registration" required>
-            </div>
-            <p><?php echo form_error('date_registration') ? alertMsg(false,'date_registration',form_error('date_registration')) : ''; ?></p>
 
 
-          </div>
           <div class="form-group">
-            <label class="control-label" for="phone">Purchase Price</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-              <input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
-            </div>
-            <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="phone">Purchase Date</label>
-            <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-              <input type="text" class="form-control" name="phone" value="<?php echo isset($user_id)? $phoneEdit: set_value('phone')?>"   id="phone" placeholder="phone numbers" required>
-            </div>
-            <p><?php echo form_error('phone') ? alertMsg(false,'phone',form_error('phone')) : ''; ?></p>
-          </div>
-          <label class="control-label" for="phone">Upload Files</label>
+              <label class="control-label" for="purchase_date">Purchase Date</label>
+              <div class="input-group"> <span class="input-group-addon"><span class="fa fa-id-card-o"></span></span>
+                <input type="date" class="form-control" name="purchase_date"  id="purchase_date" value="<?php echo isset($user_id)? $purchase_dateEdit: set_value('purchase_date')?>"  placeholder="purchase_date" required>
+              </div>
+              <p><?php echo form_error('purchase_date') ? alertMsg(false,'purchase_date',form_error('purchase_date')) : ''; ?></p>
 
-          <div class="form-group">
-            <input type="file"  class="form-inline input-lg fileToUpload" name="idUpload" id="idUpload" >  
-            <p><?php echo form_error('idUpload') ? alertMsg(false,'idUpload',form_error('idUpload')) : ''; ?></p>
-            <!--button class="btn btn-lg btn-warning passbtn" name="reset" type="reset" value="uploadid">upload id</button-->                  
+            </div>
+            <div class="form-group">
+            <label class="control-label" for="house_type">House Type</label>
+            <div class="input-group"> <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+              <input type="text" class="form-control" name="house_type" value="<?php echo isset($user_id)? $house_typeEdit: set_value('house_type')?>"   id="house_type" placeholder="house_type" required>
+            </div>
+            <p><?php echo form_error('house_type') ? alertMsg(false,'house_type',form_error('house_type')) : ''; ?></p>
           </div>
-          <button class="btn btn-primary nextBtn btn-m pull-right" type="submit">Submit</button>
+          
+          
+          <button class="btn btn-primary nextBtn btn-m pull-right" id="address" name="address">Submit</button>
+
         </div>
       </div>
+<<<<<<< HEAD
+    </div>
+=======
     </div>
 
   </form>
@@ -362,3 +317,4 @@ $streetName=$user_data->street_name ?? $this->input->post('street_name')?? false
   
 
 
+>>>>>>> 054165ab82fe96573c260c4ff739a246cf319fb1

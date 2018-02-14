@@ -2,24 +2,14 @@
 /*::selection { background-color: #E13300; color: white; }*/
 
 /*********************************main body********************************/
-body {
-
- /*background: #225faa;
- background: linear-gradient(135deg, #BEF4F7 0%, #f7c1be 100%);*/
-
-
- /*margin: 40px;*/
- background-image: url("../images/background-template.jpg");
- font: 13px/20px normal Helvetica, Arial, sans-serif;
- color: black;
- margin:0px;
- padding:20px 0px;
- height: 100%;
-
-}
+ body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
 /** page container*/
 .starter-template {
-  padding: 60px 15px;
+  /*padding: 60px 15px;*/
   text-align: center;
   min-height: 780px;
 }
@@ -32,7 +22,7 @@ a {
 
 /***************************************** default style for h3***************/
 h3 {
-  color: white;
+  color: #337ab7;
   background-color: transparent;
    /*border-bottom: 1px solid #D0D0D0;
    font-size: 19px;*/
@@ -55,82 +45,7 @@ h3 {
     }*/
 
     /** *******************style for navigation menu**********************************/  
-.navbar-brand
-{
- padding: 9.5px 15px;
-  }
-  .navbar-brand > .logo {
-    margin-top: -15px !important;
-    margin-left: -50px;
-    padding-top: -5px !important;
-    border-radius: 30px 5px !important;
-    width: 7em !important;
-    height: 3em !important;
-    box-shadow: 8px 3px 8px black;
-    opacity: 0.8;
-  } 
-    .nav>li>a {
-      padding: 10px 10px;
-    }
-    .nav .open>a,
-     .nav .open>a:focus, 
-     .nav .open>a:hover {
-   /* background-color: #eee;*/
-   border-style: none;
-  border: none !important; }
-    .navbar{
-      height: 5em;
-     background-color: #2d3f50;
-     font-family: Helvetica;
-     font-size: 14px;
-     color: #fff;
-     text-align: left;
-     opacity: 89%;
-     box-shadow: 1px 5px 5px black;
-     padding: 0px;
-     padding-top: 10px;
-     margin: 0px;
 
-   }
-   .navbar-nav li{
-     border: none;  
-
-   }
-   .navbar-nav :visited{
-     background-color: #2d3f50!important;
-
-   }
-   .navbar-nav,
-   .navbar-nav a :hover,
-   #loginButton >a> span:hover,
-   .navbar-nav a :active
-
-   {
-     background-color: #2d3f50!important;
-     color: #fff !important;
-     text-decoration: none;
-   }
-   .navbar-nav .btn-bkg{
-
-    /*margin-top: 8px;*/
-    color: white;
-    margin: 0px;
-      border: none !important;
-    background-color:#2d3f50!important;
-    text-align: left;
-    display: block;
-  }
-
-  .dropdown-menu >li > a {
-    color: #aaa!important;
-
-  }
-  .dropdown-menu ,
-  .dropdown-menu li a :hover
-  {
-    background-color:#2d3f50 !important ;
-    color: white;
-  }
 
   /*********************************** style for footer************************/
   footer{
@@ -149,6 +64,8 @@ h3 {
     position: absolute;
     margin-top: 200px;  
     text-align: center; 
+    color: white;
+    padding-top: 40px;
     /*
     height: 50px;
     background-color: #2d3f50;
@@ -164,40 +81,7 @@ h3 {
   
   /** *******************style for home carousel**********************************/
   
-  .carousel {
-    margin-bottom: 0;
-    padding: 0 40px 30px 40px;
-  }
-  /* The controlsy */
-  .carousel-control {
-    left: -12px;
-    height: 40px;
-    width: 40px;
-    /*background: none repeat scroll 0 0 #222222;
-    border: 4px solid #FFFFFF;*/
-    border-radius: 23px 23px 23px 23px;
-    margin-top: 90px;
-  }
-  .carousel-control.right {
-
-    right: -12px;
-
-  }
-
-  /* The indicators */
-  .carousel-indicators {
-    right: 50%;
-    top: auto;
-    bottom: -10px;
-    margin-right: -19px;
-  }
-  /* The colour of the indicators */
-  .carousel-indicators li {
-    background: #cecece;
-  }
-  .carousel-indicators .active {
-    background: #428bca;
-  }
+ 
   .red{
     color:red;
   }
@@ -207,19 +91,155 @@ h3 {
 
   {
     
-    background-color: #2d3f50;
+    background-color: #f7f9f9;
     padding: 10px 20px;
-    margin: 10% auto;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 40%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+   
+  }
+  .form-area9
+
+  {
+    
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 50%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 300px;
+   
+  }
+  .form-area1
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 48%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 420px;
+  }  .form-area6
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 55%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 180px;
+  }  
+  .form-area3
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 48%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 200px;
+  }.form-area4
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
     border: 1px solid GREY;
     border-radius: 1px;
     color: white; 
     height: auto;
     width: 60%;
-    min-width: 20%;
+    /*min-width: 20%;*/
     padding-bottom:150px;
     text-align: center;
     box-shadow: 0px 8px 8px #000;
-   
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 340px;
+  }
+  .form-area7
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 40%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 550px;
+  }.form-area8
+  {
+    background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 40%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 550px;
   }
   .form-area2
   {
@@ -231,6 +251,10 @@ h3 {
   }
   .form-area .tablereq{
     padding-top: 15px
+  }
+  label
+  {
+    color: #337ab7;
   }
 
   #submit
@@ -268,18 +292,39 @@ h3 {
 
     }
     .form-area{
-      /*padding: 0px;
+
+      /*background-color:#337ab7; 
+      padding: 0px;
       margin: 0px;
       width: 100%;*/
-       overflow-x: auto;
-   font-size: 100%;
-    }
-     .mytable{
-      /*padding-left: -110px;*/
-      margin: 0px;
-    }
+/*       overflow-x: auto;
+
+*/
+   
     
   }
+  .form-area5
+{
+
+background-color: #f7f9f9;
+    padding: 10px 20px;
+    /*margin: 10% auto;*/
+    border: 1px solid GREY;
+    border-radius: 1px;
+    color: white; 
+    height: auto;
+    width: 50%;
+    /*min-width: 20%;*/
+    padding-bottom:150px;
+    text-align: center;
+    box-shadow: 0px 8px 8px #000;
+    left: 40px;
+    overflow-x: hidden;
+    margin-top: 100px;
+    margin-left: 340px;
+        
+
+}
   @media (max-width: 500px) {
    
     .form-area {
@@ -332,6 +377,10 @@ h3 {
 }
 .hide {
   display: none;
+}
+.col-sm-4
+{
+  color: #337ab7;
 }
 /*.row 
 {

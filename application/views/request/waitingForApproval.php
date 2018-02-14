@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    <h4 class="text-success">You are request has been successfully submitted</h4>
 
  </div>
- <div class="form-area">
+ <div class="form-area8">
   <h1>Proof of Residence </h1>
   <div class="row tablereq">
     <div class="col-md-10 ">

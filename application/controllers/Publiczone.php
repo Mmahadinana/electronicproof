@@ -49,6 +49,13 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 		
 	}
+	public function sign()
+	{
+		$data['pageToLoad']='signature/signature';
+		$data['pageActive']='signature';
+		$this->load->view('ini',$data);
+		
+	}
 	public function about()
 	{
 		$data['pageToLoad']='about/about';

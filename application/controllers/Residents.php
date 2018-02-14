@@ -98,7 +98,7 @@ class Residents extends CI_Controller {
 			//$ownerPropertyID[$owner->property]=$owner->property;
 			
 		}		
-
+		
 	 	//load the page
 	 	$data['pageToLoad']='Admin/admin';
 	 	$data['pageActive']='admin';
