@@ -10,7 +10,7 @@ class Town_model extends CI_MODEL
 		$this->load->database();
 	}
 	/**
-	 * [getTown description]
+	 * [getTown in a specific municipality]
 	 * @param  [type] $manucipality_id [description]
 	 * @return [true]                  [retrieves owner/user towns]
 	 */
@@ -31,12 +31,20 @@ class Town_model extends CI_MODEL
 		return $this->db->get()->result();
 		//var_dump($this->db->get()->result());
 	}
+
 	/**
-	 * [getTowns description]
-	 * @return [type] [verify the assigned town of each suburb]
+	 * [getTowns list of all towns]
+	 * @param  array  $searchTown [description]
+	 * @return [type]             [description]
 	 */
-	public function getTowns()
+	public function getTowns($searchTown=array())
 	{
+		$town_id=$searchTown['town'] ?? false;
+		$municipality_id=$searchTown['municipality'] ?? false;
+		if ($town_id) {
+			$this->db->where('town.id',$town_id)
+					->where('town.manucipality_id',$municipality_id);
+		}
 		$this->db->select("town.id,town.name,town.zip_code,manucipality_id")
 		->from("town")
 
@@ -44,12 +52,28 @@ class Town_model extends CI_MODEL
 				->join("address"," address.suburb_id = suburb.id")
 				->join("property","property.address_id =address.id ")
 				->join("owners_property","owners_property.property_id = property.id");
-		//->where("manucipality_id",$manucipality_id);
+	
 
 		return $this->db->get()->result();
-		//var_dump($this->db->get()->result());
+		
 	}
-	public function check_town(){}
+
+	/**
+	 * [check_town if the input is valid]
+	 * @return [type] [description]
+	 */
+	public function check_town(){
+		$searchTown['town']=$this->input->post('town');
+		$searchTown['municipality']=$this->input->post('manucipality');
+		 if ($searchTown['town'] ==0) {
+		 	//return false if field is empty
+			return false;
+		}
+		$data=$this->getTowns($searchTown);		
+		//return false if data is empty
+			return	$retVal = (empty($data)) ? false: true;
+		}
+
 
 }
 

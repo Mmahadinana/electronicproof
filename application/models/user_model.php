@@ -542,24 +542,29 @@ class User_model extends CI_MODEL
 	 */
 	public function addUserAddress($addifor=array(),$user_id=0){
 		//for user in session who has no address
+		
+
 		if ($user_id==0) {
 			$user_id=$addifor['userid'];
 		}
 		
 		//variable to store address id and property id 
 		$userProperty=0;
-		$userAddress=0;
+		$userAddress=$addifor['door_number'];
 		//get address
 		
-		$address=$this->addressquery($addifor);
+		/*$address=$this->addressquery($addifor);
 		foreach ($address as $value) {
 			$userAddress=$value->id;
-		}
+
+		}*/
 		//if function is called from update user 
 		
 		//get the property id for the address
 		
-		$property=$this->getProperty($userAddress);
+	
+		$property=$this->getProperty($userAddress);	
+		
 //var_dump($property);
 		//if no property that does not have that address_id insert a new property
 		/*if(empty($property)){

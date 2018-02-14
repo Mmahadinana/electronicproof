@@ -522,14 +522,32 @@ function update_distric()
 		if(id_district)
 		{
 			$("#select_district select").val(id_district);
-		}
-		else{
-			$("#select_district select").val(0);
-		}
-			//dispaly the select box
 			$("#select_district").attr('style','display:block');
+		}
+		if(district_id.val() !=0)
+		{
+			$("#select_district").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#province").change(function(){
+				$("#select_district").attr('style','display:block');				
+				$("#select_manucipality").attr('style','display:none');
+				$("#select_town").attr('style','display:none');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+				// empty all the select option
+				$("#select_district select").val(0);
+				$("#select_manucipality select").val(0);
+				$("#select_town select").val(0);
+				$("#select_suburb select").val(0);
+				$("#select_address select").val(0);
+				$("#select_Number selected").val(0);
+			})			
 	}
-
+// call update_distric
 $( document ).ready(function() 
 {
 	update_distric() ;
@@ -570,13 +588,24 @@ function update_manucipality()
 		{
 			$("#select_manucipality select").val(id_manucipality);
 		}
-		else{
-			$("#select_manucipality select").val(0);
-		}
-			//dispaly the select box
+		if(manucipality_id.val() !=0)
+		{
+			
 			$("#select_manucipality").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#district").change(function(){
+				$("#select_manucipality").attr('style','display:block');
+				$("#select_town").attr('style','display:none');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			})
+			//$("#select_manucipality").attr('style','display:block');
 	}
-
+//call update_manucipality function
 $( document ).ready(function()
 {
 	update_manucipality() ;
@@ -617,13 +646,24 @@ function update_town()
 		if(id_town){
 			$("#select_town select").val(id_town);
 		}
-		else{
-			$("#select_town select").val(0);
-		}
-			//dispaly the select box
+		if(town_id.val() !=0)
+		{
+			
 			$("#select_town").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#manucipality").change(function(){
+				$("#select_town").attr('style','display:block');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			
+			})
+			//$("#select_town").attr('style','display:block');
 	}
-
+//call update_town function
 $( document ).ready(function() 
 {
 	update_town();
@@ -672,15 +712,26 @@ function update_suburb()
 			{
 				$("#select_suburb select").val(id_suburb);
 			}
-			else{
-				$("#select_suburb select").val(0);
-			}
+		if(suburb_id.val() !=0)
+		{
+			//$("#select_suburb select").val(suburb_id.val());
+			$("#zip_code_input").attr('style','display:block');
+			$("#select_suburb").attr('style','display:block');
+			
+		}
+			
 			//dispaly the select box
-		//console.log(towninput);
-		$("#zip_code_input").attr('style','display:block');
-		$("#select_suburb").attr('style','display:block');
+		$("#town").change(function(){
+				$("#zip_code_input").attr('style','display:block');
+				$("#select_suburb").attr('style','display:block');				
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			})
+		/*$("#zip_code_input").attr('style','display:block');
+		$("#select_suburb").attr('style','display:block');*/
 
 	}
+//call update_suburb function
 $( document ).ready(function() 
 {
 	update_suburb();
@@ -712,7 +763,7 @@ function update_address()
 		{
 			address_id.append($('<option>', 
 			{ 
-				value: item.street_name,
+				value: item.id,
 				text : item.street_name 
 			}));
 			door_number.append($('<option>', 
@@ -724,16 +775,37 @@ function update_address()
 		if(id_address)
 		{	
 			$("#select_address select").val(id_address);
+			$("#select_Number select").val(id_address);
 		}
-		else{
-			
-			$("#select_address select").val(0);
-			$("#select_Number selected").val(0);
-		}
-			//dispaly the select box
+		if(address_id.val() !=0)
+		{
+			$("#select_address select").val(address_id.val());
 			$("#select_address").attr('style','display:block');
+			
+			
+		}if(door_number.val() !=0)
+		{
+			$("#select_Number select").val(door_number.val());			
 			$("#select_Number").attr('style','display:block');
+			$("#select_address").attr('style','display:block');
+			
+		}
+		
+		/*$("#select_address").attr('style','display:block');
+			$("#select_Number").attr('style','display:block');*/
+			//dispaly the select box
+			$("#suburb").change(function(){
+				$("#select_address").attr('style','display:block');				
+				$("#select_Number").attr('style','display:none');
+			
+			})
+			$("#street_name").change(function(){
+				
+			$("#select_Number").attr('style','display:block');
+			})
+			
 	}
+//call update_address function
 $( document ).ready(function()
 {
 	update_address();

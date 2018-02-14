@@ -9,17 +9,33 @@ class Province_model extends CI_MODEL
 		$this->load->database();
 	}
 	/**
-	 * [getProvince description]
-	 * @return [true] [correct provinces information]
+	 * [getProvince list all provinces]
+	 * @param  integer $province [description]
+	 * @return [type]            [description]
 	 */
-		public function getProvince()
+		public function getProvince($province =0)
 	{
+		$province_id =$province ?? false;
+		if ($province_id) {
+			$this->db->where('province.id',$province_id);
+		}
 		$this->db->select("province.id,province.name")
 			         ->from("province");
 			       return $this->db->get()->result();
 	}
-	public function check_province($province){
-		
+	/**
+	 * [check_province if the inpu is valid]
+	 * @param  [type] $province [description]
+	 * @return [type]           [description]
+	 */
+	public function check_province(){
+		$province=$this->input->post('province');
+	
+		$data=$this->getProvince($province);
+	return	$retVal = (empty($data)) ? false: true;
+		/*foreach ($this->getProvince() as $value) {
+			
+		}*/
 
 	}
 
