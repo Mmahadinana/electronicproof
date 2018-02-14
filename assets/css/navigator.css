@@ -122,8 +122,12 @@
   .navbar li a, .navbar .navbar-brand {
       color: #fff !important;
   }
+  .dropdown-menu 
+  {
+    background-color:steelblue; 
+  }
   .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #f4511e !important;
+      color: #428bca  !important;
       background-color: #fff !important;
   }
   .navbar-default .navbar-toggle {

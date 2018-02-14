@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   'admin.css',
   'navigator.css',
   'substyle.css','particles.css',
-  'mystyle.css'];
+  'mystyle.css','profile.css'];
 
   foreach ($Css_Files as $css_file) {?>
     <link href="<?php echo base_url('assets/css/'.$css_file);?>" rel="stylesheet">
