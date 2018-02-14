@@ -265,7 +265,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="hr hr10 hr-double"></div>
 
 
-</div><!-- /#friends -->
 
 </div>
 </div>

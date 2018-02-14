@@ -17,7 +17,7 @@ class District_model extends CI_MODEL
 	 * @return [true]          [and shows the districts in each municipalities]
 	 */
 	public function getDistrict($search=0)
-{
+	{
 	//var_dump($search);
 	$this->db->select("district.id,district.name,province_id")
 		        ->from("district")	
@@ -36,28 +36,29 @@ class District_model extends CI_MODEL
 		        ->group_by('district.id')
 				->order_by('district.name');
 		       return $this->db->get()->result();
-}
+	}
 
-/**
- * [getDistricts description]
- * @return [true] [This function retrieves the list of districts]
- */
-public function getDistricts()
-{
-	
-	$this->db->select("district.id,district.name,province_id")
-		        ->from("district")
-		        ->join("province","province.id = district.province_id")
-		        ->join("manucipality"," manucipality.district_id =district.id")	
-		        ->join("town","town.manucipality_id =manucipality.id ")
-		        ->join("suburb","suburb.town_id = town.id")
-				->join("address"," address.suburb_id = suburb.id")
-				->join("property","property.address_id =address.id ")
-				->join("owners_property","owners_property.property_id = property.id") ;
-		         //->where('province_id',$search);
-		       return $this->db->get()->result();
-}
+	/**
+	 * [getDistricts description]
+	 * @return [true] [This function retrieves the list of districts]
+	 */
+	public function getDistricts()
+	{
+		
+		$this->db->select("district.id,district.name,province_id")
+			        ->from("district")
+			        ->join("province","province.id = district.province_id")
+			        ->join("manucipality"," manucipality.district_id =district.id")	
+			        ->join("town","town.manucipality_id =manucipality.id ")
+			        ->join("suburb","suburb.town_id = town.id")
+					->join("address"," address.suburb_id = suburb.id")
+					->join("property","property.address_id =address.id ")
+					->join("owners_property","owners_property.property_id = property.id") ;
+			         //->where('province_id',$search);
+			       return $this->db->get()->result();
+	}
 
+	public function check_district(){}
 
 		
 }

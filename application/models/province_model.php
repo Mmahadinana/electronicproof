@@ -12,12 +12,16 @@ class Province_model extends CI_MODEL
 	 * [getProvince description]
 	 * @return [true] [correct provinces information]
 	 */
-	public function getProvince()
-{
-	$this->db->select("province.id,province.name")
-		         ->from("province");
-		       return $this->db->get()->result();
-}
+		public function getProvince()
+	{
+		$this->db->select("province.id,province.name")
+			         ->from("province");
+			       return $this->db->get()->result();
+	}
+	public function check_province($province){
+		
+
+	}
 
 }
 
