@@ -14,7 +14,7 @@ if (isset($statusUsername)) {
    echo alertMsg($statusResetPass,'Password reset successfully ','Username not found ');
  }
  if (isset($statusUserInsert)) {
-   echo alertMsg($statusUserInsert,'You have successfully registered ','Failed registration ');
+   echo alertMsg($statusUserInsert,'You have successfully registered ','Failed registration or User is in session');
  }
 		$action="login/login_/";
 

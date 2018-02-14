@@ -260,6 +260,9 @@ class Publiczone extends CI_Controller
 	 */
 	public function register() 
 	{
+		if(isset($_SESSION['id'])){
+				redirect('login/login_?statusUserInsert=0');
+		}
 
 		$search=array();
 		
@@ -498,7 +501,7 @@ class Publiczone extends CI_Controller
 
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
-		redirect("login/login_/userprofile?statusUserInsert=$statusInsert");
+		redirect("login/login_?statusUserInsert=$statusInsert");
 
 		}
 
@@ -882,7 +885,9 @@ class Publiczone extends CI_Controller
 
 	public function change_add($user_id=0) 
 	{
-
+		if(!isset($_SESSION['id'])){
+			redirect('login/login_');
+		}
 		$search=array();
 		$data['user_id']=0;
 		//$search['user_id']= $this->input->get('user_id') ?? '0';
