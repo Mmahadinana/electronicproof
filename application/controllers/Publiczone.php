@@ -708,19 +708,24 @@ class Publiczone extends CI_Controller
 					'max_length[30]'     => '%s length should not exceed 30.',
 				)						
 			),	
-			array('field'=>'name',
+		array('field'=>'name',
 				'label'=>'Full Name',
 				'rules'=>array
 				('required',
 					'min_length[3]',
 					'max_length[30]',
-					'alpha'),
+					'trim',			
+					'alpha_numeric_spaces',
+					array('callback_alpha',array($this->user_model,'callback_alpha')),
+				),
 				'errors'=>array
 				('required'=>'insert %s ',
 					'min_length'=>'%s should have minimum of 3 ',
 					'max_length'=>'%s should have maximum of 25',
-					'alpha'=>'%s should have alphabet')						
-			),	
+					'alpha_numeric_spaces'=>'Special charactors are not allowed',
+					'callback_alpha'=>'alphabet only',
+					)						
+			),		
 			
 			 array('field'   => 'identitynumber',
     			'label'  =>  'Identity Number',
@@ -774,7 +779,7 @@ class Publiczone extends CI_Controller
     				'errors'=>array
     				('required'=>'you should insert %s for the user')    				
     			),
-    			array(
+    			/*array(
     				'field'=>'suburb',
     				'label'=>'Suburb',
     				'rules'=>'required',
@@ -824,7 +829,7 @@ class Publiczone extends CI_Controller
 				'label'=>'Door Number',
 				'rules'=>
 				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user')),				
+				'errors'=>array('required'=>'you should insert %s for the user')),*/				
 			);
 
     		$this->form_validation->set_rules($config_validation);
@@ -836,6 +841,7 @@ class Publiczone extends CI_Controller
     		{
     			
     			$statusEdit=$this->user_model->updateUser($this->input->post());
+
     			//redirect to userprifile with the success message
     			redirect("residents/userprofile?statusEdit=$statusEdit");
 				
@@ -938,67 +944,86 @@ class Publiczone extends CI_Controller
 		(
 			
 
-			array(
-				'field'=>'suburb',
-				'label'=>'suburb',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert one %s for the user')
-			),
+				array(
+    				'field'=>'suburb',
+    				'label'=>'Suburb',
+    				'rules'=>array(
+                		'required',
+                		array('check_surburb',array($this->suburb_model, 'check_surburb'))),
+        
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_surburb'=>'invalide input or option')),
 
-			array(
-				'field'=>'town',
-				'label'=>'town',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert one %s for the user')
-			),
+    			array(
+    				'field'=>'town',
+    				'label'=>'Town',
+    				'rules'=>array(
+                		'required',
+                		array('check_town',array($this->town_model, 'check_town'))),
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_town'=>'invalide input or option')),
 
-			array(
-				'field'=>'district',
-				'label'=>'district',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert one %s for the user'
+    			array(
+    				'field'=>'district',
+    				'label'=>' District',
+    				'rules'=>array(
+                		'required',
+                		array('check_district',array($this->district_model, 'check_district'))),
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_district'=>'invalide input or option'),
+    			),
 
-			)
-			),
+    			array(
+    				'field'=>'province',
+    				'label'=>'Province',    			
+    				'rules'=>array(
+                		'required',
+               		 array('check_province',array($this->province_model, 'check_province'))),
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_province'=>'invalide input or option'),
 
-			array(
-				'field'=>'province',
-				'label'=>'province',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert one %s for the user'
+    			),
+    			array(
 
-			)
-			),array(
-				'field'=>'manucipality',
-				'label'=>'manucipality',
-				'rules'=>'required',
-				'errors'=>array
-				('required'=>'you should insert one %s for the user'
+    				'field'=>'manucipality',
+    				'label'=>'Manucipality',
+    				'rules'=>array(
+                		'required',
+               		 array('check_municipality',array($this->manucipality_model, 'check_municipality'))),
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_municipality'=>'invalide input or option'),
 
-			)
-			),
-			array(
+    			),
+    				array(
 				'field'=>'street_name',
 				'label'=>'Street Address',
 				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
-			),
-			array(
-				'field'=>'door_number',
-				'label'=>'Door Number',
-				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user'
-			)
-			),
-
-
+					array(		
+                		'required',
+               		 array('check_streetname',array($this->address_model, 'check_streetname'))),
+				'errors'=>array('required'=>'you should insert %s for the user',
+					'check_streetname'=>'invalide input or option'),
+				),
+				array(
+					'field'=>'door_number',
+					'label'=>'Door Number',
+					'rules'=>
+						array(
+	                		'required',
+	                		array('check_doornumber',array($this->address_model, 'check_doornumber'))),
+					'errors'=>array('required'=>'you should insert %s for the user',
+					'check_doornumber'=>'invalide input or option')),
+				array(
+					'field'=>'door_number',
+					'label'=>'Door Number',
+					'rules'=>
+						array(
+	                		'required',
+               		 //array('checkCheckbox',array($this->user_model, 'checkCheckbox'))
+               		 ),
+    				'errors'=>array('required'=>'you should insert %s for the user',
+					//'checkCheckbox'=>'invalide input or option'
+				)),
 
 
 		);
@@ -1019,6 +1044,11 @@ class Publiczone extends CI_Controller
 
 
 		}
+
+	}
+	public function updateUserAddress(){
+
+		//$this->user_model->updateUserAddress();
 
 	}
 

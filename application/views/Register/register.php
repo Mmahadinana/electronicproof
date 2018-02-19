@@ -29,7 +29,7 @@ $editmode = isset($user_id)? 'true':'false';
 				<p>Address</p>
 			</div>
 			<div class="stepwizard-step">
-				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fal fa-binoculars"></i></a>
+				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-binoculars"></i></a>
 				<p>Output</p>
 			</div>
 
@@ -169,9 +169,27 @@ $editmode = isset($user_id)? 'true':'false';
 
 		<div class="row setup-content" id="step-3" style="display: none;">
 			<h1>User Address</h1>
+			<?php echo isset($user_id)? "<div class='pull-right'><a class='btn fa fa-plus fa-2x text-info' alt='add new address' href=". base_url('publiczone/change_add') ."></a></div>" : ""; ?>
 			<div class="col-xs-6 col-md-offset-3">
+
 				<div class="col-md-12">
-					
+					<?php if(  isset($user_id)) {
+						foreach ($userInfo as $value) {
+							echo '<div class="text-success text-left h5">Your primary address is:</div><br>
+								<div class="text-primary text-left">'.$value->name.'<br>'.								
+								$value->door_number."\n\n".$value->street_name.'<br>'.
+								
+								$value->suburb.'<br>'.
+								$value->town."\n\n".$value->zip_code.'<br>'.
+								$value->manucipality."\n Municipality <br>".
+								$value->district."\n District <br>".
+								$value->province."\n Province <br></div><br>";
+						}
+						}else {
+							
+						
+						?>
+			
 					<!-- Province start-->
 					<div class="form-group">
 
@@ -281,6 +299,8 @@ $editmode = isset($user_id)? 'true':'false';
 						echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
 
 					</div>
+					<?php }
+						?>
 					
 					<button id="lasbtnsubmit"  class="btn btn-primary nextBtn" >Submit</button>
 					
@@ -329,6 +349,7 @@ $editmode = isset($user_id)? 'true':'false';
 		allWells = $('.setup-content'),
 		allNextBtn = $('.nextBtn');		
 		allWells.hide();
+		console.log(allNextBtn);
 		//show the step when we load the 		
 		$('#step-1').show();
 		navListItems.click(function (e) 
@@ -355,7 +376,7 @@ $editmode = isset($user_id)? 'true':'false';
 			curInputs = curStep.find("input[type='text'],input[type='password'],input[type='date'],input[type='radio'],input[type='email'],select"),
 			isValid = true;
 			//console.log(nextStepWizard);
-			//console.log(curStepBtn);
+			console.log(curStepBtn);
 			
 			var editMode = <?=$editmode?>;
 			//for the edit user
@@ -803,7 +824,7 @@ function update_address()
 				
 			$("#select_Number").attr('style','display:block');
 			})
-			
+			 
 	}
 //call update_address function
 $( document ).ready(function()
