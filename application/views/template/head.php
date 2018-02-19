@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   'master.css',
   'admin.css',
   'navigator.css',
-  'substyle.css','particles.css',
+  'substyle.css','particles.css','login.css',
   'mystyle.css','profile.css'];
 
   foreach ($Css_Files as $css_file) {?>

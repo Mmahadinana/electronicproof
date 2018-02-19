@@ -1,171 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<<<<<<< HEAD
+
+
 <div class="container ">
-=======
-<h1>Owner's Details</h1>
-<div class="container form-area">
-  <?php 
 
-  $action="residents/details/";    ?>
-
-  <input <?php echo isset($user_id)? "value='$user_id'":"value='0'";?> id='userid' type='hidden' name='userid'>
-
-  <div class="stepwizard col-md-offset-3">
-    <div class="stepwizard-row setup-panel">
-      <div class="stepwizard-step">
-        <a href="#step-1" type="button" class="btn btn-primary btn-circle"  ><i class="fa fa-lock" aria-hidden="true"></i></a>
-        <p>Step 1</p>
-      </div>
-      <div class="stepwizard-step">
-        <a href="#step-2" type="button" class="btn btn-default btn-circle" ><i class="fa fa-user" aria-hidden="true"></i></a>
-        <p>Step 2</p>
-      </div>
-      <div class="stepwizard-step">
-        <a href="#step-3" type="button" class="btn btn-default btn-circle" ><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-        <p>Step 3</p>
-      </div>
-
-
-    </div>
-  </div>
-  <form role="form" action="" id="data" method="post">
-
-
-    <div <?php echo  isset($user_id)? "class='hidden'" : "class='form-group '"?>>
-
-      <?php foreach ($user_addinfor as $userdata) {
-        
-      ?>
-      <div class="row setup-content" id="step-1">
-      <div class="col-xs-6 col-md-offset-3">
-          <div class="col-md-12">
-            <h3>Personal Information</h3>
-            <div class="col-md-6 text-left h5">
-              <div class="control-label" for="name">Full Name</div>
-              <div class="control-label" for="identitynumber">Identity Number</div>
-              <div>Date of Birth</div>
-              <div for="email">email</div>
-              <div >Phone number</div>
-              <div  id ="gender" class="control-label">Gender</div>
-              
-
-            </div>
-            <div class="col-md-6 text-left h5">
-              
-              <div><?php echo $userdata->name; ?></div>
-              <div><?php echo $userdata->email; ?></div>
-              <div><?php echo $userdata->identityNumber; ?></div>
-              <div><?php echo $userdata->dateOfBirth; ?></div>              
-              <div><?php echo $userdata->phone; ?></div>
-              <div><?php echo $userdata->description ?></div>
-            </div>
-            <?php } ?>
-            <button class="btn btn-primary nextBtn btn-m pull-right" type="button">Next</button>
-          </div>
-        </div>
-      </div>
-      <div class="row setup-content" id="step-2">
-        <div class="col-xs-6 col-md-offset-3">
-          <div class="col-md-12">
-            <h3 >Residential Information</h3>
-            <!-- Province start-->
-            <div class="form-group">
-
-              <label for="province">Province</label>
-              <select class="form-control" name="province" id="province" onchange ="update_distric()">
-                <option  selected="true" disabled="disabled">Please select</option>
-
-                <?php 
-
-                foreach ($province as $province)
-                  {?>
-                <option <?php 
-                if(isset($user_id)  && $provinceEdit)
-                {
-
-                  echo ($provinceEdit == $province->name)? 'selected':'';
-
-
-                }
-                else{
-                  if(set_value('province'))
-                  {
-                    echo (set_value('province') == $province->id)? 'selected':'';
-                  }
-
-                }
-                ?>
-
-                value="<?php echo $province->id ?>"><?php echo $province->name ?></option>
-                <?php } ?>
-              </select>
-              <?php  echo form_error('province') ? alertMsg(false,'',form_error('province')):'';?>
-            </div>
-            <!-- Province end-->
-
-            <!-- District start-->
-            <div class="form-group" id="select_district" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-
-              <label for="district">District</label>
-
-              <select class="form-control"  name="district" id="district" onchange="update_manucipality()">
-
-              </select>
-              <?php  echo form_error('district') ? alertMsg(false,'',form_error('district')):'';?>
-
-
-
-            </div>
-            <!-- District end-->
-
-            <!-- manucipality start-->
-            <div class="form-group" id="select_manucipality" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>           
-              <label for="manucipality">Manucipality</label>
-              <select class="form-control" name="manucipality" id="manucipality" onchange="update_town()">
-
-              </select>
-              <?php  echo form_error('manucipality') ? alertMsg(false,'',form_error('manucipality')):'';?>
-            </div>
-            <!-- manucipality end-->
-
-            <!-- town start-->
-
-            <div class="form-group" id="select_town" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-
-              <label for="town">town</label>
-              <select class="form-control" name="town" id="town" onchange="update_suburb()">
-                <option  selected="true" disabled="disabled">Please select</option>
-
-
-              </select>
-              <?php  echo form_error('town') ? alertMsg(false,'',form_error('town')):'';?>
-            </div>
-            <!-- town end-->
-
-            <!-- suburb start-->
-            <div class="form-group" id="select_suburb" <?php echo  isset($user_id)? "style='display:block'" : "style='display:none'"?>>
-
-              <label for="suburb">Suburb</label>
-              <select class="form-control" name="suburb" id="suburb" onchange="update_address()">
-                <!--option  selected="true" disabled="disabled">Please select</option-->
-
-
-              </select>
-              <?php echo form_error('suburb') ? alertMsg(false,'',form_error('suburb')):'';?>
-            </div>
-            <!-- suburb end-->
-
-            <!-- zip code start-->
-            <div class="form-group" id="zip_code_input" style="display:none">
-              <!--label for="zip_code">Zip Code</label>
-                <select class="form-control" name="zip_code" id="zip_code" onchange="update_address()">
-
-                <option  selected="true" disabled="disabled">Please select</option>
-              </select-->
-            </div>
->>>>>>> 054165ab82fe96573c260c4ff739a246cf319fb1
 
   <h1>Owners Information</h1>
 
@@ -226,9 +65,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         </div>
       </div>
-<<<<<<< HEAD
+
     </div>
-=======
+
     </div>
 
   </form>
@@ -317,4 +156,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
 
 
->>>>>>> 054165ab82fe96573c260c4ff739a246cf319fb1
+

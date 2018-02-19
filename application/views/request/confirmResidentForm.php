@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $action="request_proof/confirm/";
 
   echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'on'));?>
-  <div class="form-area" >
+  <div class="form-area11" >
     <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['user_id']; ?>>
     
     <input type="hidden" id="property_id" name="property_id" value=<?php echo $_SESSION['property_id']; ?>>

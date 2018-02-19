@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
 
-	<div class="starter-template">		
-	<div class="container form-area">	
-	<!--div class="card-container card"-->		
-		<h1> Login </h1>
-		
-		<?php
+<div class="starter-template">    
+  <div class="container form-area"> 
+  <!--div class="card-container card"-->    
+    <h1> Login </h1>
+    
+    <?php
 //var_dump($_SESSION ['user_time']);
 if (isset($statusUsername)) {
    echo alertMsg($statusResetPass,'Password reset successfully ','Username not found ');
@@ -16,42 +16,42 @@ if (isset($statusUsername)) {
  if (isset($statusUserInsert)) {
    echo alertMsg($statusUserInsert,'You have successfully registered ','Failed registration ');
  }
-		$action="login/login_/";
+    $action="login/login_/";
 
-		echo form_open($action,array('class'=>'form-horizontal','method'=>'POST'));?>
+    echo form_open($action,array('class'=>'form-horizontal','method'=>'POST'));?>
 
 
-		<div class="form-group ">
-			<label  for="email" class="col-sm-4">Username</label>	
-			<div class="col-lg-6 col-xs-12">
-				<input type="text" id="email" name="username" class="form-control" placeholder="Email address" value="<?php echo  set_value('username') ;?>">
-				<p><?php echo form_error('username') ? alertMsg(false,'username',form_error('username')) : ''; ?></p>
-			</div>
-			
-		</div>
-		<div class="form-group ">
+    <div class="form-group ">
+      <label  for="email" class="col-sm-4">Username</label> 
+      <div class="col-lg-6 col-xs-12">
+        <input type="text" id="email" name="username" class="form-control" placeholder="Email address" value="<?php echo  set_value('username') ;?>">
+        <p><?php echo form_error('username') ? alertMsg(false,'username',form_error('username')) : ''; ?></p>
+      </div>
+      
+    </div>
+    <div class="form-group ">
 
-			<label for="inputPassword" class="col-sm-4">Password</label>
+      <label for="inputPassword" class="col-sm-4">Password</label>
 
-			<div class="col-lg-6 col-xs-12">
-				<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" value="<?php echo set_value('password') ;?>">
-				<p ><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
-			</div>
-				
-			</div>
-			
-			<div class="col-md-6 text-right" >
-			
-			<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
-		</div>
-			<div class="col-md-3 text-left" >
-				<a href="<?php echo base_url('passwords/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
-			<a href="<?php echo base_url('publiczone/register') ?>" class="text-white"><span>New account? Signup</span></a>
-			</div>
-			
-		</form><!--/form -->
-	
-	<!--div class="dropdown-grids">
+      <div class="col-lg-6 col-xs-12">
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" value="<?php echo set_value('password') ;?>">
+        <p ><?php echo form_error('password') ? alertMsg(false,'password',form_error('password')) : ''; ?></p>
+      </div>
+        
+      </div>
+      
+      <div class="col-md-6 text-right" >
+      
+      <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+    </div>
+      <div class="col-md-3 text-left" >
+        <a href="<?php echo base_url('passwords/reset/') ?>" class="forgot-password"><span>Forgot Password?</span></a><br>
+      <a href="<?php echo base_url('publiczone/register') ?>" class="text-white"><span>New account? Signup</span></a>
+      </div>
+      
+    </form><!--/form -->
+  
+  <!--div class="dropdown-grids">
                         <div id="loginContainer">
                             
                             <div id="loginBox">                
@@ -91,5 +91,5 @@ echo form_open("login/login_",$options); */
                             </div-->
                         </div>
                 </div>
-	<!-- /div></card-container -->
+  <!-- /div></card-container -->
 <!--/div>< /container --><!-- /.container -->

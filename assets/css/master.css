@@ -159,7 +159,7 @@ position: relative;*/
 .btn.btn-signin,
 .passlabels {
     /*background-color: #4d90fe; */
-    background-color: rgb(104, 145, 162);
+    background-color: rgb(51, 122, 183);
     /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
     padding: 0px;
     font-weight: 700;
@@ -173,6 +173,7 @@ position: relative;*/
     -moz-transition: all 0.218s;
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
+    color: white;
 }
 .btn.btn-signin:hover,
 .btn.btn-signin:active,
@@ -385,6 +386,7 @@ input:focus {
 }
 .signleft{
     float: left;
+    color: #337ab7;
 }
 .romtbl_borders tr td{
     border-style: none !important;
@@ -496,24 +498,25 @@ i .fa .fa-archive {
     border:none;
 }
 .idUpload{
-    background: #64aaca;
+    background: #337ab7;
     display: block;
     font-size: 15px;
     font-weight: bold;
     padding: 5px;
     border-radius: 3px;
-  
+  color: #fff;
 }
 .idupload input[type="file"] {
     display: none; 
 }
 .fileToUpload{
-    background: #64aaca;
+    background:#337ab7;
     display: block;
     font-size: 15px;
     font-weight: bold;
     padding: 5px;
     border-radius: 3px; 
+    color: #fff;
 }
 .fileToUpload input[type="file"] {
      display: none; 
