@@ -81,6 +81,7 @@ public function ownerquery($search )
 
 	$property_id = $search['property_id'] ?? FALSE;
 	$user_id = $search['user_id'] ?? FALSE;
+	$owner_id = $search['owner_id'] ?? FALSE;
 //$userid = $search['userid'] ?? FALSE;
 
 	//check for the requestPreview control
@@ -93,6 +94,11 @@ public function ownerquery($search )
 	{
 		$this->db->where('owners.user_id',$user_id); 
 	}
+	if($owner_id)
+	{
+		$this->db->where('owners.id',$owner_id)
+				->where('owners_property.property_id',$property_id); 
+	}
 		/*if($userid){
 			$this->db->where('owners_property.owners_id',$userid); 
 		}*/ 
@@ -101,7 +107,7 @@ public function ownerquery($search )
 		//Data of the user of that specified property which will be stored on the database for the administrator to access.
 
 		return $this->db
-		->select("user.id,user.name,user.identitynumber,
+		->select("user.id,user.name,user.identitynumber,user.email,
 			role.role,role.id as roleid,
 			login.id as login id,
 			owners.id as owner,owners.user_id,owners.house_type,

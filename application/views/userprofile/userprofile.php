@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
-
 <div id="user-profile-2" class="user-profile">
 	<div class="tabbable">
+
 		<ul class="nav nav-tabs padding-18">
 			<li class="active">
 				<a data-toggle="tab" href="#home">
@@ -30,6 +30,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			
 		</ul>
+		<div class="row">
+			<div class=" col-md-offset-3 col-md-6 ">
+				<!--deleting user addres alert message-->
+				<?php	 if (isset($statusDelete)) {
+    			echo alertMsg($statusDelete,'You have successfully been removed from this address','Sorry!Delete failed  <span class="glyphicon glyphicon-thumbs-down"></span>');   
+ 				}
+ 				 if (isset($statusInsert)) {
+						echo alertMsg($statusInsert,'Address was successfully added','Sorry! you are not allowed to add this address  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ 				}?>
+ 			</div>
+ 		</div>
 
 		<div class="tab-content no-border padding-24">
 			<div id="home" class="tab-pane in active">
@@ -174,19 +186,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						<td><?php echo $value->door_number. ' '.$value->street_name?></td>
  						<td><?php echo $value->town ?></td>
 
- 						<td>  <div class="col-lg-6">
- 							<?php
+ 						<td>
+ 						  <div class="col-lg-6">
+ 							<div class="col-lg-3">
+ 								<?php
 
- 							$action="residents/listOfResidents";
+ 								$action="residents/listOfResidents";
 
- 							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
-
- 							<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+ 								echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
- 							<button type="Submit" class=" fa fa-pencil fa-2x text-primary"></button>
- 						</form>
+ 										<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+
+
+ 										<button type="Submit" class=" fa fa-pencil fa-2x text-primary"></button>
+ 								</form>
+ 							</div>
+					
  					</div>
  				</td>
 
@@ -207,14 +223,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  					<tr class="warning text-danger">
  						<th><span class="glyphicon glyphicon-home"></span>   &nbsp;&nbsp;Number</th>
  						<th><i class="fa fa-envelope-open" aria-hidden="true"></i>   &nbsp;&nbsp;Address</th>
- 						<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th>
- 						<th>Make a Request</th>
+ 						<th><i class="fa fa-map-marker" aria-hidden="true"></i>   &nbsp;&nbsp;Town</th> 						
  						<th>Edit Address</th>
+ 						<th></th>
 
  					</tr>
  				</thead>
  				<tbody>
  					<?php 
+
  				//printing the addresses of where the user lives
  					foreach ($add_addinfor as $value) {?>
 
@@ -222,30 +239,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						<td><?php echo $value->property ?></td>
  						<td><?php echo $value->door_number. ' '.$value->street_name?></td>
  						<td><?php echo $value->town ?></td>
- 						<td>  
- 							<?php
-
- 							$action="Request_proof/request";
-
- 							echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
- 							<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
- 							<input type="hidden" name="usercheck" value="true">
- 							<button type="submit" class="fa fa-archive fa-2x text-primary" title="request" >
- 								<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
- 							</button>
- 						</form>
-
- 						<!--a href="<?php echo base_url('Request_proof/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
- 						<td>  <div class="col-lg-6">
+ 						
+ 						<td> 
+ 						 <div class="col-lg-6">
+ 						 	<div class="col-lg-6">
  							<?php
 
  							$action="residents/listOfResidents";
 
  							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?><input type="hidden" name="property_id" value=<?php echo $value->property; ?>> 
  							<button type="Submit" ><span class=" fa fa-pencil fa-2x text-primary"></span></button>
+
  						</form>
+ 						</div>
+ 						<div class="col-lg-6">
+ 						<?php
+
+ 							$action="residents/deleteUserAddress";
+
+ 							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+ 							<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
+ 							<input type="hidden" name="user_id" value=<?php echo $_SESSION['id']; ?>>                 
+
+ 							<?php if ($value->primary_prop =='1'){ ''; }else {
+ 								?>
+									<button type="Submit"  class="fa fa-trash fa-2x text-danger"  ></button>
+ 								<?php
+ 							} ?>
+ 							
+ 						</form>
+ 						</div>
  					</div>
  				</td>
+ 				<td>  
+ 							<?php
+ 							if ($value->primary_prop == 1){
+ 							$action="Request_proof/request";
+
+ 							echo form_open($action,array('class'=>'form-horizontal','enctype'=>'multipart/form-data','method'=>'POST'));?>
+ 							<input type="hidden" name="property_id" value=<?php echo $value->property ?>>
+ 							<input type="hidden" name="usercheck" value="true">
+ 							<div class="form-group text-left">
+	 							<label class="contrl-label col-sm-8 text-success">
+	 							<button type="submit" class="fa fa-archive text-primary" title="request" >
+	 								<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
+	 							</button>  Make a Request</label>
+ 							</div>
+ 						</form> <?php }else { 
+
+ 							?>
+
+ 						<div class="form-group text-left" id="primary">
+ 							<label class="contrl-label input-group-addoncol-sm-8 text-success">
+							<input type="radio" name="primary_ad" value="1" <?php echo set_checkbox('primary_ad', '1'); ?> />  Mark as Primary Address</label>
+						</div>
+ 						<?php	
+ 						}
+ 						?>
+
+ 						<!--a href="<?php echo base_url('Request_proof/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
 
  			</tr><?php	} ?>
  			<tr class="warning">

@@ -24,14 +24,16 @@ class User_model extends CI_MODEL
 		//search user id
 		$user_id = $searchid['user_id'] ?? FALSE;
 		
-		if('$user_id')
+		if($user_id)
 		{
-			$this->db->where('lives_on.user_id',$user_id);
+			$this->db->where('lives_on.user_id',$user_id)
+				->where('lives_on.primary_prop','1')
+				->where('lives_on.deleted','0');
 		}
 		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
-			lives_on.user_id,
+			lives_on.user_id,lives_on.primary_prop,
 			gender.description,
 			property.id as property_id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
@@ -55,8 +57,32 @@ class User_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
+	/**
+	 * [addressQuery search all the address wher user lives]
+	 * @param  array  $search [description]
+	 * @return [type]         [description]
+	 */
+	public function addressQuery($search=array())
+	{
+		
+		//search user id 
+		$user_id = $search['user_id'] ?? FALSE;
+		//
+		if($user_id)
+		{
+			$this->db->where('lives_on.user_id',$user_id);
+		}
+		
+		return $this->db
+		->select("lives_on.user_id,lives_on.primary_prop,lives_on.property_id")
+		->from("lives_on")				
+		->join("property"," property.id= lives_on.property_id")
+		->join("address","address.id = property.address_id")
+		//->where("lives_on.user_id"," user.id")		
+		->order_by('lives_on.property_id');
+	}
 
-	public function addressquery($search=array()){
+	/*public function addressquery($search=array()){
    $suburb=$search['suburb'] ?? FALSE;
    $door_number=$search['door_number'] ?? FALSE;
    $street_name=$search['street_name'] ?? FALSE;
@@ -72,7 +98,7 @@ class User_model extends CI_MODEL
 		
 	 return $this->db->get()->result();
 
-	}
+	}*/
 	/**
 	 * pagination of the get user page
 	 */
@@ -84,6 +110,23 @@ class User_model extends CI_MODEL
 		$offset = $searchid['page'] ?? 0;
 	//call the query to bring the residence
 		$this->userQuery($searchid)
+		//$this->requestquery();
+			//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+				//get data from bd
+		return $this->db->get()->result() ;
+	}
+	/**
+	 * get the address of where user lives fron addressQuery
+	 */
+	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	{
+
+	//public function getAddress(){
+		//where to start bringing the rows for the pagination
+		$offset = $search['page'] ?? 0;
+	//call the query to bring the residence
+		$this->addressQuery($search)
 		//$this->requestquery();
 			//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
@@ -138,57 +181,76 @@ class User_model extends CI_MODEL
 	public function updateUser($data)
 	{
 		
-
+		$primary_ad = $this->input->post('primary_ad');
+		
 		//get user by user id
 		$search['user_id']=$data['userid'];		
 		//variable to hold address
 		$address=0;
 		//variable to hold add former add-NOTE: my door_number comes as an id for address
-		$formeradd=$data['door_number'];
+			//$formeradd=$data['door_number'];
 		//get user information 
 		$currentuserdata=$this->getUser($search);
 
 		//get address id of new property
 		//$isaddress=$this->addressquery($data);;
 		
-	/*foreach ($isaddress as $add) {
-		$formeradd=$add->id;
-	}*/
+		/*foreach ($isaddress as $add) {
+			$formeradd=$add->id;
+		}*/
 
-	foreach ($currentuserdata as $value) {
-		$data['property_id']=$value->property_id;
-		$address=$value->address_id;
-	}
-	
-	$userdata=array(
-		'name'=>$data['name'],
-		'email'=>$data['email'],
-		'identitynumber'=>$data['identitynumber'],
-		'phone'=>$data['phone'],
-		'dateOfBirth'=>$data['dateofbirth'],
-		'gender_id'=>$data['gender'],
-		'date_registration'=>$data['date_registration'],
-		'id'=>$data['userid']
-	);
+		foreach ($currentuserdata as $value) {
+			$data['property_id']=$value->property_id;
+			$address=$value->address_id;
+		}
+		
+		$userdata=array(
+			'name'=>$data['name'],
+			'email'=>$data['email'],
+			'identitynumber'=>$data['identitynumber'],
+			'phone'=>$data['phone'],
+			'dateOfBirth'=>$data['dateofbirth'],
+			'gender_id'=>$data['gender'],
+			'date_registration'=>$data['date_registration'],
+			'id'=>$data['userid']
+		);
 		$this->db->trans_start();
-		//update user information
+			//update user information
 		$this->db->where('user.id',$userdata['id'])
 				->update('user',$userdata);
-		//check if address is updated
-		if ($address != $formeradd) {
-			//it new address remove old one from primary address
+			//check if address is updated
+		/*if ($address != $formeradd) {
+				//it new address remove old one from primary address
 			$this->db->where('user_id',$data['userid'])
 					->where('property_id',$data['property_id'])
-					//update lives_on table		
+						//update lives_on table		
 					->update('lives_on',array('primary_prop'=>0));
-			//update address		
+				//update address		
 			$this->addUserAddress($data);
-			
-		}
+
+		}*/
 		return $this->db->trans_complete();
 	}
 
-
+	public function checkCheckbox(){
+		$primary_ad = $this->input->post('primary_ad');
+		$search['user_id'] = $this->input->post('userid');
+		$userdata=array('primary_prop'=>'0');
+	    $userAddress=$this->getAddress($search);
+	    //
+	    if ( !is_null($primary_ad)) {
+	    	foreach ($userAddress as $val) {
+		    	if ($val->primary_prop == '1'){
+		    		
+		    		$this->db->where('lives_on.user_id',$search['user_id'])
+					->update('lives_on',$userdata);
+			//check if address is updated
+					return true;
+		    	}
+	    	}
+	    }   
+	   return true;
+	}
 	/**
 	 * [removeUserAddress removes the add of the user]
 	 * @param  [type] $search [contains user_id and the property_id that will be deleted in lives_on table]
@@ -201,18 +263,20 @@ class User_model extends CI_MODEL
 		if ($search['user_id']) {
 			$this->db->where('user_id',$search['user_id'])
 					->where('property_id',$search['property_id'])		
+					->where('primary_prop','0')		
 					->update('lives_on',array('deleted'=>1));
 		}
 		else{
 			//user_id from confirm view to decline user
 			$this->db->where('user_id',$search['userid'])
 					->where('property_id',$search['property_id'])		
+					->where('primary_prop','0')		
 					->update('lives_on',array('deleted'=>1));
 		}
 		
 		return $this->db->trans_complete();
 	}
-		
+
 	/**
 	 * [countUser description]
 	 * @param  array  $search [count the user of each property]
@@ -247,7 +311,9 @@ class User_model extends CI_MODEL
 	 */
 	public function removeFromUser(int $user_id)
 	{
+		$this->db->trans_start();
 		$this->db->delete("user",array("id"=>$user_id));
+		return $this->db->trans_complete();
 	}
 
 	/**
@@ -258,10 +324,10 @@ class User_model extends CI_MODEL
 	public function callback_checkPhone($phone)
 	{
 		$user_id = $this->input->post('phone');
-	    
+
 		$this->db->select("user.phone")
-		->from("user")
-		->where("id",$user_id);
+						->from("user")
+						->where("id",$user_id);
 			//var_dump($this->db->get()->row());
 		$testphone=$this->db->get()->row();
 		//var_dump($testphone);
@@ -377,20 +443,20 @@ class User_model extends CI_MODEL
 		//$birthdate = $this->input->post('dateofbirth');		
 		if ((is_numeric($search['user_id']) && $search['user_id'] !=0)) {
 				// I am on the edit mode
-				$user=$this->getUser($search);
+			$user=$this->getUser($search);
 
-				foreach ($user as $value) {
-					if ($identitynumber == $value->identityNumber) { 
+			foreach ($user as $value) {
+				if ($identitynumber == $value->identityNumber) { 
 						// email did not change
-						return true;
-					}else{
+					return true;
+				}else{
 						// email changed
-						return $this->idnumberDontExist($identitynumber);
-					}
-				}	
-			}
+					return $this->idnumberDontExist($identitynumber);
+				}
+			}	
+		}
 			//email does not exist and id is on create mode
-			return $this->idnumberDontExist($identitynumber);
+		return $this->idnumberDontExist($identitynumber);
 	}
 
 	/**
@@ -401,8 +467,8 @@ class User_model extends CI_MODEL
 	public function idnumberDontExist($identitynumber){
 
 		$this->db->select("user.identitynumber")
-		->from("user")
-		->where("user.identitynumber",$identitynumber);
+				->from("user")
+				->where("user.identitynumber",$identitynumber);
 			     	     //var_dump($this->db->get()->row() );
 		$identity=$this->db->get()->row();
 		if (!empty($identity)) {
@@ -440,25 +506,26 @@ class User_model extends CI_MODEL
 		$citizen =array(0,1);
 		//checksum for correct Identity number
 		$checksum_num=$this->isValidIdetity_checkLuhn($identitynumber);
-	
+
 
 		if(substr($birthdate, 2,6) != substr($identitynumber, 0, 6) ){
 			return false;
 		}
 		//:date("$year-$month-$day", array('format' => '%y-%m-%d'))
 		if (!in_array($identitynumber{11}, array(8))) {
-	            return false;
-	        }
-	    if($checkgender != $gender){
-	    	return false;
-	    }if(!$checksum_num){
-	    	return false;
-	    }
-	    if (!in_array($identitynumber{10}, array(0, 1))) {
-	         return false;
-	     }else {
-	     	return true;
-	     }
+			return false;
+		}
+		if($checkgender != $gender){
+			return false;
+		}
+		if(!$checksum_num){
+			return false;
+		}
+		if (!in_array($identitynumber{10}, array(0, 1))) {
+			return false;
+		}else {
+			return true;
+		}
 		
 	}
 	/**
@@ -467,13 +534,13 @@ class User_model extends CI_MODEL
 	 * @return boolean              [description]
 	 */
 	public function isValidIdetity_checkLuhn ($id_number) {
-	    $string = '';
+		$string = '';
 
-	    foreach (str_split(strrev((string) $id_number)) as $i => $num) {
-	        $string .= $i %2 !== 0 ? $num * 2 : $num;
-	    }
+		foreach (str_split(strrev((string) $id_number)) as $i => $num) {
+			$string .= $i %2 !== 0 ? $num * 2 : $num;
+		}
 
-	    return array_sum(str_split($string)) % 10 === 0;
+		return array_sum(str_split($string)) % 10 === 0;
 	}
 
 	/**
@@ -481,25 +548,25 @@ class User_model extends CI_MODEL
 	 * @param  [type] $email [description]
 	 * @return [type]        [description]
 	 */
-		public function callback_email($email)
+	public function callback_email($email)
 	{
 		$search['user_id']=$this->input->post('userid');
 		//$birthdate = $this->input->post('dateofbirth');
 		if ((is_numeric($search['user_id']) && $search['user_id'] !=0)) {
 				// I am on the edit mode
-				$user=$this->getUser($search);
-				foreach ($user as $value) {
-					if ($email == $value->email) { 
+			$user=$this->getUser($search);
+			foreach ($user as $value) {
+				if ($email == $value->email) { 
 						// email did not change
-						return true;
-					}else{
+					return true;
+				}else{
 						// email changed
-						return $this->emailDontExist($email);
-					}
-				}	
-			}
+					return $this->emailDontExist($email);
+				}
+			}	
+		}
 			//email does not exist and id is on create mode
-			return $this->emailDontExist($email);
+		return $this->emailDontExist($email);
 	}
 	/**
 	 * [emailDontExist called when adding new email or editemail changed]
@@ -509,8 +576,8 @@ class User_model extends CI_MODEL
 	public function emailDontExist($email)
 	{
 		$this->db->select("user.email")
-		->from("user")
-		->where("user.email",$email);
+				->from("user")
+				->where("user.email",$email);
 			     	     //var_dump($this->db->get()->row() );
 		$user=$this->db->get()->row();	
 		if (!empty($user)) {
@@ -530,36 +597,45 @@ class User_model extends CI_MODEL
 		
 		if (!empty($matches[0])) { 
 		//number has been found return false       
-        return FALSE;
-    } else {
-        return TRUE;
-    }
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
+	
 		/**
 	 * [update User Address ]
 	 * @param  [type] $addifor [updates the user address assigned]
 	 * @return [type]          [description]
 	 */
-	public function addUserAddress($addifor=array(),$user_id=0){
+		public function addUserAddress($addifor=array(),$user_id=0){
 		//for user in session who has no address
-		if ($user_id==0) {
-			$user_id=$addifor['userid'];
-		}
-		
+
+
+			if ($user_id==0) {
+				$user_id=$addifor['userid'];
+			}
+			
+			$any =$this->checkCheckbox();
+			
+
 		//variable to store address id and property id 
-		$userProperty=0;
-		$userAddress=0;
+			$userProperty=0;
+			$userAddress=$addifor['door_number'];
 		//get address
-		
-		$address=$this->addressquery($addifor);
+
+		/*$address=$this->addressquery($addifor);
 		foreach ($address as $value) {
 			$userAddress=$value->id;
-		}
+
+		}*/
 		//if function is called from update user 
 		
 		//get the property id for the address
 		
-		$property=$this->getProperty($userAddress);
+
+		$property=$this->getProperty($userAddress);	
+		
 //var_dump($property);
 		//if no property that does not have that address_id insert a new property
 		/*if(empty($property)){
@@ -576,6 +652,7 @@ class User_model extends CI_MODEL
 		$address=array(
 			'user_id'=> $user_id,
 			'property_id'=>$userProperty,
+			'start_date'=>date('Y-m-d'),
 		);
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);
@@ -604,8 +681,8 @@ class User_model extends CI_MODEL
 	public function getProperty($userAddress){
 
 		$this->db->select('property.id')
-		->where('property.address_id',$userAddress)			
-		->from('property');
+				->where('property.address_id',$userAddress)			
+				->from('property');
 
 		return $this->db->get()->result();
 	}
@@ -617,9 +694,10 @@ class User_model extends CI_MODEL
 	public function isUserLivingInProperty($search=array()){
 
 		$this->db->select('lives_on.id,lives_on.user_id')
-		->where('lives_on.user_id',$search['user_id'])			
-		->where('lives_on.property_id',$search['property_id'])			
-		->from('lives_on');
+				->where('lives_on.user_id',$search['user_id'])			
+				->where('lives_on.property_id',$search['property_id'])			
+				->where('lives_on.deleted','0')			
+				->from('lives_on');
 		return $this->db->get()->result();
 	}
 	/**
@@ -630,8 +708,8 @@ class User_model extends CI_MODEL
 	public function isThereOwnerInProperty($search=array()){
 		
 		$this->db->select('owners_property.id,owners_property.owners_id')				
-		->where('owners_property.property_id',$search['property_id'])			
-		->from('owners_property');
+				->where('owners_property.property_id',$search['property_id'])			
+				->from('owners_property');
 		return $this->db->get()->result();
 	}
 }

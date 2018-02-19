@@ -7,8 +7,11 @@ class Address_model extends CI_MODEL{
 		parent::__construct();
 		$this->load->database();
 	}
+
 	/**
-	 * Enables the user to retrieve the address from the database.
+	 * [getAddress in a specific suburb]
+	 * @param  integer $suburb_id [description]
+	 * @return [type]             [description]
 	 */
 	public function getAddress($suburb_id=0)
 	{
@@ -24,12 +27,24 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
+
 	/**
-	 * [getAddresses description]
-	 * @return [true] [retrieves address of the user]
+	 * [getAddresses all addresses]
+	 * @param  array  $searchAddress [description]
+	 * @return [type]                [description]
 	 */
-	public function getAddresses()
+	public function getAddresses($searchAddress=array())
 	{
+		$street_name=$searchAddress['id'] ?? false;
+		$door_number=$searchAddress['id'] ?? false;
+		$suburb_id=$searchAddress['suburb'] ?? false;
+		if ($street_name) {
+			$this->db->where('address.id',$street_name)
+					->where('address.suburb_id',$suburb_id);
+		}if ($street_name) {
+			$this->db->where('address.id',$door_number)
+					->where('address.suburb_id',$suburb_id);
+		}
 
 		$this->db->select("address.id,address.door_number,address.street_name")
 		->from("address")
@@ -40,12 +55,44 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
-	public function check_streetname($street_name){
 
+	/**
+	 * [check_streetname if it is a valid input]
+	 * @param  [type] $street_name [description]
+	 * @return [type]              [description]
+	 */
+	public function check_streetname($street_name){
+		$searchAddress['id']=$this->input->post('street_name');
+		$searchAddress['suburb']=$this->input->post('suburb');
+
+		if ($searchAddress['id'] ==0) {
+			//return false if field is empty
+			return false;
+		}
+		$data=$this->getAddresses($searchAddress);
+
+		//return false if data is empty
+		return	$retVal = (empty($data)) ? false: true;
 	}
+
+	/**
+	 * [check_doornumber if it is valid input]
+	 * @param  [type] $door_number [description]
+	 * @return [type]              [description]
+	 */
 	public function check_doornumber($door_number){
-		
+		$searchAddress['id']=$this->input->post('door_number');
+		$searchAddress['suburb']=$this->input->post('suburb');
+		if ($searchAddress['id'] ==0) {
+			//return false if field is empty
+			return false;
+		}
+		$data=$this->getAddresses($searchAddress);
+
+		//return false if data is empty
+		return	$retVal = (empty($data)) ? false: true;
 	}
+	
 
 }
 

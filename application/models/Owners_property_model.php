@@ -51,11 +51,13 @@ public function propertyquery($search )
 
 		if($user_idprofile)
 		{
-			$this->db->where('lives_on.user_id',$user_idprofile); 
+			$this->db->where('lives_on.user_id',$user_idprofile)
+						->where('lives_on.deleted',0);	 
 		}
 		if($user_id)
 		{
-			$this->db->where('lives_on.user_id',$user_id); 
+			$this->db->where('lives_on.user_id',$user_id)
+					->where('lives_on.deleted',0); 
 		}
 		if($mysearch && $user_id)
 		{
@@ -65,7 +67,8 @@ public function propertyquery($search )
 		return $this->db
 		->select("user.id,user.name,user.identitynumber,
 			role.role,role.id as roleid,
-			login.id as login id,		
+			login.id as login id,
+			lives_on.primary_prop,		
 			property.id as property,property.address_id,
 			address.id as addressid, address.door_number, address.street_name, address.suburb_id,
 			suburb.id as suburb,suburb.name as suburbname,suburb.town_id,
@@ -84,7 +87,10 @@ public function propertyquery($search )
 		->join("town","town.id = suburb.town_id")
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id = manucipality.district_id")
-		->join("province","province.id = district.province_id");
+		->join("province","province.id = district.province_id")
+
+		->order_by('lives_on.primary_prop','DESC')
+		->order_by('lives_on.property_id','ASC');
 
 		
 

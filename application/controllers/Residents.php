@@ -18,6 +18,7 @@ class Residents extends CI_Controller {
 		//$this->load->model("owners_property_model");
 		//$this->load->model("listOfRes_model");
 		//$this->load->library('pagination');
+		
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
 		if(!$is_logged_in ){
@@ -232,6 +233,10 @@ foreach ($data['all_properties'] as $value) {
 }
 echo $data['allproperties'];
 }
+/**
+ * [filterAllProperties is a search for properties that does not have owner called by jquery script in manage property]
+ * @return [type] [description]
+ */
 public function filterAllProperties()
 {		$data['allproperties']='';
 $search['hide_owner_search']=$this->input->post('hide_owner_search');
@@ -255,7 +260,7 @@ foreach ($data['all_properties'] as $value) {
 echo $data['allproperties'];
 }
 /**
- * [filterAvailableProperties filter available properties]
+ * [filterAvailableProperties is a search for all available properties called by jquery script in manage property]
  * @return [type] [description]
  */
 public function filterAvailableProperties()
@@ -284,7 +289,10 @@ foreach ($data['all_properties'] as $value) {
 }
 echo $data['avalProperties'];
 }
-
+/**
+ * [listOfResidents show address and all the residents living in that addess]
+ * @return [type] [description]
+ */
 public function listOfResidents()
 {
 	if($_SESSION['role']=="resident")
@@ -320,14 +328,10 @@ public function listOfResidents()
 	$this->load->library('form_validation');
 	//$this->load->view('ini',$data);
 
-	$this->load->view('ini',$data);		
-
-
-
-
+	$this->load->view('ini',$data);	
 }
 /**
- * [getOwnerOfProperty description]
+ * [getOwnerOfProperty get all the properties of owner]
  * @param  [type] $user_id [description]
  * @return [type]          [description]
  */
@@ -340,6 +344,7 @@ public function getOwnerOfProperty($user_id){
 	return $data['owner']=$this->request_model->getOwner($search);
 
 }
+
 /**
 	 * [userprofile view has the inforamtion or profile of the user]
 	 * @return [type] [description]
@@ -357,6 +362,9 @@ public function userprofile()
 	}
 	if(null!=$this->input->get('statusEdit')){
 		$data['statusEdit']= $this->input->get('statusEdit');
+	}
+	if(null!=$this->input->get('statusDelete')){
+		$data['statusDelete']= $this->input->get('statusDelete');
 	}
 	$search=array();
 	$properties=array();
@@ -505,6 +513,13 @@ public function userprofile()
 
 	}
 
+	public function deleteUserAddress(){
+		$search['user_id']=$this->input->post('user_id');
+		$search['property_id']=$this->input->post('property_id');
+		$statusDelete=$this->user_model->removeUserAddress($search);
+
+		redirect('residents/userprofile?statusDelete=$statusDelete');
+	}
 
 }
 

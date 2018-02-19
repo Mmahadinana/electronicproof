@@ -614,8 +614,38 @@ public function confirmRequestInsert()
 		$user_id=$_SESSION['user_id'];
 
 	}
-	$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-	
+			$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+			$name = '';
+			$email ='';
+					$search['owner_id']=$owner_id;
+					$search['property_id']=$property_id;
+					$ownerdata=$this->request_model->getOwner($search);
+
+					foreach ($ownerdata as $value) {
+						$name=$value->name;
+						$email=$value->email;
+					}
+					//$token = bin2hex(openssl_random_pseudo_bytes(32));				
+					$url = 'login/login_/';
+					//$url = 'login/login_/'.$token.'/'.$user_id;
+				//url to be sent by the email
+					$url_to_activate = base_url($url);
+				//prepare the template new user to be sent by email
+					$this->Postoffice_model->setTemplate($this->load->view("request_email/confirm_request_email_template",array(),TRUE));
+				//prepare the data neaded for the email
+					$templateData = array(
+						'user_name'			=> $name,
+						'url_to_activate' 	=> $url_to_activate 
+					);
+					$this->Postoffice_model->setDataToTemplate($templateData);
+					$subject ='Confirm Request' ;
+				//send email to the new user
+
+					$this->Postoffice_model->sendEmail($subject,$email);
+				//end email
+					
+					
+
 	if($results!=true){
 			//redirecting to the other page
 		$statusInsert=0;

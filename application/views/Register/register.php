@@ -29,7 +29,7 @@ $editmode = isset($user_id)? 'true':'false';
 				<p>Address</p>
 			</div>
 			<div class="stepwizard-step">
-				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fal fa-binoculars"></i></a>
+				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-binoculars"></i></a>
 				<p>Output</p>
 			</div>
 
@@ -169,9 +169,27 @@ $editmode = isset($user_id)? 'true':'false';
 
 		<div class="row setup-content" id="step-3" style="display: none;">
 			<h1>User Address</h1>
+			<?php echo isset($user_id)? "<div class='pull-right'><a class='btn fa fa-plus fa-2x text-info' alt='add new address' href=". base_url('publiczone/change_add') ."></a></div>" : ""; ?>
 			<div class="col-xs-6 col-md-offset-3">
+
 				<div class="col-md-12">
-					
+					<?php if(  isset($user_id)) {
+						foreach ($userInfo as $value) {
+							echo '<div class="text-success text-left h5">Your primary address is:</div><br>
+								<div class="text-primary text-left">'.$value->name.'<br>'.								
+								$value->door_number."\n\n".$value->street_name.'<br>'.
+								
+								$value->suburb.'<br>'.
+								$value->town."\n\n".$value->zip_code.'<br>'.
+								$value->manucipality."\n Municipality <br>".
+								$value->district."\n District <br>".
+								$value->province."\n Province <br></div><br>";
+						}
+						}else {
+							
+						
+						?>
+			
 					<!-- Province start-->
 					<div class="form-group">
 
@@ -281,6 +299,8 @@ $editmode = isset($user_id)? 'true':'false';
 						echo form_error('door_number') ? alertMsg(false,'',form_error('door_number')):'';?>
 
 					</div>
+					<?php }
+						?>
 					
 					<button id="lasbtnsubmit"  class="btn btn-primary nextBtn" >Submit</button>
 					
@@ -329,6 +349,7 @@ $editmode = isset($user_id)? 'true':'false';
 		allWells = $('.setup-content'),
 		allNextBtn = $('.nextBtn');		
 		allWells.hide();
+		console.log(allNextBtn);
 		//show the step when we load the 		
 		$('#step-1').show();
 		navListItems.click(function (e) 
@@ -355,7 +376,7 @@ $editmode = isset($user_id)? 'true':'false';
 			curInputs = curStep.find("input[type='text'],input[type='password'],input[type='date'],input[type='radio'],input[type='email'],select"),
 			isValid = true;
 			//console.log(nextStepWizard);
-			//console.log(curStepBtn);
+			console.log(curStepBtn);
 			
 			var editMode = <?=$editmode?>;
 			//for the edit user
@@ -522,14 +543,32 @@ function update_distric()
 		if(id_district)
 		{
 			$("#select_district select").val(id_district);
-		}
-		else{
-			$("#select_district select").val(0);
-		}
-			//dispaly the select box
 			$("#select_district").attr('style','display:block');
+		}
+		if(district_id.val() !=0)
+		{
+			$("#select_district").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#province").change(function(){
+				$("#select_district").attr('style','display:block');				
+				$("#select_manucipality").attr('style','display:none');
+				$("#select_town").attr('style','display:none');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+				// empty all the select option
+				$("#select_district select").val(0);
+				$("#select_manucipality select").val(0);
+				$("#select_town select").val(0);
+				$("#select_suburb select").val(0);
+				$("#select_address select").val(0);
+				$("#select_Number selected").val(0);
+			})			
 	}
-
+// call update_distric
 $( document ).ready(function() 
 {
 	update_distric() ;
@@ -570,13 +609,24 @@ function update_manucipality()
 		{
 			$("#select_manucipality select").val(id_manucipality);
 		}
-		else{
-			$("#select_manucipality select").val(0);
-		}
-			//dispaly the select box
+		if(manucipality_id.val() !=0)
+		{
+			
 			$("#select_manucipality").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#district").change(function(){
+				$("#select_manucipality").attr('style','display:block');
+				$("#select_town").attr('style','display:none');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			})
+			//$("#select_manucipality").attr('style','display:block');
 	}
-
+//call update_manucipality function
 $( document ).ready(function()
 {
 	update_manucipality() ;
@@ -617,13 +667,24 @@ function update_town()
 		if(id_town){
 			$("#select_town select").val(id_town);
 		}
-		else{
-			$("#select_town select").val(0);
-		}
-			//dispaly the select box
+		if(town_id.val() !=0)
+		{
+			
 			$("#select_town").attr('style','display:block');
+		}
+		
+			//dispaly the select box
+			$("#manucipality").change(function(){
+				$("#select_town").attr('style','display:block');
+				$("#zip_code_input").attr('style','display:none');
+				$("#select_suburb").attr('style','display:none');
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			
+			})
+			//$("#select_town").attr('style','display:block');
 	}
-
+//call update_town function
 $( document ).ready(function() 
 {
 	update_town();
@@ -672,15 +733,26 @@ function update_suburb()
 			{
 				$("#select_suburb select").val(id_suburb);
 			}
-			else{
-				$("#select_suburb select").val(0);
-			}
+		if(suburb_id.val() !=0)
+		{
+			//$("#select_suburb select").val(suburb_id.val());
+			$("#zip_code_input").attr('style','display:block');
+			$("#select_suburb").attr('style','display:block');
+			
+		}
+			
 			//dispaly the select box
-		//console.log(towninput);
-		$("#zip_code_input").attr('style','display:block');
-		$("#select_suburb").attr('style','display:block');
+		$("#town").change(function(){
+				$("#zip_code_input").attr('style','display:block');
+				$("#select_suburb").attr('style','display:block');				
+				$("#select_address").attr('style','display:none');
+				$("#select_Number").attr('style','display:none');
+			})
+		/*$("#zip_code_input").attr('style','display:block');
+		$("#select_suburb").attr('style','display:block');*/
 
 	}
+//call update_suburb function
 $( document ).ready(function() 
 {
 	update_suburb();
@@ -712,7 +784,7 @@ function update_address()
 		{
 			address_id.append($('<option>', 
 			{ 
-				value: item.street_name,
+				value: item.id,
 				text : item.street_name 
 			}));
 			door_number.append($('<option>', 
@@ -724,16 +796,37 @@ function update_address()
 		if(id_address)
 		{	
 			$("#select_address select").val(id_address);
+			$("#select_Number select").val(id_address);
 		}
-		else{
-			
-			$("#select_address select").val(0);
-			$("#select_Number selected").val(0);
-		}
-			//dispaly the select box
+		if(address_id.val() !=0)
+		{
+			$("#select_address select").val(address_id.val());
 			$("#select_address").attr('style','display:block');
+			
+			
+		}if(door_number.val() !=0)
+		{
+			$("#select_Number select").val(door_number.val());			
 			$("#select_Number").attr('style','display:block');
+			$("#select_address").attr('style','display:block');
+			
+		}
+		
+		/*$("#select_address").attr('style','display:block');
+			$("#select_Number").attr('style','display:block');*/
+			//dispaly the select box
+			$("#suburb").change(function(){
+				$("#select_address").attr('style','display:block');				
+				$("#select_Number").attr('style','display:none');
+			
+			})
+			$("#street_name").change(function(){
+				
+			$("#select_Number").attr('style','display:block');
+			})
+			 
 	}
+//call update_address function
 $( document ).ready(function()
 {
 	update_address();
