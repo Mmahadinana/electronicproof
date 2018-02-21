@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   'ie10-viewport-bug-workaround.js',
 'myjs.js'];*/
 $Js_Files=[
-'myjs.js','particles.js','footerAndHeader.js'];
+'myjs.js','particles.js','footerAndHeader.js','profile_js.js'];
 
   foreach ($Js_Files as $js_file) {?>
   <!--script src="js/myjs.js"></script-->

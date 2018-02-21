@@ -366,6 +366,9 @@ public function userprofile()
 	if(null!=$this->input->get('statusDelete')){
 		$data['statusDelete']= $this->input->get('statusDelete');
 	}
+	if(null!=$this->input->get('statusUpdate')){
+			$data['statusUpdate']= $this->input->get('statusUpdate');
+		}
 	$search=array();
 	$properties=array();
 	$search['user_idprofile']= $_SESSION['id'];
@@ -466,6 +469,25 @@ public function userprofile()
 		$this->load->view('ini',$data);	
 
 	}
+	public function manage_address()
+
+	{
+		
+		$search=array();
+		$search['user_idprofile']= $_SESSION['id'];
+		$data['add_addinfor']= $this->owners_property_model->getProperty($search);
+		//$data['statusUpdate']=$statusUpdate;
+		
+		
+/*
+		$data['pageToLoad']='userprofile/manage_address';
+		$data['pageActive']='userprofile';*/
+
+		$this->load->helper('form');
+
+		$this->load->view('userprofile/manage_address',$data);	
+
+	}
 	/**
 	 * [ResidencialProperty page]
 	 */
@@ -512,13 +534,38 @@ public function userprofile()
 		$this->load->view('ini',$data);
 
 	}
-
+/**
+ * [deleteUserAddress remove the address of where the user lives at]
+ * @return [type] [div to be used by jquery from alert/helper]
+ */
 	public function deleteUserAddress(){
 		$search['user_id']=$this->input->post('user_id');
 		$search['property_id']=$this->input->post('property_id');
+		//var_dump($search);
 		$statusDelete=$this->user_model->removeUserAddress($search);
 
-		redirect('residents/userprofile?statusDelete=$statusDelete');
+		//message to be displayed through jquery if or not the user has been deleted
+			 if (isset($statusDelete)) {
+    			echo alertMsg($statusDelete,'You have successfully removed address from the list','Sorry!Delete failed  <span class="glyphicon glyphicon-thumbs-down"></span>');   
+ 				}
+	}
+	/**
+	 * [updateUserAddress change the primary address of the user]
+	 * @return [type] [div to be used by jquery from alert/helper]
+	 */
+	public function updateUserAddress(){
+
+		$search['user_id']=$_SESSION['id'];
+		$search['address_id']=$this->input->post('primary_ad');
+		$statusUpdate=$this->user_model->updateUserAddress($search);
+		
+		///message to be displayed through jquery if or not the user primary address has been updated or changed
+		if (isset($statusUpdate)) {
+						echo alertMsg($statusUpdate,'Primary adddress changed','Sorry! you cannot change address  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ 				}
+		//echo ($statusUpdate);
+
 	}
 
 }

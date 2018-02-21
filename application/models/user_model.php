@@ -65,12 +65,21 @@ class User_model extends CI_MODEL
 	public function addressQuery($search=array())
 	{
 		
-		//search user id 
+		//search user id,address id
 		$user_id = $search['user_id'] ?? FALSE;
-		//
+		$address_id = $search['address_id'] ?? FALSE;
+		//when use update the address
+		if($user_id && $address_id)
+		{
+			$this->db->where('lives_on.user_id',$user_id)
+				->where('lives_on.deleted',0)
+				->where('property.address_id',$address_id );
+		}
+		//when user add new address
 		if($user_id)
 		{
-			$this->db->where('lives_on.user_id',$user_id);
+			$this->db->where('lives_on.user_id',$user_id)
+				->where('lives_on.deleted',0);
 		}
 		
 		return $this->db
@@ -231,13 +240,23 @@ class User_model extends CI_MODEL
 		}*/
 		return $this->db->trans_complete();
 	}
-
-	public function checkCheckbox(){
+	
+	/**
+	 * [checkCheckbox if the check for primary address is ckecked]
+	 * @param  array  $data [description]
+	 * @return [type]       [description]
+	 */
+	public function checkCheckbox($data=array()){
 		$primary_ad = $this->input->post('primary_ad');
-		$search['user_id'] = $this->input->post('userid');
+		if(!is_null($this->input->post('userid'))){
+			$search['user_id'] = $this->input->post('userid');
+		}else {
+			$search['user_id']=$data['user_id'];
+		}
+		
 		$userdata=array('primary_prop'=>'0');
 	    $userAddress=$this->getAddress($search);
-	    //
+	  //clean all primary address to 0
 	    if ( !is_null($primary_ad)) {
 	    	foreach ($userAddress as $val) {
 		    	if ($val->primary_prop == '1'){
@@ -245,19 +264,52 @@ class User_model extends CI_MODEL
 		    		$this->db->where('lives_on.user_id',$search['user_id'])
 					->update('lives_on',$userdata);
 			//check if address is updated
-					return true;
+			 
+					
 		    	}
 	    	}
 	    }   
 	   return true;
 	}
+
+	/**
+	 * [updateUserAddress udates user address]
+	 * @param  array  $search [description]
+	 * @return [type]         [description]
+	 */
+	public function updateUserAddress($search=array()){
+		//clean all primary address to be 0
+		$this->checkCheckbox($search);
+		//for now while i am stragling to come with the property id
+		$property_id=0;
+		//get all address of the user
+		$property=$this->getAddress($search);
+		//for now while i am stragling to come with the property id
+		foreach ($property as $value) {
+			$property_id=$value->property_id;
+		}
+		
+
+		$addData=array(
+			'property_id'=>$property_id,
+			'user_id'=>$search['user_id']
+		);
+		$this->db->trans_start();
+		//make the selected a primary address
+		$this->db->where('lives_on.user_id',$search['user_id'])
+				->where('lives_on.property_id',$property_id)
+				->update('lives_on',array('primary_prop'=>'1'));
+		return $this->db->trans_complete();
+		//$this->db->
+	}
+
 	/**
 	 * [removeUserAddress removes the add of the user]
 	 * @param  [type] $search [contains user_id and the property_id that will be deleted in lives_on table]
 	 * @return [type]         [description]
 	 */
 	public function removeUserAddress($search){
-		
+		//var_dump($search['property_id']);
 		$this->db->trans_start();
 		//delete in lives on table
 		if ($search['user_id']) {
@@ -287,6 +339,7 @@ class User_model extends CI_MODEL
 		$this->userQuery($search);
 		return $this->db->count_all_results();
 	}
+
 	/**
 	 * [deleteUser description]
 	 * @param  int    $user_id [delete the user that is not approved on the list]
@@ -616,7 +669,7 @@ class User_model extends CI_MODEL
 				$user_id=$addifor['userid'];
 			}
 			
-			$any =$this->checkCheckbox();
+			$this->checkCheckbox();
 			
 
 		//variable to store address id and property id 
@@ -673,6 +726,9 @@ class User_model extends CI_MODEL
 		}
 
 	}
+	/*public function updateUserAddress($addifor=array(),$user_id=0){
+
+	}*/
 	/**
 	 * [getProperty search the property table for the addrress_id]
 	 * @param  [type] $userAddress [address id search]

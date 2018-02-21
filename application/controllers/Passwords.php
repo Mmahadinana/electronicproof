@@ -9,10 +9,7 @@ class Passwords extends CI_Controller
 	{
 		
 		parent::__construct();
-		//$this->load->library('session');
-		//$this->load->model("messages_model");		
-		//$this->load->model('user_model');
-		//$this->load->model('login_model');
+		//$this->load->library('session');		
 		//$this->load->library('email');
 		//$this->load->model('Postoffice_model');
 
