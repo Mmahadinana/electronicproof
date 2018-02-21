@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<li>
 				<a data-toggle="tab" href="#feed">
-					<i class="orange ace-icon fa fa-rss bigger-120"></i>
+				
 					List Of Properties
 				</a>
 			</li>

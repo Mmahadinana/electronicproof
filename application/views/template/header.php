@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <span class="icon-bar"></span>                        
       </button>
       
-      <a class="navbar-brand" href="<?php echo base_url() ?>"><img src="<?php echo base_url('assets/logos/Logos.jpg') ?>"  class="logo" alt="Logo" ></a>
+      <a class="navbar-brand" href="<?php echo base_url() ?>"><img src="<?php echo base_url('assets/logos/Logos.jpg') ?>"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -75,6 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="jumbotron text-center">
   <h1>E-Residence</h1> 
-  <p>Electronic Proof Of Residence</p> 
+
 
 </div>

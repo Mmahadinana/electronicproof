@@ -26,7 +26,7 @@ if($user_id){
 		$this->db->where('property.id',$user_id);
 	}
 return $this->db
-->select("user.id,user.name,user.identitynumber,
+->select("user.id,user.name,user.identitynumber,user.date_registration,
 		owners.id as owner,owners.user_id,owners.house_type,
 		property.id as property,property.address_id,
 		address.id as addressid, address.door_number, address.street_name, address.suburb_id,

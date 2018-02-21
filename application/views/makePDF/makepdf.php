@@ -39,6 +39,7 @@ foreach ($user_addinfor as $key ) {
                   $property_id=$valowner ->property;
                   $owner_name=$valowner->name;
                   $owner_housetype=$valowner->house_type;
+                  
                   //var_dump($owner_addinfor);
                 }
 // create new PDF document
@@ -66,123 +67,181 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('dejavusans', '', 13);
 
+
 // add a page
-$pdf->AddPage();
+$pdf->AddPage('P', 'A4');
 
-// create some HTML content
-$htmlcontent = "<html>
-				  <body>
-					<table style='width: 100%' border='0' align='center' cellpadding='5' cellspacing='0'>
-					  <tr>
-						<td width='165'>Date</td>
-						";
-		
-$htmlcontent .= "<td width='165'>" . date('M-d-Y') .      "</td></tr>";
-$htmlcontent .= "<tr>
-	    		    <td >&nbsp;</td>
-	  			  </tr>";
-$htmlcontent .= "<tr>
-	    		    <td >&nbsp;</td>
-	  			  </tr>";
 
-$htmlcontent .=  "<tr>
-        		    <td >Address</td>
-		  	    	<td  colspan='2'>" .$key->door_number. ' '.$key->street_name."</td>
-      			  </tr>";
+$pdf->Cell(0, 0, 'Proof Of Residence', 1, 1, 'C');
 
-$htmlcontent .=  "<tr>
+// Date of the day
+$pdf->Cell(92, 5, 'Date:');
+$pdf->TextField('date', 30, 5, array(), array('v'=>date('Y-m-d'), 'dv'=>date('Y-m-d')));
+$pdf->Ln(10);
+
+$html = <<<EOF
+<!-- EXAMPLE OF CSS STYLE -->
+<style>
+    h1 {
+        color: navy;
+        font-family: times;
+        font-size: 24pt;
+        text-decoration: underline;
+    }
+    p.first {
+        color: #003300;
+        font-family: helvetica;
+        font-size: 12pt;
+    }
+    p.first span {
+        color: #006600;
+        font-style: italic;
+    }
+    p#second {
+        color: rgb(00,63,127);
+        font-family: times;
+        font-size: 12pt;
+        text-align: justify;
+    }
+    p#second > span {
+        background-color: #FFFFAA;
+    }
+    table.first {
+        color: #003300;
+        font-family: helvetica;
+        font-size: 8pt;
+        
+    }
+   
+    div.test {
+        color: #CC0000;
+        background-color: #FFFF66;
+        font-family: helvetica;
+        font-size: 10pt;
+        border-style: solid solid solid solid;
+        border-width: 2px 2px 2px 2px;
+        border-color: green #FF00FF blue red;
+        text-align: center;
+    }
+    .lowercase {
+        text-transform: lowercase;
+    }
+    .uppercase {
+        text-transform: uppercase;
+    }
+    .capitalize {
+        text-transform: capitalize;
+    }
+    body {
+   background-image: url(images/tswellopele.png);
+
+}
+</style>
+
+<br/>
+<br/>
+
+
+<body>
+<table style='width: 100%' border='0' align='center' cellpadding='5' cellspacing='0'>
+					  
+
+               <tr>
+        		    <td >Address:</td>
+		  	    	<td  colspan='2'> $key->door_number $key->street_name</td>
+      			  </tr>
+
+               <tr>
 	    		    <td  colspan='3'>&nbsp;</td>
-	    		    <td  colspan='3'>" .$key->street_name."</td>
+	    		    <td  colspan='3'> $key->street_name</td>
 	    		  
-	  			  </tr>";	
-$htmlcontent .=  "<tr>
+	  			  </tr>	
+               <tr>
 	    		    <td  colspan='4'>&nbsp;</td>
-	    		    <td  colspan='4'>" .$key->town."</td>
+	    		    <td  colspan='4'> $key->town</td>
 	    		  
-	  			  </tr>";
-$htmlcontent .=  "<tr>
+	  			  </tr>
+                  <tr>
 	    		    <td  colspan='5'>&nbsp;</td>
-	    		    <td  colspan='5'>" .$key->zip_code."</td>
+	    		    <td  colspan='5'> $key->zip_code</td>
 	    		  
-	  			  </tr>";
-$htmlcontent .=  "<tr>
+	  			  </tr>
+                <tr>
 	    		    <td  colspan='6'>&nbsp;</td>
-	    		    <td  colspan='6'>" .$key->town."</td>
+	    		    <td  colspan='6'> $key->town</td>
 	    		  
-	  			  </tr>";
-$htmlcontent .=  "<tr>
+	  			  </tr>
+                    
+                <tr>
 	    		    <td  colspan='7'>&nbsp;</td>
-	    		    <td  colspan='7'>" .$key->manucipality."</td>
+	    		    <td  colspan='7'> $key->manucipality</td>
 	    		  
-	  			  </tr>";
-$htmlcontent .=  "<tr>
+	  			  </tr>
+                <tr>
 	    		    <td  colspan='8'>&nbsp;</td>
-	    		    <td  colspan='8'>" .$key->district."</td>
+	    		    <td  colspan='8'> $key->district</td>
 	    		  
-	  			  </tr>";
-$htmlcontent .=  "<tr>
+	  			  </tr>
+              <tr>
 	    		    <td  colspan='9'>&nbsp;</td>
-	    		    <td  colspan='9'>" .$key->province."</td>
+	    		    <td  colspan='9'> $key->province</td>
 	    		  
-	  			  </tr>";	  			  	  			  
+	  			  </tr>  			  	  			  
 	  			  
-$htmlcontent .= "<tr>
+              <tr>
 	    		    <td>&nbsp;</td>
-	  			  </tr>";
-$htmlcontent .= "<tr>
+	  			  </tr>
+               <tr>
 	    		    <td>&nbsp;</td>
-	  			  </tr>";
-$htmlcontent .= "<tr>
+	  			  </tr>
+                <tr>
 	    		    <td>&nbsp;</td>
-	  			  </tr>";
+	  			  </tr>
 
 
-$htmlcontent .= "<tr>
+                <tr>
 	    		    <td>&nbsp;</td>
-	  			  </tr>";	  			  	  			  	  			  	  			  
+	  			  </tr>  			  	  			  	  			  	  			  
 
-$htmlcontent .=  "<tr>
+                <tr>
 		  	    	<td colspan='4'></td>
-		  	    	<td><?php echo $key->door_number. ' '.$key->street_name?></td>
-      			  </tr>";
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	  			  
-$htmlcontent .=  "<tr>
-					 
-                    <td width='50%' align='center'>This is to confirm that" .'  '."<strong>" . $key->name . "</strong>".' '. "ID number" .' ' ."<strong>". $key->identitynumber ."</strong>"." stays at the above mentioned address since". ' ' .date('M-d-Y') ." until today.The" . ' '."<strong>" . $owner_housetype . "</strong>" . ' ' ."is owned by" . ' '."<strong>" .$owner_name. "</strong>"."</td>
-                  </tr>";
-
-$htmlcontent .=  "<tr>
-		  	    	
-		  	    	<td  width='50%'>This letter will be valid for only three months,starting from the date issued.</td>
-      			  </tr>"; 
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	
-$htmlcontent .= "<tr>
-	    		    <td>&nbsp;</td>
-	  			  </tr>";	
-$htmlcontent .= "<tr>
-	    		    <td>SIGNATURE________________________</td>
-	  			  </tr>";	  			  
+		  	    	<td><?php echo $key->door_number $key->street_name?></td>
+      			  </tr>
+              
+                 			  
 	  			      			                   
-$htmlcontent .= "</table></body></html>";
+</table>
+</body>
+<br/>
+
+<p>Dear Sir/Madam</p>
+
+<p class="first">To whom it may concern</p>
+<p class="first">This is to certifty that <strong> $key->name  </strong> identity number <strong>  $key->identitynumber </strong> stays at the above mentioned address since <strong> $key->date_registration </strong> until today.The <strong> $owner_housetype </strong> is owned by <strong> $owner_name </strong>,
+<br/>
+This letter will be valid for only three months,starting from the date issued.</span></p>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<p> SIGNATURE________________________</p>
+ 
+EOF;
+
+
 
 // output the HTML content
-$pdf->writeHTML($htmlcontent, true, 0, true, 0);
+$pdf->writeHTML($html, true, false, true, false, '');
+
+//$pdf->writeHTML($htmlcontent, true, 0, true, 0);
 
 //$pdf->writeHTML($inlinecss, true, 0, true, 0);
 
