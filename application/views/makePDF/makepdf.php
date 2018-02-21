@@ -214,10 +214,12 @@ $html = <<<EOF
 </body>
 <br/>
 
+<p>Dear Sir/Madam</p>
 
-<p class="first">This is to confirm that <strong> $key->name  </strong> identity number <strong>  $key->identitynumber </strong> stays at the above mentioned address since <strong> $key->date_registration </strong> until today.The <strong> $owner_housetype </strong> is owned by <strong> $owner_name,
+<p class="first">To whom it may concern</p>
+<p class="first">This is to certifty that <strong> $key->name  </strong> identity number <strong>  $key->identitynumber </strong> stays at the above mentioned address since <strong> $key->date_registration </strong> until today.The <strong> $owner_housetype </strong> is owned by <strong> $owner_name </strong>,
 <br/>
-This letter will be valid for only three months,starting from the date issued. </strong> </span></p>
+This letter will be valid for only three months,starting from the date issued.</span></p>
 
 <br/>
 <br/>

@@ -107,7 +107,7 @@ public function ownerquery($search )
 		//Data of the user of that specified property which will be stored on the database for the administrator to access.
 
 		return $this->db
-		->select("user.id,user.name,user.identitynumber,user.email,user.date_registration,
+		->select("user.id,user.name,user.identitynumber,user.email,
 			role.role,role.id as roleid,
 			login.id as login id,
 			owners.id as owner,owners.user_id,owners.house_type,
