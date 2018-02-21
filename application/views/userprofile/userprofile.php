@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 
@@ -14,17 +15,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</a>
 			</li>
 
-			<li>
-				<a data-toggle="tab" href="#feed">
+			<?php 
+	/**
+	 * do not display this tab when resident is in session; 
+	 */
+			if ($_SESSION['role'] == 'resident'){
+				echo '';
+			} 
+			else{ ?>
+			<li class="<?php echo ($_SESSION['role'] == 'resident') ? 'hidden' :'' ?>">
+				<a data-toggle="tab" href="#feed" >
 				
-					List Of Properties
+					Manage Properties
 				</a>
 			</li>
+
+			<?php } ?>
 
 			<li>
 				<a data-toggle="tab" href="#friends">
 					<i class="blue ace-icon fa fa-users bigger-120"></i>
-					Residents
+					Manage Residencial Address
 				</a>
 			</li>
 
@@ -55,7 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 						<?php
-						/****edit user profile of the user*******************/
+			/**
+			 * [$action edit user]
+			 * @var string
+			 */
 						$action="publiczone/editUser";
 
 						echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
@@ -125,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  									<span><?php  echo $key->dateOfBirth?></span>
  								</div>
  							</div>
- 							<div class="profile-info-row">
+ 							<div class="profile-info-row ">
  								<div class="profile-info-name"> Gender </div>
 
  								<div class="profile-info-value">
@@ -155,6 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
  		</div><!-- /#home -->
+<!--List of all the properties that ower has-->
 
  		<div id="feed" class="tab-pane">
 
