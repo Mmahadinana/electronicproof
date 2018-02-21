@@ -21,7 +21,9 @@ class Request_proof extends CI_Controller {
 		//$this->load->library('pagination');
 		logoutByInactiv();
 		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-
+		if(!$is_logged_in ){
+			redirect('login/login_');
+		} 
 	}
 
 

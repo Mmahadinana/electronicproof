@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 		</ul>
 		<div class="row">
-			<div class=" col-md-offset-3 col-md-6 ">
+			<div class=" col-md-offset-3 col-md-6 " id="message" >
 				<!--deleting user addres alert message-->
 				<?php	 if (isset($statusDelete)) {
     			echo alertMsg($statusDelete,'You have successfully been removed from this address','Sorry!Delete failed  <span class="glyphicon glyphicon-thumbs-down"></span>');   
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="hidden" name="userid" value=<?php echo($_SESSION['id']) ?>>
 						<input type="hidden" name="usercheck" value="true">
 						<div class="col-lg-6">
-							<button type="submit" name="confirm" class="btn btn-sm btn-block btn-success" title="Edit"><i class="ace-icon fa fa-plus-circle bigger-120 " aria-hidden="true">&nbsp;&nbsp<span class="bigger-110">Edit My Information</span></i></button>
+							<button type="submit" name="confirm" class="btn btn-sm btn-block btn-success" title="Edit"><i class="ace-icon fa fa-plus-circle bigger-120 " aria-hidden="true">&nbsp;&nbsp;<span class="bigger-110">Edit My Information</span></i></button>
 						</div>
  					<!--div class="col-lg-3">
  					<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a-->
@@ -215,8 +215,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  </div><!-- /#feed -->
 
  <div id="friends" class="tab-pane">
- 	<div class="row">
- 		<div class="col-sm-8 col-lg-8 pfTbl_padding">
+ 	<div class="row" id="man_address" >
+ 		 <?php
+ defined('BASEPATH') OR exit('No direct script access allowed');
+
+ ?>
+
+ <div class="col-sm-8 col-lg-8 pfTbl_padding">
+ 			
  			<table class="table ">
  				<caption class="h3 text-center" id="live">Lives at:</caption>
  				<thead>
@@ -244,28 +250,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  						 <div class="col-lg-6">
  						 	<div class="col-lg-6">
  							<?php
-
+ 							/********  button Edit  *************************/
  							$action="residents/listOfResidents";
 
  							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?><input type="hidden" name="property_id" value=<?php echo $value->property; ?>> 
- 							<button type="Submit" ><span class=" fa fa-pencil fa-2x text-primary"></span></button>
+ 							<button type="Submit" class="btn btn-default fa fa-pencil fa-2x text-info"></button>
 
  						</form>
  						</div>
  						<div class="col-lg-6">
  						<?php
 
+ 						/********  button Delete  *************************/
  							$action="residents/deleteUserAddress";
 
  							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
- 							<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
- 							<input type="hidden" name="user_id" value=<?php echo $_SESSION['id']; ?>>                 
+ 							<input type="hidden" class="property_id" name="property_id" value=<?php echo $value->property; ?>>                 
+ 							<input type="hidden" class="user_id" name="user_id" data-userid="<?php echo $_SESSION['id']; ?>">                 
 
  							<?php if ($value->primary_prop =='1'){ ''; }else {
  								?>
-									<button type="Submit"  class="fa fa-trash fa-2x text-danger"  ></button>
+									<a href="#" type="button" data-propid="<?php echo $value->property; ?>" class="btn btn-default fa fa-trash fa-2x text-danger deleteAddress" ></a>
  								<?php
  							} ?>
  							
@@ -275,6 +282,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  				</td>
  				<td>  
  							<?php
+
+ 							/********  button request  *************************/
+
  							if ($value->primary_prop == 1){
  							$action="Request_proof/request";
 
@@ -283,18 +293,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  							<input type="hidden" name="usercheck" value="true">
  							<div class="form-group text-left">
 	 							<label class="contrl-label col-sm-8 text-success">
-	 							<button type="submit" class="fa fa-archive text-primary" title="request" >
+	 							<button type="submit" class="btn fa fa-archive fa-2x text-primary" title="request" >
 	 								<!--i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i-->
 	 							</button>  Make a Request</label>
  							</div>
  						</form> <?php }else { 
-
+					
  							?>
 
- 						<div class="form-group text-left" id="primary">
- 							<label class="contrl-label input-group-addoncol-sm-8 text-success">
-							<input type="radio" name="primary_ad" value="1" <?php echo set_checkbox('primary_ad', '1'); ?> />  Mark as Primary Address</label>
+ 						<div class="form-group text-success text-left primaryChange">
+ 							
+ 							<input type="hidden" name="prop_id" class="prop_id" value="<?php echo $value->property ?>">
+ 							<label class="contrl-label">
+
+							<input type="radio" class="primaryRadio" name="primary_ad" value="<?php echo $value->address_id; ?>"/>  Mark as Primary Address</label>
+							<a href="#" type="button" data-propid="<?php echo $value->property; ?>" class="
+								" ></a>
+						<!--/form--> 
 						</div>
+					
  						<?php	
  						}
  						?>
@@ -323,3 +340,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 </div>
+<script type="text/javascript">
+		
+		
+
+	
+</script>

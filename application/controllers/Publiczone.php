@@ -1046,11 +1046,7 @@ class Publiczone extends CI_Controller
 		}
 
 	}
-	public function updateUserAddress(){
-
-		//$this->user_model->updateUserAddress();
-
-	}
+	
 
 
 
