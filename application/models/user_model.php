@@ -265,11 +265,14 @@ class User_model extends CI_MODEL
 					->update('lives_on',$userdata);
 			//check if address is updated
 			 
-					
+					 
 		    	}
+		    	
 	    	}
-	    }   
-	   return true;
+	    	return true;
+	    }  
+	    return false; 
+
 	}
 
 	/**
@@ -309,10 +312,10 @@ class User_model extends CI_MODEL
 	 * @return [type]         [description]
 	 */
 	public function removeUserAddress($search){
-		//var_dump($search['property_id']);
+		//var_dump($search);
 		$this->db->trans_start();
 		//delete in lives on table
-		if ($search['user_id']) {
+		if (isset($search['user_id'])) {
 			$this->db->where('user_id',$search['user_id'])
 					->where('property_id',$search['property_id'])		
 					->where('primary_prop','0')		
@@ -663,15 +666,18 @@ class User_model extends CI_MODEL
 	 */
 		public function addUserAddress($addifor=array(),$user_id=0){
 		//for user in session who has no address
-
+ 
 
 			if ($user_id==0) {
 				$user_id=$addifor['userid'];
 			}
 			
-			$this->checkCheckbox();
-			
-
+			//$this->checkCheckbox();
+			$primary_prop=1;
+			if ($this->checkCheckbox()==false){
+				$primary_prop=0;
+			}
+			///var_dump($addifor);
 		//variable to store address id and property id 
 			$userProperty=0;
 			$userAddress=$addifor['door_number'];
@@ -706,6 +712,7 @@ class User_model extends CI_MODEL
 			'user_id'=> $user_id,
 			'property_id'=>$userProperty,
 			'start_date'=>date('Y-m-d'),
+			'primary_prop'=>$primary_prop,
 		);
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);

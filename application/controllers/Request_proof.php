@@ -140,6 +140,19 @@ public function request()
 			$data['user_addinfor']= $this->request_model->getAddress($search);
 
 			$data['db']= $this->request_model->getOwner($search);
+			//is user already made a request 
+			$proofOfRecData=array();
+			foreach($data['user_addinfor'] as $property){
+				$proofOfRecData['property']= $property->property;
+			}
+
+			$proofOfRecData['user_id']=$_SESSION['id'];
+			$search_user['user_id']=$_SESSION['id'];
+			//request is approved, is proof of resident expired?
+			$check_proof_hasexpired=$this->request_model->check_record($proofOfRecData);
+			//is user waiting for request approval
+			$check_if_request_made=$this->request_model->check_if_request_made($proofOfRecData);
+
 			//loading the request page 
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
@@ -243,17 +256,10 @@ public function request()
 				else{
 
 			//send data to the database
-					$proofOfRecData=array();
-					foreach($data['user_addinfor'] as $property){
-						$proofOfRecData['property']= $property->property;
-					}
-
-					$proofOfRecData['user_id']=$_SESSION['id'];
-					//this will check if the user is on waitin
-					$check_proof_hasexpired=$this->request_model->check_record($proofOfRecData);
-					$check_if_request_made=$this->request_model->getListToComfirm($proofOfRecData); 
+					 
+					//var_dump($check_if_request_made);
 					
-					if($_FILES['fileToUpload']['name'][0] != '' && (empty($check_if_request_made)) && $check_proof_hasexpired==true) {
+					if($_FILES['fileToUpload']['name'][0] != '' && ($check_if_request_made== true) && $check_proof_hasexpired==true) {
 
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
 
@@ -261,7 +267,7 @@ public function request()
 						$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
-					}elseif((empty($check_if_request_made)) && $check_proof_hasexpired==true) {
+					}elseif(($check_if_request_made== true) && $check_proof_hasexpired==true) {
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID);

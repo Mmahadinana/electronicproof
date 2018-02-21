@@ -46,6 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<!--deleting user addres alert message-->
 				<?php	 if (isset($statusDelete)) {
     			echo alertMsg($statusDelete,'You have successfully been removed from this address','Sorry!Delete failed  <span class="glyphicon glyphicon-thumbs-down"></span>');   
+ 				} if (isset($statusRequest)) {
+    			echo alertMsg($statusRequest,'Request made successfully','Sorry!You have already made a request. <span class="glyphicon glyphicon-thumbs-down"></span>');   
  				}
  				 if (isset($statusInsert)) {
 						echo alertMsg($statusInsert,'Address was successfully added','Sorry! you are not allowed to add this address  <span class="glyphicon glyphicon-thumbs-down"></span>');

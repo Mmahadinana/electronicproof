@@ -210,7 +210,8 @@ public function ownerquery($search )
 						$this->db->where('request_docs.owner_confirmation_states',$owner_confirmation_states); 
 					}
 					return	$this->db->select("user.name,
-						request_docs.id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
+						request_docs.id,request_docs.user_id,request_docs.property_id,request_docs.date_request,
+						request_docs.administrator_confirmation_date,			
 						address.id as addressid, address.door_number, address.street_name, address.suburb_id,
 						suburb.name as suburbname,suburb.town_id,
 						town.name as town,town.zip_code,
@@ -514,6 +515,21 @@ public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAG
 		}
 		//$this->db->trans_start();
 	}
+	public function check_if_request_made($search=array()){
+		$searchuser['user_id']=$search['user_id'];
+
+		$check_user_request=$this->getListToComfirm($searchuser);
+		
+		if(!empty($check_user_request)){
+			foreach ($check_user_request as $value) {
+				//var_dump($value->administrator_confirmation_date);
+				if(!is_null($value->administrator_confirmation_date) ){
+					return true;
+				}
+			}return false;
+		}
+		return true;
+	}
 	/**
 	 * [check_record description]
 	 * @param  [false] $records [check all the information recorded is correct from the database]
@@ -524,6 +540,8 @@ public function getAttachment(array $search = array(),int $limit = ITEMS_PER_PAG
 		$approved=0;
 		$records['approved']=1;
 		$check_record=$this->getAttachment($records);
+		//var_dump($records);
+		//var_dump($check_record);
 			
 		if(!empty($check_record)){
 			

@@ -62,6 +62,9 @@ class Residents extends CI_Controller {
 	 	if(null!=$this->input->get('statusEdit'))
 	 	{
 	 		$data['statusEdit']= $this->input->get('statusEdit');
+	 	}if(null!=$this->input->get('statusRequest'))
+	 	{
+	 		$data['statusRequest']= $this->input->get('statusRequest');
 	 	}
 	 	if(null!=$this->input->get('statusInsert'))
 	 	{
