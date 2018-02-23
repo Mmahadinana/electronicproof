@@ -51,12 +51,14 @@
  							echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
- 							<input type="hidden" class="property_id" name="property_id" value=<?php echo $value->property; ?>>                 
- 							<input type="hidden" class="user_id" name="user_id" data-userid="<?php echo $_SESSION['id']; ?>">                 
+ 							<!--input type="hidden" class="property_id" name="property_id" value=<?php echo $value->property; ?>>                 
+ 							<input type="hidden" class="user_id" name="userid" data-userid="<?php echo $_SESSION['id']; ?>"-->                 
 
  							<?php if ($value->primary_prop =='1'){ ''; }else {
  								?>
-									<a href="#" type="button" data-propid="<?php echo $value->property; ?>" class="btn btn-default fa fa-trash fa-2x text-danger deleteAddress" ></a>
+ 									<!--input type="hidden" class="user_id" name="user_id" data-userid="<?php echo $_SESSION['id']; ?>"-->
+									<input type="hidden" class="user_id" name="user_id" >
+            						<a href="#" type="button" data-userid="<?php echo $_SESSION['id']; ?>" data-propid="<?php echo $value->property; ?>" class="btn btn-default fa fa-trash fa-2x text-danger deleteAddress" ></a>
  								<?php
  							} ?>
  							

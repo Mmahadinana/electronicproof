@@ -82,6 +82,7 @@ public function ownerquery($search )
 	$property_id = $search['property_id'] ?? FALSE;
 	$user_id = $search['user_id'] ?? FALSE;
 	$owner_id = $search['owner_id'] ?? FALSE;
+	$owner = $search['owner'] ?? FALSE;
 //$userid = $search['userid'] ?? FALSE;
 
 	//check for the requestPreview control
@@ -98,6 +99,11 @@ public function ownerquery($search )
 	{
 		$this->db->where('owners.id',$owner_id)
 				->where('owners_property.property_id',$property_id); 
+	}
+	if($owner)
+	{	$where='(user.email LIKE "%'.$owner.'%")';
+			$this->db->where($where);
+		 
 	}
 		/*if($userid){
 			$this->db->where('owners_property.owners_id',$userid); 

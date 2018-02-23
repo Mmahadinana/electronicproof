@@ -150,40 +150,8 @@ class Publiczone extends CI_Controller
 		
 	}
 
-	/**
-	 * [eResidence loads the project pages]
-	 * @return [true] [description]
-	 */
-	public function eResidence()
-	{
-		$data['pageToLoad']='E-Residence/eResidence';
-		$data['pageActive']='eResidence';
-		$this->load->view('ini',$data);
-		
-	}
-	/**
-	 * [listOfResidents shows a list of residents staying in that particulsr property]
-	 * @return [true] [once the owner has approve that list]
-	 */
-	public function listOfResidents()
-	{
-		$data['pageToLoad']='E-Residence/listOfRes';
-		$data['pageActive']='listOfRes';
-		$this->load->view('ini',$data);
-		
-	}
-	/**
-	 * [login  this retrieves whether user/owner/admin information is correct in the database so that the user/owner/admin can be able to login]
-	 * @return [true] [login]
-	 *
-	 */
-	public function login()
-	{
-		$data['pageToLoad']='login/loginForm';
-		$data['pageActive']='loginForm';
-		$this->load->view('ini',$data);
-		
-	}
+	
+
 	/**
 	 * [logout description]
 	 * @return [type] [description]

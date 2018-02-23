@@ -20,15 +20,30 @@ class User_model extends CI_MODEL
 	 */
 	public function userQuery($searchid)
 	{
-		
+	
+
 		//search user id
 		$user_id = $searchid['user_id'] ?? FALSE;
+		$property_id = $searchid['property_id'] ?? FALSE;
+		//search username
+		$username = $searchid['username'] ?? FALSE;
 		
 		if($user_id)
 		{
 			$this->db->where('lives_on.user_id',$user_id)
 				->where('lives_on.primary_prop','1')
 				->where('lives_on.deleted','0');
+		}
+		if($property_id)
+		{
+			$this->db->where('lives_on.property_id',$property_id)				
+				->where('lives_on.deleted','0');
+		}
+		//filter the user by email to add on the address listofresidentview
+		if($username)
+		{	$where='(user.email LIKE "'.$username.'%")';
+				$this->db->where($where);
+			 
 		}
 		
 		return $this->db
@@ -247,7 +262,9 @@ class User_model extends CI_MODEL
 	 * @return [type]       [description]
 	 */
 	public function checkCheckbox($data=array()){
+		//check for primary input box or radio 
 		$primary_ad = $this->input->post('primary_ad');
+		
 		if(!is_null($this->input->post('userid'))){
 			$search['user_id'] = $this->input->post('userid');
 		}else {
@@ -312,13 +329,22 @@ class User_model extends CI_MODEL
 	 * @return [type]         [description]
 	 */
 	public function removeUserAddress($search){
-		//var_dump($search);
+		
 		$this->db->trans_start();
 		//delete in lives on table
 		if (isset($search['user_id'])) {
+			
 			$this->db->where('user_id',$search['user_id'])
 					->where('property_id',$search['property_id'])		
 					->where('primary_prop','0')		
+					->update('lives_on',array('deleted'=>1));
+		}
+		//owner delets user from the address
+		if (isset($search['user_id']) && $_SESSION['role']=='owner') {
+
+			$this->db->where('user_id',$search['user_id'])
+					->where('property_id',$search['property_id'])		
+					//->where('primary_prop','0')		
 					->update('lives_on',array('deleted'=>1));
 		}
 		else{
@@ -667,17 +693,16 @@ class User_model extends CI_MODEL
 		public function addUserAddress($addifor=array(),$user_id=0){
 		//for user in session who has no address
  
+		
+			if ($user_id==0 && !empty($addifor)) {
 
-			if ($user_id==0) {
 				$user_id=$addifor['userid'];
+			
 			}
 			
-			//$this->checkCheckbox();
-			$primary_prop=1;
-			if ($this->checkCheckbox()==false){
-				$primary_prop=0;
-			}
-			///var_dump($addifor);
+			
+			
+			
 		//variable to store address id and property id 
 			$userProperty=0;
 			$userAddress=$addifor['door_number'];
@@ -694,19 +719,28 @@ class User_model extends CI_MODEL
 		
 
 		$property=$this->getProperty($userAddress);	
+		//$isnewuser=$this->getUser($userAddress);	
 		
-//var_dump($property);
+//to be used to insert new property
 		//if no property that does not have that address_id insert a new property
 		/*if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
 			//get the last inserted id			
 			$property=$this->getProperty($userAddress);
 		}*/
+
 		//get the id of the property
 		foreach ($property as $value) {
 			$userProperty=$value->id;
 		}
-		
+
+		//default primary address for property
+		$primary_prop=1;
+		// if user is in session and they add the new address
+			if ($this->checkCheckbox()==false && isset($_SESSION['id'])){
+				$primary_prop=0;
+			}
+
 		//storing the data that will be inserted into lives_on table for user
 		$address=array(
 			'user_id'=> $user_id,
@@ -714,6 +748,7 @@ class User_model extends CI_MODEL
 			'start_date'=>date('Y-m-d'),
 			'primary_prop'=>$primary_prop,
 		);
+
 		//check if the address already exist
 		$hasAddress=$this->isUserLivingInProperty($address);
 		//check if the address has owner
@@ -725,6 +760,7 @@ class User_model extends CI_MODEL
 			
 			return 0;
 		}else {
+			
 			//insert the address for the user
 			$this->db->trans_start();
 			

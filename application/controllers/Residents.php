@@ -54,6 +54,8 @@ class Residents extends CI_Controller {
 	 		redirect('residents/admin');
 	 	}
 	 	$id_remove=$this->input->post('id_Property');
+
+	 	//variables holding the messages for success or failer when has done the following actions
 	 	if ($id_remove!=0 and is_numeric($id_remove))
 	 	{
 	 		$data['statusRemove']= $this->ownersProperty_model->deleteProperty($id_remove);
@@ -62,7 +64,8 @@ class Residents extends CI_Controller {
 	 	if(null!=$this->input->get('statusEdit'))
 	 	{
 	 		$data['statusEdit']= $this->input->get('statusEdit');
-	 	}if(null!=$this->input->get('statusRequest'))
+	 	}
+	 	if(null!=$this->input->get('statusRequest'))
 	 	{
 	 		$data['statusRequest']= $this->input->get('statusRequest');
 	 	}
@@ -322,8 +325,8 @@ public function listOfResidents()
 	$data['user_addinfor']= $this->listOfRes_model->getAddress($search);
 		//var_dump($data['user_addinfor']);
 	$data['add_addinfor']= $this->listOfRes_model->getAddressTwo($search);
-	$data['pageToLoad']='eresidence/listOfResidents';
-	$data['pageActive']='eresidence';
+	$data['pageToLoad']='listOfResidents/listOfResidents';
+	$data['pageActive']='listOfResidents';
 
      //loading the form and files for file uoload		
 	$this->load->helper(array('form','file','url'));
@@ -346,6 +349,51 @@ public function getOwnerOfProperty($user_id){
 	//echo json_encode($data['owner']);
 	return $data['owner']=$this->request_model->getOwner($search);
 
+}
+/**
+ * [getOwnerlist description]
+ * @return [type] [description]
+ */
+public function getOwner(){
+
+	$search=array();
+	$email='';
+	$search['owner']=$this->input->post('mysearch');
+
+	//echo json_encode($data['owner']);
+	$data['owner']=$this->request_model->getOwner($search);
+
+	foreach($data['owner'] as $ownerdata){
+		$email='<p>'.$ownerdata->email.'</p>';
+	}
+	echo json_encode($email);
+}
+/**
+ * [getUser filter the user email]
+ * @return [type] [description]
+ */
+public function getUser(){
+
+	$search=array();
+	$email='';
+	$email.='<option value="0">choose email</option>';
+	$userid='';
+	$search['username']=$this->input->post('mysearch');
+
+	//echo json_encode($data['owner']);
+	$data['username']=$this->user_model->getUser($search);
+
+	foreach($data['username'] as $ownerdata){
+
+		$email.='<option value="'.$ownerdata->userid.'" class="useremail">'.$ownerdata->email.'</option>';
+		//$email.='<a href="#" class="list-group-item useremail">'.$ownerdata->email.'</a>';
+		//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
+		//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
+
+	}
+	//$mydata=array('mail'=>$email,'userid'=>$userid);
+	//$mydata=array('mail'=>$email,'userid'=>$userid);
+	echo json_encode($email);
 }
 
 /**
@@ -492,6 +540,30 @@ public function userprofile()
 
 	}
 	/**
+	 * [manage_residents user who lives on the residents]
+	 * @return [type] [description]
+	 */
+	public function manage_residents()
+
+	{
+		
+		$search=array();
+		$search['property_id']= $_SESSION['property_id'];
+		$data['user_infor']= $this->user_model->getUser($search);
+
+		//$data['statusUpdate']=$statusUpdate;
+		
+		
+/*
+		$data['pageToLoad']='userprofile/manage_address';
+		$data['pageActive']='userprofile';*/
+
+		$this->load->helper('form');
+
+		$this->load->view('listOfResidents/manage_residents',$data);	
+
+	}
+	/**
 	 * [ResidencialProperty page]
 	 */
 	public function ResidencialProperty()
@@ -558,9 +630,28 @@ public function userprofile()
 	 */
 	public function updateUserAddress(){
 
+		//$search['user_id']=$this->input->post('user_id');
 		$search['user_id']=$_SESSION['id'];
+
 		$search['address_id']=$this->input->post('primary_ad');
 		$statusUpdate=$this->user_model->updateUserAddress($search);
+		
+		///message to be displayed through jquery if or not the user primary address has been updated or changed
+		if (isset($statusUpdate)) {
+						echo alertMsg($statusUpdate,'Primary adddress changed','Sorry! you cannot change address  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ 				}
+		//echo ($statusUpdate);
+
+	}
+	public function addUserAddress(){
+
+		//user id from the input in list of residents view;
+		$search['userid']=$this->input->post('userid');		
+		//using the door_number because its value always hold address id
+		$search['door_number']=$this->input->post('primary_ad');
+
+		$statusUpdate=$this->user_model->addUserAddress($search);
 		
 		///message to be displayed through jquery if or not the user primary address has been updated or changed
 		if (isset($statusUpdate)) {
