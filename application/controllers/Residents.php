@@ -520,6 +520,38 @@ public function userprofile()
 		$this->load->view('ini',$data);	
 
 	}
+	public function userDetails()
+
+	{
+		$search=array();
+		
+
+		//$search['property_id1']=$property_id;
+		
+		$search['user_id']= $this->input->post('userid');
+		//var_dump($search['user_id']);
+		//user owns property
+		$data['isowner_addinfor']= $this->request_model->getOwner($search);
+		$data['user_addinfor']=$this->user_model->getUsers($search);
+		if(empty($data['user_addinfor'])){
+			$data['user_addinfor']=$this->ownersDetails_model->getUser($search);
+		}
+		$data['other_address']=$this->owners_property_model->getProperty($search);
+		//$search['property_id']=$this->input->post('property_id');
+		//get user information
+		
+		$data['pageToLoad']='eresidence/userDetails';
+		$data['pageActive']='eresidence';
+
+		$this->load->helper('form');
+
+		$this->load->view('ini',$data);	
+
+	}
+	/**
+	 * [manage_address where user in session lives at]
+	 * @return [type] [description]
+	 */
 	public function manage_address()
 
 	{

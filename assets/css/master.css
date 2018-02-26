@@ -447,6 +447,9 @@ border: 2px solid pink;
  padding: 0px;
  clear: 
 }
+.bgrUserDetails {
+ background-color: #daedf7;
+}
 @keyframes chgTransition {
     from {color:#2d3f50 ;}
     to {color:gold ;}

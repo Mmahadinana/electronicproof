@@ -108,8 +108,22 @@ $property_id=0;
               <input type="hidden" id="primary_ad" name="primary_ad" value=<?php echo $key1->address_id; ?>>
               <input type="hidden" name="usercheck" value="true">
               <button type="submit" name="confirm"   class="btn btn-md glyphicon glyphicon-pencil text-default" title="Edit"></button><span class="text-info"> This is you</span>
-            </form><?php  } else{?> <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+            </form><?php  } else{?> 
+
+            <!--Owner view user information -->
+          <?php
+              $action="residents/userDetails";
+              echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+              <input type="hidden" name="userid" value='<?php echo $key1->user_id; ?>'>
+              <input type="hidden" id="property_id" name="property_id" value='<?php echo $key1->property_id; ?>'>
+              <input type="hidden" name="usercheck" value="true">
+            <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+            </form>
+             
           </td>
+            
           
 
           <td><button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">

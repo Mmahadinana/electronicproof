@@ -25,6 +25,8 @@ class User_model extends CI_MODEL
 		//search user id
 		$user_id = $searchid['user_id'] ?? FALSE;
 		$property_id = $searchid['property_id'] ?? FALSE;
+		//owner view user information
+		$propertyid = $searchid['property_id'] ?? FALSE;
 		//search username
 		$username = $searchid['username'] ?? FALSE;
 		
@@ -39,6 +41,12 @@ class User_model extends CI_MODEL
 			$this->db->where('lives_on.property_id',$property_id)				
 				->where('lives_on.deleted','0');
 		}
+		/*if($propertyid && $user_id)
+		{
+			$this->db->//where('lives_on.property_id',$propertyid)				
+				->where('lives_on.user_id',$user_id)
+				->where('lives_on.deleted','0');
+		}*/
 		//filter the user by email to add on the address listofresidentview
 		if($username)
 		{	$where='(user.email LIKE "'.$username.'%")';
@@ -123,6 +131,40 @@ class User_model extends CI_MODEL
 	 return $this->db->get()->result();
 
 	}*/
+	
+	public function usersQuery($search)
+	{
+	
+
+		//search user id
+		$user_id = $search['user_id'] ?? FALSE;
+		//$property_id = $searchid['property_id'] ?? FALSE;
+		//owner view user information
+		//$propertyid = $searchid['property_id'] ?? FALSE;
+		//search username
+		
+		
+		if($user_id)
+		{
+			$this->db->where('lives_on.user_id',$user_id)				
+				->where('lives_on.deleted','0');
+		}
+
+		
+		return $this->db
+		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
+			lives_on.user_id,lives_on.primary_prop,
+			gender.description,
+			property.id as property_id,property.address_id,")
+		->from("user")		
+		->join("gender","gender.id = user.gender_id")
+		->join("lives_on","lives_on.user_id = user.id")		
+		->join("property"," property.id= lives_on.property_id")
+		->join("address","address.id = property.address_id")
+        ->group_by('user.id')
+		->order_by('user.id');
+	}
+
 	/**
 	 * pagination of the get user page
 	 */
@@ -140,6 +182,25 @@ class User_model extends CI_MODEL
 				//get data from bd
 		return $this->db->get()->result() ;
 	}
+
+	/**
+	 * pagination of the get user page
+	 */
+	public function getUsers(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
+	{
+
+	//public function getAddress(){
+		//where to start bringing the rows for the pagination
+		$offset = $searchid['page'] ?? 0;
+	//call the query to bring the residence
+		$this->usersQuery($searchid)
+		//$this->requestquery();
+			//establish the limit and start to bring the owner address
+		->limit($limit,$offset);
+				//get data from bd
+		return $this->db->get()->result() ;
+	}
+
 	/**
 	 * get the address of where user lives fron addressQuery
 	 */

@@ -24,7 +24,7 @@ $property_id=0;
         <tbody>
          
          <?php    
- //var_dump($user_infor);
+// var_dump($user_infor);
          foreach ($user_infor as $key1) {
 
 
@@ -42,15 +42,25 @@ $property_id=0;
               echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
-              <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
-              <input type="hidden" id="primary_ad" name="primary_ad" value=<?php echo $key1->address_id; ?>>
+              <input type="hidden" name="userid" value='<?php echo $key1->user_id; ?>'>
+              <input type="hidden" id="primary_ad" name="primary_ad" value='<?php echo $key1->address_id; ?>'>
               <input type="hidden" name="usercheck" value="true">
               <button type="submit" name="confirm"   class="btn btn-md glyphicon glyphicon-pencil text-primary" title="Edit"><span class="text-success"></span></button>
             </form><?php  } else{
 
               ?>
-          <!--Owner user user information -->
-             <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+          <!--Owner view user information -->
+          <?php
+              $action="residents/userDetails";
+              echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
+
+
+              <input type="hidden" name="userid" value='<?php echo $key1->user_id; ?>'>
+              <input type="hidden" id="property_id" name="property_id" value='<?php echo $key1->property_id; ?>'>
+              <input type="hidden" name="usercheck" value="true">
+            <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+            </form>
+             
           </td>
           
           <!--Owner delete user from this address -->
