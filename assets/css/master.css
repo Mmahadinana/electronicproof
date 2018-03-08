@@ -584,3 +584,16 @@ background-color: #f2f4f5;
     font-weight: 300;
     margin-top: 15%; 
 }
+/*        font awsome*/
+.fa-layers-counter{
+    margin-top: -10em;
+}
+/**************add property view********************/
+/*********input*******/
+.add_input_search{
+    height: 0.5em
+}
+.select_ad
+.print_address_list{
+    margin-left: 100px;
+}

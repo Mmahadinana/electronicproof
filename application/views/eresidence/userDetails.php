@@ -94,7 +94,7 @@ $name='';
         //var_dump($isowner_addinfor);
         ?>
         
-          <a href="#" class="btn bgrUserDetails h4 " id="user_propeties"><span id='view_p'></span> Properties </a></div><hr>
+          <a href="#" class="btn bgrUserDetails h4 " id="user_propeties"><span id='view_p' class="fa fa-eye"></span> Properties </a></div><hr>
         <div class="col-md-offset-2 col-md-10" id="u_propeties">
         <div class="panel-group text-left" id="accordion">
           
@@ -141,18 +141,18 @@ $name='';
         //var_dump($isowner_addinfor);
         ?>
         <!--p class="text-warning">The following is the other residencial addresses if the resident</p-->
-        <a href="#" class="btn bgrUserDetails h4 " id="user_address"><span id='view_a'></span> addresses </a></div><hr>
+        <a href="#" class="btn bgrUserDetails h4 " id="user_address"><span id='view_a' class="fa fa-eye"></span> addresses </a></div><hr>
         <div class="col-md-offset-2 col-md-10" id="u_address">
         <div class="panel-group text-left" id="accordion">
           
         <?php 
           
-        
+        //var_dump($other_address );
          foreach($other_address as $address){?>
           <div class="panel panel-info">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo($i) ?>"> Address No.<?php echo($i) ?></a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo($i) ?>"> Address No.<?php echo($address->primary_prop==1)? $i.' Primary add' : $i ?></a>
               </h4>
             </div>
 
@@ -191,8 +191,8 @@ $name='';
     <script type="text/javascript">
       $('#u_address').hide();
       $('#u_propeties').hide()
-      $('#view_a').text('View');
-      $('#view_p').text('See');
+      $('#view_a').text('View').addClass('text-primary');
+      $('#view_p').text('See').addClass('text-primary');
       $(document).on('click','#user_address',function(e){
        e.preventDefault();
         //$('#u_address').toggle();
@@ -200,9 +200,9 @@ $name='';
         //$('#view_a').toggle().text('hide');
         $('#u_address').slideToggle('slow', function() {
         if ($(this).is(':visible')) {
-             $('#view_a').text('Hide ');                
+             $('#view_a').text(' Hide').removeClass('fa-eye').addClass('text-danger fa-eye-slash');                
         } else {
-             $('#view_a').text('View');                
+             $('#view_a').text(' View').removeClass('text-danger fa-eye-slash').addClass(' fa-eye');                
         }        
     });       
 
@@ -212,9 +212,9 @@ $name='';
 
         $('#u_propeties').slideToggle('slow', function() {
         if ($(this).is(':visible')) {
-             $('#view_p').text('Hide ');                
+             $('#view_p').text(' Hide ').removeClass('fa-eye').addClass('text-danger fa-eye-slash');                
         } else {
-             $('#view_p').text('View');                
+             $('#view_p').text(' View').removeClass('text-danger fa-eye-slash').addClass(' fa-eye');                
         }   
        // $('#u_propeties').show();
       });

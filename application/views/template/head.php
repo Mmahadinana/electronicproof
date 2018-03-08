@@ -17,13 +17,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  
   <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2./jquery.min.js"></script>
   <script src="./js/numeric-1.2.6.min.js"></script>
   <script src="./js/bezier.js"></script-->
 
   
-  <script src="https:github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
-    <!--script src="./js/jason2.min.js"></script-->
+  <!--script src="https:github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <script src="./js/jason2.min.js"></script-->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <?php 
   $Css_Files=[
@@ -34,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   'admin.css',
   'navigator.css',
   'substyle.css','particles.css','login.css',
-  'mystyle.css','profile.css'];
+  'mystyle.css','profile.css','inputs.css'];
 
   foreach ($Css_Files as $css_file) {?>
     <link href="<?php echo base_url('assets/css/'.$css_file);?>" rel="stylesheet">

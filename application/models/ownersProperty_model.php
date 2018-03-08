@@ -99,6 +99,7 @@ class OwnersProperty_model extends CI_MODEL
 		->join("manucipality","manucipality.id = town.manucipality_id")
 		->join("district","district.id = manucipality.district_id")
 		->join("province","province.id = district.province_id")
+		->where("owners_property.deleted",0)
 		->group_by("property.id")	
 		->order_by("property.id");	
 

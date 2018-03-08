@@ -304,7 +304,7 @@ public function ownerquery($search )
  * @param  [type] $search [varialble used for the where clause]
  * @return [type]         [data]
  */
-public function getListToApproveQuery($search )
+public function getListToApproveQuery($search=array() )
 {			
 	return	$this->db->select("user.name,
 		request_docs.id as request_docs_id,request_docs.user_id,request_docs.property_id,request_docs.date_request,			
@@ -759,6 +759,17 @@ public function getListToComfirmRequest(array $search = array(),int $limit = ITE
 
 	return $this->db->get()->result();
 }
+public function getListToComfirmRequestCount(array $search = array(),int $limit = ITEMS_PER_PAGE)
+{
+	//where to start bringing the rows for the pagination
+	$offset = $search['page'] ?? 0;
+//call the query to bring the residence
+	$this->getListToComfirmRequestQuery($search);
+	return $this->db->count_all_results();			
+
+	
+
+}
 
 
 /**
@@ -857,6 +868,15 @@ public function getListToApprove(array $search = array(),int $limit = ITEMS_PER_
 	->limit($limit,$offset);
 			//get data from bd
 	return $this->db->get()->result();
+}
+
+public function getListToApproveCount(array $search = array(),int $limit = ITEMS_PER_PAGE){
+
+	//where to start bringing the rows for the pagination
+
+//call the query to bring the residence
+	$this->getListToApproveQuery($search);
+	return $this->db->count_all_results();
 }
 
 /**

@@ -36,8 +36,8 @@ class Province_model extends CI_MODEL
 			 
 		}if($suburb)
 		{	$where='(suburb.name LIKE "%'.$suburb.'%")';
-				$this->db->where($where)
-				->where("address.id",$address_id);
+				$this->db->where($where);
+				//->where_not_in("address.id",$address_id)
 			 
 		}if($suburb_id)
 		{	//$where='(address.suburb_id LIKE "%'..'%")';
@@ -64,7 +64,7 @@ class Province_model extends CI_MODEL
 				
 				->group_by('province.id')
 				//->group_by('province.id')
-				->order_by('address.street_name');
+				->order_by('province.name');
 	}
 	/**
 	 * [getProperty description]
@@ -87,29 +87,16 @@ class Province_model extends CI_MODEL
 	}
 	public function getAddress($search = array())
 	{	
-	
-	
 		$suburb_id=$search['suburb_id'] ?? FALSE;
-		$suburb=$search['suburb'] ?? FALSE;
-		if($suburb)
-		{	$where='(suburb.name LIKE "%'.$suburb.'%")';
-				$this->db->where($where);
-		
-		}
 		if($suburb_id)
 		{	
 			$this->db->where('suburb_id',$suburb_id);
 			 
 		}
 
-		$this->db->select("address.id")
-				->from("address")
-
-				->join("suburb","suburb.id = address.suburb_id")
-				->join("town","town.id = suburb.town_id")
-				->join("manucipality","manucipality.id = town.manucipality_id")
-				->join("district","district.id= manucipality.district_id")
-				->join("province","province.id = district.province_id");
+		$this->db->select("id")
+				->from("address");
+				//->where("suburb_id",$search['suburb_id'])	
 					
 		return $this->db->get()->result();
 	}
@@ -119,7 +106,7 @@ class Province_model extends CI_MODEL
 	 * @param  int|integer $limit  [description]
 	 * @return [type]              [description]
 	 */
-	public function getAddressPropertyIsNull($search = array(),int $limit = 50)
+	public function getAddressPropertyIsNull(array $search = array(),int $limit = 50)
 	{
 		$offset = $search['page'] ?? 0;
 
@@ -156,30 +143,6 @@ class Province_model extends CI_MODEL
 			
 		}*/
 
-	}
-
-	public function filterSuburb($search = array()){
-		$address=$this->getAddress();
-		$suburb_list=array();
-		$i=0;
-		foreach ($address as $value_ad) {
-			$search['address_id']=$value_ad->id;
-			$property_add=$this->getProperty($search);
-
-			if (empty($property_add)) {
-
-				$suburb=$this->getAddressPropertyIsNull($search);
-				foreach ($suburb as $value) {
-					if(!empty($value)){
-						
-					$suburb_list[$i]=$value;
-					$i +=1;
-				}
-				}
-				
-			}
-		}return $suburb_list;
-		
 	}
 
 }

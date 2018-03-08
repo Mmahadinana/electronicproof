@@ -5,7 +5,8 @@ $property_id=0;
 ?> 
 
 <div class="container form-area">
-
+<h1>Request State</h1>
+ <p> <?php echo $request_state?></p>
 
  <h1 class="whtColor"> List Of Requests Made By <span class="text-warning"> <?php echo ucfirst($_SESSION['role']).' '. $_SESSION['name'];?> </span></h1>
  <br>

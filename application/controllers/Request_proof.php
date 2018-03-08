@@ -58,6 +58,36 @@ class Request_proof extends CI_Controller {
 	{ 
 		$search=array();
 		$search['user_id']=$_SESSION['id'];
+		$hasexpired=$this->request_model->check_record($search);
+			//var_dump($check_proof_hasexpired);
+			//is user waiting for request approval
+			$request_made=$this->request_model->check_if_request_made($search);
+
+		//var_dump($check_proof_hasexpired,$check_proof_hasexpired);
+		$data['request_state']='';
+		if($hasexpired==true && $request_made==true){
+			$data['request_state'].='';
+		}
+		elseif($hasexpired==true && $request_made==false) {
+					$data['request_state'].='<i class="fa fa-telegram fa-6x"></i>';
+	
+		}
+		elseif($hasexpired==false && $request_made==true) {
+			$data['request_state'].='<i class="fa fa-telegram"></i>';
+			$data['request_state'].='<i class="fa fa-telegram"></i>';
+			$data['request_state'].='<span class="fa-layers fa-fw" style="background:MistyRose">
+    <i class="fas fa-envelope"></i>
+    <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
+  </span>';
+		}else {
+			$data['request_state'].='<i class="fa fa-telegram"></i>';
+			$data['request_state'].='<span class="fa-layers fa-fw" style="background:MistyRose">
+    <i class="fa fa-envelope"></i>
+    <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
+  </span>';
+		}
+		$search=array();
+		$search['user_id']=$_SESSION['id'];
 		
 		$data['getListToComfirm']=$this->request_model->getListToComfirm($search);
 
@@ -150,15 +180,17 @@ public function request()
 			$search_user['user_id']=$_SESSION['id'];
 			//request is approved, is proof of resident expired?
 			$check_proof_hasexpired=$this->request_model->check_record($proofOfRecData);
+			//var_dump($check_proof_hasexpired);
 			//is user waiting for request approval
 			$check_if_request_made=$this->request_model->check_if_request_made($proofOfRecData);
-
+			//var_dump($check_if_request_made);
 			//loading the request page 
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
 			/**load thi page title**/
 			$data['pageTitle']='Request Form ';
-			if(!$this->input->post('usercheck'))
+
+			if(!$this->input->post('usercheck') && ($check_if_request_made== true) && $check_proof_hasexpired==true)
 
 			{
 
@@ -273,6 +305,7 @@ public function request()
 						$this->requestPreview($data['user_addinfor'],$fileID);
 					}else {
 						$data['message']='Be patiant, your request in progress';
+
 						$this->load->view('ini',$data);
 					}
 					
@@ -281,7 +314,10 @@ public function request()
 
 			}
 			else{
-				$this->load->view('ini',$data);
+
+				//$this->load->view('ini',$data);
+			
+				redirect('Request_proof/viewRequestMade');
 
 
 			}

@@ -29,7 +29,7 @@ $editmode = isset($user_id)? 'true':'false';
 				<p>Address</p>
 			</div>
 			<div class="stepwizard-step">
-				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-binoculars"></i></a>
+				<a href="#step-4" type="button" class="btn btn-default btn-circle" <?= isset($user_id)? '' :'disabled="disabled"'?>><i class="fa fa-eye"></i></a>
 				<p>Output</p>
 			</div>
 
@@ -360,7 +360,7 @@ $editmode = isset($user_id)? 'true':'false';
 
 			if (!$item.hasClass('disabled')) 
 			{
-				navListItems.removeClass('btn-primary').addClass('btn-default');
+				navListItems.removeClass('btn-primary').addClass('btn-default');			
 				$item.addClass('btn-primary');
 				allWells.hide();
 				$target.show();

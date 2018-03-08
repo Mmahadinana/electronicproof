@@ -12,18 +12,29 @@ class Owners_property_model extends CI_MODEL
 		
 	}
 //This function holds the request query of the owners details
-public function requestquery($search )
+	public function getOwnerquery($search )
+	{
+	
+		//$pOwner = $search['$pOwner'] ?? FALSE;
+		$property_id = $search['property_id'] ?? FALSE;
+		$user_id = $search['user_id'] ?? FALSE;
+		//comes from listofresidents view to delete owner
+		if($property_id)
+		{
+			$this->db->where('owners_property.property_id',$property_id )
+					->where('owners.user_id',$user_id );
+		}
+	/*if($user_id)
 {
-
-$pOwner = $search['$pOwner'] ?? FALSE;
-
-if($pOwner)
-{
+		$this->db->where('owners_property.user_id',$user_id );
+	}*/
+	/*if($pOwner)
+	{
 		$this->db->where('owners_property.property_id',$pOwner );
-	}
-return $this->db
-->select("user.id,user.name,user.identitynumber,
-		owners.user_id,property.id as property,property.address,property.suburb,
+	}*/
+	return $this->db
+	->select("user.id,user.name,user.identitynumber,
+		owners.user_id,owners.id as owner_id,property.id as property,property.address_id,
 		town.name as town,town.zip_code,
 		manucipality.name as manucipality,
 		district.name as district,
@@ -32,12 +43,16 @@ return $this->db
 	->join("owners","owners.user_id = user.id")
 	->join("owners_property","owners_property.owners_id = owners.id")
 	->join("property"," property.id= owners_property.property_id")
-	->join("town","town.id = property.town_id")
+	->join("address"," address.id= property.address_id")
+	->join("suburb"," suburb.id= address.suburb_id")
+	//->join("property"," property.id= owners_property.property_id")
+	->join("town","town.id = suburb.town_id")
 	->join("manucipality","manucipality.id = town.manucipality_id")
 	->join("district","district.id = manucipality.district_id")
 	->join("province","province.id = district.province_id")
+	->where("owners_property.deleted",0)
 	
-	->group_by('user.id')
+	//->group_by('user.id')
 	->order_by('user.id');
 
 }
@@ -102,7 +117,7 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
 	//where to start bringing the rows for the pagination
 	$offset = $search['page'] ?? 0;
 //call the query to bring the residence
-	$this->requestquery($search)
+	$this->getOwnerquery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address
 	->limit($limit,$offset);
@@ -125,5 +140,23 @@ public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
 			//get data from bd
 		
 	return $this->db->get()->result() ;
+}
+public function deleteOwner($search=array()){
+	$owner_id=0;
+	//if (!empty($search) ) {
+		$owner=$this->getOwner($search);
+		
+		if(!empty($owner)){
+			foreach ($owner as $value) {
+			$owner_id=$value->owner_id;
+			
+		}
+		$this->db->trans_start();
+		$this->db->where("owners_id",$owner_id)
+				->where("property_id",$search['property_id'])
+				->update("owners_property",array("deleted"=>1,"delete_date"=>date('Y-m-d H:s:m')));
+		return $this->db->trans_complete()	;
+		}
+	//}
 }
 }

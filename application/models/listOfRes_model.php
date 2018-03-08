@@ -45,6 +45,7 @@ return $this->db
 	->join("manucipality","manucipality.id = town.manucipality_id")
 	->join("district","district.id = manucipality.district_id")
 	->join("province","province.id = district.province_id")
+	->where("owners_property.deleted",0)
 	
 	->group_by('user.id')
 	->order_by('user.id');

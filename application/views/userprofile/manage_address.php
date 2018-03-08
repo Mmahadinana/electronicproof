@@ -42,7 +42,7 @@
 
  						</form>
  						</div>
- 						<div class="col-lg-6">
+ 							<div class="col-lg-6">
  						<?php
 
  						/********  button Delete  *************************/
@@ -56,8 +56,8 @@
 
  							<?php if ($value->primary_prop =='1'){ ''; }else {
  								?>
- 									<!--input type="hidden" class="user_id" name="user_id" data-userid="<?php echo $_SESSION['id']; ?>"-->
-									<input type="hidden" class="user_id" name="user_id" >
+ 									<input type="hidden" class="user_id" name="user_id" data-userid="<?php echo $_SESSION['id']; ?>">
+									<!--input type="hidden" class="user_id" name="user_id" -->
             						<a href="#" type="button" data-userid="<?php echo $_SESSION['id']; ?>" data-propid="<?php echo $value->property; ?>" class="btn btn-default fa fa-trash fa-2x text-danger deleteAddress" ></a>
  								<?php
  							} ?>
@@ -102,7 +102,8 @@
  						}
  						?>
 
- 						<!--a href="<?php echo base_url('Request_proof/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a--></td>
+ 						<!--a href="<?php echo base_url('Request_proof/request/'.$value->property); ?>">&nbsp;&nbsp;<i class="fa fa-archive fa-2x text-primary" aria-hidden="true"></i></a-->
+ 					</td>
 
  			</tr><?php	} ?>
  			<tr class="warning">

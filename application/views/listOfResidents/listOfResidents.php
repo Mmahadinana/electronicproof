@@ -77,16 +77,22 @@ $property_id=0;
       <table class="table table-bordered">
         <thead>
           <tr>
+            <?php if($_SESSION['role']!='admin') {
+              //view for owner?>
+            <th colspan="2">Owners</th>
+            <th >Registration Date</th>
+            
+            <?php ; }else {
+              //view for admin  ?>
             <th colspan="3">Owners</th>
-            <!--th>Edit</th>
-            <th>Delete</th-->
+            <?php ;} ?>      
             
           </tr>
         </thead>
         <tbody>
          
          <?php    
- //var_dump($user_addinfor);
+
          foreach ($user_addinfor as $key1) {
 
 
@@ -103,7 +109,6 @@ $property_id=0;
 
               echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
-
               <input type="hidden" name="userid" value=<?php echo $key1->user_id; ?>>
               <input type="hidden" id="primary_ad" name="primary_ad" value=<?php echo $key1->address_id; ?>>
               <input type="hidden" name="usercheck" value="true">
@@ -119,15 +124,23 @@ $property_id=0;
               <input type="hidden" name="userid" value='<?php echo $key1->user_id; ?>'>
               <input type="hidden" id="property_id" name="property_id" value='<?php echo $key1->property_id; ?>'>
               <input type="hidden" name="usercheck" value="true">
-            <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+            <button name="" class="btn btn-md fa fa-eye text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
             </form>
              
           </td>
             
           
 
-          <td><button href ="<?php echo base_url("residents/listOfResidents/".$key1->user_id) ?>" class ="btn btn-default btn-md" title="Delete">
-            <span class="glyphicon glyphicon-trash text-danger"></span></button></td>
+          <td><?php if($_SESSION['role']!='admin') {
+              echo $key1->date_registration;
+              }else {?>
+               <a href ="#" class ="btn btn-default btn-md delete_owner" data-userid="<?php echo $key1->user_id; ?>" data-propid="<?php echo $key1->property; ?>" title="Delete">
+                  <span class="glyphicon glyphicon-trash text-danger"></span>
+               </a>
+          </td>
+          <?php } ?>
+              
+            
              </tr>
              <?php } ?> 
          <!--tr>

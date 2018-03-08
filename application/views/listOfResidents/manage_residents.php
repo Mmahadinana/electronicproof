@@ -10,11 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
 //stores property id to be send to add a user
 $property_id=0;
+$count=0;
   ?>
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th colspan="3">Residents</th>
+            <th colspan="3" class="count_res"><?php //echo($count)?> Residents</th>
             
             <!--th>Edit</th>
             <th>Delete</th-->
@@ -27,7 +28,7 @@ $property_id=0;
 // var_dump($user_infor);
          foreach ($user_infor as $key1) {
 
-
+          $count = $key1->number_of_residents;
           ?>
           <tr class="warning text-danger">
             <td><?php  echo $key1->name;?></td>
@@ -58,7 +59,7 @@ $property_id=0;
               <input type="hidden" name="userid" value='<?php echo $key1->user_id; ?>'>
               <input type="hidden" id="property_id" name="property_id" value='<?php echo $key1->property_id; ?>'>
               <input type="hidden" name="usercheck" value="true">
-            <button name="" class="btn btn-md fa fa-binoculars text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
+            <button name="" class="btn btn-md fa fa-eye text-primary" title="View user"><span class="text-success"></span></button> <?php ;} ?>
             </form>
              
           </td>
@@ -126,6 +127,8 @@ $property_id=0;
 
 <!--show search div onclick -->
 <script type="text/javascript">
-
-
+  $(document).ready(function(){
+      var count=<?php echo($count)?>;
+      $('.count_res').prepend("<b>"+count+"</b>: : ");
+  })
 </script>

@@ -55,8 +55,7 @@ $no_owner_property=array();
 						</div>
 					</li>
 					<li>
-            <!--div data-target="#ad_confirm" data-toggle="tab" id='admin_confirm'-->
-						<div id='admin_confirm'>
+						<div data-target="#ad_confirm" data-toggle="tab">
 							<div>
 								<span class="account-type">confirm </span><br/>
 								<span class="account-amount">list</span><br/>
@@ -64,7 +63,7 @@ $no_owner_property=array();
 						</div>
 					</li>
 					<li>
-						<div data-target="#ad_approve" data-toggle="tab" id="admin_approve">
+						<div data-target="#ad_approve" data-toggle="tab">
 							<div>
 								<span class="account-type">list of </span><br/>
 								<span class="account-amount">approval</span><br/>
@@ -81,7 +80,7 @@ $no_owner_property=array();
 					</li>
 
 				</ul>
-				<div class="tab-content col-md-11">
+				<div class="tab-content col-md-11 content">
 					<div class="tab-pane active" id="ad_manage_p"><!--style="padding-left: 60px; padding-right:100px"-->
 
 
@@ -137,7 +136,7 @@ $no_owner_property=array();
 
 								</div>
 								<div class="col-lg-2 col-sm-7">  
-									<a class="btn btn-success form-control" href="<?php echo base_url('admin/newproperty/') ?>" name="add">Add Property</a>
+									<a class="btn btn-success form-control" href="<?php echo base_url('publiczone/change_add') ?>" name="add">Add Property</a>
 
 								</div>
 							</form><!-- create a new car --> 
@@ -210,7 +209,7 @@ $no_owner_property=array();
 
             </div>
         </div> 
-        <div class="" id="add_owner">
+        <div class="tab-pane" id="add_owner">
         </div>
         <?php } ?>
         <!--end of properties that has owner-->
@@ -347,7 +346,101 @@ $no_owner_property=array();
 <div class="tab-pane" id="ad_confirm">
 	<div class="container form-area">
 
+  <?php
+  //****************************************************** defining variables *///////////////////////////////////////////
+  $property_id=0;
+  $user_id=0;
+  $owner_id=0;
+  $getOwnerListToComfirm=array();
+
+  ?>
+  <h1 class="whtColor"> List Of Residents To Confirm </h1>
+  <br>
+  <?php
+  // sending a failer message from owner
+   if (isset($statusUpdate_OwnerD)) {
+    echo alertMsg($statusUpdate_OwnerD,'Request declined','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ }
+ //sending a success message from owner
+ if (isset($statusUpdate_OwnerC)) {
+    echo alertMsg($statusUpdate_OwnerC,'Request confirmed','Sorry! you are not allowed to register on this property  <span class="glyphicon glyphicon-thumbs-down"></span>');
+   
+ }?>
+  <h4><b><span class="text-danger"><?php 
+  /*******getOwnerListToComfirmariable used to increament in the array index********/
+  $i=0;
+  foreach ($owner as $owner_val) {
+    // storing the values of data that will be used to approve request by administrator
+   // $property_id=$owner_val->property_id;
+    $owner_id=$owner_val->id;
+    $owners= $owner_val->name.', '; 
+    foreach ($getListToComfirm as $user_val) {
+
+      /********************condition for the list that should be printed***********************/
+      if ($owner_val->property==$user_val->property_id ) {
+        // storing the user data in the array
+        $getOwnerListToComfirm[$i]=$user_val;
+        $i +=1;
+      }
+    }
+
+  } 
+//*****************************************print name of owner*************************************************************/
+    //echo $owners;
+  ?></span><i>Confirm Request</b></i></h4>
+
+  <!--*****************************************print name of owner*************************************************************/-->
+  <table class="table">
+    <tr class="danger text-warning">
+      <th>Name</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>Edit</th>
+    </tr>
+
+    <?php
+
+ //*************print name of list of users that made requests for session owner*************************/   
+
+    foreach ($getOwnerListToComfirm as $user) {
+
+      $property_id=$user->property_id;
+      $request_id=  $user->request_docs_id;    
+      $user_id=  $user->user_id;    
+
+      ?>
+
+
+      <tr><td><?php echo $user->name; ?> </td>
+        <td><?php echo $user->door_number.' '.$user->street_name; ?></td>
+        <td><?php echo $user->date_request; ?></td>
+        <td class='text-center'>
+          <?php
+
+//echo $_SESSION['id'];
+          $action="request_proof/confirmResident/"; 
+
+          echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data','autocomplete'=>'off'));?>
+
+          <input type="hidden" name="owner_id" value=<?php echo $owner_id; ?>>
+          <input type="hidden" name="user_id" value=<?php echo $user_id; ?>>
+          <input type="hidden" name="request_id" value=<?php echo $request_id; ?>>
+          <input type="hidden" name="property_id" value=<?php echo $property_id; ?>>
+          <button type="submit" name="confirm" class="btn-success btn-md btn-radius"><span class='glyphicon glyphicon-pencil'></span> </button>
+        </form>
+
+      </td>
+
+    </tr>
+    <?php 
+  }?>
   
+
+</table>
+
+
+
 
 </div>
 </div>
@@ -743,7 +836,7 @@ if (isset($statusUpdate_AdminA)) {
 </div>
 <script>
 
-	$(document).ready(function () {
+	/*$(document).ready(function () {
 		$('.Property_pagination').click(function(e) {
 			e.stopPropagation();
 		});
@@ -803,7 +896,7 @@ if (isset($statusUpdate_AdminA)) {
           $('.no_owner').hide();
       });*/
         //display  the dive that will show all the properties
-        $('.hide_owner').removeClass('hidden');
+        /*$('.hide_owner').removeClass('hidden');
 
           //search in a table
 
@@ -815,10 +908,10 @@ if (isset($statusUpdate_AdminA)) {
          $.post('getAllProperties',function(value){
          	/* tab is the table's id */
 
-         	$('#hide_owner').html(value);
+         /*	$('#hide_owner').html(value);
          });
 
-         /* filterfield is the input field */
+         /* filterfield is the input field 
          $('#hide_owner_search').keyup(function(){          
          	var data = $(this).val();
          	if($('#hide_owner_search').val() === ''){
@@ -839,18 +932,18 @@ if (isset($statusUpdate_AdminA)) {
 $(document).ready(function(){
 	var searchProvinve=[];
 
-	var idproperty=["#FS","#GP","#WC","#NC","#MP","#NW","#L","#EC","#KZN"]
+	var idproperty=["#FS","#GP","#WC","#NC","#MP","#NW","#L","#EC","#KZN"]*/
 
     /*if('.idproperty').click(checkinarray(){
 
-    }) */
+    }) 
 
       //searchProvinve[i]=;
 
 
 
-  }) 
-/** */
+  }) */
+/** 
 $(document).ready(function()
 {
 	var idproperty=["#FS","#GP","#WC","#NC","#MP","#NW","#L","#EC","#KZN"];
@@ -868,9 +961,20 @@ $(document).ready(function()
 	})
 
 
+});*/
+
+ $(document).ready(function(){
+  $('a[data-toggle="tab"]').on('show.tab', function(e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+  var activeTab = localStorage.getItem('activeTab');
+  console.log(activeTab );
+  if(activeTab){
+    $('#myTab a[href="' + activeTab + '"]').tab('show');
+  }
 });
 </script>
 
-<!---its for a vertical tab used for admin area >
+<!---its for a vertical tab used for admin area 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/padding.js"></script-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/padding.js"></script>-->

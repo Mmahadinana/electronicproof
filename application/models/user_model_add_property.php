@@ -58,7 +58,7 @@ class User_model extends CI_MODEL
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
 			lives_on.user_id,lives_on.primary_prop,
 			gender.description,
-			property.id as property_id,property.address_id,property.number_of_residents,
+			property.id as property_id,property.address_id,
 			address.id as addressid,address.street_name,address.door_number,address.suburb_id,
 			suburb.name as suburb,suburb.town_id,
 			town.id as townid,
@@ -417,28 +417,77 @@ class User_model extends CI_MODEL
 					->where('primary_prop','0')		
 					->update('lives_on',array('deleted'=>1));
 		}
-		$this->updateProperty($search);
+		
 		return $this->db->trans_complete();
 	}
-	public function updateProperty($data=array()){
-		
-		
-		$count=0;
-		
-		
-		//var_dump($property);
-		$this->db->select("count(user_id) as count")
+	public function updateProperty(){
+		$this->db->select('*')
+				->from('lives_on')
+				->where('deleted',0);
+		$address=$this->db->get()->result();
+		$property=0;
+		$properties=array();
+		$count=array();
+		$i=0;
+		$x=0;
+		$result=array();
+
+		if (!empty($address)) {
+			foreach ($address as $value) {
+
+			$properties[$i]=$value->property_id;
+			
+			$i +=1;
+		}
+		foreach ($properties as $value) {
+		 	$this->db->select("count(user_id) as count")
 					->from("lives_on")
-					->where('deleted',0)
-					->where("property_id",$data['property_id']);
-			$result=$this->db->get()->result();
+					->where("property_id",$value);
+			$result[$i]=$this->db->get()->result();
+			$i +=1;
+		 } 
+		}
+		
+		
+		/*$this->db->select("count(user_id) as count")
+					->from("lives_on")
+					->where("property_id",$property);
+			$result=$this->db->get()->result();*/
 			foreach ($result as $value) {
-				$count=$value->count;
+				
+				foreach ($value as $val) {
+					
+						$count[$x]=$val->count;
+						
+					$x +=1;
+					
+					
+				}
+				//$count=$value->count;
 			}
-				$this->db->trans_start();
-			$this->db->where("id",$data['property_id'])
-					->update('property',array('number_of_residents'=>$count,'start_date'=>date('Y-m-d H.s:m')));	
-				return $this->db->trans_complete();
+			
+			/*for ($j = count($count) - 1; $j >= 0; $j--) {
+
+					var_dump($count);
+				}*/
+			
+			 	
+			for ($j = 0; $j <= count($properties) ; $j++) {
+
+ 				var_dump($properties[$j]);
+					
+					
+					$this->db->where("id",$properties[$j])
+							->update('property',array('number_of_residents'=>$count[$j]));	
+				
+			
+			
+}
+				
+				
+			
+			
+			
 	}
 
 	/**
@@ -848,8 +897,7 @@ class User_model extends CI_MODEL
 			$this->db->trans_start();
 			
 			$this->db->insert('lives_on',$address);
-			//var_dump();
-			$this->updateProperty($address);
+			$this->updateProperty();
 			return $this->db->trans_complete();
 		}
 
