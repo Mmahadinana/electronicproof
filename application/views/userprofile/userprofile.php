@@ -38,7 +38,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					Manage Residencial Address
 				</a>
 			</li>
-
 			
 		</ul>
 		<div class="row">
@@ -61,17 +60,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="row">
 					<div class="col-xs-12 col-sm-3 center">
 						<span class="profile-picture">
-							<img class="editable img-responsive" alt=" Avatar" id="avatar2" src="http://bootdey.com/img/Content/avatar/avatar6.png">
+							</span>img class="editable img-responsive" alt=" Avatar" id="avatar2" src="http://bootdey.com/img/Content/avatar/avatar6.png">
 						</span>
 
 						<div class="space space-4"></div>
-
-
 						<?php
 			/**
 			 * [$action edit user]
-			 * @var string
-			 */
+			 * @var string			 */
 						$action="publiczone/editUser";
 
 						echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
@@ -86,15 +82,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  					<a class="btn btn-success" href="<?php echo base_url() ?>">Add New Property</a-->
 
  					</form>
-
-
-
  				</div><!-- /.col -->
 
  				<div class="col-xs-12 col-sm-9">
- 					<h4 class="blue">
-
- 					</h4>
+ 					<h4 class="blue"></h4>					
 
  					<div class="profile-user-info">
  						<div class="profile-info-row">
@@ -115,13 +106,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  										echo $key->name;
  										?>
  									</span>
-
  								</div>
  							</div>
 
  							<div class="profile-info-row">
  								<div class="profile-info-name"> Email</div>
-
+ 								
  								<div class="profile-info-value">
  									<span><?php  echo $key->email ?></span>
  								</div>

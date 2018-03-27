@@ -34,7 +34,6 @@ if (isset($statusEdit)) {
  						<tr>
  							<td>Date</td>
  							<td class="text-primary"><?php  echo date('Y / m / d')?></td>
-
  						</tr>
  						<tr>
  							<td>Resident Full Names</td>
@@ -56,22 +55,18 @@ if (isset($statusEdit)) {
  							<tr>
  								<td >Identification Number</td>
  								<td class="text-danger"><?php  echo $key->identityNumber?></td>
-
  							</tr> 
  							<tr>
  								<td >Phone Numbers</td>
  								<td class="text-danger"><?php  echo $key->phone?></td>
-
  							</tr>
  							<tr>
  								<td >Date of Birth</td>
  								<td class="text-danger"><?php  echo $key->dateOfBirth?></td>
-
  							</tr>            
  							<tr>
  								<td >Date of Registration</td>
  								<td class="text-danger"><?php  echo $key->date_registration?></td>
-
  							</tr>
  							<tr>
  								<td >Gender</td>
@@ -91,7 +86,6 @@ if (isset($statusEdit)) {
                     $action="publiczone/editUser";
 
                     echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
-
 
  					<input type="hidden" name="userid" value=<?php echo($_SESSION['id']) ?>>
  					<input type="hidden" name="usercheck" value="true">
@@ -136,9 +130,7 @@ if (isset($statusEdit)) {
  								echo form_open($action,array('class'=>'form-horizontal','method'=>'post','enctype'=>'multipart/form-data'));?>
 
 
- 								<input type="hidden" name="property_id" value=<?php echo $value->property; ?>>                 
-
-
+ 								<input type="hidden" name="property_id" value=<?php echo $value->property; ?>> 
  								<button type="Submit" class=" fa fa-pencil fa-2x text-primary"></button>
  							</form>
  						</div>

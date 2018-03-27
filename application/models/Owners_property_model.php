@@ -16,8 +16,8 @@ class Owners_property_model extends CI_MODEL
 	{
 	
 		//$pOwner = $search['$pOwner'] ?? FALSE;
-		$property_id = $search['property_id'] ?? FALSE;
-		$user_id = $search['user_id'] ?? FALSE;
+		$property_id = isset($search['property_id'])? $search['property_id']: FALSE;
+		$user_id = isset($search['user_id'])? $search['user_id'] : FALSE;
 		//comes from listofresidents view to delete owner
 		if($property_id)
 		{
@@ -60,9 +60,9 @@ class Owners_property_model extends CI_MODEL
 public function propertyquery($search )
 {
 //var_dump($search);
-		$user_idprofile = $search['user_idprofile'] ?? FALSE; 
-		$user_id = $search['user_id'] ?? FALSE; 
-		$mysearch = $search['mysearch'] ?? FALSE; 
+		$user_idprofile = isset($search['user_idprofile'])? $search['user_idprofile'] :  FALSE; 
+		$user_id = isset($search['user_id'])? $search['user_id'] :  FALSE; 
+		$mysearch = isset($search['mysearch'])? $search['mysearch'] :  FALSE; 
 
 		if($user_idprofile)
 		{
@@ -111,11 +111,11 @@ public function propertyquery($search )
 
 	}
 	//This function gets the information for the owners details.
-public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
+public function getOwner( $search = array(), $limit = ITEMS_PER_PAGE)
 {
 //public function getAddress(){
 	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
+	$offset = isset($search['page'])? $search['page'] : 0;
 //call the query to bring the residence
 	$this->getOwnerquery($search)
 	//$this->requestquery();
@@ -127,11 +127,11 @@ public function getOwner(array $search = array(),int $limit = ITEMS_PER_PAGE)
 /**
  * this function is where the owner getProperty
  */
-public function getProperty(array $search = array(),int $limit = ITEMS_PER_PAGE)
+public function getProperty($search = array(),$limit = ITEMS_PER_PAGE)
 {
 
 	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
+	$offset = isset($search['page'])? $search['page'] : 0;
 //call the query to bring the residence
 	$this->propertyquery($search)
 	//$this->requestquery();

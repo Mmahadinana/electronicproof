@@ -9,11 +9,6 @@ class Passwords extends CI_Controller
 	{
 		
 		parent::__construct();
-		//$this->load->library('session');		
-		//$this->load->library('email');
-		//$this->load->model('Postoffice_model');
-
-
 
 	}
 	/**
@@ -32,9 +27,9 @@ class Passwords extends CI_Controller
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 
-	/*******************************this function checks the email for reset*******************************/
+	
 	/**
-	 * [reset description]
+	 * [reset checks the email for reset]
 	 * @return [true] [this retrieves the correct information when the owner want to reset his/her password]
 	 */
 	public function reset()
@@ -51,6 +46,8 @@ class Passwords extends CI_Controller
 		{
 			$data['statusDate']= $this->input->get('statusDate');
 		}
+
+		//load the page
 		$data['pageToLoad']='login/reset';
 		$data['pageActive']='reset';
 		$this->load->helper('form');
@@ -60,59 +57,57 @@ class Passwords extends CI_Controller
 			array('field'=>'username',
 				'label'=>'Username',
 				'rules'=>array('required','valid_email',
-					array('checkUsername',array($this->Login_model,'checkUsername'))),
+							array('checkUsername',array($this->Login_model,'checkUsername'))),
 				'errors'=>array(
-					'required'=>'%s is required',
-					'valid_email'=>'invalid email',
-					'checkUsername'=>'%s does not exist, please enter the correct email'
-
-			) 					
+					   'required'=>'%s is required',
+					   'valid_email'=>'invalid email',
+					   'checkUsername'=>'%s does not exist, please enter the correct email'
+				) 					
 			),				
 		);
+		//check the validdation
 		$this->form_validation->set_rules($config_validation);
 		if ($this->form_validation->run()===FALSE)
 		 {
-
 			$this->load->view('ini',$data);
 		}else
-		{
+			{
+				$data['db']=$this->Login_model->get_user($this->input->post('username'));
+				$user_id= $data['db']->id;
+				$name 	= $data['db']->name;
+				$email 	=$data['db']->email;
 
-			$data['db']=$this->Login_model->get_user($this->input->post('username'));
-			
+				/*$name = 'name';
+				$email ='freestateresident@gmail.com';*/
+				$token = bin2hex(openssl_random_pseudo_bytes(32));				
+				$url = 'passwords/resetpassword/'.$token.'/'.$user_id;
 
-			$user_id= $data['db']->id;
-			$name = $data['db']->name;
-
-			$email =$data['db']->email;
-
-
-					/*$name = 'name';
-					$email ='freestateresident@gmail.com';*/
-					$token = bin2hex(openssl_random_pseudo_bytes(32));				
-					$url = 'passwords/resetpassword/'.$token.'/'.$user_id;
 				//url to be sent by the email
-					$url_to_activate = base_url($url);
+				$url_to_activate = base_url($url);
+
 				//prepare the template new user to be sent by email
-					$this->Postoffice_model->setTemplate($this->load->view("email/new_user_email_template",array(),TRUE));
+				$this->Postoffice_model->setTemplate($this->load->view("email/new_user_email_template",array(),TRUE));
+
 				//prepare the data neaded for the email
-					$templateData = array(
-						'user_name'			=> $name,
-						'url_to_activate' 	=> $url_to_activate 
-					);
-					$this->Postoffice_model->setDataToTemplate($templateData);
-					$subject ='Registration' ;
+				$templateData = array(
+					'user_name'			=> $name,
+					'url_to_activate' 	=> $url_to_activate 
+				);
+				$this->Postoffice_model->setDataToTemplate($templateData);
+				$subject ='Registration' ;
+
 				//send email to the new user
+				$this->Postoffice_model->sendEmail($subject,$email);
 
-					$this->Postoffice_model->sendEmail($subject,$email);
 				//end email
-					$this->Login_model->inserEmailToken($user_id,$token);
-					redirect('passwords/resetmessage/');
+				$this->Login_model->inserEmailToken($user_id,$token);
 
-				}
+				redirect('passwords/resetmessage/');
+			}
 	}//end of reset function
-	/***********************************this function load the notification that email has been send ****************/ 
+	 
 	/**
-	 * [resetmessage description]
+	 * [resetmessage  notification that email has been send]
 	 * @return [true] [thats where the owner will get a resetmessage for new password]
 	 */
 	public function resetmessage()
@@ -124,50 +119,47 @@ class Passwords extends CI_Controller
 		//$this->load->library('form_validation');	
 
 		$this->load->view('ini',$data);		
-	}//end of resetmassage function
-	
-		/************************************This function load from the email link to enter new password***************/
-		/**
-		 * [resetpassword description]
-		 * @param  integer $mailtoken [from email]
-		 * @param  integer $user_id   [user id]
-		 * @return [true]             [thats where the owner will get a resetpassword for new password]
-		 */
+	}//end of resetmassage function	
+		
+	/**
+	 * [resetpassword load from the email link to enter new password]
+	 * @param  integer $mailtoken [from email]
+	 * @param  integer $user_id   [user id]
+	 * @return [true]             [thats where the owner will get a resetpassword for new password]
+	 */
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
 		//var_dump($mailtoken);
-		$data['db']= $this->Login_model->get_mailToken($mailtoken,$user_id);
-		
+		$data['db']= $this->Login_model->get_mailToken($mailtoken,$user_id);		
 	
 		if ($data['db'] == null ) 
 		{
-
 		$statusUsername=false;
 			redirect('passwords/reset?statusUsername=$statusUsername');			
-			
 		}
+
 		if ($mailtoken != $data['db']->emailtoken && $user_id != $data['db']->user_id) 
 		{
 			$statusToken=true;
-				redirect('passwords/reset?statusToken=$statusToken');
-				
+				redirect('passwords/reset?statusToken=$statusToken');				
 		}
+
 		if ($data['db']->expiretime < date('Y-m-d H:i:s') ) 
 		{
 			$statusDate=true;
 			redirect('passwords/reset?statusDate=$statusDate');
 		}
 			
-
-			$data['pageToLoad']='login/resetpassword';
-			$data['pageActive']='resetpassword';
-			$this->load->helper('form');
+		// load the page
+		$data['pageToLoad']='login/resetpassword';
+		$data['pageActive']='resetpassword';
+		$this->load->helper('form');
 		// this is for validation 
-			$this->load->library('form_validation');
+		$this->load->library('form_validation');
 
-			
-			$config_validation =array(
-			 array(
+		
+		$config_validation =array(
+			array(
 				'field'=>'newpassword',
 				'label'=>'Enter New Password',
 				'rules'=>array('required',
@@ -178,9 +170,9 @@ class Passwords extends CI_Controller
 					'required'=>'you should insert one %s for reset',
 					'min_length[5]'=>'You should at least enter 5 charactors of %s',
 					'max_length[25]'=>'%s should not exit 25 charactors',
-					'validatePassword'=>'password should have at least one simbol/charactor',
-				),
-			),			
+					'validatePassword'=>'password should have at least one simbol/charactor',),				
+				),	
+
 			array(
 				'field'=>'confirmpass',
 				'label'=>'Confirm Password',
@@ -188,30 +180,23 @@ class Passwords extends CI_Controller
 					'matches[newpassword]'),											
 				'errors'=>array(						
 					'required'=>'you should insert one %s for login',
-					'matches[newpassword]'=>'% you entered does not match'),
-			)
-
-			
+					'matches[newpassword]'=>'% you entered does not match'))		
 		);
-			$this->form_validation->set_rules($config_validation);
+
+		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE)
 		{
-
 			$this->load->view('ini',$data);
-
 		}
 		else
 		{
 			$statusInsert=$this->Login_model->updatePassword($this->input->post(),$user_id);
+
 			if($statusInsert==true){
 				$this->Login_model->updateEmailToken($user_id,$mailtoken);
 			}
 			//redirect("login/login_?statusResetPass=$statusResetPass");
 			redirect("login/login_");
-
-		}	
-
-			
-		
+		}		
 	}//end of resetpassword function
 }

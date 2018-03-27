@@ -133,4 +133,14 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Login_model','user_model','Postoffice_model','messages_model','request_model','approval_model','ownersProperty_model','ownersDetails_model','owners_property_model','listOfRes_model',);
+$autoload['model'] = array('Login_model',
+							'user_model',
+							'Postoffice_model',
+							'messages_model',
+							'request_model',
+							'approval_model',
+							'ownersProperty_model',
+							'ownersDetails_model',
+							'owners_property_model',
+							'listOfRes_model',
+						);

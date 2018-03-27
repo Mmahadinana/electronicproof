@@ -152,46 +152,7 @@ $(document).ready(function(){
 
     e.preventDefault();
     });
-/* $.ajax({
- 
-  url:"residents/notification_count",
-  method:"POST",  
-  dataType:"json",
-  success:function(data)
- 
-  {
- console.log(data);
-   $('.fa-layers-counter').html(data.countA_lis).css({'font-size':'10px','color':'red','margin':'-30px 0px 0px -10px'});
- 
-   /*if(data.unseen_notification > 0)
-   {
-    $('.count').html(data.unseen_notification);
-   }
- 
-  }
- 
- });*/
-/**
- * admin and all the taps
- * @param  {String} e){                   e.preventDefault();                  window.location [description]
- * @return {[type]}      [description]
 
- $(document).on('click change','#admin_confirm',function(e){
-      e.preventDefault();
-      //get the confirmlist view
-      //$('#ad_confirm').load('../request_proof/confirmList');
-      window.location = '../request_proof/confirmList';
- });
-
- $(document).on('click change','#admin_approve',function(e){
-  //ad_approve
-
-      e.preventDefault();
-      //get the confirmlist view
-      //$('#ad_confirm').load('../request_proof/confirmList');
-      window.location = '../request_proof/listOfApproval';
- })
-  */
  
 /**
  * [input filter suburb for newproperty view]
@@ -203,19 +164,7 @@ $(document).ready(function(){
 
 $('#select_ad').hide();
 
-/*if ($('.add_input_search').text('')) {
-  $('#select_ad').hide();
-}
-$(document).on('blur', '.add_input_search', function(event) {
-console.log($(this).val());
-    if (!$(this).val()) {
-      $('#select_ad').hide();
-     // $(this).closest('.list-group-item').addClass('active');
-      //$('#print_address_list').hide();
-      $('#select_ad_suburb').closest('.list-group-item').removeClass().addClass("list-group-item");
-      //$('#select_ad').empty();
-    }
-  });*/
+
 
 $(document).on('blur click', '.list-group a', function(event) {
      event.preventDefault();
@@ -264,12 +213,13 @@ $('#print_address_list').show('slow');
       $('#print_address_list').addClass('active');
      
       $('#select_ad_suburb').closest('.list-group-item').removeClass('active').addClass("list-group-item-success");
+      //changing the classes for the views
       $('.add_input_search').closest('.list-group-item').addClass("list-group-item-warning");
-      $('#print_address_list').html('<p class="list-group-item-text">'+data+'</p>').addClass('text-primary text-left');
- //$('#print_address_list').children('div');
+      //append dive with the data from the Addresslist function  
+      $('#print_address_list').html('<p class="list-group-item-text">'+data+'</p>').addClass('text-primary text-left');    
+      //add the classes to the checkbox input 
+      $('#print_address_list div').children('input').addClass('add_check');
  
-       $('#print_address_list div').children('input').addClass('add_check');
-  //console.log($('#print_address_list div'));;
     });
   });
 $(document).on('click keyup change','.add_check',function(e){
@@ -277,7 +227,7 @@ $(document).on('click keyup change','.add_check',function(e){
     e.stopPropagation();
 
     $(this).prop('checked', true);
-    console.log($(this).attr('checked','checked').val());
+    
 
 })
 /**
@@ -286,7 +236,7 @@ $(document).on('click keyup change','.add_check',function(e){
  * @param  {[type]} function(data)
  * @return {[type]}                  [description]
  */
-$(document).on('change', '#province_search', function(event) {
+ /*$(document).on('change', '#province_search', function(event) {
 
   var input=$(this).val();  
   $.post('../AddresslistByProvince',{province_search:input},function(data){
@@ -296,7 +246,7 @@ $(document).on('change', '#province_search', function(event) {
  console.log($('#print_address_list div'));
  //console.log($('#print_address_list').children('div').addClass('add_check');
  
-   /*$.each(data, function(newproperty, val) {
+  $.each(data, function(newproperty, val) {
      
     console.log(val);
 
@@ -307,29 +257,35 @@ $(document).on('change', '#province_search', function(event) {
   
 $(document).on('change',check_input,function() {
    console.log($(check_input).val());
-});*/
+});
      
     });
 
 
-  });
-
+  });*/
+/**
+ * [Data from the newproperty view is send to the controller]
+ * @param  {[type]} event)          
+ * @param  {[type]} function(data)
+ * @return {[type]}                  [description]
+ */
 $(document).on('click', '#select_ad_button', function(event) {
   event.preventDefault();
-var check_input=$('#print_address_list').find('input:checkbox');
-var m=$('#print_address_list').find($('input[type="checkbox"]'));
-
-console.log(m);
+  var check_input=$('#print_address_list').find('input:checkbox');
+  //var m=$('#print_address_list').find($('input[type="checkbox"]'));
+  //variable will later store the list of ckecked address in newproperty view  
   var list=[];
+
   for (var i = 0; i < check_input.length; i++) 
     {
-      if($(check_input[i]).prop('checked') ===true){
-      console.log($(check_input).attr('name','add_check')) ;
-    list[i]=$(check_input[i]).val();
-     $.post('../newproperty',{add_check:list[i]},function(data){
-
-     $('.message_property').html(data).addClass('text-primary text-left');
-  });
+      if($(check_input[i]).prop('checked') ===true){   
+        //store the checkbox values in the array
+        list[i]=$(check_input[i]).val();
+         //passing values to the controller 
+        $.post('../newproperty',{add_check:list[i]},function(data){
+            //print message if success or failer
+            $('.message_property').html(data).addClass('text-primary text-left');
+        });
   }
  
 } 

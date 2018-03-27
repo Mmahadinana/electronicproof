@@ -597,3 +597,17 @@ background-color: #f2f4f5;
 .print_address_list{
     margin-left: 100px;
 }
+/**************header notifications*************************/
+
+li .notify_badge{
+
+    position: absolute;
+    right: 8px;
+    top: 10px;
+}
+
+.badge-danger {
+    background-color: #ef5350;
+}
+
+/****************frames for header notification**********************/

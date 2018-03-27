@@ -20,15 +20,13 @@ class User_model extends CI_MODEL
 	 */
 	public function userQuery($searchid)
 	{
-	
-
 		//search user id
-		$user_id = $searchid['user_id'] ?? FALSE;
-		$property_id = $searchid['property_id'] ?? FALSE;
+		$user_id = isset($searchid['user_id'])?$searchid['user_id'] : FALSE;
+		$property_id = isset($searchid['property_id'])?$searchid['property_id'] : FALSE;
 		//owner view user information
-		$propertyid = $searchid['property_id'] ?? FALSE;
+		$propertyid = isset($searchid['property_id'])?$searchid['property_id'] : FALSE;
 		//search username
-		$username = $searchid['username'] ?? FALSE;
+		$username = isset($searchid['username'])? $searchid['username'] : FALSE;
 		
 		if($user_id)
 		{
@@ -80,6 +78,7 @@ class User_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
+
 	/**
 	 * [addressQuery search all the address wher user lives]
 	 * @param  array  $search [description]
@@ -89,8 +88,8 @@ class User_model extends CI_MODEL
 	{
 		
 		//search user id,address id
-		$user_id = $search['user_id'] ?? FALSE;
-		$address_id = $search['address_id'] ?? FALSE;
+		$user_id = isset($search['user_id'])? $search['user_id']:FALSE;
+		$address_id = isset($search['address_id'])? $search['address_id']:FALSE;
 		//when use update the address
 		if($user_id && $address_id)
 		{
@@ -132,25 +131,25 @@ class User_model extends CI_MODEL
 
 	}*/
 	
+	/**
+	 * [usersQuery description]
+	 * @param  [type] $search [description]
+	 * @return [type]         [description]
+	 */
 	public function usersQuery($search)
 	{
-	
-
 		//search user id
-		$user_id = $search['user_id'] ?? FALSE;
+		$user_id = isset($search['user_id'])? $search['user_id']: FALSE;
 		//$property_id = $searchid['property_id'] ?? FALSE;
 		//owner view user information
 		//$propertyid = $searchid['property_id'] ?? FALSE;
-		//search username
-		
+		//search username	
 		
 		if($user_id)
 		{
 			$this->db->where('lives_on.user_id',$user_id)				
 				->where('lives_on.deleted','0');
-		}
-
-		
+		}		
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,			
 			lives_on.user_id,lives_on.primary_prop,
@@ -168,13 +167,13 @@ class User_model extends CI_MODEL
 	/**
 	 * pagination of the get user page
 	 */
-	public function getUser(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
+	public function getUser($searchid = array(),$limit = ITEMS_PER_PAGE)
 	{
 
-	//public function getAddress(){
+		//public function getAddress(){
 		//where to start bringing the rows for the pagination
-		$offset = $searchid['page'] ?? 0;
-	//call the query to bring the residence
+		$offset = isset($searchid['page'])? $searchid['page'] : 0;
+		//call the query to bring the residence
 		$this->userQuery($searchid)
 		//$this->requestquery();
 			//establish the limit and start to bring the owner address
@@ -186,13 +185,13 @@ class User_model extends CI_MODEL
 	/**
 	 * pagination of the get user page
 	 */
-	public function getUsers(array $searchid = array(),int $limit = ITEMS_PER_PAGE)
+	public function getUsers($searchid = array(),$limit = ITEMS_PER_PAGE)
 	{
 
-	//public function getAddress(){
+		//public function getAddress(){
 		//where to start bringing the rows for the pagination
-		$offset = $searchid['page'] ?? 0;
-	//call the query to bring the residence
+		$offset = isset($searchid['page'])? $searchid['page'] : 0;
+		//call the query to bring the residence
 		$this->usersQuery($searchid)
 		//$this->requestquery();
 			//establish the limit and start to bring the owner address
@@ -204,13 +203,13 @@ class User_model extends CI_MODEL
 	/**
 	 * get the address of where user lives fron addressQuery
 	 */
-	public function getAddress(array $search = array(),int $limit = ITEMS_PER_PAGE)
+	public function getAddress($search = array(),$limit = ITEMS_PER_PAGE)
 	{
 
-	//public function getAddress(){
+		//public function getAddress(){
 		//where to start bringing the rows for the pagination
-		$offset = $search['page'] ?? 0;
-	//call the query to bring the residence
+		$offset = isset($search['page'])? $searchid['page'] : 0;
+		//call the query to bring the residence
 		$this->addressQuery($search)
 		//$this->requestquery();
 			//establish the limit and start to bring the owner address
@@ -246,26 +245,23 @@ class User_model extends CI_MODEL
 			);
 
 		$this->db->trans_start();
-	//var_dump($add);
+
 		$this->db->insert("user",$add);
 
 		$user_id = $this->db->insert_id();
 		$this->insertPassword($data, $user_id);
 		$this->addUserAddress($data, $user_id);
 
-
 		return $this->db->trans_complete();
-
-
 	}
+
 	/**
 	 * [updateUser description]
 	 * @param  [true] $data [update the user that is verified]
 	 * @return [true]       [stores the data of the user]
 	 */
 	public function updateUser($data)
-	{
-		
+	{		
 		$primary_ad = $this->input->post('primary_ad');
 		
 		//get user by user id
@@ -342,11 +338,9 @@ class User_model extends CI_MODEL
 		    		
 		    		$this->db->where('lives_on.user_id',$search['user_id'])
 					->update('lives_on',$userdata);
-			//check if address is updated
-			 
+			//check if address is updated		 
 					 
-		    	}
-		    	
+		    	}		    	
 	    	}
 	    	return true;
 	    }  
@@ -369,8 +363,7 @@ class User_model extends CI_MODEL
 		//for now while i am stragling to come with the property id
 		foreach ($property as $value) {
 			$property_id=$value->property_id;
-		}
-		
+		}		
 
 		$addData=array(
 			'property_id'=>$property_id,
@@ -420,6 +413,12 @@ class User_model extends CI_MODEL
 		$this->updateProperty($search);
 		return $this->db->trans_complete();
 	}
+
+	/**
+	 * [updateProperty description]
+	 * @param  array  $data [description]
+	 * @return [type]       [description]
+	 */
 	public function updateProperty($data=array()){
 		
 		
@@ -600,7 +599,6 @@ class User_model extends CI_MODEL
 	 * @param  [type] $identitynumber [description]
 	 * @return [type]                 [description]
 	 */
-
 	public function callback_checkIdnumber($identitynumber)
 	{
 		
@@ -652,6 +650,7 @@ class User_model extends CI_MODEL
 			
 		}
 	}
+
 	/**
 	 * [compareIdentity_Date_Gender_Citizen check valide Identity number for South Africa]
 	 * @param  [type] $identitynumber [description]
@@ -693,6 +692,7 @@ class User_model extends CI_MODEL
 		}
 		
 	}
+
 	/**
 	 * [isValidIdetity_checkLuhn description]
 	 * @param  [type]  $card_number [description]
@@ -733,6 +733,7 @@ class User_model extends CI_MODEL
 			//email does not exist and id is on create mode
 		return $this->emailDontExist($email);
 	}
+
 	/**
 	 * [emailDontExist called when adding new email or editemail changed]
 	 * @param  [type] $email [description]
@@ -755,6 +756,12 @@ class User_model extends CI_MODEL
 			return true;
 		}
 	}
+
+	/**
+	 * [callback_alpha description]
+	 * @param  [type] $name [description]
+	 * @return [type]       [description]
+	 */
 	public function callback_alpha($name){
 		//checking if there any numbers
 		preg_match_all('!\d+!', $name, $matches);
@@ -775,21 +782,17 @@ class User_model extends CI_MODEL
 	 */
 		public function addUserAddress($addifor=array(),$user_id=0){
 		//for user in session who has no address
- 
 		
 			if ($user_id==0 && !empty($addifor)) {
 
 				$user_id=$addifor['userid'];
 			
-			}
+			}			
 			
-			
-			
-			
-		//variable to store address id and property id 
+			//variable to store address id and property id 
 			$userProperty=0;
 			$userAddress=$addifor['door_number'];
-		//get address
+			//get address
 
 		/*$address=$this->addressquery($addifor);
 		foreach ($address as $value) {
@@ -804,7 +807,7 @@ class User_model extends CI_MODEL
 		$property=$this->getProperty($userAddress);	
 		//$isnewuser=$this->getUser($userAddress);	
 		
-//to be used to insert new property
+		//to be used to insert new property
 		//if no property that does not have that address_id insert a new property
 		/*if(empty($property)){
 			$this->db->insert('property',array('address_id'=>$userAddress,));
@@ -857,6 +860,7 @@ class User_model extends CI_MODEL
 	/*public function updateUserAddress($addifor=array(),$user_id=0){
 
 	}*/
+
 	/**
 	 * [getProperty search the property table for the addrress_id]
 	 * @param  [type] $userAddress [address id search]
@@ -870,6 +874,7 @@ class User_model extends CI_MODEL
 
 		return $this->db->get()->result();
 	}
+
 	/**
 	 * [isUserLivingInProperty description]
 	 * @param  array   $search [confirms the data lf user on that particular property assigned]
@@ -884,6 +889,7 @@ class User_model extends CI_MODEL
 				->from('lives_on');
 		return $this->db->get()->result();
 	}
+	
 	/**
 	 * [isThereOwnerInProperty description]
 	 * @param  array   $search [verifies the owner in that particular property assigned]

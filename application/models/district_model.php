@@ -11,6 +11,7 @@ class District_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+
 	/**
 	 * [getDistrict retrieves the list of province]
 	 * @param  integer $search [data of each district on each user and municipalities]
@@ -46,8 +47,8 @@ class District_model extends CI_MODEL
 	public function getDistricts($search_district=array())
 	{
 		
-		$district_id =$search_district['district'] ?? false;
-		$province_id =$search_district['province'] ?? false;
+		$district_id =isset($search_district['district'])? $search_district['district'] : false;
+		$province_id =isset($search_district['province'])? $search_district['province'] : false;
 
 		//check if the district id exists
 		if ($district_id) {
@@ -67,6 +68,7 @@ class District_model extends CI_MODEL
 			         //->where('province_id',$search);
 			       return $this->db->get()->result();
 	}
+
 	/**
 	 * [check_district if the input is valid]
 	 * @return [type] [description]
@@ -80,10 +82,9 @@ class District_model extends CI_MODEL
 		 	//return false if field is empty
 			return false;
 		}
-		$data=$this->getDistricts($search);
-		
-				//return false if data is empty
-			return	$retVal = (empty($data)) ? false: true;
+		$data=$this->getDistricts($search);		
+		//return false if data is empty
+		return	$retVal = (empty($data)) ? false: true;
 		}
 	
 }

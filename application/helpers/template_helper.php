@@ -15,7 +15,7 @@ if (!function_exists("setMenuActiveItem")) {
  * alert messages
  */
 if (!function_exists("alertMsg")) {
-	function alertMsg($flag=false, string $successMsg='', string $errorMsg='')
+	function alertMsg($flag=false,$successMsg='',$errorMsg='')
 	{
 		if ($flag) {
 			return '<div class="alert alert-success alert-dismissable ">

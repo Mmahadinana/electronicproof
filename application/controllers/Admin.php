@@ -19,9 +19,10 @@ class Admin extends CI_Controller {
 		//$this->load->model("listOfRes_model");
 		//$this->load->library('pagination');
 		
-		logoutByInactiv();
-		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if(!$is_logged_in ){
+		$is_logged_in =$this->session->userdata('is_logged_in');
+
+		//if($this->session->userdata('is_logged_in')==true)
+		if(is_null($is_logged_in )){
 			redirect('login/login_');
 		} 
 	}
@@ -209,12 +210,18 @@ class Admin extends CI_Controller {
 	 	$data['search_pagination']=$this->pagination->create_links();
 	 	$this->load->view('ini',$data);
 	 }*/
-public function getPagination($config){
 
-		$config['enable_query_string']=true;
-		$config['page_query_string']=true;
-		$config['uri_segment']  = 3;
-		$config['full_tag_open'] = '<ul class="pagination">';
+	 /**
+	  * [getPagination description]
+	  * @param  [type] $config [description]
+	  * @return [type]         [description]
+	  */
+	 public function getPagination($config){
+
+	 	$config['enable_query_string']=true;
+	 	$config['page_query_string']=true;
+	 	$config['uri_segment']  = 3;
+	 	$config['full_tag_open'] = '<ul class="pagination">';
 	 	$config['full_tag_close'] = '</ul>';
 	 	$config['first_link'] = 'FIRST';
 	 	$config['last_link'] = 'LAST';
@@ -233,323 +240,329 @@ public function getPagination($config){
 	 	$config['num_tag_open'] = '<li>';
 	 	$config['num_tag_close'] = '</li>';
 	 	return $config;
-}
+	 }
+	 /**
+	  * [Newproperty admin add new property]
+	  */
+	 public function Newproperty(){
+	 	$search=array();
+		//var_dump($this->input->post('add_check'));
+	 	$search['suburb']='n';
+	 	$all_add=$this->province_model->getAddress($search);
 
-public function Newproperty(){
-	$search=array();
-	//var_dump($this->input->post('add_check'));
-	$search['suburb']='n';
-	$all_add=$this->province_model->getAddress($search);
+	 	$data['address']=array();
+		/*$all_properties=$this->province_model->getProperty();
+		if (!empty($data['address'])) {
+			$data['allAddress']='<option value="0"></option>';*/
 
-	$data['address']=array();
-	//$all_properties=$this->province_model->getProperty();
-	//if (!empty($data['address'])) {
-	
-
-			
-			//$data['allAddress']='<option value="0"></option>';
-				
-	
-	$data['addresslist']=$this->province_model->getAddressPropertyIsNull();
-	$data['pageToLoad']='Admin/newproperty';
-		$data['pageActive']='Admin';
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		//$this->load->view('ini',$data);
-		$config_validation = array
-		(
-						
-    			array(
-    				'field'=>'add_check',
-    				'label'=>' ',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert %s for the user')    				
-    			),			
-						
-			);
-
-		$this->form_validation->set_rules($config_validation);
-		if($this->form_validation->run()===FALSE)
-		{
-			//var_dump($this->input->post());
-			$this->load->view('ini',$data);
-
-		}else
-		{
-
-			$statusInsert=$this->address_model->newproperty($this->input->post());
-
-			//var_dump($statusInsert);
-			echo alertMsg($statusInsert,'Property was successfully added','Sorry! This address does not exist.. <span class="glyphicon glyphicon-thumbs-down"></span>');
-   
- 				
-	
-		//redirect("residents/admin?statusUserInsert=$statusInsert");
-
-		}	
-}
-
-/**
- * [listOfResidents description]
- * @param  integer $property_id [description]
- * @return [type]               [description]
- */
-public function getAllProperties()
-{		$data['allproperties']='';
-		//$search['hide_owner_search']=$this->input->post('hide_owner_search');
-$data['all_properties']=$this->ownersProperty_model->availableProperties();
-foreach ($data['all_properties'] as $value) {
-	$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.'<div class="col-lg-2 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.' <div class="col-lg-1  ">  
-	<div class="col-lg-6 ">                       
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
-	</form>
-	</div>
-	<div class="col-lg-6">
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
-	</form>              
-	</div>
-
-	</div></div>';
-}
-echo $data['allproperties'];
-}
-/**
- * [filterAllProperties is a search for properties that does not have owner called by jquery script in manage property]
- * @return [type] [description]
- */
-public function filterAllProperties()
-{		$data['allproperties']='';
-$search['hide_owner_search']=$this->input->post('hide_owner_search');
-		//var_dump($search['hide_owner_search']);
-$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
-foreach ($data['all_properties'] as $value) {
-	$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.'<div class="col-lg-2 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.' <div class="col-lg-1  ">  
-	<div class="col-lg-6 ">                       
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
-	</form>
-	</div>
-	<div class="col-lg-6">
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
-	</form>              
-	</div>
-
-	</div></div>';
-}
-echo $data['allproperties'];
-}
-/**
- * [searchAddress get the address by suburb]
- * @return [type] [description]
- */
-public function searchAddress()
-{		
-	$data['allAddress']='';
-	$data['address']=array();
-	$search['suburb']=$this->input->post('input_search');
-
-	$all_add=$this->province_model->getAddress();
-
-	$data['address']=array();
-	//$all_properties=$this->province_model->getProperty();
-	//if (!empty($data['address'])) {
-	$all_properties=$this->province_model->filterSuburb($search);
-			
-	/*foreach ($all_add as $prop_val) {
-		$search['address_id']=$prop_val->id;
-		//get list of all properties where address_id id present
-		//$all_properties=$this->province_model->getProperty($search);
-		//get address where it does not exist on property
-			
+	 	$data['addresslist']=$this->province_model->getAddressPropertyIsNull();
+	 	$data['pageToLoad']='Admin/newproperty';
+	 	$data['pageActive']='Admin';
+	 	$this->load->helper('form');
+	 	$this->load->library('form_validation');
 		
-		if(empty($all_properties)){
-			var_dump($all_properties);
-			//get address where it does not exist on property
-			$data['address']=$this->province_model->getAddressPropertyIsNull($search);
-			var_dump($prop_val->id);*/
-			
-			$data['allAddress']='<option value="0"></option>';
-			foreach ($all_properties as $value) {
+	 	$config_validation = array
+	 	(
+	 		array(
+	 			'field'=>'add_check',
+	 			'label'=>' ',
+	 			'rules'=>'required',
+	 			'errors'=>array('required'=>'you should insert %s for the user')),
+	 	);
 
-				$data['allAddress'].='<option value="'.$value->suburb_id.'">'.$value->suburb.'</option>';
+	 	$this->form_validation->set_rules($config_validation);
+	 	if($this->form_validation->run()===FALSE)
+	 	{
+			//var_dump($this->input->post());
+	 		$this->load->view('ini',$data);
+
+	 	}else
+	 		{
+		 		$statusInsert=$this->address_model->newproperty($this->input->post());
+
+				//send success or failer message to jquery
+		 		echo alertMsg($statusInsert,'Property was successfully added',
+		 					'Sorry! This address does not exist.. <span class="glyphicon glyphicon-thumbs-down"></span>');
+	 	}	
+	 }
+
+	/**
+	 * [listOfResidents description]
+	 * @param  integer $property_id [description]
+	 * @return [type]               [description]
+	 */
+	
+	public function getAllProperties()
+	{	
+		$data['allproperties']='';
+		//$search['hide_owner_search']=$this->input->post('hide_owner_search');
+		$data['all_properties']=$this->ownersProperty_model->availableProperties();
+
+		foreach ($data['all_properties'] as $value) {
+
+			$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'
+								  .$value->property.'</div>'.'<div class="col-lg-2 ">'.$value->door_number
+								  .' '.$value->street_name.'</div>'.'<div class="col-lg-2 ">'.$value->town
+								  .'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'
+								  .'<div class="col-lg-2 ">'.$value->district.'</div>'
+								  .'<div class="col-lg-2  ">'.$value->province.'</div>'
+								  .' <div class="col-lg-1  "><div class="col-lg-6 ">						                       
+									<form action="#" enctype="multipart/form-data">
+									<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+									</form></div><div class="col-lg-6"><form action="#" enctype="multipart/form-data">
+									<button type="submit" title="delete property" class="glyphicon glyphicon-minus btn-warning">
+									</button></form></div></div></div>';
+		}
+		echo $data['allproperties'];
+	}
+
+	/**
+	 * [filterAllProperties is a search for properties that does not have owner called by jquery script in manage property]
+	 * @return [type] [description]
+	 */
+	public function filterAllProperties()
+	{	
+		$data['allproperties']='';
+		$search['hide_owner_search']=$this->input->post('hide_owner_search');
+		//get all the properties
+		$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
+
+		foreach ($data['all_properties'] as $value) {
+
+			$data['allproperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property
+								  .'</div><div class="col-lg-2 ">'.$value->door_number
+								  .' '.$value->street_name.'</div><div class="col-lg-2 ">'.$value->town
+								  .'</div><div class="col-lg-2 ">'.$value->manucipality
+								  .'</div><div class="col-lg-2 ">'.$value->district.'</div>'
+								  .'<div class="col-lg-2  ">'.$value->province
+								  .'</div><div class="col-lg-1"><div class="col-lg-6 ">                       
+									<form action="#" enctype="multipart/form-data">
+									<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+									</form></div><div class="col-lg-6">
+									<form action="#" enctype="multipart/form-data">
+									<button type="submit" title="delete property" class="glyphicon glyphicon-minus btn-warning">
+									</button></form></div></div></div>';
+		}
+		echo $data['allproperties'];
+	}
+	/**
+	 * [searchAddress get the address by suburb]
+	 * @return [type] [description]
+	 */
+	public function searchAddress()
+	{		
+		$data['allAddress']='';
+		$data['address']=array();
+		//get all the subrbs
+		$search['suburb']=$this->input->post('input_search');
+
+		//$all_add=$this->province_model->getAddress();
+
+		$data['address']=array();
+	
+		//if (!empty($data['address'])) {
+		$all_properties=$this->province_model->filterSuburb($search);
+		$data['allAddress']='<option value="0"></option>';
+
+		foreach ($all_properties as $value) {
+
+			$data['allAddress'].='<option value="'.$value->suburb_id.'">'.$value->suburb.'</option>';
+		}
+		/*foreach ($all_add as $prop_val) {
+			$search['address_id']=$prop_val->id;
+			//get list of all properties where address_id id present
+			//$all_properties=$this->province_model->getProperty($search);
+			//get address where it does not exist on property
+				
+			
+			if(empty($all_properties)){
+				var_dump($all_properties);
+				//get address where it does not exist on property
+				$data['address']=$this->province_model->getAddressPropertyIsNull($search);
+				var_dump($prop_val->id);
+				
+				$data['allAddress']='<option value="0"></option>';
+				foreach ($all_properties as $value) {
+
+					$data['allAddress'].='<option value="'.$value->suburb_id.'">'.$value->suburb.'</option>';
+				}*/
+
+				
+			//}	
+		//}
+
+		echo $data['allAddress'];
+	}
+
+	/**
+	 * [Addresslist description]
+	 */
+	public function Addresslist()
+	{		
+		$data['allAddress']='';
+		$search['suburb_id']=$this->input->post('select_ad_suburb');
+		//get all the address where there is suburb_id
+		$all_add=$this->province_model->getAddress($search);
+
+		$data['address']=array();
+
+		//if (!empty($data['address'])) {
+		foreach ($all_add as $prop_val) {
+
+			$search['address_id']=$prop_val->id;
+			//get list of all properties where address_id id present
+			$all_properties=$this->province_model->getProperty($search);
+
+			if(empty($all_properties)){
+				//get address where it does not exist on property
+				$data['address']=$this->province_model->getAddressPropertyIsNull($search);
 			}
-
-			
-		//}	
-	//}
-
-	echo $data['allAddress'];
-}
-/**
- * [Addresslist description]
- */
-public function Addresslist()
-{		
-	$data['allAddress']='';
-	$search['suburb_id']=$this->input->post('select_ad_suburb');
-	//get all the address where there is suburb_id
-	$all_add=$this->province_model->getAddress($search);
-
-	$data['address']=array();
-
-	//if (!empty($data['address'])) {
-
-	foreach ($all_add as $prop_val) {
-		$search['address_id']=$prop_val->id;
-		//get list of all properties where address_id id present
-		$all_properties=$this->province_model->getProperty($search);
-
-		if(empty($all_properties)){
-			//get address where it does not exist on property
-			$data['address']=$this->province_model->getAddressPropertyIsNull($search);
-
 		}
 
+		$data['allAddress']='<h4 class="text-success" >Choose a Street Address to add new Property</h4>';
+		foreach ($data['address'] as $value) {
+			$data['allAddress'].='<div class="col-lg-1">'.$value->door_number
+							   .'</div><div class="col-lg-11"> <input type="checkbox" value="'.$value->id
+							   .'"> '.$value->street_name.",\n".$value->town.",\n".$value->municipality
+							   .",\n".$value->district.",\n".$value->province.'</div> <br>';
+		}
 
-
+		echo $data['allAddress'];
 	}
 
-	$data['allAddress']='<h4 class="text-success" >Choose a Street Address to add new Property</h4>';
-	foreach ($data['address'] as $value) {
-		$data['allAddress'].='<div class="col-lg-1">'.$value->door_number.'</div><div class="col-lg-11"> <input type="checkbox" value="'.$value->id.'"> '.$value->street_name.",\n".$value->town.",\n".$value->municipality.",\n".$value->district.",\n".$value->province.'</div> <br>';
-
-	}
-
-	echo $data['allAddress'];
-}
-/**
- * [AddresslistByProvince description]
- */
-public function AddresslistByProvince()
+	/**
+	 * [AddresslistByProvince description]
+	 */
+	
+	public function AddresslistByProvince()
 	{		
 		$allAddress='';
 		$search['province_id']=$this->input->post('province_search');
-
-	
-
 		$data['address']=$this->address_model->getAddressPropertyIsNull($search);
 		$count=count($data['address']);
+
 		//html to be written on newproperty view
 		//write the list group header
 		$allAddress.='<h4 class="list-group-item-heading">Choose a Street Address to add new Property</h4>';
-		//open the p element
 		
+		//open the p element
 		//the results with option select
 		foreach ($data['address'] as $value) {
-			$allAddress.='<div class="col-lg-1">'.$value->door_number.'<label for="add_check"> </label></div><div class="col-lg-11"> <input type="checkbox" id="add_check" name="add_check" value="'.$value->id.'"> '.$value->street_name.",\n".$value->town.",\n".$value->municipality.",\n".$value->district.",\n".$value->province.'</div> <br>';
+			$allAddress.='<div class="col-lg-1">'.$value->door_number
+					   .'<label for="add_check"> </label></div><div class="col-lg-11"> 
+					   <input type="checkbox" id="add_check" name="add_check" value="'.$value->id
+					   .'"> '.$value->street_name.",\n".$value->town.",\n".$value->municipality
+					   .",\n".$value->district.",\n".$value->province.'</div> <br>';
 			/************pagination**********/
-		
-		/*$config['base_url']=base_url('admin/newproperty?province_search='.$search['province_id']);
-		$config['total_rows']=$count;
-		$this->load->library('pagination');
-		$this->pagination->initialize($config);
-		$config=$this->getPagination($config);
-	 	$search_pagination=$this->pagination->create_links();*/
-	 	
-	 		/************pagination*********
-		
-		$config['base_url']=base_url('admin/newproperty?province_search='.$search['province_id']);
-		$config['total_rows']=$count;
-		$this->load->library('pagination');
-		$this->pagination->initialize($config);
-		$config=$this->getPagination($config);
-	 	$search_pagination=$this->pagination->create_links();*/
-	 	
-	 
-	 	//$this->load->view('ini',$data);
-	 	//$this->load->view('ini',$data);
-
-
 			
+			/*$config['base_url']=base_url('admin/newproperty?province_search='.$search['province_id']);
+			$config['total_rows']=$count;
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+			$config=$this->getPagination($config);
+			$search_pagination=$this->pagination->create_links();*/
 
+		 		/************pagination*********
+			
+			$config['base_url']=base_url('admin/newproperty?province_search='.$search['province_id']);
+			$config['total_rows']=$count;
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+			$config=$this->getPagination($config);
+			$search_pagination=$this->pagination->create_links();*/		 	
 		}
-		//close the p element
-		//$allAddress.='</div>';
+			//close the p element
+			//$allAddress.='</div>';
 		echo ($allAddress);
-}
-public function autocomplete()
-{		$allAddress=array();
+	}
+
+	/**
+	 * [autocomplete not in use at the moment]
+	 * @return [type] [description]
+	 */
+	
+	public function autocomplete()
+	{		
+		$allAddress=array();
 		$i=0;
 		$search['province_id']=$this->input->post('province_search');
 
 		$data['address']=$this->address_model->getAddressPropertyIsNull($search);
 		//$data['allAddress']='<h4 class="text-success" >Choose a Street Address to add new Property</h4>';
+		
 		foreach ($data['address'] as $value) {
+
 			$allAddress['street_name'][$i]=$value->street_name;
 			/*$data['allAddress'].='<div class="col-lg-1">'.$value->door_number.'</div><div class="col-lg-6"> <input type="checkbox" value="'.$value->id.'"> '.$value->street_name.'</div> <br>';*/
 			$i++;
 		}
-
-echo json_encode($allAddress['street_name']);
-}
-/**
- * [filterAvailableProperties is a search for all available properties called by jquery script in manage property]
- * @return [type] [description]
- */
-public function filterAvailableProperties()
-{		$data['avalProperties']='';
-$search['hide_owner_search']=$this->input->post('add_owner_search');
-		//var_dump($search['hide_owner_search']);
-$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
-foreach ($data['all_properties'] as $value) {
-	$data['avalProperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property.'</div>'.
-	'<div class="col-lg-1"><button type="submit" name="edit" class="fa fa-plus-circle text-success" title="Asign Owner to this property"></button> <span class="text-default">Owner</span></div>'.
-	'<div class="col-lg-2 ">'.$value->door_number.' '.$value->street_name.'</div>'.
-	'<div class="col-lg-1 ">'.$value->town.'</div>'.'<div class="col-lg-2 ">'.$value->manucipality.'</div>'.
-	'<div class="col-lg-2 ">'.$value->district.'</div>'.'<div class="col-lg-2  ">'.$value->province.'</div>'.
-	' <div class="col-lg-1"><div class="col-lg-6 ">                       
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
-	</form>
-	</div>
-	<div class="col-lg-6">
-	<form action="#" enctype="multipart/form-data">
-	<button type="submit"  title="delete property" ="Submit" class=" glyphicon glyphicon-minus btn-warning"> </button>
-	</form>              
-	</div>
-
-	</div></div>';
-}
-echo $data['avalProperties'];
-}
-/**
- * [getUser filter the user email]
- * @return [type] [description]
- */
-public function getUser(){
-
-	$search=array();
-	$email='';
-	$email.='<option value="0">choose email</option>';
-	$userid='';
-	$search['username']=$this->input->post('mysearch');
-
-	//echo json_encode($data['owner']);
-	$data['username']=$this->user_model->getUser($search);
-
-	foreach($data['username'] as $ownerdata){
-
-		$email.='<option value="'.$ownerdata->userid.'" class="useremail">'.$ownerdata->email.'</option>';
-		//$email.='<a href="#" class="list-group-item useremail">'.$ownerdata->email.'</a>';
-		//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
-		//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
-
+		echo json_encode($allAddress['street_name']);
 	}
-	//$mydata=array('mail'=>$email,'userid'=>$userid);
-	//$mydata=array('mail'=>$email,'userid'=>$userid);
-	echo json_encode($email);
-}
-
-
 
 	/**
-	 * [confirmList description]
+	 * [filterAvailableProperties is a search for all available properties called by jquery script in manage property]
 	 * @return [type] [description]
 	 */
+	
+	public function filterAvailableProperties()
+	{		
+		$data['avalProperties']='';
+		$search['hide_owner_search']=$this->input->post('add_owner_search');
+				//var_dump($search['hide_owner_search']);
+		$data['all_properties']=$this->ownersProperty_model->filterAllProperties($search);
+		foreach ($data['all_properties'] as $value) {
+
+			$data['avalProperties'].='<div class="colBrd"><div class="col-lg-1 ">'.$value->property
+								   .'</div><div class="col-lg-1">
+								   <button type="submit" name="edit" class="fa fa-plus-circle text-success" title="Asign Owner to this property">
+								   </button> <span class="text-default">Owner</span></div>
+								   <div class="col-lg-2 ">'.$value->door_number
+								   .' '.$value->street_name.'</div><div class="col-lg-1 ">'.$value->town
+								   .'</div><div class="col-lg-2 ">'.$value->manucipality
+								   .'</div><div class="col-lg-2 ">'.$value->district
+								   .'</div><div class="col-lg-2  ">'.$value->province
+								   .'</div><div class="col-lg-1"><div class="col-lg-6 ">                       
+									<form action="#" enctype="multipart/form-data">
+									<button type="submit" name="edit" class="fa fa-pencil text-primary"></button>
+									</form></div><div class="col-lg-6"><form action="#" enctype="multipart/form-data">
+									<button type="submit"  title="delete property" class=" glyphicon glyphicon-minus btn-warning">
+									</button></form></div></div></div>';
+		}
+		echo $data['avalProperties'];
+	}
+
+	/**
+	 * [getUser filter the user email]
+	 * @return [type] [description]
+	 */
+	public function getUser(){
+
+		$search=array();
+		$email='';
+		$email.='<option value="0">choose email</option>';
+		$userid='';
+		$search['username']=$this->input->post('mysearch');
+
+		//echo json_encode($data['owner']);
+		$data['username']=$this->user_model->getUser($search);
+
+		foreach($data['username'] as $ownerdata){
+
+			$email.='<option value="'.$ownerdata->userid.'" class="useremail">'.$ownerdata->email.'</option>';
+			//$email.='<a href="#" class="list-group-item useremail">'.$ownerdata->email.'</a>';
+			//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
+			//$userid.='<input type="hidden" class="user_sid" name="user_sid"'.$ownerdata->userid.'>';
+
+		}
+		//$mydata=array('mail'=>$email,'userid'=>$userid);
+		//$mydata=array('mail'=>$email,'userid'=>$userid);
+		echo json_encode($email);
+	}
+
+		/**
+		 * [confirmList description]
+		 * @return [type] [description]
+		 */
 	public function confirmList() 
 	{
 		
@@ -557,34 +570,33 @@ public function getUser(){
 			$data['statusUpdate']= $this->input->get('statusUpdate');
 
 		}
-  //user that does is not owner have no access to this view
+	 	//user that does is not owner have no access to this view
 		if ($_SESSION['owner'] != true) {
 			redirect(base_url());
 		}
 		$search=array();		
 		$requestPropertyID=array();		
-		//$data['getOwnerListToComfirm']=array();		
+		//get the owner of the propety		
 		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
 		$search['owner']=$_SESSION['id'];
 		//$count=count($data['owner']);
 		$data['getListToComfirm']=$this->request_model->getListToComfirmRequest($search);
 		//var_dump($data['owner']);
+		//
 		foreach ($data['owner'] as $owner) {
 
 			foreach ($data['getListToComfirm'] as $confirm) {
-				if ($confirm->property_id==$owner->property) {
-					
+
+				if ($confirm->property_id==$owner->property) {					
 					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
 					//get the list that owner should complete
-					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
-					
+					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();					
 				}					
-			}		
-			//var_dump($data['getOwnerListToComfirm']);
+			}	
 			//$ownerPropertyID[$owner->property]=$owner->property;
 			
 		}		
-		
+			
 		/*foreach ($data['getListToComfirm'] as $confirm) {
 			$requestPropertyID[$confirm->property_id]=$confirm->property_id;
 		}
@@ -599,10 +611,6 @@ public function getUser(){
 		$this->load->library('form_validation');
 		$this->load->view('ini',$data);
 	}
-
-
-	
-
 }
 
 

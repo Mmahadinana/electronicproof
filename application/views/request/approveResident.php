@@ -7,10 +7,6 @@
  
  <?php
  $this->load->view('request/approveResidentForm');
-
-
- //$this->load->view($pageToLoad);
-
  
  ?>
 

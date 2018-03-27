@@ -7,15 +7,19 @@ class Address_model extends CI_MODEL{
 		parent::__construct();
 		$this->load->database();
 	}
-
+	/**
+	 * [getAddressPropertyIsNullQuery ]
+	 * @param  array  $search [description]
+	 * @return [type]         [description]
+	 */
 	public function getAddressPropertyIsNullQuery($search=array()){
 
-		$province=$search['province_id'] ?? FALSE;
-		$district=$search['district'] ?? FALSE;
-		$municipality=$search['municipality'] ?? FALSE;
-		$town=$search['town'] ?? FALSE;
-		$suburb=$search['suburb'] ?? FALSE;
-		$address=$search['address'] ?? FALSE;
+		$province=isset($search['province_id'])? $search['province_id']: FALSE;
+		$district=isset($search['district'])? $search['district']: FALSE;
+		$municipality=isset($search['municipality'])? $search['municipality']: FALSE;
+		$town=isset($search['town'])? $search['town']: FALSE;
+		$suburb=isset($search['suburb'])? $search['suburb']: FALSE;
+		$address=isset($search['address'] )? $search['address'] :FALSE;
 
 		if($province)
 		{	
@@ -89,9 +93,9 @@ class Address_model extends CI_MODEL{
 	 */
 	public function getAddresses($searchAddress=array())
 	{
-		$street_name=$searchAddress['id'] ?? false;
-		$door_number=$searchAddress['id'] ?? false;
-		$suburb_id=$searchAddress['suburb'] ?? false;
+		$street_name= isset($searchAddress['id'])? $searchAddress['id'] : false;
+		$door_number= isset($searchAddress['id'])? $searchAddress['id'] : false;
+		$suburb_id= isset($searchAddress['suburb'])? $searchAddress['suburb'] : false;
 		if ($street_name) {
 			$this->db->where('address.id',$street_name)
 					->where('address.suburb_id',$suburb_id);
@@ -109,9 +113,13 @@ class Address_model extends CI_MODEL{
 		return $this->db->get()->result();
 		
 	}
-	public function getAddressPropertyIsNull(array $search = array(),int $limit = ITEMS_PER_PAGE)
+
+	/**
+	 * get Address Property Is Null
+	 */
+	public function getAddressPropertyIsNull($search = array(),$limit = ITEMS_PER_PAGE)
 	{
-		$offset = $search['page'] ?? 0;
+		$offset = isset($search['page'])? $search['page'] : 0;
 
 		$this->getAddressPropertyIsNullQuery($search)		
 				->limit($limit,$offset);
@@ -135,7 +143,7 @@ class Address_model extends CI_MODEL{
 		$data=$this->getAddresses($searchAddress);
 
 		//return false if data is empty
-		return	$retVal = (empty($data)) ? false: true;
+		return	$retVal = (empty($data))? false: true;
 	}
 
 	/**
@@ -153,9 +161,14 @@ class Address_model extends CI_MODEL{
 		$data=$this->getAddresses($searchAddress);
 
 		//return false if data is empty
-		return	$retVal = (empty($data)) ? false: true;
+		return	$retVal = (empty($data))? false: true;
 	}
 
+	/**
+	 * [newproperty ]
+	 * @param  array  $data [description]
+	 * @return [type]       [description]
+	 */
 	public function newproperty($data=array()){
 		
 		$this->db->select("property.address_id")

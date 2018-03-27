@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <div class="starter-template">
       <?php
- $this->load->view('login/loginForm');
+ $this->load->view('login/loginform');
  //$this->load->view($pageToLoad);
 
  

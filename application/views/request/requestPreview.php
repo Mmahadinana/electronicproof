@@ -18,14 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php $action="Request_proof/confirmRequestInsert/";
 
         echo form_open($action,array('class'=>'form-horizontal','method'=>'POST','enctype'=>'multipart/form-data'));?>
-
-
-
-
-
-
         <table class="table text-left romtbl_borders">
-
           <tbody>
             <tr>
               <td>Date</td>
@@ -40,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                   echo $key->name;
                   $userid=$key->id;
-        //var_dump($userid);
+ 
                   ?>
                   <input type="hidden" id="user_id" name="user_id" value=<?php echo $_SESSION['id']; ?>>
 
@@ -51,8 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td rowspan="7">Address</td>               
                 <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
               </tr>
-
-
               <tr>
                 <td><?php  echo $key->street_name?></td>
 
@@ -85,7 +76,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   $owner_housetype=$valowner->house_type;
                 }
                 ?>
-
               </tbody>
             </table>
 
@@ -98,7 +88,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
        </div>
        <div> 
-
          <div class="signleft"> SIGNATURE</div>
          <div class="signline">
            <!--ins><span ></span></ins--> <hr class="signline">
@@ -114,7 +103,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         </div>
       </form>
-
 
  <!--div class="col-lg-4 col-md-12">
  
@@ -155,8 +143,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <span class=" glyphicon glyphicon-remove "></span>
                     </button>
 
-
-
                   </div>
                 </div>
               </div><!-- /.container -->
@@ -164,8 +150,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
       </div>
-
-
     </div>
     <script >
       $(document).ready(function(){

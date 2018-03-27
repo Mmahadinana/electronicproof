@@ -2,26 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Publiczone extends CI_Controller 
-{
-	
-	//$this->load->library('session');
+{	
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->load->model("messages_model");
+		
 		$this->load->model('province_model');
 		$this->load->model('manucipality_model');
 		$this->load->model('suburb_model');
 		$this->load->model("district_model");
-		$this->load->model('town_model');
-		//$this->load->model('user_model');
-		//$this->load->model('login_model');
+		$this->load->model('town_model');		
 		$this->load->model('owner_model');
-		//$this->load->library('email');
-		//$this->load->model('Postoffice_model');
 		$this->load->model('address_model');
 		$this->load->helper('form');
-
 	}
 	/**
 	 * Index Page for this controller.
@@ -47,7 +40,7 @@ class Publiczone extends CI_Controller
 		$data['pageToLoad']='home/home';
 		$data['pageActive']='home';
 		$this->load->view('ini',$data);
-		
+			
 	}
 	public function sign()
 	{
@@ -94,46 +87,36 @@ class Publiczone extends CI_Controller
 				'field'=>'name',
 				'label'=>'name',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-			)
-			),
+				'errors'=>array('required'=>'<b>You should enter your %s </b>')			
+				),
 
-			
 			array(
 				'field'=>'email',
 				'label'=>'email',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should enter your %s </b>'
-			)
-			),
+				'errors'=>array('required'=>'<b>You should enter your %s </b>')			
+				),
 
 			array(
 				'field'=>'message',
 				'label'=>'message',
 				'rules'=>'required',
-				'errors'=>array('required'=>'<b>You should type a %s </b>'
-			)
-			),
+				'errors'=>array('required'=>'<b>You should type a %s </b>')
+				),
 			
 			array(
 				'field'=>'phone',
 				'label'=>'Phone number',
 				'rules'=>array(
 					'required',
-					'exact_length[10]',						
-
-					'regex_match[/^[0-9]+$/]',
-				),
-
-
-
+					'exact_length[10]',	
+					'regex_match[/^[0-9]+$/]',),
 				'errors'=>array('required'=>'you should insert one %s ',
 					'exact_length'=>'the %s must have at least length of 10 ',						
-					'regex_match'=>'the %s must be numbers only',									
-				)	 					
-			),
+					'regex_match'=>'the %s must be numbers only',)					 					
+				),
 			
-		);
+			);
 
 		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE)
@@ -142,15 +125,22 @@ class Publiczone extends CI_Controller
 
 		}else
 		{
-			$statusInsert=$this->messages_model->getMessages($this->input->post());
+			//$this->messages_model->getUser();
+			//var_dump(substr($this->input->post('message'),0,20).'..' );
+			$statusInsert=$this->messages_model->newMessages($this->input->post());
+			if ($statusInsert==1) {
+
+				$type=array('type'=>3,
+							'comments'=>substr($this->input->post('message'), 20).'..',
+							'subjects'=>'Guest message',
+							);
+				$this->messages_model->insertComment($type);				
+			}
+
 			redirect("publiczone/contact?statusInsert=$statusInsert");
-		}
-
-
-		
-	}
-
-	
+			//redirect("publiczone/index?statusInsert=$statusInsert");
+		}		
+	}	
 
 	/**
 	 * [logout description]
@@ -165,14 +155,13 @@ class Publiczone extends CI_Controller
 		//distroy the session
 		$this->session->sess_destroy();
 		redirect('Publiczone');
-
 	}
 
 	/**
 	 * [getProvinceDistrict description]
 	 * @return [true] [this retrieves the correct information of getProvinceDistrict]
 	 */
-	public function getProvinceDistrict():array
+	public function getProvinceDistrict()
 	{
 		$tempdata=array();
 		$tempdata['province']=$this->province_model->getProvince();
@@ -207,11 +196,7 @@ class Publiczone extends CI_Controller
 			$tempdata['address'][$sub->id]=$this->address_model->getAddress($sub->id);
 			
 		}
-		
-		
-
-		return $tempdata;		
-
+		return $tempdata;
 	}
 	/**
 	 * the fuction is called by the ajax when registering new onwer for property (OwnerDetails view)
@@ -223,7 +208,7 @@ class Publiczone extends CI_Controller
 	}
 
 	/**
-	 * [registerUser description]
+	 * [registerUser new user]
 	 * @return [true] [this retrieves the correct information for registerUser]
 	 */
 	public function register() 
@@ -232,19 +217,15 @@ class Publiczone extends CI_Controller
 				redirect('login/login_?statusUserInsert=0');
 		}
 
-		$search=array();
+		$search=array();		
 		
-		//$search['user_id']= $this->input->get('user_id') ?? '0';
-		
-		//$data['user_id']= $this->user_model->getUser($search);
 		$data['user_add']= $this->user_model->getUser($search);
 
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
 		$data['pageTitle'] = 'Register User';
 		$this->load->helper('form');
-		$this->load->library('form_validation');
-		
+		$this->load->library('form_validation');		
 
 		/***get the provice and distric by province id*******/
 		$selDistrict= $this->getProvinceDistrict();
@@ -254,233 +235,189 @@ class Publiczone extends CI_Controller
 		$data['towns']=$selDistrict['town'];	
 		$data['suburbs']=$selDistrict['suburb'];	
 		$data['address']=$selDistrict['address'];	
-		//$data['zip_code']=$selDistrict['zip_code'];	
-			//var_dump($data['manucipality']);	
+		
 		/*****end */		
-		
-
-		//data from db
-		
-		
 		$search = array();
 		$data['province']=$this->province_model->getProvince();
 		$district = $this->input->post('province');
 
-		//$data['district']=$this->district_model->getDistrict($district);
-		
-		
-
-		
-//Including validation library
-
+		//Including validation library
 		$config_validation = array
 		(
-			array('field'=>'email',
-				'label'=>'email',
-				'rules'=>array(
-    				'required', 
-    				'valid_email',   				
-    				'is_unique[user.email]',
-    				'max_length[30]',			
+			array(	'field'=>'email',
+					'label'=>'email',
+					'rules'=>array(
+    					  'required', 
+    					  'valid_email',   				
+    					  'is_unique[user.email]',
+    					  'max_length[30]',),    				
+				'errors'=>array(
+					   'required'=>'you should insert %s for the user',
+					   'valid_email'=>'please enter the correct %s',
+					   'is_unique'     => 'This %s already exists.',
+					   'max_length[30]'     => '%s length should not exceed 30.',)										
+					),
+
+			array(	'field'=>'password',
+					'label'=>'Password',
+					'rules'=>array('required',
+						  'min_length[5]',
+						  'max_length[25]',
+						  array('validatePassword',array($this->Login_model,'validatePassword'))),						
+					'errors'=>array(						
+						   'required'=>'you should insert one %s for reset',
+						   'min_length[5]'=>'You should at least enter 5 charactors of %s',
+						   'max_length[25]'=>'%s should not exit 25 charactors',
+						   'validatePassword'=>'password should have at least one simbol/charactor',),
+					),
+
+			array(	'field'=>'confirm',
+					'label'=>'Confirm Password',
+					'rules'=>array('required',
+						  'matches[password]'),											
+					'errors'=>array(						
+						  'required'=>'you should insert one %s for login',
+						  'matches[newpassword]'=>'% you entered does not match'),				
+					),
+
+			array(	'field'=>'name',
+					'label'=>'Full Name',
+					'rules'=>array('required',						  
+						  'min_length[3]',
+						  'max_length[30]',
+						  'trim',			
+						  'alpha_numeric_spaces',
+						  array('callback_alpha',array($this->user_model,'callback_alpha')),),				
+					'errors'=>array('required'=>'insert %s ',				
+						  'min_length'=>'%s should have minimum of 3 ',
+						  'max_length'=>'%s should have maximum of 25',
+						  'alpha_numeric_spaces'=>'Special charactors are not allowed',
+						  'callback_alpha'=>'alphabet only',)											
+					),	
+				
+			 array(	'field'  => 'identitynumber',
+    				'label'  =>  'Identity Number',
+    				'rules'  =>  array('required',    					  
+    					  'exact_length[13]',
+    					  'numeric',
+    					  array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),
+    					  'is_unique[user.identitynumber]'),
+	    			'errors'  =>  array(
+	    				   'required'  =>  ' %s is required',
+	    				   'exact_length'  =>  'the %s must have 13 numbers',
+	    				   'numeric'  =>  'the %s must have only numbers',
+	    				   'callback_checkIdnumber'     =>'Invalid %s' ,
+	    				   'is_unique'=>'This %s already exists.')
     				),
-				'errors'=>array
-				('required'=>'you should insert %s for the user',
-					'valid_email'=>'please enter the correct %s',
-					'is_unique'     => 'This %s already exists.',
-					'max_length[30]'     => '%s length should not exceed 30.',
-				)						
-			),
-
-			array(
-				'field'=>'password',
-				'label'=>'Password',
-				'rules'=>array('required',
-					'min_length[5]',
-					'max_length[25]',
-					array('validatePassword',array($this->Login_model,'validatePassword'))),						
-				'errors'=>array(						
-					'required'=>'you should insert one %s for reset',
-					'min_length[5]'=>'You should at least enter 5 charactors of %s',
-					'max_length[25]'=>'%s should not exit 25 charactors',
-					'validatePassword'=>'password should have at least one simbol/charactor',),			
-
-			),
-
-			array(
-				'field'=>'confirm',
-				'label'=>'Confirm Password',
-				'rules'=>array('required',
-					'matches[password]'),											
-				'errors'=>array(						
-					'required'=>'you should insert one %s for login',
-					'matches[newpassword]'=>'% you entered does not match'),
-			),
-
-			array('field'=>'name',
-				'label'=>'Full Name',
-				'rules'=>array
-				('required',
-					'min_length[3]',
-					'max_length[30]',
-					'trim',			
-					'alpha_numeric_spaces',
-					array('callback_alpha',array($this->user_model,'callback_alpha')),
-				),
-				'errors'=>array
-				('required'=>'insert %s ',
-					'min_length'=>'%s should have minimum of 3 ',
-					'max_length'=>'%s should have maximum of 25',
-					'alpha_numeric_spaces'=>'Special charactors are not allowed',
-					'callback_alpha'=>'alphabet only',
-					)						
-			),	
-			
-			 array('field'   => 'identitynumber',
-    			'label'  =>  'Identity Number',
-    			'rules'  =>  array(
-    				'required',
-    				'exact_length[13]',
-    				'numeric',
-    				array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),
-    				'is_unique[user.identitynumber]'
-    			),
-
-    			'errors'  =>  array(
-    				'required'  =>  ' %s is required',
-    				'exact_length'  =>  'the %s must have 13 numbers',
-    				'numeric'  =>  'the %s must have only numbers',
-    				'callback_checkIdnumber'     =>'Invalid %s' ,
-    				'is_unique'=>'This %s already exists.')
-    			),
 
     			array(
     				'field'=>'dateofbirth',
     				'label'=>'Date of Birth',
     				'rules'=>array('required',
-    					'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
-    				'errors'=>array
-    				('required'=>'you should insert %s for the user',
-    				'regex_match'=>'%s is not valid',)
-    			),
+    					  'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
+    				'errors'=>array('required'=>'you should insert %s for the user',   				
+    					   'regex_match'=>'%s is not valid',)
+    				),
 
     			array(
     				'field'=>'phone',
     				'label'=>'Phone number',
-    				'rules'=>array
-    				(
-    					'required',
-    					'exact_length[10]',
-    					'numeric',
-    					'regex_match[/^[0]\d[1-9]{1}\d[0-9]{6}$/]',
+    				'rules'=>array('required',    					      				
+    					  'exact_length[10]',
+    					  'numeric',
+    					  'regex_match[/^[0]\d[1-9]{1}\d[0-9]{6}$/]',),    				
+    				'errors'=>array('required'=>'you should insert one %s ',    				
+    					  'exact_length'=>'the %s must have at least length of 10 ',						
+    					  'regex_match'=>'the %s must starts with 0',									
+    					  'numeric'=>'the %s must be numbers')	 					
     				),
-    				'errors'=>array
-    				('required'=>'you should insert one %s ',
-    					'exact_length'=>'the %s must have at least length of 10 ',						
-    					'regex_match'=>'the %s must starts with 0',									
-    					'numeric'=>'the %s must be numbers')	 					
-    			),
     			
     			array(
     				'field'=>'gender',
     				'label'=>'Gender',
     				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert %s for the user')    				
-    			),
+    				'errors'=>array('required'=>'you should insert %s for the user')    								
+    				),
+
     			array(
     				'field'=>'suburb',
     				'label'=>'Suburb',
-    				'rules'=>array(
-                		'required',
-                		array('check_surburb',array($this->suburb_model, 'check_surburb'))),
-        
+    				'rules'=>array('required',                		  
+                		 		 array('check_surburb',array($this->suburb_model, 'check_surburb'))),        
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_surburb'=>'invalide input or option')),
+						  'check_surburb'=>'invalide input or option')),
 
     			array(
     				'field'=>'town',
     				'label'=>'Town',
-    				'rules'=>array(
-                		'required',
-                		array('check_town',array($this->town_model, 'check_town'))),
+    				'rules'=>array('required',                		  
+                		  		array('check_town',array($this->town_model, 'check_town'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_town'=>'invalide input or option')),
+						  'check_town'=>'invalide input or option')
+    				),
 
     			array(
     				'field'=>'district',
     				'label'=>' District',
-    				'rules'=>array(
-                		'required',
-                		array('check_district',array($this->district_model, 'check_district'))),
+    				'rules'=>array('required',                		  
+                		 		 array('check_district',array($this->district_model, 'check_district'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_district'=>'invalide input or option'),
-    			),
+						  'check_district'=>'invalide input or option'),
+    				),
 
     			array(
     				'field'=>'province',
     				'label'=>'Province',    			
-    				'rules'=>array(
-                		'required',
-               		 array('check_province',array($this->province_model, 'check_province'))),
+    				'rules'=>array('required',                		  
+               			 		 array('check_province',array($this->province_model, 'check_province'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_province'=>'invalide input or option'),
+					 	   'check_province'=>'invalide input or option'),
+    				),
 
-    			),
     			array(
-
     				'field'=>'manucipality',
     				'label'=>'Manucipality',
-    				'rules'=>array(
-                		'required',
-               		 array('check_municipality',array($this->manucipality_model, 'check_municipality'))),
+    				'rules'=>array('required',                		  
+               		 	  		array('check_municipality',array($this->manucipality_model, 'check_municipality'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_municipality'=>'invalide input or option'),
+						   'check_municipality'=>'invalide input or option'),
+    				),
 
-    			),
-    				array(
-				'field'=>'street_name',
-				'label'=>'Street Address',
-				'rules'=>
-					array(		
-                		'required',
-               		 array('check_streetname',array($this->address_model, 'check_streetname'))),
-				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_streetname'=>'invalide input or option'),
-				),
+    			array(
+					'field'=>'street_name',
+					'label'=>'Street Address',
+					'rules'=>array('required',                	  
+	               		 		array('check_streetname',array($this->address_model, 'check_streetname'))),
+					'errors'=>array('required'=>'you should insert %s for the user',
+						   'check_streetname'=>'invalide input or option'),
+					), 
+
 				array(
 					'field'=>'door_number',
 					'label'=>'Door Number',
-					'rules'=>
-						array(
-	                		'required',
-	                		array('check_doornumber',array($this->address_model, 'check_doornumber'))),
+					'rules'=>array( 'required',	                	 
+	                			array('check_doornumber',array($this->address_model, 'check_doornumber'))),
 					'errors'=>array('required'=>'you should insert %s for the user',
-					'check_doornumber'=>'invalide input or option')),				
-			);
+						  'check_doornumber'=>'invalide input or option')),				
+				);
 
 		$this->form_validation->set_rules($config_validation);
 		if($this->form_validation->run()===FALSE)
 		{
-
 			$this->load->view('ini',$data);
 
 		}else
 		{
-
 			$statusInsert=$this->user_model->addUser($this->input->post());
 
 		redirect("login/login_?statusUserInsert=$statusInsert");
-
 		}
-
 	}
 
 	/**
 	 * [user description]
 	 * @return [true] [this retrieves the correct information of user]
 	 */
-
-
 	public function user()
 	{
 
@@ -490,11 +427,8 @@ class Publiczone extends CI_Controller
 			//from helper and library
 		$this->load->helper('form');
 
-
 		$this->load->library('form_validation');
-		$id_remove = $this->input->post('user_id');
-
-		
+		$id_remove = $this->input->post('user_id');		
 
 		if(null!=$this->input->get('statusEdit'))
 		{
@@ -507,52 +441,29 @@ class Publiczone extends CI_Controller
 
 		$search=array();
 
-		$search['search']= $this->input->get('search') ?? '';
-		$search['page']= $this->input->get('page') ?? 0;
-		$search['inputsearch']= $this->input->get('inputsearch') ?? '';
-//db communication 
+		$search['search']= $this->input->get('search');
+		$search['page']= $this->input->get('page') ;
+		$search['inputsearch']= $this->input->get('inputsearch');
+		//db communication 
 
-
-		$config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inputsearch='.$search['inputsearch']);
-
-
-	  	//$data['authors'] = $authors;
-	  	//$data['editor'] = $editor;
+		$config['base_url'] =base_url('publiczone/user?search='.$search['search'].'&inputsearch='.$search['inputsearch']);	  	
 
 		$data['db'] = $this->user_model->getuser($search);
-		$data['userCount'] = $this->user_model->countuser($search);
-	  	//$data['models']=$this->Model_model->getModels();
-	  	//$data['colors']=$this->Color_model->getColors();
-	  	//var_dump($search);
-	  	//pagination for the books
+		$data['userCount'] = $this->user_model->countuser($search);  	
 
 	  	//To re-write the links
 		$config['enable_query_string'] = TRUE;
 	  	 //To  show the actual page number
 		$config['page_query_string'] = TRUE;
-          //url that will use the pagination
-	  	 //$config['base_url'] = base_url('publiczone/fleet?models='.$search['models'].'&licence_plate='.$search['licence_plate'].'&manufactures='.$search['manufactures'].'&colors='.$search['colors'].'&available='.$search['available']);
-	  	 //$config['total_rows'] = $data['vehiclesCount'];
-
-	  	 //load the pagination library
-	  	 //$this->load->library('pagination');
-	  	 //initialize the pagination
-	  	 //$this->pagination->initialize($config);
-	  	 //$data['search_pagination']=$this->pagination->create_links();
-
-
 
 		$this->load->view('ini',$data);
-
-
 	}
 
-
-
-/**
- * [editUser description]
- * @return [true] [this retrieves the correct information when editUser]
- */
+	/**
+ 	* [editUser and update information]
+ 	* @return [type] [description]
+ 	*/
+ 
 	public function editUser()
 	{
 
@@ -570,11 +481,9 @@ class Publiczone extends CI_Controller
 			$id=$data['user_id'] =$_SESSION['userid'];
 		}
 
-
 		$data['pageToLoad'] = 'register/register';
 		$data['pageActive']='register';
-		$data['pageTitle']='Edit User';
-		
+		$data['pageTitle']='Edit User';		
 
 		//data from db
 		$search=array();
@@ -608,26 +517,21 @@ class Publiczone extends CI_Controller
     	$data['manucipalities']=$selDistrict['manucipality'];	
     	$data['towns']=$selDistrict['town'];	
     	$data['suburbs']=$selDistrict['suburb'];	
-    	$data['address']=$selDistrict['address'];
-
-
-    	//$data['zip_code']=$this->zip_code_model->getZip_code();
+    	$data['address']=$selDistrict['address'];    
 
     	$data['userInfo']= $this->user_model->getUser($search);
-    	//var_dump($data['userInfo']);
+    	
     	foreach ($data['userInfo'] as $key => $value) 
     	{
     		$data['user_data']=$value;
-    		
-
     	}
 		if(empty($data['userInfo'])){
+
 			$this->change_add($data['user_id']);
 		}else{
 		
     	foreach ($data['userInfo'] as $value) 
     	{
-
     		$data['userEdit'] = $value->user_id;
     		$data['emailEdit'] = $value->email;
     		$data['nameEdit'] = $value->name;
@@ -657,148 +561,132 @@ class Publiczone extends CI_Controller
     	$this->load->library('form_validation');
 
 
-//Including validation library
+		//Including validation library
     	if(!$this->input->post('usercheck')){
+
     		$config_validation = array
-		(
-			array('field'=>'email',
-				'label'=>'email',
-				'rules'=>array(
-    				'required', 
-    				'valid_email',   				
-    				array('callback_email',array($this->user_model,'callback_email')),
-    				'max_length[30]',			
-    				),
-				'errors'=>array
-				('required'=>'you should insert %s for the user',
-					'valid_email'=>'please enter the correct %s',
-					'callback_email'     => 'This %s already exists.',
-					'max_length[30]'     => '%s length should not exceed 30.',
-				)						
-			),	
-		array('field'=>'name',
-				'label'=>'Full Name',
-				'rules'=>array
-				('required',
-					'min_length[3]',
-					'max_length[30]',
-					'trim',			
-					'alpha_numeric_spaces',
-					array('callback_alpha',array($this->user_model,'callback_alpha')),
+    		(							
+				array(	'field'=>'email',
+						'label'=>'email',
+						'rules'=>array(
+		    				  'required', 
+		    				  'valid_email',   				
+		    				  array('callback_email',array($this->user_model,'callback_email')),
+		    				  'max_length[30]',),			    				
+						'errors'=>array('required'=>'you should insert %s for the user',						
+							  'valid_email'=>'please enter the correct %s',
+							  'callback_email'     => 'This %s already exists.',
+							  'max_length[30]'     => '%s length should not exceed 30.',)												
+						),
+
+				array(	'field'=>'name',
+						'label'=>'Full Name',
+						'rules'=>array('required',						
+							  'min_length[3]',
+							  'max_length[30]',
+							  'trim',			
+							  'alpha_numeric_spaces',
+							  array('callback_alpha',array($this->user_model,'callback_alpha')),),						
+						'errors'=>array('required'=>'insert %s ',						
+							   'min_length'=>'%s should have minimum of 3 ',
+							   'max_length'=>'%s should have maximum of 25',
+							   'alpha_numeric_spaces'=>'Special charactors are not allowed',
+							   'callback_alpha'=>'alphabet only',)						
+						),		
+					
+				 array(	'field'   => 'identitynumber',
+	    				'label'  =>  'Identity Number',
+	    				'rules'  =>  array('required',		    					  
+	    					  'exact_length[13]',
+	    					  'numeric',
+	    					  array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),),
+	    				'errors'  =>  array(
+	    					  'required'  =>  ' %s is required',
+	    					  'exact_length'  =>  'the %s must have 13 numbers',
+	    					  'numeric'  =>  'the %s must have only numbers',
+	    					  'callback_checkIdnumber'     =>'Invalid %s' ,)		    				
+	    				),
+
+	    			array(
+	    				'field'=>'dateofbirth',
+	    				'label'=>'Date of Birth',
+	    				'rules'=>array('required',
+	    					  'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
+	    				'errors'=>array('required'=>'you should insert %s for the user',	    				
+	    					  'regex_match'=>'%s is not valid',)
+	    				),
+
+	    			array(
+	    				'field'=>'phone',
+	    				'label'=>'Phone number',
+	    				'rules'=>array('required',	    				
+	    					  'exact_length[10]',
+	    					  'numeric',
+	    					  'regex_match[/^[0]\d{9}$/]',),		    				
+	    				'errors'=>array('required'=>'you should insert one %s ',		    				
+	    					  'exact_length'=>'the %s must have at least length of 10 ',						
+	    					  'regex_match'=>'the %s must starts with 0',									
+	    					  'numeric'=>'the %s must be numbers')	 					
+	    			),
+	    			
+	    			array(
+	    				'field'=>'gender',
+	    				'label'=>'Gender',
+	    				'rules'=>'required',
+	    				'errors'=>array('required'=>'you should insert %s for the user') 	    					     				
+	    			),
+	    			/*array(
+	    				'field'=>'suburb',
+	    				'label'=>'Suburb',
+	    				'rules'=>'required',
+	    				'errors'=>array
+	    				('required'=>'you should insert one %s for the user')),
+
+	    			array(
+	    				'field'=>'town',
+	    				'label'=>'Town',
+	    				'rules'=>'required',
+	    				'errors'=>array
+	    				('required'=>'you should insert one %s for the user')),
+
+	    			array(
+	    				'field'=>'district',
+	    				'label'=>' District',
+	    				'rules'=>'required',
+	    				'errors'=>array
+	    				('required'=>'you should insert one %s for the user')),
+
+	    			array(
+	    				'field'=>'province',
+	    				'label'=>'Province',    			
+	    				'rules'=>'required',
+	    				'errors'=>array
+	    				('required'=>'you should insert one %s for the user')
+
+	    			),
+	    			array(
+
+	    				'field'=>'manucipality',
+	    				'label'=>'Manucipality',
+	    				'rules'=>'required',
+	    				'errors'=>array
+	    				('required'=>'you should insert one %s for the user')
+
+	    			),
+	    				array(
+					'field'=>'street_name',
+					'label'=>'Street Address',
+					'rules'=>
+					'required',	
+					'errors'=>array('required'=>'you should insert %s for the user')
 				),
-				'errors'=>array
-				('required'=>'insert %s ',
-					'min_length'=>'%s should have minimum of 3 ',
-					'max_length'=>'%s should have maximum of 25',
-					'alpha_numeric_spaces'=>'Special charactors are not allowed',
-					'callback_alpha'=>'alphabet only',
-					)						
-			),		
-			
-			 array('field'   => 'identitynumber',
-    			'label'  =>  'Identity Number',
-    			'rules'  =>  array(
-    				'required',
-    				'exact_length[13]',
-    				'numeric',
-    				array('callback_checkIdnumber',array($this->user_model,'callback_checkIdnumber')),
-    				
-    			),
-
-    			'errors'  =>  array(
-    				'required'  =>  ' %s is required',
-    				'exact_length'  =>  'the %s must have 13 numbers',
-    				'numeric'  =>  'the %s must have only numbers',
-    				'callback_checkIdnumber'     =>'Invalid %s' ,
-    				)
-    			),
-
-    			array(
-    				'field'=>'dateofbirth',
-    				'label'=>'Date of Birth',
-    				'rules'=>array('required',
-    					'regex_match[/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/]'),
-    				'errors'=>array
-    				('required'=>'you should insert %s for the user',
-    				'regex_match'=>'%s is not valid',)
-    			),
-
-    			array(
-    				'field'=>'phone',
-    				'label'=>'Phone number',
-    				'rules'=>array
-    				(
-    					'required',
-    					'exact_length[10]',
-    					'numeric',
-    					'regex_match[/^[0]\d{9}$/]',
-    				),
-    				'errors'=>array
-    				('required'=>'you should insert one %s ',
-    					'exact_length'=>'the %s must have at least length of 10 ',						
-    					'regex_match'=>'the %s must starts with 0',									
-    					'numeric'=>'the %s must be numbers')	 					
-    			),
-    			
-    			array(
-    				'field'=>'gender',
-    				'label'=>'Gender',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert %s for the user')    				
-    			),
-    			/*array(
-    				'field'=>'suburb',
-    				'label'=>'Suburb',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user')),
-
-    			array(
-    				'field'=>'town',
-    				'label'=>'Town',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user')),
-
-    			array(
-    				'field'=>'district',
-    				'label'=>' District',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user')),
-
-    			array(
-    				'field'=>'province',
-    				'label'=>'Province',    			
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-
-    			),
-    			array(
-
-    				'field'=>'manucipality',
-    				'label'=>'Manucipality',
-    				'rules'=>'required',
-    				'errors'=>array
-    				('required'=>'you should insert one %s for the user')
-
-    			),
-    				array(
-				'field'=>'street_name',
-				'label'=>'Street Address',
-				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user')
-			),
-			array(
-				'field'=>'door_number',
-				'label'=>'Door Number',
-				'rules'=>
-				'required',	
-				'errors'=>array('required'=>'you should insert %s for the user')),*/				
-			);
+				array(
+					'field'=>'door_number',
+					'label'=>'Door Number',
+					'rules'=>
+					'required',	
+					'errors'=>array('required'=>'you should insert %s for the user')),*/				
+				);
 
     		$this->form_validation->set_rules($config_validation);
     		if($this->form_validation->run()===FALSE)
@@ -806,20 +694,18 @@ class Publiczone extends CI_Controller
     			$this->load->view('ini',$data);
 
     		}else
-    		{
-    			
-    			$statusEdit=$this->user_model->updateUser($this->input->post());
+	    		{    			
+	    			$statusEdit=$this->user_model->updateUser($this->input->post());
 
-    			//redirect to userprifile with the success message
-    			redirect("residents/userprofile?statusEdit=$statusEdit");
-				
-    		}
-    	}else {
-    		$this->load->view('ini',$data);
-    	}
-    }
-					
-    }
+	    			//redirect to userprifile with the success message
+	    			redirect("residents/userprofile?statusEdit=$statusEdit");				
+	    		}
+	    	}else {
+	    		$this->load->view('ini',$data);
+	    	}
+	    }
+						
+	}
 
 
 
@@ -830,9 +716,6 @@ class Publiczone extends CI_Controller
      */
     public function askdelete($id_remove=0)
     {
-
-
-
     	if($id_remove!=0 and is_numeric($id_remove))
     	{
     		$data['id_user']=$id_remove;
@@ -840,7 +723,6 @@ class Publiczone extends CI_Controller
 		}/*else{
 			redirect("publiczone/fleet");
 		}*/
-
 		$data['pageToLoad'] = 'eResidence/askdelete';
 		$data['pageActive']='eResidence';
 		$this->load->helper('form');
@@ -850,13 +732,12 @@ class Publiczone extends CI_Controller
 		$this->load->view('ini',$data);
 
 	}
-	/******************** for address **************/
 
-
-
-
-
-
+	/**
+	 * [change_add description]
+	 * @param  integer $user_id [description]
+	 * @return [type]           [description]
+	 */
 	public function change_add($user_id=0) 
 	{
 		if(!isset($_SESSION['id'])){
@@ -868,18 +749,17 @@ class Publiczone extends CI_Controller
 		if($user_id !=0){
 			$data['user_id']= $user_id;
 		}
-		
 
 		$data['pageToLoad'] = 'request/change_add';
 		$data['pageActive']='request';
 		
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+
 		if(null!=$this->input->get('statusInsert'))
 		{
 			$data['statusInsert']=$this->input->get('statusInsert');
 		}
-
 
 		/***get the provice and distric by province id*******/
 		$selDistrict= $this->getProvinceDistrict();
@@ -889,138 +769,101 @@ class Publiczone extends CI_Controller
 		$data['towns']=$selDistrict['town'];	
 		$data['suburbs']=$selDistrict['suburb'];	
 		$data['address']=$selDistrict['address'];	
-		//$data['zip_code']=$selDistrict['zip_code'];	
-			//var_dump($data['manucipality']);	
+			
 		/*****end */		
-		
-
-		//data from db
-		
 		
 		$search = array();
 		$data['province']=$this->province_model->getProvince();
 		$district = $this->input->post('province');
 
-		//$data['district']=$this->district_model->getDistrict($district);
-		
-		
-
-		
-//Including validation library
+		//Including validation library
 
 		$config_validation = array
 		(
-			
-
 				array(
     				'field'=>'suburb',
     				'label'=>'Suburb',
     				'rules'=>array(
-                		'required',
-                		array('check_surburb',array($this->suburb_model, 'check_surburb'))),
-        
+                		  'required',
+                		 		array('check_surburb',array($this->suburb_model, 'check_surburb'))),        
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_surburb'=>'invalide input or option')),
+						  'check_surburb'=>'invalide input or option')),
 
     			array(
     				'field'=>'town',
     				'label'=>'Town',
-    				'rules'=>array(
-                		'required',
-                		array('check_town',array($this->town_model, 'check_town'))),
+    				'rules'=>array('required',                		
+                		  		array('check_town',array($this->town_model, 'check_town'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_town'=>'invalide input or option')),
+						  'check_town'=>'invalide input or option')),
 
     			array(
     				'field'=>'district',
     				'label'=>' District',
-    				'rules'=>array(
-                		'required',
-                		array('check_district',array($this->district_model, 'check_district'))),
+    				'rules'=>array('required',                		
+                				array('check_district',array($this->district_model, 'check_district'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_district'=>'invalide input or option'),
-    			),
+						  'check_district'=>'invalide input or option')),    			
 
     			array(
     				'field'=>'province',
     				'label'=>'Province',    			
-    				'rules'=>array(
-                		'required',
-               		 array('check_province',array($this->province_model, 'check_province'))),
+    				'rules'=>array('required',                		
+               		   			array('check_province',array($this->province_model, 'check_province'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_province'=>'invalide input or option'),
-
-    			),
+					  	'check_province'=>'invalide input or option')),
+    			
     			array(
-
     				'field'=>'manucipality',
     				'label'=>'Manucipality',
-    				'rules'=>array(
-                		'required',
-               		 array('check_municipality',array($this->manucipality_model, 'check_municipality'))),
+    				'rules'=>array('required',                		
+               			  		array('check_municipality',array($this->manucipality_model, 'check_municipality'))),
     				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_municipality'=>'invalide input or option'),
-
-    			),
-    				array(
-				'field'=>'street_name',
-				'label'=>'Street Address',
-				'rules'=>
-					array(		
-                		'required',
-               		 array('check_streetname',array($this->address_model, 'check_streetname'))),
-				'errors'=>array('required'=>'you should insert %s for the user',
-					'check_streetname'=>'invalide input or option'),
-				),
+						   'check_municipality'=>'invalide input or option')),
+    			
+    			array(
+					'field'=>'street_name',
+					'label'=>'Street Address',
+					'rules'=>array('required',					
+	               		 		 array('check_streetname',array($this->address_model, 'check_streetname'))),
+					'errors'=>array('required'=>'you should insert %s for the user',
+						  'check_streetname'=>'invalide input or option')),
+					
 				array(
 					'field'=>'door_number',
 					'label'=>'Door Number',
-					'rules'=>
-						array(
-	                		'required',
-	                		array('check_doornumber',array($this->address_model, 'check_doornumber'))),
+					'rules'=>array('required',						
+	                				array('check_doornumber',array($this->address_model, 'check_doornumber'))),
 					'errors'=>array('required'=>'you should insert %s for the user',
 					'check_doornumber'=>'invalide input or option')),
 				array(
 					'field'=>'door_number',
 					'label'=>'Door Number',
-					'rules'=>
-						array(
-	                		'required',
-               		 //array('checkCheckbox',array($this->user_model, 'checkCheckbox'))
-               		 ),
-    				'errors'=>array('required'=>'you should insert %s for the user',
-					//'checkCheckbox'=>'invalide input or option'
-				)),
+					'rules'=>array('required',),                			
+               		 			//array('checkCheckbox',array($this->user_model, 'checkCheckbox'))               		 
+    				'errors'=>array('required'=>'you should insert %s for the user',)),
+					//'checkCheckbox'=>'invalide input or option'				
+			);
 
+			$this->form_validation->set_rules($config_validation);
+			if($this->form_validation->run()===FALSE)
+			{
+				$this->load->view('ini',$data);
 
-		);
+			}else{						
+				$statusInsert=$this->user_model->addUserAddress($this->input->post());
+				// send data in comment table for notification
+				/*if ($statusInsert == 1) {
 
-		$this->form_validation->set_rules($config_validation);
-		if($this->form_validation->run()===FALSE)
-		{
-
-			$this->load->view('ini',$data);
-
-		}else
-		{
-
-			$statusInsert=$this->user_model->addUserAddress($this->input->post());
-
-				
-
-		redirect("residents/userprofile?statusInsert=$statusInsert");
-
-
+					$type=array('type'=>2,
+								'comments'=>$_SESSION['name'].' has changed address to '.$this->input->post('door_number')."\n".$this->input->post('street_name'),
+								'subjects'=>'User changed Address',
+								);
+					$this->messages_model->insertComment($type,$user_id);
+				}*/
+			redirect("residents/userprofile?statusInsert=$statusInsert");
 		}
-
 	}
-	
-
-
-
-
-
 }
 
 

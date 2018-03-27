@@ -2,72 +2,72 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-/**
-* Model to manage the email messages to send
-*/
-class Postoffice_model extends CI_Model
- {
+	/**
+	* Model to manage the email messages to send
+	*/
+	class Postoffice_model extends CI_Model
+	 {
 
-	private $template;
-	private $email_body;
+		private $template;
+		private $email_body;
 
 
-	public function __constructor()
+		public function __constructor()
+		{
+			parent::__constructor();
+		}
+
+		/**
+		 * Sets the template.
+		 *
+		 * @param      string  $template  The template to the database
+		 */
+		public function setTemplate(string $template)
+		{
+			$this->template = $template;
+		}
+
+	/**
+	* Sets the data to template with an array. Containing key values as the variables name to be replaced
+	*
+	* @param      array  $data   set information from database
+	*/
+	public function setDataToTemplate(array $data)
 	{
-		parent::__constructor();
+
+		$aux = $this->template;
+		foreach ($data as $key => $value) 
+		{
+			$aux = str_replace("{".$key."}",$value, $aux);
+		}
+		$this->email_body = $aux;
 	}
 
 	/**
-	 * Sets the template.
+	 * Sends an email.
 	 *
-	 * @param      string  $template  The template to the database
+	 * @param      string  $subject   The subject
+	 * @param      string  $email_to  The email to the database
+	 *
+	 * @return     <type>  ( description_of_the_return_value )
 	 */
-	public function setTemplate(string $template)
+	public function sendEmail(string $subject,string $email_to)
 	{
-		$this->template = $template;
+
+		$email_from = $this->config->item('email_from');
+
+		//************************************************************
+		$this->email->set_newline("\r\n");
+		// Sender email address
+		$this->email->from($email_from);
+		// Receiver email address
+		$this->email->to($email_to);
+		// Subject of email
+		$this->email->subject($subject);
+		$this->email->set_mailtype("html");
+		// Message in email
+		$this->email->message($this->email_body);
+		return $this->email->send();
 	}
-
-/**
-* Sets the data to template with an array. Containing key values as the variables name to be replaced
-*
-* @param      array  $data   set information from database
-*/
-public function setDataToTemplate(array $data)
-{
-
-	$aux = $this->template;
-	foreach ($data as $key => $value) 
-	{
-		$aux = str_replace("{".$key."}",$value, $aux);
-	}
-	$this->email_body = $aux;
-}
-
-/**
- * Sends an email.
- *
- * @param      string  $subject   The subject
- * @param      string  $email_to  The email to the database
- *
- * @return     <type>  ( description_of_the_return_value )
- */
-public function sendEmail(string $subject,string $email_to)
-{
-
-	$email_from = $this->config->item('email_from');
-
-	//************************************************************
-	$this->email->set_newline("\r\n");
-	// Sender email address
-	$this->email->from($email_from);
-	// Receiver email address
-	$this->email->to($email_to);
-	// Subject of email
-	$this->email->subject($subject);
-	$this->email->set_mailtype("html");
-	// Message in email
-	$this->email->message($this->email_body);
-	return $this->email->send();
-}
 
 }

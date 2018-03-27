@@ -9,6 +9,7 @@ class Suburb_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+	
 	/**
 	* [getSuburb in a specific town]
 	 * @param  integer $town_id [description]
@@ -39,8 +40,8 @@ class Suburb_model extends CI_MODEL
 	 */
 	public function getSuburbs($searchSuburb=array())
 	{
-		$suburb_id=$searchSuburb['suburb'] ?? false;
-		$town_id=$searchSuburb['town'] ?? false;
+		$suburb_id= isset($searchSuburb['suburb'])? $searchSuburb['suburb'] : false;
+		$town_id= isset($searchSuburb['town'])? $searchSuburb['town'] : false;
 		if ($suburb_id) {
 			$this->db->where('suburb.id',$suburb_id)
 					->where('suburb.town_id',$town_id);

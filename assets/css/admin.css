@@ -122,13 +122,13 @@ div.clearfix {
 
 body
 {
-  font-family: 'Roboto', sans-serif;
-  /*color: #B7C4CB;*/
+ /* font-family: 'Roboto', sans-serif;
+  color: #B7C4CB;
   background-color: #F7F9F9;
   margin:0;
   padding:0;
   width: 100%;
-  height: 100%;
+  height: 100%;*/
 }
 
 body > div {

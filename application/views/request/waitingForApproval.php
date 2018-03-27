@@ -23,7 +23,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="row tablereq">
     <div class="col-md-10 ">
      <?php 
-//var_dump($user_addinfor);
 
      $action="request_proof/viewRequestMade/";
 
@@ -51,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             foreach ($user_addinfor as $key ) {
               echo $key->name;
               $user_id=$key->id;
-                //var_dump($user_id);
+               
               ?>
 
             </td>
@@ -60,8 +59,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <td rowspan="7">Address</td>               
             <td ><?php  echo $key->door_number. ' '.$key->street_name?></td>      
           </tr>
-
-
           <tr>
             <td><?php  echo $key->street_name?></td>
 
@@ -96,7 +93,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <div class="text-left">
    <p class="text-center"><strong class="text-danger">Your application is waiting for approval</strong></p>
-
 
    <?php
  }

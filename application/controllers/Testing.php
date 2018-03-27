@@ -10,12 +10,21 @@
 		parent::__construct();
  			//$this->load->model("listOfRes_model");
  		    //$this->load->model("request_model");
+		$is_logged_in =$this->session->userdata('is_logged_in');
 
- 		}
+		//if($this->session->userdata('is_logged_in')==true)
+		if(is_null($is_logged_in )){
+			redirect('login/login_');
+		}
+ 	}
 
- public	function index()
+	/**
+	 * [index description]
+	 * @return [type] [description]
+	 */
+	 public	function index()
  	{
- 		$data['pageToLoad']='makePDF/makepdf';
+ 		$data['pageToLoad']='makepdf/makepdf';
 		$data['pageActive']='makepdf';
 		//$this->load->view('ini',$data);
 
@@ -31,11 +40,9 @@
 		
 	}
 
- 		$this->load->view('makePDF/makepdf',$data);
-
+ 		$this->load->view('makepdf/makepdf',$data);
 
  	}
-
 
  }
 ?>

@@ -9,6 +9,7 @@ class Manucipality_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+
 	/**
 	 * [getManucipality retrieves the list of manucipalities]
 	 * @param  integer $manucipality_id [description]
@@ -32,6 +33,7 @@ class Manucipality_model extends CI_MODEL
 		return $this->db->get()->result();
 		
 	}
+
 	/**
 	 * [getManucipalities get all the minicipalities]
 	 * @param  array  $searchMuni [description]
@@ -39,8 +41,8 @@ class Manucipality_model extends CI_MODEL
 	 */
 	public function getManucipalities($searchMuni=array())
 	{
-		$municipality_id=$searchMuni['manucipality'] ?? false;
-		$district_id=$searchMuni['district'] ?? false;
+		$municipality_id=isset($searchMuni['manucipality'] )? $searchMuni['manucipality']  :false;
+		$district_id=isset($searchMuni['district'])? $searchMuni['district'] : false;
 		if ($municipality_id) {
 			$this->db->where('manucipality.id',$municipality_id)
 					->where('manucipality.district_id',$district_id);
@@ -56,6 +58,11 @@ class Manucipality_model extends CI_MODEL
 		return $this->db->get()->result();
 		
 	}
+	/**
+	 * [check_municipality
+	 * ]
+	 * @return [type] [description]
+	 */
 	public function check_municipality(){
 		$searchMuni['manucipality']=$this->input->post('manucipality');
 		$searchMuni['district']=$this->input->post('district');
@@ -65,11 +72,10 @@ class Manucipality_model extends CI_MODEL
 		}
 		$data=$this->getManucipalities($searchMuni);
 		
-		//return false if data is empty
+			//return false if data is empty
 			return	$retVal = (empty($data)) ? false: true;
-		}
-	
+		}	
 
-}
+	}
 
 ?>

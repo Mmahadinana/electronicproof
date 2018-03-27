@@ -8,20 +8,11 @@ class Request_proof extends CI_Controller {
 	{
 		parent::__construct();
 
-		
-		//library to access the session
-		//$this->load->library("session");
-		//$this->load->model("request_model");
-		//$this->load->model("approval_model");
-		//$this->load->model("ownersProperty_model");
-		//$this->load->model("ownersDetails_model");
-		//$this->load->model("login_model");
-		//$this->load->model("owners_property_model");
-		//$this->load->model("listOfRes_model");
-		//$this->load->library('pagination');
-		logoutByInactiv();
-		$is_logged_in = $this->session->userdata('is_logged_in') ?? FALSE;
-		if(!$is_logged_in ){
+		//logoutByInactiv();
+		$is_logged_in =$this->session->userdata('is_logged_in');
+
+		//if($this->session->userdata('is_logged_in')==true)
+		if(is_null($is_logged_in )){
 			redirect('login/login_');
 		} 
 	}
@@ -43,48 +34,46 @@ class Request_proof extends CI_Controller {
 	 * So any other public methods not prefixed with an underscore will
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
+	 */ 
 	
 
-	 
-	
-
-/**
+	/**
 	 * [viewRequestMade description]
 	 * @return [type] [description]
 	 */
+	
 	public function viewRequestMade()
 	{ 
 		$search=array();
 		$search['user_id']=$_SESSION['id'];
 		$hasexpired=$this->request_model->check_record($search);
-			//var_dump($check_proof_hasexpired);
+		
 			//is user waiting for request approval
 			$request_made=$this->request_model->check_if_request_made($search);
 
-		//var_dump($check_proof_hasexpired,$check_proof_hasexpired);
+		
 		$data['request_state']='';
 		if($hasexpired==true && $request_made==true){
 			$data['request_state'].='';
 		}
 		elseif($hasexpired==true && $request_made==false) {
-					$data['request_state'].='<i class="fa fa-telegram fa-6x"></i>';
+			$data['request_state'].='<i class="fa fa-telegram fa-6x"></i>';
 	
 		}
 		elseif($hasexpired==false && $request_made==true) {
+
 			$data['request_state'].='<i class="fa fa-telegram"></i>';
 			$data['request_state'].='<i class="fa fa-telegram"></i>';
 			$data['request_state'].='<span class="fa-layers fa-fw" style="background:MistyRose">
-    <i class="fas fa-envelope"></i>
-    <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
-  </span>';
+    								 <i class="fas fa-envelope"></i>
+    								 <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
+ 									 </span>';
 		}else {
 			$data['request_state'].='<i class="fa fa-telegram"></i>';
 			$data['request_state'].='<span class="fa-layers fa-fw" style="background:MistyRose">
-    <i class="fa fa-envelope"></i>
-    <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
-  </span>';
+    								 <i class="fa fa-envelope"></i>
+   									 <span class="fa-layers-counter" style="background:Tomato"><i class="fa fa-thumbs-up"></i></span>
+  									 </span>';
 		}
 		$search=array();
 		$search['user_id']=$_SESSION['id'];
@@ -100,9 +89,9 @@ class Request_proof extends CI_Controller {
 		$this->load->view('ini',$data);
 		
 	}
-	//////////****************this function enable the user who has made a request to cancel the request they maderesidence************///////////
+	
 	/**
-	 * [cancelRequest description]
+	 * [cancelRequest cancel the request they made oneresidence]
 	 * @return [type] [description]
 	 */
 	public function cancelRequest()
@@ -112,9 +101,18 @@ class Request_proof extends CI_Controller {
 		$search['request_id']=$this->input->post('request_id');
 		$request_id=$search['request_id'];
 		//$data['db']=$this->request_model->getListToComfirm($search);
-		//var_dump($search['request_id']);
+
 
 		$data['message']=$this->request_model->cancelRequest($request_id);
+	
+		if ($data['message'] == true) {
+
+			$type=array('type'=>1,
+						'comments'=>$_SESSION['name'].' has Canceled request, click to view',
+						'subjects'=>'User Request Canceled',
+							);
+			$this->messages_model->insertComment($type,$_SESSION['id']);
+		}
 
 		$data['pageToLoad']='request/cancelRequest';
 		$data['pageActive']='request';
@@ -126,21 +124,19 @@ class Request_proof extends CI_Controller {
 		
 	}
 
-	//////////**************** this function enable the user to make a request for proof of residence************///////////
+	
 	/**
-	 * [request description]
+	 * [request for proof of residence]
 	 * @return [type] [description]
 	 */
-public function request()
+	public function request()
 	{ 
 
 		if(null!=$this->input->get('statusInsert')){
 			$data['statusInsert']= $this->input->get('statusInsert');
-
 		}
 		if(null!=$this->input->get('days_left')){
 			$data['days_left']= $this->input->get('days_left');
-
 		}
 
 		/*Get the property id from the post*/
@@ -166,12 +162,13 @@ public function request()
 			$search['property_id']= $property_id;
 			$search["user_id"]= $_SESSION['id'];
 
-
+			//get user information
 			$data['user_addinfor']= $this->request_model->getAddress($search);
-
+			//get owners information
 			$data['db']= $this->request_model->getOwner($search);
 			//is user already made a request 
 			$proofOfRecData=array();
+			//get the property of the user in session
 			foreach($data['user_addinfor'] as $property){
 				$proofOfRecData['property']= $property->property;
 			}
@@ -180,10 +177,10 @@ public function request()
 			$search_user['user_id']=$_SESSION['id'];
 			//request is approved, is proof of resident expired?
 			$check_proof_hasexpired=$this->request_model->check_record($proofOfRecData);
-			//var_dump($check_proof_hasexpired);
+			
 			//is user waiting for request approval
 			$check_if_request_made=$this->request_model->check_if_request_made($proofOfRecData);
-			//var_dump($check_if_request_made);
+		
 			//loading the request page 
 			$data['pageToLoad']='request/request';
 			$data['pageActive']='request';
@@ -191,94 +188,78 @@ public function request()
 			$data['pageTitle']='Request Form ';
 
 			if(!$this->input->post('usercheck') && ($check_if_request_made== true) && $check_proof_hasexpired==true)
-
 			{
 
-// loading the form and files for file uoload		
+				// loading the form and files for file uoload		
 				$this->load->helper(array('form','file','url'));
 
 				$this->load->library('form_validation');
-// this is for validation 
+				// this is for validation 
 				$minetypes='';
 				$config_validation=array(
 					array('field'=>'phone',
-						'label'=>'Phone',
-						'rules'=>array(
-							'required',
-							'exact_length[10]',						
-							'regex_match[/^[0-9]+$/]',
-							array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
+						  'label'=>'Phone',
+						  'rules'=>array(
+								'required',
+								'exact_length[10]',						
+								'regex_match[/^[0-9]+$/]',
+								array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
+							'errors'=>array(
+								   'required'=>'you should insert a %s ',
+								   'exact_length'=>'the %s must have at least length of 10 ',						
+								   'regex_match'=>'the %s must be numbers only',	
+								   'checkPhone'=>'%s does not exist, please enter the correct email',)		 					
+							),	
 
-
-						'errors'=>array(
-							'required'=>'you should insert a %s ',
-							'exact_length'=>'the %s must have at least length of 10 ',						
-							'regex_match'=>'the %s must be numbers only',	
-							'checkPhone'=>'%s does not exist, please enter the correct email',				
-						)	 					
-					),		
 					array(
 						'field'=>'idnumber',
 						'label'=>'ID No.',
 						'rules'=>array(
-							'required',
-							'exact_length[13]',
-							'numeric',
-							array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))				
-						),
+							  'required',
+							  'exact_length[13]',
+							  'numeric',
+							  array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))),							
 						'errors'=>array(
-							'required'=>' %s is required',
-							'exact_length'=>'the %s must have 13 numbers',
-							'numeric'=>'the %s must have only numbers',
-							'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+							   'required'=>' %s is required',
+							   'exact_length'=>'the %s must have 13 numbers',
+							   'numeric'=>'the %s must have only numbers',
+							   'checkIdnumber'=>'%s does not exist, please enter the correct email',)	
+							),
 
-					),
-
-					array('field'=>'email',
-						'label'=>'E-mail',
-						'rules'=>array(
-							'required','valid_email',
-							array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
+					array(	'field'=>'email',
+							'label'=>'E-mail',
+							'rules'=>array(
+								  'required','valid_email',
+								  array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
 						'errors'=>array(
-							'required'=>'%s is required',
-							'valid_email'=>'invalid email',
-							'checkEmail'=>'%s does not exist, please enter the correct email'
+							   'required'=>'%s is required',
+							   'valid_email'=>'invalid email',
+							   'checkEmail'=>'%s does not exist, please enter the correct email'
+								) 					
+							),
 
-						) 					
-					),
-					array('field'=>'idUpload',
-						'label'=>'idUpload',
-				'rules'=>array(//'required',					
-					'callback_id_upload'),
-					//array('checkFile',array($this->request_model,'callback_checkFile'))
-				
+					array(	'field'=>'idUpload',
+							'label'=>'idUpload',
+							'rules'=>array(//'required',					
+								  'callback_id_upload'),
+								  //array('checkFile',array($this->request_model,'callback_checkFile'))
+							'errors'=>array()
+									//'callback_file_upload'=>'%s is required',
+									//'checkFile'=>'type for %s exist'									
+								),
 
-				'errors'=>array(
-			//'callback_file_upload'=>'%s is required',
-			//'checkFile'=>'type for %s exist'
+					array(	'field'=>'fileToUpload',
+							'label'=>'fileToUpload',
+							'rules'=>array(//'required',					
+								  'callback_file_upload'),
+								  //array('checkFile',array($this->request_model,'callback_checkFile'))
+							'errors'=>array()
+									//'callback_do_upload1'=>'%s is required',
+									//'checkFile'=>'type for %s exist'									
+								),
+							);
 
-
-				)
-			),
-					array('field'=>'fileToUpload',
-						'label'=>'fileToUpload',
-				'rules'=>array(//'required',					
-					'callback_file_upload'),
-					//array('checkFile',array($this->request_model,'callback_checkFile'))
-				
-
-				'errors'=>array(
-			//'callback_do_upload1'=>'%s is required',
-			//'checkFile'=>'type for %s exist'
-
-
-				)
-			),
-
-				);		
-
-
-		//Validating the form
+				//check Validating the form
 				$this->form_validation->set_rules($config_validation);
 				if ($this->form_validation->run()===FALSE) 
 				{
@@ -287,19 +268,16 @@ public function request()
 				}
 				else{
 
-			//send data to the database
-					 
-					//var_dump($check_if_request_made);
-					
+					//send data to the database					 
 					if($_FILES['fileToUpload']['name'][0] != '' && ($check_if_request_made== true) && $check_proof_hasexpired==true) {
 
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
-
 						
 						$multipleFile=$this->request_model->insertMultipleFileData($this->upload_data1,$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID,$multipleFile);
 					}elseif(($check_if_request_made== true) && $check_proof_hasexpired==true) {
+
 						$fileID=$this->request_model->insertFileData($this->upload_data['file'],'ID',$proofOfRecData);
 
 						$this->requestPreview($data['user_addinfor'],$fileID);
@@ -308,30 +286,24 @@ public function request()
 
 						$this->load->view('ini',$data);
 					}
-					
-
 				}
-
 			}
 			else{
 
-				//$this->load->view('ini',$data);
-			
+				//$this->load->view('ini',$data);			
 				redirect('Request_proof/viewRequestMade');
-
-
-			}
-			
+			}			
 		}
 		else {
-			//user does not have address they should register their address		
-			
+
+			//user does not have address they should register their address				
 			redirect('residents/userprofile');
-
 		}
-		
-
 	}
+
+	/**
+	 * [EditRequest made by user]
+	 */
 	public function EditRequest()
 	{ 
 		$search=array();
@@ -353,16 +325,16 @@ public function request()
 		// getting the data in attachment for idUpload
 		$data['idUpload']=$this->request_model->getAttachment($search);
 		if(empty($data['idUpload'])){
+
 			$data['message']=alertMsg(false,'Something went wrong, Make a new request','');
 			redirect('Request_proof/request');
 		}
 		
 		foreach($data['idUpload'] as $files){
+
 			$data['idFiles']=$files->original_name;
 			//storing identity id
 			$attachment_id_id=$files->attachment_id;
-
-
 		}
 
 		
@@ -374,6 +346,7 @@ public function request()
 		//count for attachment id if multiple files inserted in property 
 		$i=0;
 		foreach($data['fileToUpload'] as $files){
+
 			$data['propFiles']=$files->original_name;	
 
 			if($files->attachment_id != 0){
@@ -399,69 +372,65 @@ public function request()
 			$data['pageActive']='request';
 			/**load thi page title**/
 			$data['pageTitle']='Edit Request';
+
 			if(!$this->input->post('usercheck')){
 
-// loading the form and files for file uoload		
+				// loading the form and files for file uoload		
 				$this->load->helper(array('form','file','url'));
 
 				$this->load->library('form_validation');
-// this is for validation 
+				
 				$minetypes='';
+				// this is for validation 
 				$config_validation=array(
-					array('field'=>'phone',
-						'label'=>'Phone',
-						'rules'=>array('required',
-							'exact_length[10]',						
-							'regex_match[/^[0-9]+$/]',
-							array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
+					array(	'field'=>'phone',
+							'label'=>'Phone',
+							'rules'=>array('required',
+								  'exact_length[10]',						
+								  'regex_match[/^[0-9]+$/]',
+								  array('checkPhone',array($this->Login_model,'callback_checkPhone'))),
+							'errors'=>array('required'=>'you should insert a %s ',
+								   'exact_length'=>'the %s must have at least length of 10 ',						
+								   'regex_match'=>'the %s must be numbers only',	
+								   'checkPhone'=>'%s does not exist, please enter the correct email',)	 					
+							),
 
-						'errors'=>array('required'=>'you should insert a %s ',
-							'exact_length'=>'the %s must have at least length of 10 ',						
-							'regex_match'=>'the %s must be numbers only',	
-							'checkPhone'=>'%s does not exist, please enter the correct email',			
-						)	 					
-					),		
 					array(
-						'field'=>'idnumber',
-						'label'=>'ID No.',
-						'rules'=>array(
-							'required',
-							'exact_length[13]',
-							'numeric',
-							array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))				
-						),
-						'errors'=>array(
-							'required'=>' %s is required',
-							'exact_length'=>'the %s must have 13 numbers',
-							'numeric'=>'the %s must have only numbers',
-							'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+							'field'=>'idnumber',
+							'label'=>'ID No.',
+							'rules'=>array(
+								  'required',
+								  'exact_length[13]',
+								  'numeric',
+								  array('checkIdnumber',array($this->Login_model,'callback_checkIdnumber'))),						
+							'errors'=>array(
+								  'required'=>' %s is required',
+								  'exact_length'=>'the %s must have 13 numbers',
+								  'numeric'=>'the %s must have only numbers',
+								  'checkIdnumber'=>'%s does not exist, please enter the correct email',)
+							),
 
-					),
+					array(	'field'=>'email',
+							'label'=>'E-mail',
+							'rules'=>array('required','valid_email',
+								  array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
+							'errors'=>array(
+								   'required'=>'%s is required',
+								   'valid_email'=>'invalid email',
+								   'checkEmail'=>'%s does not exist, please enter the correct email')
+							),
+						);
 
-					array('field'=>'email',
-						'label'=>'E-mail',
-						'rules'=>array('required','valid_email',
-							array('checkEmail',array($this->Login_model,'callback_checkEmail'))),
-						'errors'=>array(
-							'required'=>'%s is required',
-							'valid_email'=>'invalid email',
-							'checkEmail'=>'%s does not exist, please enter the correct email'
-
-						) 					
-					),
-					
-
-				);		
-
-
-		//Validating the form
+				//Validating check
 				$this->form_validation->set_rules($config_validation);
+				// if valition rules not met load the view
 				if ($this->form_validation->run()===FALSE) {
 
 					$this->load->view('ini',$data);
 				}else{
-			//send data to the database
+					//send data to the database
 					$proofOfRecData=array();
+
 					foreach($data['user_addinfor'] as $property){
 						$proofOfRecData['property']= $property->property;
 					}
@@ -469,31 +438,19 @@ public function request()
 					$proofOfRecData['user_id']=$_SESSION['id'];					
 					$this->load->view('ini',$data);
 				}
-
 			}
 			else{
 				$this->load->view('ini',$data);
-
-
-			}
-			
+			}			
 		}
 		else {
-			//user does not have address they should register their address		
-			
+			//user does not have address they should register their address				
 			redirect('residents/userprofile');
 		}
-		
-
 	}
 
-
-	/******UPLOADING A FILE TO THE FLDER***********************/	/******UPLOADING A FILE TO THE FLDER***********************/
-
-	
-
 	/**
-	 * [file_upload description]
+	 * [file_upload UPLOADING A FILE TO THE FLDER]
 	 * @return [type] [description]
 	 */
 	public function file_upload() { 
@@ -507,10 +464,8 @@ public function request()
 		$config['max_size']	 = '599120';
 		if ($_FILES['fileToUpload']['name'] != '') 
 		{
-
-
 			$minetype='PD';
-//upload file
+			//upload file
 
 			$number_of_files_uploaded= count($_FILES['fileToUpload']['name']);
 			for($i=0; $i<$number_of_files_uploaded; $i++)
@@ -525,7 +480,6 @@ public function request()
 				$this->upload->initialize($config);
 				$statusFileToUpload =$this->upload->do_upload('filetoUpload');
 
-
 				if (!$statusFileToUpload && $_FILES['filetoUpload']['name'] != '')
 				{
 					$this->form_validation->set_message('file_upload', $this->upload->display_errors());
@@ -536,7 +490,6 @@ public function request()
 
 					$this->upload_data1[]['file'] = $this->upload->data();
 
-
 				//$this->request_model->addIdUpload($this->upload_data['file']);
 				}
 			}
@@ -545,206 +498,200 @@ public function request()
 	}
 
 
-	// *****************************************************************upload for the identity document************************************/
-/**
- * [id_upload description]
- * @return [type] [description]
- */
-public function id_upload(){
-// upload file uptions
-	$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-	$config['upload_path']   ='./id_upload/';
-	$config['encrypt_name']   =true;			
-	$config['overwrite']     = false;
-	$config['max_size']	 = '5120';
-	$minetype='ID' ;
-//upload file for ID
-	if($_FILES['idUpload']['size'] != 0){
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		$statusIdUpload =$this->upload->do_upload('idUpload');
+	/**
+	 * [id_upload for the identity document]
+	 * @return [type] [description]
+	 */
+	public function id_upload(){
+	// upload file uptions
+		$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+		$config['upload_path']   ='./id_upload/';
+		$config['encrypt_name']   =true;			
+		$config['overwrite']     = false;
+		$config['max_size']	 = '5120';
+		$minetype='ID' ;
+	//upload file for ID
+		if($_FILES['idUpload']['size'] != 0){
 
-		if (!$statusIdUpload){
-			$this->form_validation->set_message('id_upload', $this->upload->display_errors());
-			return false;
-		}
-		elseif($statusIdUpload)
-		{
-			$this->upload_data['file'] = $this->upload->data();
-			//send data to the database	
-				//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			$statusIdUpload =$this->upload->do_upload('idUpload');
 
-		}
+			if (!$statusIdUpload){
+
+				$this->form_validation->set_message('id_upload', $this->upload->display_errors());
+				return false;
+			}
+			elseif($statusIdUpload)
+			{
+				$this->upload_data['file'] = $this->upload->data();
+				//send data to the database	
+					//$this->request_model->addIdUpload($this->upload_data['file'],$minetype);
+			}
 
 		}//error if there in no file to upload
-
 		return true;
 	}
-// **********************************************the success page of the request*******************************************************************************************//
-/**
- * [requestPreview description]
- * @param  array  $user_addinfor [description]
- * @return [type]                [description]
- */
-public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
-{ 
+
+	/**
+	 * [requestPreview success page of the request]
+	 * @param  array  $user_addinfor [description]
+	 * @return [type]                [description]
+	 */
+	public function requestPreview($user_addinfor=array(),$fileID=0,$multipleFile=0)
+	{ 
+		
+		$search=array();
+		if (empty($user_addinfor)) {
+
+			$search['property_id']=$this->input->post('property_id');
+			$search['userid']=$this->input->post('user_id');
+
+			$user_addinfor= $this->request_model->getAddress($search);
+
+		}else {
+
+			foreach($user_addinfor as $userdata)
+			{
+				$search['property_id']=$userdata->property;
+				$search['userid']=$userdata->id;
+			}
+		}		
+		
+		$data['multipleFile']=$multipleFile;
+		$data['fileID']=$fileID;
+
+		$data['residentInfor']=$user_addinfor;
+		$data['owner_addinfor']=$this->request_model->getOwner($search);
+		
+		//check if there is owner
+		if(empty($data['owner_addinfor'])){
+			//delete user adddress of where there is no owner
+			$this->user_model->removeUserAddress($search);
+			redirect("residents/userprofile?statusRequest=0");			
+		}
+			/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
+			$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);*/
+			
+			//$data['user_id']= $this->request_model->getAddress($search);
+			$data['pageToLoad']='request/requestPreview';
+			$data['pageActive']='request';
+			$this->load->helper('form');			
+			
+			$this->load->view('ini',$data);
+	}		
+	//end of request preview
 	
-	$search=array();
-	if (empty($user_addinfor)) {
-		$search['property_id']=$this->input->post('property_id');
-		$search['userid']=$this->input->post('user_id');
+	/**
+	 * [confirmRequestInsert description]
+	 * @return [type] [description]
+	 */
+	public function confirmRequestInsert()
+	{
+		$property_id=$this->input->post('property_id');
+		$owner_id=$this->input->post('owner_id');
+		$user_id=$this->input->post('user_id');
 
-		$user_addinfor= $this->request_model->getAddress($search);
+		if ($property_id != null) {
 
-	}else {
-		foreach($user_addinfor as $userdata)
-		{
-			$search['property_id']=$userdata->property;
-			$search['userid']=$userdata->id;
+			$listvar=array('property_id'=>$property_id,'owner_id'=>$owner_id,'user_id'=>$user_id);
 
+			$this->session->set_userdata($listvar);
+		}
+		else {
+
+			$property_id=$_SESSION['property_id'];
+			$owner_id=$_SESSION['owner_id'];
+			$user_id=$_SESSION['user_id'];
 
 		}
-	}
-	
-	
-	$data['multipleFile']=$multipleFile;
-	$data['fileID']=$fileID;
+				$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
+				$name = '';
+				$email ='';
+						$search['owner_id']=$owner_id;
+						$search['property_id']=$property_id;
+						$ownerdata=$this->request_model->getOwner($search);
 
+						foreach ($ownerdata as $value) {
+							$name=$value->name;
+							$email=$value->email;
+						}
+						//$token = bin2hex(openssl_random_pseudo_bytes(32));				
+						$url = 'login/login_/';
+						//$url = 'login/login_/'.$token.'/'.$user_id;
+						//url to be sent by the email
+						$url_to_activate = base_url($url);
+						//prepare the template new user to be sent by email
+						$this->Postoffice_model->setTemplate($this->load->view("request_email/confirm_request_email_template",array(),TRUE));
+						//prepare the data neaded for the email
+						$templateData = array(
+							'user_name'			=> $name,
+							'url_to_activate' 	=> $url_to_activate 
+						);
+						$this->Postoffice_model->setDataToTemplate($templateData);
+						$subject ='Confirm Request' ;
 
-	$data['residentInfor']=$user_addinfor;
-	$data['owner_addinfor']=$this->request_model->getOwner($search);
-	
-	//check if there is owner
-	if(empty($data['owner_addinfor'])){
-		//delete user adddress of where there is no owner
-		$this->user_model->removeUserAddress($search);
-		redirect("residents/userprofile?statusRequest=0");
-		
+						//send email to the new user
+						$this->Postoffice_model->sendEmail($subject,$email);
+						//end email					
+
+		if($results!=true){
+				//redirecting to the other page
+			$statusInsert=0;
+			redirect("Request_proof/request/$results?statusInsert=$statusInsert");
+		}else {
+				
+			$this->waitingForApproval($user_id,$property_id,$status=1);
+		}	
 	}
-		/*$data['fileAttament1']=$this->request_model->cancelRequest($fileID);
-		$data['fileAttament2']=$this->request_model->cancelRequest($multipleFile);
-		var_dump($data['fileAttament1']);*/
-		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='request/requestPreview';
-		$data['pageActive']='request';
-		$this->load->helper('form');
+
+	/*public function updateRequest()
+	{
+		$property_id=$this->input->post('property_id');
+		//$owner_id=$this->input->post('owner_id');
+		$user_id=$this->input->post('user_id');
+	var_dump($property_id,$user_id);
+		if ($property_id != null) {
+			$listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
+
+			$this->session->set_userdata($listvar);
+		}
+		else {
+
+			$property_id=$_SESSION['property_id'];
+			//$owner_id=$_SESSION['owner_id'];
+			$user_id=$_SESSION['user_id'];
+
+		}
+		$statusUpdate=$this->request_model->updateRequest($user_id,$owner_id,$property_id);
+		
+				//redirecting to the other page
+		
+
+		redirect("residents/request?statusUpdate=$statusUpdate");
 		
 		
+	}*/
+
+	/**
+	 * [askDelete description]
+	 * @return [type] [description]
+	 */
+	public function askDelete()
+	{   
+
+		//$cancel=$this->input->post('cancel');
+		$user_id=$this->input->post('user_id');
+		$property_id=$this->input->post('property_id');
 		
+
+		$data['pageToLoad']='eresidence/askDelete';
+		$data['pageActive']='eresidence';
+		$this->load->helper('form');	
+
 		$this->load->view('ini',$data);
-
 	}
-	
-//end of request preview
-/**
- * [confirmRequestInsert description]
- * @return [type] [description]
- */
-public function confirmRequestInsert()
-{
-	$property_id=$this->input->post('property_id');
-	$owner_id=$this->input->post('owner_id');
-	$user_id=$this->input->post('user_id');
 
-	if ($property_id != null) {
-		$listvar=array('property_id'=>$property_id,'owner_id'=>$owner_id,'user_id'=>$user_id);
-
-		$this->session->set_userdata($listvar);
-	}
-	else {
-
-		$property_id=$_SESSION['property_id'];
-		$owner_id=$_SESSION['owner_id'];
-		$user_id=$_SESSION['user_id'];
-
-	}
-			$results=$this->request_model->insertRequest($user_id,$owner_id,$property_id);
-			$name = '';
-			$email ='';
-					$search['owner_id']=$owner_id;
-					$search['property_id']=$property_id;
-					$ownerdata=$this->request_model->getOwner($search);
-
-					foreach ($ownerdata as $value) {
-						$name=$value->name;
-						$email=$value->email;
-					}
-					//$token = bin2hex(openssl_random_pseudo_bytes(32));				
-					$url = 'login/login_/';
-					//$url = 'login/login_/'.$token.'/'.$user_id;
-				//url to be sent by the email
-					$url_to_activate = base_url($url);
-				//prepare the template new user to be sent by email
-					$this->Postoffice_model->setTemplate($this->load->view("request_email/confirm_request_email_template",array(),TRUE));
-				//prepare the data neaded for the email
-					$templateData = array(
-						'user_name'			=> $name,
-						'url_to_activate' 	=> $url_to_activate 
-					);
-					$this->Postoffice_model->setDataToTemplate($templateData);
-					$subject ='Confirm Request' ;
-				//send email to the new user
-
-					$this->Postoffice_model->sendEmail($subject,$email);
-				//end email
-					
-					
-
-	if($results!=true){
-			//redirecting to the other page
-		$statusInsert=0;
-		redirect("Request_proof/request/$results?statusInsert=$statusInsert");
-	}else {
-			
-		$this->waitingForApproval($user_id,$property_id,$status=1);
-		
-
-	}
-	
-}
-/*public function updateRequest()
-{
-	$property_id=$this->input->post('property_id');
-	//$owner_id=$this->input->post('owner_id');
-	$user_id=$this->input->post('user_id');
-var_dump($property_id,$user_id);
-	if ($property_id != null) {
-		$listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
-
-		$this->session->set_userdata($listvar);
-	}
-	else {
-
-		$property_id=$_SESSION['property_id'];
-		//$owner_id=$_SESSION['owner_id'];
-		$user_id=$_SESSION['user_id'];
-
-	}
-	$statusUpdate=$this->request_model->updateRequest($user_id,$owner_id,$property_id);
-	
-			//redirecting to the other page
-	
-
-	redirect("residents/request?statusUpdate=$statusUpdate");
-	
-	
-}*/
-public function askDelete()
-
-
-{   
-
-	//$cancel=$this->input->post('cancel');
-	$user_id=$this->input->post('user_id');
-	$property_id=$this->input->post('property_id');
-	
-
-	$data['pageToLoad']='eresidence/askDelete';
-	$data['pageActive']='eresidence';
-	$this->load->helper('form');	
-
-	$this->load->view('ini',$data);
-}
 	/**
 	 * [waitingForApproval description]
 	 * @param  integer $user_id     [description]
@@ -753,221 +700,211 @@ public function askDelete()
 	 */
 	public function waitingForApproval($user_id=0,$property_id=0,$status)
 	{ 
-		//status for the inserted request
-		$data['statusInsert']= $status;
+			//status for the inserted request
+			$data['statusInsert']= $status;
 
-		$search=array();
+			$search=array();
 
-		$search['user_id']= $user_id;
-		$search['property_id']= $property_id;
-		//$search[23]= $this->input->get('user_id') ?? '0';
-		if ($property_id != null) {
-			$listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
+			$search['user_id']= $user_id;
+			$search['property_id']= $property_id;
+			//$search[23]= $this->input->get('user_id') ?? '0';
+			if ($property_id != null) {
 
-			$this->session->set_userdata($listvar);
-		}
-		else {
+				$listvar=array('property_id'=>$property_id,'user_id'=>$user_id);
+
+				$this->session->set_userdata($listvar);
+			}
+			else {
+				
+				$property_id=$_SESSION['property_id'];			
+				$user_id=$_SESSION['user_id'];
+				
+			}
+
+			$data['user_addinfor']= $this->request_model->getAddress($search);
+			$data['user_id']= $search['user_id'];
+
+			//$data['user_id']= $this->request_model->getAddress($search);
+			$data['pageToLoad']='request/waitingForApproval';
+			$data['pageActive']='request';
+			$this->load->helper('form');
+			// this is for validation 
 			
-			$property_id=$_SESSION['property_id'];			
-			$user_id=$_SESSION['user_id'];
-			
-		}
-
-		$data['user_addinfor']= $this->request_model->getAddress($search);
-		$data['user_id']= $search['user_id'];
-
-
-
-
-		//$data['user_id']= $this->request_model->getAddress($search);
-		$data['pageToLoad']='request/waitingForApproval';
-		$data['pageActive']='request';
-		$this->load->helper('form');
-		// this is for validation 
-		
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
-
+			$this->load->library('form_validation');
+			$this->load->view('ini',$data);
 	}
 
-/**
- * [getOwnerOfProperty description]
- * @param  [type] $user_id [description]
- * @return [type]          [description]
- */
+	/**
+	 * [getOwnerOfProperty description]
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
 	public function getOwnerOfProperty($user_id){
-		
-		$search=array();
-		$confirmlist=array();
-		$search['user_id']=$user_id;
-
-		
-		
-		return $data['owner']=$this->request_model->getOwner($search);
+			
+			$search=array();
+			$confirmlist=array();
+			$search['user_id']=$user_id;		
+			
+			return $data['owner']=$this->request_model->getOwner($search);
 
 	}
+
 	/**
 	 * [confirmList description]
 	 * @return [type] [description]
 	 */
 	public function confirmList() 
 	{
-
-  //user that does is not owner have no access to this view
-  if ($_SESSION['owner'] != true) {
-    redirect(base_url());
-  }
-		$search=array();		
-		$requestPropertyID=array();		
-		//$data['getOwnerListToComfirm']=array();		
-		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
-		$search['owner']=$_SESSION['id'];
-		//$count=count($data['owner']);
-		$data['getListToComfirm']=$this->request_model->getListToComfirmRequest($search);
-		//var_dump($data['owner']);
-		foreach ($data['owner'] as $owner) {
-		
-			foreach ($data['getListToComfirm'] as $confirm) {
-				if ($confirm->property_id==$owner->property) {
-					
-					/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
-					//get the list that owner should complete
-					$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();
-					
-				}					
-			}		
-
-			//$ownerPropertyID[$owner->property]=$owner->property;
+	  //user that does is not owner have no access to this view
+	  if ($_SESSION['owner'] != true) {
+	    redirect(base_url());
+	  }
+			$search=array();		
+			$requestPropertyID=array();		
+			//$data['getOwnerListToComfirm']=array();		
+			$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+			$search['owner']=$_SESSION['id'];
+			//$count=count($data['owner']);
+			$data['getListToComfirm']=$this->request_model->getListToComfirmRequest($search);
+			//var_dump($data['owner']);
+			foreach ($data['owner'] as $owner) {
 			
-		}
+				foreach ($data['getListToComfirm'] as $confirm) {
+					if ($confirm->property_id==$owner->property) {
+						
+						/*$requestPropertyID[$confirm->property_id]=$confirm->property_id;*/
+						//get the list that owner should complete
+						$data['getOwnerListToComfirm']=$this->request_model->getListToComfirm();						
+					}					
+				}
+				//$ownerPropertyID[$owner->property]=$owner->property;			
+			}			
+			/*foreach ($data['getListToComfirm'] as $confirm) {
+				$requestPropertyID[$confirm->property_id]=$confirm->property_id;
+			}
+			if (expr) {
 				
-		
-		
-		
-		/*foreach ($data['getListToComfirm'] as $confirm) {
-			$requestPropertyID[$confirm->property_id]=$confirm->property_id;
-		}
-		if (expr) {
-			
-		}*/
+			}*/
 
-		$data['pageToLoad']='request/confirmList';
-		$data['pageActive']='request';
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
-
-
+			$data['pageToLoad']='request/confirmList';
+			$data['pageActive']='request';
+			$this->load->helper('form');
+			$this->load->library('form_validation');
+			$this->load->view('ini',$data);
 	}
-	
+		
 
-/**
+	/**
 	 * [listOfApproval page]
 	 * @return [type] [description]
 	 */
 	public function listOfApproval() 
 	{
-		if(null!=$this->input->get('statusApprove')){
-			$data['statusApprove']= $this->input->get('statusApprove');
+			if(null!=$this->input->get('statusApprove')){
+				$data['statusApprove']= $this->input->get('statusApprove');
 
-		}
-		if(null!=$this->input->get('statusUpdate_AdminD')){
-			$data['statusUpdate_AdminD']= $this->input->get('statusUpdate_AdminD');
+			}
+			if(null!=$this->input->get('statusUpdate_AdminD')){
+				$data['statusUpdate_AdminD']= $this->input->get('statusUpdate_AdminD');
 
-		}
-		if(null!=$this->input->get('statusUpdate_AdminA')){
-			$data['statusUpdate_AdminA']= $this->input->get('statusUpdate_AdminA');
+			}
+			if(null!=$this->input->get('statusUpdate_AdminA')){
+				$data['statusUpdate_AdminA']= $this->input->get('statusUpdate_AdminA');
 
-		}
-		$search=array();		
-		//might be used later for identify the person who approved the user
-		$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
-		
-		/*foreach ($data['owner'] as $owner) {
-			$search['property']=$owner->property;			
-		}*/		
-		
-		$data['getListToComfirm']=$this->request_model->getListToApprove($search);
+			}
+			$search=array();		
+			//might be used later for identify the person who approved the user
+			$data['owner']=$this->getOwnerOfProperty($_SESSION['id']);
+			
+			/*foreach ($data['owner'] as $owner) {
+				$search['property']=$owner->property;			
+			}*/		
+			
+			$data['getListToComfirm']=$this->request_model->getListToApprove($search);
 
-		$data['pageToLoad']='request/listOfApproval';
-		$data['pageActive']='request';
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
+			$data['pageToLoad']='request/listOfApproval';
+			$data['pageActive']='request';
+			$this->load->helper('form');
+			$this->load->library('form_validation');
+			$this->load->view('ini',$data);
 	}
+
 	/**
- * [load approve page for admin]
- * @return [type] [description]
- */
-public function approveResident()
-{
-	if($_SESSION['role']!="admin")
+	 * [load approve page for admin]
+	 * @return [type] [description]
+	 */
+	public function approveResident()
 	{
-		redirect('login/login_');
+		if($_SESSION['role']!="admin")
+		{
+			redirect('login/login_');
+		}
+		$search=array();
+
+		//$search['owner_id']= $this->input->post('owner_id');
+		$search['request_id']= $this->input->post('request_id');
+
+		//data for the user that is to be approved
+		$search['user_id']= $this->input->post('user_id');
+		
+		$search['property_id']= $this->input->post('property_id');
+		if($search['request_id']==null){
+		//$data['statusApprove']=0;
+			redirect('Request_proof/listOfApproval?statusApprove=0');
+		}
+		//data that will be stored in hidden input
+		$data['user_id']=$search['user_id'];
+		$data['property_id']=$search['property_id'];
+		$data['request_id']=$search['request_id'];	
+
+		/*if ($search['property_id'] != null) {
+			$listvar=array('property_id'=>$search['property_id'],
+				'owner_id'=>$search['owner_id'],
+				'user_id'=>$search['user_id'],
+				'request_id'=>$search['request_id'],
+			);
+
+			$this->session->set_userdata($listvar);
+		}
+		else {
+
+			$search['property_id']=$_SESSION['property_id'];
+			$search['owner_id']=$_SESSION['owner_id'];
+			$search['user_id']=$_SESSION['user_id'];
+			$search['request_id']=$_SESSION['request_id'];
+
+		}
+		///*/
+		$data['user_addinfor']= $this->approval_model->getAddress($search);
+
+		// if there is no data delete the request
+		if(empty($data['user_addinfor'])){
+
+			$this->request_model->cancelRequest($search['request_id']);
+		}
+		$data['user_addr']= $this->request_model->getListToComfirm($search);
+
+			/*if(empty($data['user_addinfor'])){
+				$me=$this->request_model->deleteRequest($search['request_id']);
+
+				redirect('residents/userprofile?statusConfirm=$me');
+			}*/
+
+			$data['pageToLoad']='request/approveResident';
+			$data['pageActive']='request';
+
+			// loading the form and files for file uoload		
+			$this->load->helper(array('form','file','url'));
+			//$this->load->helper(array('form','url'));
+			$this->load->library('form_validation');
+			$this->load->view('ini',$data);
+
 	}
-	$search=array();
 
-	//$search['owner_id']= $this->input->post('owner_id');
-	$search['request_id']= $this->input->post('request_id');
-
-	//data for the user that is to be approved
-	$search['user_id']= $this->input->post('user_id');
-	
-	$search['property_id']= $this->input->post('property_id');
-	if($search['request_id']==null){
-	//$data['statusApprove']=0;
-		redirect('Request_proof/listOfApproval?statusApprove=0');
-	}
-	//data that will be stored in hidden input
-	$data['user_id']=$search['user_id'];
-	$data['property_id']=$search['property_id'];
-	$data['request_id']=$search['request_id'];
-	
-
-	/*if ($search['property_id'] != null) {
-		$listvar=array('property_id'=>$search['property_id'],
-			'owner_id'=>$search['owner_id'],
-			'user_id'=>$search['user_id'],
-			'request_id'=>$search['request_id'],
-		);
-
-		$this->session->set_userdata($listvar);
-	}
-	else {
-
-		$search['property_id']=$_SESSION['property_id'];
-		$search['owner_id']=$_SESSION['owner_id'];
-		$search['user_id']=$_SESSION['user_id'];
-		$search['request_id']=$_SESSION['request_id'];
-
-	}
-	///*/
-	$data['user_addinfor']= $this->approval_model->getAddress($search);
-
-	// if there is no data delete the request
-	if(empty($data['user_addinfor'])){
-		$this->request_model->cancelRequest($search['request_id']);
-
-	}
-	$data['user_addr']= $this->request_model->getListToComfirm($search);
-
-	/*if(empty($data['user_addinfor'])){
-			$me=$this->request_model->deleteRequest($search['request_id']);
-
-			redirect('residents/userprofile?statusConfirm=$me');
-		}*/
-
-		$data['pageToLoad']='request/approveResident';
-		$data['pageActive']='request';
-
-// loading the form and files for file uoload		
-		$this->load->helper(array('form','file','url'));
-		//$this->load->helper(array('form','url'));
-		$this->load->library('form_validation');
-		$this->load->view('ini',$data);
-
-	}
-
+	/**
+	 * [approve description]
+	 * @return [type] [description]
+	 */
 	public function approve()
 	{
 		if($_SESSION['role']!="admin")
@@ -976,170 +913,177 @@ public function approveResident()
 		}
 		$search=array();
 
-	//$search['user_id']= $_SESSION['id'];
+		//$search['user_id']= $_SESSION['id'];
 		$search['user_id']= $this->input->post('user_id');
 		$search['property_id']= $this->input->post('property_id');
 		$search['request_id']= $this->input->post('request_id');
 		$data['user_request']=$this->request_model->getUserRequest($search);
 		$data['userid']=$search['user_id'];
 
-	//here administrator has approved the user
+		//here administrator has approved the user
 		if($this->input->post('approve')){
+
 			$confirm=$this->request_model->approve_status(1,$search);
 			
 			redirect('Request_proof/listOfApproval?statusUpdate=$confirm');
 
 		}
 
-	//administrator has declined the usr request
+		//administrator has declined the usr request
 		elseif($this->input->post('disapprove')){
 
 			$confirm=$this->request_model->approve_status(2,$search);
 			redirect('Request_proof/listOfApproval?statusUpdate=$confirm');
 		}
-
-	}
-/**
- * [confirmResident page owner and the requester]
- * @return [type] [description]
- */
-public function confirmResident()
-{
-	
-	$search=array();
-
-	$search['owner_id']= $this->input->post('owner_id');
-	$search['request_id']= $this->input->post('request_id');
-	$search['user_id']= $this->input->post('user_id');
-	$search['property_id']= $this->input->post('property_id');
-
-
-	if ($search['property_id'] != null) {
-		$listvar=array('property_id'=>$search['property_id'],
-			'owner_id'=>$search['owner_id'],
-			'user_id'=>$search['user_id'],
-			'request_id'=>$search['request_id'],
-		);
-
-		$this->session->set_userdata($listvar);
-	}
-	else {
-
-		$search['property_id']=$_SESSION['property_id'];
-		$search['owner_id']=$_SESSION['owner_id'];
-		$search['user_id']=$_SESSION['user_id'];
-		$search['request_id']=$_SESSION['request_id'];
-
-	}
-	///
-	$data['user_addinfor']= $this->approval_model->getAddress($search);
-	if(empty($data['user_addinfor'])){
-		$me=$this->request_model->deleteRequest($search['request_id']);
-
-		redirect('residents/userprofile?statusConfirm=$me');
 	}
 
-	$data['pageToLoad']='request/confirmResident';
-	$data['pageActive']='request';
+	/**
+	 * [confirmResident page owner and the requester]
+	 * @return [type] [description]
+	 */
+	public function confirmResident()
+	{		
+		$search=array();
 
-// loading the form and files for file uoload		
-	$this->load->helper(array('form','file','url'));
-		//$this->load->helper(array('form','url'));
-	$this->load->library('form_validation');
-	$this->load->view('ini',$data);
-
-}
-/**
- * [confirm page for the owner]
- * @return [type] [description]
- */
-public function confirm()
-{
-	$search=array();
-
-	
-	//$search['user_id']= $_SESSION['id'];
-	$search['user_id']= $this->input->post('user_id');
-	$search['property_id']= $this->input->post('property_id');
-	$search['request_id']= $this->input->post('request_id');
-	$data['user_request']=$this->request_model->getUserRequest($search);
-	$data['userid']=$search['user_id'];
-	
-	//owner confirms the user request
-	if($this->input->post('confirm')){
-		$confirm=$this->request_model->confirm_status(1,$search);
-
-		redirect('Request_proof/confirmList?statusUpdate_OwnerC=$confirm');
-		
-	}
-	//owner declined the user request
-	elseif($this->input->post('decline')) {
-
-		$confirm=$this->request_model->confirm_status(2,$search);
-		redirect('Request_proof/confirmList?statusUpdate_OwnerD=$confirm');
-	}
-	//here administrator has approved the user
-	elseif($this->input->post('approval')){
-		$confirm=$this->request_model->approve_status(1,$search);
-		
-		$this->index($search['user_id'],$search['property_id']);
-		
-	}
-	//administrator has declined the usr request
-	elseif($this->input->post('disapprove')){
-		$data['message']="'User request was not decline','Request was declined successfully'";
-		$confirm=$this->request_model->approve_status(2,$search);
-		redirect('Request_proof/listOfApproval?statusUpdate_AdminD=$confirm');
-	}
+		$search['owner_id']= $this->input->post('owner_id');
+		$search['request_id']= $this->input->post('request_id');
+		$search['user_id']= $this->input->post('user_id');
+		$search['property_id']= $this->input->post('property_id');
 
 
-}
+		if ($search['property_id'] != null) {
+			$listvar=array('property_id'=>$search['property_id'],
+				'owner_id'=>$search['owner_id'],
+				'user_id'=>$search['user_id'],
+				'request_id'=>$search['request_id'],
+			);
 
-public function check_date(){
-	$search['user_id']=$this->input->post('user_id');
-	$search['property_id']=$this->input->post('property_id');
-	$data['user_data']=$this->request_model->getUserRequest($search);
+			$this->session->set_userdata($listvar);
+		}
+		else {
 
-	$data['days_left']=0;
-
-	foreach ($data['user_data'] as $value) {
-		//later
-		//$data['days_left']=$this->request_model->check_date($value->administrator_confirmation_date);
-		if ($value->b_deleted == 0) {
-			$data['days_left']=$this->request_model->check_date($value->date_request);
+			$search['property_id']=$_SESSION['property_id'];
+			$search['owner_id']=$_SESSION['owner_id'];
+			$search['user_id']=$_SESSION['user_id'];
+			$search['request_id']=$_SESSION['request_id'];
 
 		}
+		///
+		$data['user_addinfor']= $this->approval_model->getAddress($search);
+		if(empty($data['user_addinfor'])){
+
+			$me=$this->request_model->deleteRequest($search['request_id']);
+
+			redirect('residents/userprofile?statusConfirm=$me');
+		}
+
+		$data['pageToLoad']='request/confirmResident';
+		$data['pageActive']='request';
+
+	// loading the form and files for file uoload		
+		$this->load->helper(array('form','file','url'));
+			//$this->load->helper(array('form','url'));
+		$this->load->library('form_validation');
+		$this->load->view('ini',$data);
+
 	}
-	echo json_encode($data['days_left']);
 
-}
+	/**
+	 * [confirm page for the owner]
+	 * @return [type] [description]
+	 */
+	public function confirm()
+	{
+		$search=array();
+		
+		//$search['user_id']= $_SESSION['id'];
+		$search['user_id']= $this->input->post('user_id');
+		$search['property_id']= $this->input->post('property_id');
+		$search['request_id']= $this->input->post('request_id');
+		$data['user_request']=$this->request_model->getUserRequest($search);
+		$data['userid']=$search['user_id'];
+		
+		//owner confirms the user request
+		if($this->input->post('confirm')){
 
- public	function index($userid,$property_id)
- 	{
- 		
- 		$search['userid']=$userid;
-         $search['property_id']=$property_id;
- 		$data['pageToLoad']='makePDF/makepdf';
+			$confirm=$this->request_model->confirm_status(1,$search);
+
+			redirect('Request_proof/confirmList?statusUpdate_OwnerC=$confirm');
+			
+		}
+		//owner declined the user request
+		elseif($this->input->post('decline')) {
+
+			$confirm=$this->request_model->confirm_status(2,$search);
+			redirect('Request_proof/confirmList?statusUpdate_OwnerD=$confirm');
+		}
+		//here administrator has approved the user
+		elseif($this->input->post('approval')){
+
+			$confirm=$this->request_model->approve_status(1,$search);
+			
+			$this->index($search['user_id'],$search['property_id']);
+			
+		}
+		//administrator has declined the usr request
+		elseif($this->input->post('disapprove')){
+
+			$data['message']="'User request was not decline','Request was declined successfully'";
+			$confirm=$this->request_model->approve_status(2,$search);
+			redirect('Request_proof/listOfApproval?statusUpdate_AdminD=$confirm');
+		}
+	}
+
+	/**
+	 * [check_date description]
+	 * @return [type] [description]
+	 */
+	public function check_date(){
+
+		$search['user_id']=$this->input->post('user_id');
+		$search['property_id']=$this->input->post('property_id');
+		$data['user_data']=$this->request_model->getUserRequest($search);
+
+		$data['days_left']=0;
+
+		foreach ($data['user_data'] as $value) {
+			//later
+			//$data['days_left']=$this->request_model->check_date($value->administrator_confirmation_date);
+			if ($value->b_deleted == 0) {
+				$data['days_left']=$this->request_model->check_date($value->date_request);
+
+			}
+		}
+		echo json_encode($data['days_left']);
+
+	}
+
+	/**
+	 * [index description]
+	 * @param  [type] $userid      [description]
+	 * @param  [type] $property_id [description]
+	 * @return [type]              [description]
+	 */
+	public	function index($userid,$property_id)
+	{	 		
+	 	$search['userid']=$userid;
+	    $search['property_id']=$property_id;
+	 	$data['pageToLoad']='makePDF/makepdf';
 		$data['pageActive']='makepdf';
 		//$this->load->view('ini',$data);
+	 	$this->load->library('Pdf');
 
- 		$this->load->library('Pdf');
-
- 		$data['user_addinfor']= $this->request_model->getAddress($search);
- 		$data['owner_addinfor']=$this->request_model->getOwner($search);
-	//var_dump($data['owner_addinfor']);
-	//check if there is owner
-	if(empty($data['owner_addinfor'])){
-		//delete user adddress of where there is no owner
-		//$this->request_model->removeUserAddress($search);
-		redirect("Testing/index?statusRequest=0");
-		
+	 	$data['user_addinfor']= $this->request_model->getAddress($search);
+	 	$data['owner_addinfor']=$this->request_model->getOwner($search);
+		//var_dump($data['owner_addinfor']);
+		//check if there is owner
+		if(empty($data['owner_addinfor'])){
+			//delete user adddress of where there is no owner
+			//$this->request_model->removeUserAddress($search);
+			redirect("Testing/index?statusRequest=0");			
+		}
+	 		$this->load->view('makePDF/makepdf',$data);
 	}
-
- 		$this->load->view('makePDF/makepdf',$data);
-
-
- 	}
 }
 
 

@@ -17,22 +17,19 @@ class OwnersDetails_model extends CI_MODEL
 	public function userQuery($searchterm)
 	{
 		
-		$property_id = $searchterm['property'] ?? FALSE;
-		$user_id = $searchterm['user_id'] ?? FALSE;
-//var_dump($user_id);
+		$property_id = isset($searchterm['property'] )? $searchterm['property'] : FALSE;
+		$user_id = isset($searchterm['user_id'])? $searchterm['user_id'] : FALSE;
+
 		if($property_id)
 		{
 			$this->db->where('owners_property.property_id',$property_id);
+		}
 
-		}	
-
-//var_dump($user_id);
 		if($user_id)
 		{
 			$this->db->where('town.manucipality_id',$user_id);
 
 		}
-
 
 		return $this->db
 		->select("user.id as userid,user.name,user.email,user.identityNumber,user.phone,user.dateOfBirth,user.gender_id,user.date_registration,
@@ -60,60 +57,58 @@ class OwnersDetails_model extends CI_MODEL
 		->group_by('user.id')
 		->order_by('user.id');
 	}
+
 	/**
 	 * this retrieves the information of getUser is correct or not
 	 */
-	public function getUser(array $searchterm = array(),int $limit = ITEMS_PER_PAGE)
+	public function getUser($searchterm = array(),$limit = ITEMS_PER_PAGE)
 	{
-//public function getAddress(){
-	//where to start bringing the rows for the pagination
-		$offset = $searchterm['page'] ?? 0;
-//call the query to bring the residence
+		//public function getAddress(){
+		//where to start bringing the rows for the pagination
+		$offset = isset($search['page'])? $search['page'] : 0;
+		//call the query to bring the residence
 		$this->userQuery($searchterm)
-	//$this->requestquery();
+	
 		//establish the limit and start to bring the owner address
 		->limit($limit,$offset);
-			//get data from bd
+		//get data from bd
 		return $this->db->get()->result() ;
 	}
-/**
- * [addUser description]
- * @param [type] $data [description]
- * This function enables the owner and adminstrator to add the new user
- */
+
+	/**
+	 * [addUser description]
+	 * @param [type] $data [description]
+	 * This function enables the owner and adminstrator to add the new user
+	 */
 	public function addUser($data)
 	{
 		
 
 		$add = array(
 			'name'=>$data['name'],
-			'email'=>$data['email'],
-			//'address'=>$data['address'],
+			'email'=>$data['email'],			
 			'identitynumber'=>$data['identitynumber'],
 			'phone'=>$data['phone'],
-			'dateOfBirth'=>$data['dateofbirth'],//'2017-11-11',
+			'dateOfBirth'=>$data['dateofbirth'],
 			'gender_id'=>$data['gender'],
-			'date_registration'=>$data['date_registration'],//'2017-11-11',
-
-		     		//'minetype'=>$minetype
+			'date_registration'=>$data['date_registration'],// date  user registered on these app	     		
 			);
-		//var_dump($data);
+		
 		$this->db->trans_start();
 		$this->db->insert("user",$add);
 		$user_id = $this->db->insert_id();
-		return $this->db->trans_complete();
-		
-		
+		return $this->db->trans_complete();	
 	}
+
 	/**
 	 * This part will be shown of the next turn of pagination
 	 */
-	public function getAddressTwo(array $search = array(),int $limit = ITEMS_PER_PAGE){
+	public function getAddressTwo( $search = array(),$limit = ITEMS_PER_PAGE){
 
 
 	//where to start bringing the rows for the pagination
-	$offset = $search['page'] ?? 0;
-//call the query to bring the residence
+	$offset = isset($search['page'])? $search['page'] : 0;
+	//call the query to bring the residence
 	$this->userQuery($search)
 	//$this->requestquery();
 		//establish the limit and start to bring the owner address

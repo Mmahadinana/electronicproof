@@ -58,7 +58,7 @@ class Login extends CI_Controller
 		
 
 		$data['username']= $this->login_model->getAddress($search);*/
-		$data['pageToLoad']='login/loginForm'; 
+		$data['pageToLoad']='login/loginform'; 
 		//what link is to be active
 		$data['pageActive']='login';
 		$this->load->helper('form');

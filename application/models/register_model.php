@@ -4,8 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Register_model extends CI_MODEL
 {
-
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -18,15 +16,13 @@ class Register_model extends CI_MODEL
 	 */
 	public function createUser($data)
 	{
-
-		$muni = array(
-
-			
-		        //'manufactures'=>$data['manufactures'],
+		$muni = array(			
+		     //'manufactures'=>$data['manufactures'],
 			'manucipality_id'=>$data['manucipality'],
 			'district_id'=>$data['district'],
 			'province_id'=>$data['province_id'],
 			);
+
 		$this->db->trans_start();
 		$this->db->insert("user",$muni);
 		//$car_id = $this->db->insert_id();
@@ -34,6 +30,7 @@ class Register_model extends CI_MODEL
 		return $this->db->trans_complete();
 
 	}
+
 	/**
 	 * [addUser_models description]
 	 * @param [true] $user_id        [retrieve the information that is need from the database]

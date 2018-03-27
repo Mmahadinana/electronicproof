@@ -9,6 +9,7 @@ class Town_model extends CI_MODEL
 		parent::__construct();
 		$this->load->database();
 	}
+
 	/**
 	 * [getTown in a specific municipality]
 	 * @param  [type] $manucipality_id [description]
@@ -29,7 +30,7 @@ class Town_model extends CI_MODEL
 				->group_by('town.id')
 				->order_by('town.name');
 		return $this->db->get()->result();
-		//var_dump($this->db->get()->result());
+		
 	}
 
 	/**
@@ -39,8 +40,8 @@ class Town_model extends CI_MODEL
 	 */
 	public function getTowns($searchTown=array())
 	{
-		$town_id=$searchTown['town'] ?? false;
-		$municipality_id=$searchTown['municipality'] ?? false;
+		$town_id= isset($searchTown['town'] )? $searchTown['town'] :false;
+		$municipality_id= isset($searchTown['municipality'])? $searchTown['municipality'] : false;
 		if ($town_id) {
 			$this->db->where('town.id',$town_id)
 					->where('town.manucipality_id',$municipality_id);
@@ -51,11 +52,9 @@ class Town_model extends CI_MODEL
 		        ->join("suburb","suburb.town_id = town.id")
 				->join("address"," address.suburb_id = suburb.id")
 				->join("property","property.address_id =address.id ")
-				->join("owners_property","owners_property.property_id = property.id");
-	
+				->join("owners_property","owners_property.property_id = property.id");	
 
-		return $this->db->get()->result();
-		
+		return $this->db->get()->result();		
 	}
 
 	/**
@@ -73,8 +72,6 @@ class Town_model extends CI_MODEL
 		//return false if data is empty
 			return	$retVal = (empty($data)) ? false: true;
 		}
-
-
 }
 
 ?>

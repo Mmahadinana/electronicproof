@@ -6,11 +6,6 @@
 
  
  <?php
- $this->load->view('request/confirmResidentForm');
-
-
- //$this->load->view($pageToLoad);
-
- 
+ $this->load->view('request/confirmResidentForm'); 
  ?>
 

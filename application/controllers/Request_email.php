@@ -9,14 +9,6 @@ class Passwords extends CI_Controller
 	{
 		
 		parent::__construct();
-		//$this->load->library('session');
-		//$this->load->model("messages_model");		
-		//$this->load->model('user_model');
-		//$this->load->model('login_model');
-		//$this->load->library('email');
-		//$this->load->model('Postoffice_model');
-
-
 
 	}
 	/**
@@ -113,9 +105,9 @@ class Passwords extends CI_Controller
 
 				}
 	}//end of reset function
-	/***********************************this function load the notification that email has been send ****************/ 
+	
 	/**
-	 * [resetmessage description]
+	 * [resetmessage load the notification that email has been send]
 	 * @return [true] [thats where the owner will get a resetmessage for new password]
 	 */
 	public function resetmessage()
@@ -129,16 +121,16 @@ class Passwords extends CI_Controller
 		$this->load->view('ini',$data);		
 	}//end of resetmassage function
 	
-		/************************************This function load from the email link to enter new password***************/
+		
 		/**
-		 * [resetpassword description]
+		 * [resetpassword email link to enter new password]
 		 * @param  integer $mailtoken [from email]
 		 * @param  integer $user_id   [user id]
 		 * @return [true]             [thats where the owner will get a resetpassword for new password]
 		 */
 	public function resetpassword($mailtoken=0,$user_id=0)
 	{	
-		//var_dump($mailtoken);
+		//get the data from the get_mailtotaken by mailtoken and user_id
 		$data['db']= $this->Login_model->get_mailToken($mailtoken,$user_id);
 		
 	
@@ -165,10 +157,10 @@ class Passwords extends CI_Controller
 			$data['pageToLoad']='login/resetpassword';
 			$data['pageActive']='resetpassword';
 			$this->load->helper('form');
-		// this is for validation 
+		 
 			$this->load->library('form_validation');
 
-			
+			// this is for validation
 			$config_validation =array(
 			 array(
 				'field'=>'newpassword',

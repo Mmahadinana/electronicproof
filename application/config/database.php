@@ -74,10 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=10.11.10.184;dbname=e_residence;charset=utf8',
-	'hostname' => '10.11.10.184',
-	'username' => 'eproof',
-	'password' => '123@eproof',
+	'dsn'	=> 'mysql:host=10.11.10.11;dbname=e_residence;charset=utf8',
+	'hostname' => '10.11.10.11',
+	'username' => 'sqluser',
+	'password' => 'RGcIhIAZvbwFTYmj',
 	'database' => 'e_residence',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
